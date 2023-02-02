@@ -1,0 +1,44 @@
+variables:
+
+  # Act as a varibale to be used further in YML file.
+  TARGET_FOLDER_NAME: "target"
+
+stages:
+
+  # builds shipogle application.
+  - build
+
+  # tests shipogle application.
+  - test
+
+backend-build:
+  stage: build
+  tags:
+    - ugrad
+  image: maven:3-jdk-8
+  script:
+    - echo "Started building backend application."
+    - cd backend
+    - mvn package
+    - echo "Backend application has been built successfully."
+  rules:
+    - changes:
+        - backend/**/*
+  artifacts:
+    when: on_success
+    paths:
+      - $TARGET_FOLDER_NAME/*.war
+
+backend-test:
+  stage: test
+  tags:
+    - ugrad
+  image: maven:3-jdk-8
+  script:
+    - echo "Backend application test started."
+    - cd backend
+    - mvn test
+    - echo "Backend application Tested successfully."
+  rules:
+    - changes:
+        - backend/**/*
