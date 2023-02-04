@@ -12,21 +12,7 @@ stages:
 
   # tests shipogle application.
   - test
-  
-backend-compile:
-  stage: compile
-  tags:
-    - ugrad
-  image: maven:3-jdk-8
-  script:
-    - echo "Cleaninig backend application."
-    - cd backend
-    - mvn clean compile
-    - echo "Backend application cleaned successfully."
-  rules:
-    - changes:
-        - backend/**/*
-        
+
 backend-build:
   stage: build
   tags:
