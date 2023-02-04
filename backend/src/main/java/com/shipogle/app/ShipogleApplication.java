@@ -13,7 +13,7 @@ public class ShipogleApplication {
 		SpringApplication.run(ShipogleApplication.class, args);
 	}
 
-	@GetMapping("/")
+	@GetMapping("/hello")
 	String helloworld(){
 		return "Application running";
 	}
