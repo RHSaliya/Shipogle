@@ -17,7 +17,7 @@ backend-build:
   stage: build
   tags:
     - ugrad
-  image: maven:3-jdk-8
+  image: maven:latest
   script:
     - echo "Started building backend application."
     - cd backend
