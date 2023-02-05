@@ -13,10 +13,24 @@ stages:
   # tests shipogle application.
   - test
 
+backend-compile:
+  stage: compile
+  tags:
+    - ugrad
+  image: maven:latest
+  script:
+    - echo "Cleaninig backend application."
+    - cd backend
+    - mvn clean compile
+    - echo "Backend application cleaned successfully."
+  rules:
+    - changes:
+        - backend/**/*
+
 backend-build:
   stage: build
   tags:
-    - dalfcs_docker_autoscale
+    - ugrad
   image: maven:latest
   script:
     - echo "Started building backend application."
@@ -35,7 +49,7 @@ backend-test:
   stage: test
   tags:
     - ugrad
-  image: maven:3-jdk-8
+  image: maven:latest
   script:
     - echo "Backend application test started."
     - cd backend
