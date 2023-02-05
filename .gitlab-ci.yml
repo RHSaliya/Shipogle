@@ -5,8 +5,8 @@ variables:
 
 default:
 
-  # Providing default image as openjdk:17
-  image: openjdk:17
+  # Providing default image as openjdk:11
+  image: openjdk:11
 
 stages:
 
