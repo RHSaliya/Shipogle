@@ -17,7 +17,7 @@ backend-compile:
   stage: compile
   tags:
     - ugrad
-  image: maven:latest
+  image: maven:3.8.3-openjdk-17
   script:
     - echo "Cleaninig backend application."
     - cd backend
@@ -31,11 +31,11 @@ backend-build:
   stage: build
   tags:
     - ugrad
-  image: maven:latest
+  image: maven:3.8.3-openjdk-17
   script:
     - echo "Started building backend application."
     - cd backend
-    - mvn package
+    - mvn clean package
     - echo "Backend application has been built successfully."
   rules:
     - changes:
@@ -49,7 +49,7 @@ backend-test:
   stage: test
   tags:
     - ugrad
-  image: maven:latest
+  image: maven:3.8.3-openjdk-17
   script:
     - echo "Backend application test started."
     - cd backend
