@@ -16,7 +16,7 @@ stages:
 backend-build:
   stage: build
   tags:
-    - ugrad
+    - dalfcs_docker_autoscale
   image: maven:latest
   script:
     - echo "Started building backend application."
