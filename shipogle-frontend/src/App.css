@@ -4,7 +4,7 @@
   margin: 0px;
   padding: 0px;
   overflow-x: hidden;
-
+  overflow-y: hidden;
   min-height: 100%;
   position: relative;
 }
@@ -54,7 +54,7 @@ a:hover{
 
 /* Header css */
 .Header {
-  margin: 20px auto;
+  margin: 0px auto;
   margin-top: 2em;
   background-color: white;
   text-align: center;
@@ -63,13 +63,13 @@ a:hover{
   
 }
 .Header .title {
-  font-size: 70px;
-  text-align: center;
+  font-size: 3em;
+  
   font-weight: bold;
 }
 .Header .info {
   font-size: 30px;
-  text-align: center;
+  
 }
 
 /* Section css for Home Page */
@@ -122,16 +122,61 @@ a:hover{
   border-radius: 10px;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
-.login-btn {
+.btn {
   background-color: #3F0744;
   color: white;
   padding: 0.5rem 1rem;
   border-radius: 5px;
 }
-.login-btn:hover {
+.btn:hover {
   background-color: white;
   color: #3F0744;
   padding: 0.5rem 1rem;
   border-radius: 5px;
   cursor: pointer;
+}
+/*registration page*/
+.regPage .Header{
+  margin-top: 0px;
+  padding: 4em;
+  color: white;
+  width: 100%;
+  background-color: #3F0744;
+}
+/*role box*/
+.reg-roll-box {
+  border: 2px solid #3F0744;
+  margin: 2em;
+  display: flex;
+  flex: 1 1 0px;
+  text-align: center;
+  flex-direction: column;
+}
+@media (max-width:540px) {
+  .regRole{
+    flex-direction: column;
+  }
+}
+.regRole {
+  display: flex;
+  width: 80%;
+  align-items: center;
+  margin: 0 auto;
+  justify-content: space-evenly;
+}
+.reg-roll-box .role{
+  font-size: 2em;
+  padding: 10px 10px 2px 10px;
+}
+.reg-roll-box .role-info{
+  
+  padding: 10px;
+}
+.reg-roll-box .role-img {
+  width: 25%;
+  height: 25%;
+  margin: 0 auto;
+}
+.btn.reg {
+  border-radius: 0px;
 }
