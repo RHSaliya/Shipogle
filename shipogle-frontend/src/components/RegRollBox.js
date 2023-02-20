@@ -6,7 +6,7 @@ export default function RegRollBox(props) {
         <p className="role">{props.role}</p>
         <img className="role-img" alt="Role" src={props.roleimg}></img>
         <p className="role-info">{props.roleinfo}</p>  
-        <button className="btn reg">Register</button>
+        
     </div>
   )
 }

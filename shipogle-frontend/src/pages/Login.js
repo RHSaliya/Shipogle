@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Link } from "react-router-dom";
 import Header from '../components/Header'
 import NavBar from '../components/NavBar';
+import shipogleLogo from "../assets/shipogleLogo.png";
 export default function Login(props) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -14,14 +15,14 @@ export default function Login(props) {
         <div className="loginPage">
             <NavBar />
             <Header 
-            title="Shipogle" 
+            title="S H I P O G L E" 
             info = "tagline" 
             />
             
             
 
             <div className="login-box">
-                <img alt="logo">
+                <img alt="logo" src={shipogleLogo} width="100px" height="100px">
 
                 </img>
                 <p>Don't have an account yet? <Link to="/registration" >Register now!</Link></p>
