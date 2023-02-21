@@ -49,4 +49,71 @@ public class User {
     @UpdateTimestamp
     private LocalDateTime updated_at;
 
+    public Integer getUser_id() {
+        return user_id;
+    }
+
+    public String getFirst_name() {
+        return first_name;
+    }
+
+    public String getLast_name() {
+        return last_name;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getGov_id_url() {
+        return gov_id_url;
+    }
+
+    public String getProfile_pic_url() {
+        return profile_pic_url;
+    }
+
+    public Date getDob() {
+        return dob;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public String getProvince() {
+        return province;
+    }
+
+    public String getPostal_code() {
+        return postal_code;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public Boolean getIs_activated() {
+        return is_activated;
+    }
+
+    public LocalDateTime getCreated_at() {
+        return created_at;
+    }
+
+    public LocalDateTime getUpdated_at() {
+        return updated_at;
+    }
 }
