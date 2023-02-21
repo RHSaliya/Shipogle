@@ -2,9 +2,11 @@ package com.shipogle.app.service;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.shipogle.app.model.JwtToken;
 import com.shipogle.app.model.User;
+import com.shipogle.app.repository.JwtTokenRepository;
 
 import javax.crypto.spec.SecretKeySpec;
 import java.security.Key;
@@ -12,9 +14,13 @@ import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Base64;
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class JwtTokenService {
+
+    @Autowired
+    JwtTokenRepository jwtTokenRepo;
     private static String secretKey = "2A462D4A614E645267556B58703273357638792F423F4528472B4B6250655368";
     public JwtToken createJwtToken(User user){
         JwtToken token = new JwtToken();
@@ -36,5 +42,13 @@ public class JwtTokenService {
 
     public Key generateKey(){
         return new SecretKeySpec(Base64.getDecoder().decode(secretKey), SignatureAlgorithm.HS256.getJcaName());
+    }
+
+    public void deactiveUserTokens(User user){
+        List<JwtToken> activeTokens = jwtTokenRepo.getAllByUser(user);
+        for (JwtToken t: activeTokens) {
+            t.setIs_active(false);
+        }
+        jwtTokenRepo.saveAll(activeTokens);
     }
 }

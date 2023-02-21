@@ -22,4 +22,13 @@ public class AuthService {
         jwtTokenRepo.save(token);
         return token;
     }
+
+    public JwtToken login(String email, String password){
+        User storedUser = userReop.getUserByEmail(email);
+        System.out.println(storedUser.getUser_id());
+        JwtToken token = jwtTokenService.createJwtToken(storedUser);
+        jwtTokenService.deactiveUserTokens(storedUser);
+        jwtTokenRepo.save(token);
+        return token;
+    }
 }

@@ -1,8 +1,11 @@
 package com.shipogle.app.repository;
 
 import com.shipogle.app.model.JwtToken;
+import com.shipogle.app.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface JwtTokenRepository extends JpaRepository<JwtToken,Integer> {
+import java.util.List;
 
+public interface JwtTokenRepository extends JpaRepository<JwtToken,Integer> {
+    List<JwtToken> getAllByUser(User user);
 }

@@ -8,13 +8,20 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import com.shipogle.app.model.User;
 import com.shipogle.app.model.JwtToken;
+
+import java.util.Map;
+
 @RestController
 public class AuthController {
     @Autowired
     AuthService authService;
     @PostMapping("/register")
-    public JwtToken registerNewUser(@RequestBody User user){
+    public String registerNewUser(@RequestBody User user){
+        return authService.register(user).getToken();
+    }
 
-        return authService.register(user);
+    @PostMapping("/login")
+    public String login(@RequestBody Map<String, String> json){
+        return authService.login(json.get("email"),json.get("password")).getToken();
     }
 }
