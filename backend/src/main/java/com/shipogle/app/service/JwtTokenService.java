@@ -3,6 +3,8 @@ package com.shipogle.app.service;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 import com.shipogle.app.model.JwtToken;
 import com.shipogle.app.model.User;
@@ -21,7 +23,11 @@ public class JwtTokenService {
 
     @Autowired
     JwtTokenRepository jwtTokenRepo;
-    private static String secretKey = "2A462D4A614E645267556B58703273357638792F423F4528472B4B6250655368";
+
+//    @Value("${jwt.secret.key}")
+    private String secretKey = "2A462D4A614E645267556B58703273357638792F423F4528472B4B6250655368";
+
+
     public JwtToken createJwtToken(User user){
         JwtToken token = new JwtToken();
 
@@ -33,7 +39,7 @@ public class JwtTokenService {
                 .signWith(generateKey())
                 .compact();
 
-        System.out.println("JWT Token is "+jwt_token);
+//        System.out.println("JWT Token is "+jwt_token);
         token.setToken(jwt_token);
         token.setIs_active(true);
         token.setUser(user);
@@ -51,4 +57,14 @@ public class JwtTokenService {
         }
         jwtTokenRepo.saveAll(activeTokens);
     }
+
+//    public boolean isJwtExpired(String token){
+////        Date expiration = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getExpiration();
+////        if(expiration.before(new Date())){
+////            return true;
+////        }
+////        return false;
+//        System.out.println(Jwts.claims().getExpiration());
+//        return true;
+//    }
 }

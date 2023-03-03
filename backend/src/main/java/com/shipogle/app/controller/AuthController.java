@@ -17,11 +17,16 @@ public class AuthController {
     AuthService authService;
     @PostMapping("/register")
     public String registerNewUser(@RequestBody User user){
-        return authService.register(user).getToken();
+        return authService.register(user);
     }
 
     @PostMapping("/login")
     public String login(@RequestBody Map<String, String> json){
-        return authService.login(json.get("email"),json.get("password")).getToken();
+        return authService.login(json.get("email"),json.get("password"));
+    }
+
+    @GetMapping("/test")
+    public String temp(){
+        return "Test page...";
     }
 }
