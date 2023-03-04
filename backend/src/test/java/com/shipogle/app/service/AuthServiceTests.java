@@ -6,9 +6,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
@@ -37,4 +37,26 @@ public class AuthServiceTests {
         assertFalse(authService.isAlreadyExist(user));
     }
 
+    @Test
+    public void resetPasswordTest(){
+        String email = "nandkumarkadivar2001@gmail.com";
+        String password = "abc123";
+
+        when(userRepo.getUserByEmail(email)).thenReturn(new User());
+
+        assertEquals("Password changed successfully",authService.resetPassword(email,password));
+    }
+
+    @Test
+    public void resetPasswordTestPasswordChange(){
+        String email = "nandkumarkadivar2001@gmail.com";
+        String password = "abc123";
+        User user = new User();
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
+        when(userRepo.getUserByEmail(email)).thenReturn(user);
+
+        authService.resetPassword(email,password);
+        assertTrue(encoder.matches(password,user.getPassword()));
+    }
 }

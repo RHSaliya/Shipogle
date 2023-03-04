@@ -22,10 +22,10 @@ public class AuthController {
         return authService.login(json.get("email"),json.get("password"));
     }
 
-    @PostMapping("/logout")
-    public String logout(@RequestBody String token){
-        return authService.logout(token);
-    }
+//    @PostMapping("/logout")
+//    public String logout(@RequestBody String token){
+//        return authService.logout(token);
+//    }
 
     @PostMapping("/changepassword")
     public String changePassword(@RequestBody Map<String, String> json){

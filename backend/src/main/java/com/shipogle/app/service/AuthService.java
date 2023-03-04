@@ -50,12 +50,12 @@ public class AuthService {
         return "Password changed successfully";
     }
 
-    public String logout(String token){
-        System.out.println("Flag logout service");
-        String email = Jwts.parser().parseClaimsJws(token).getBody().getAudience();
-        System.out.println(email);
-        return "";
-    }
+//    public String logout(String token){
+//        System.out.println("Flag logout service");
+//        String email = Jwts.parser().parseClaimsJws(token).getBody().getAudience();
+//        System.out.println(email);
+//        return "";
+//    }
 
     public String verifyEmail(String code,int id){
 
@@ -118,6 +118,5 @@ public class AuthService {
         }else {
             return "User is not verified";
         }
-
     }
 }
