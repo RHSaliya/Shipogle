@@ -163,4 +163,8 @@ public class User implements UserDetails {
     public void setIs_verified(Boolean is_verified) {
         this.is_verified = is_verified;
     }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 }
