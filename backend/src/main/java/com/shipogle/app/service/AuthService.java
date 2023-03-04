@@ -4,6 +4,7 @@ import com.shipogle.app.model.User;
 import com.shipogle.app.model.JwtToken;
 import com.shipogle.app.repository.JwtTokenRepository;
 import com.shipogle.app.repository.UserRepository;
+import com.shipogle.app.service.MailService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -22,6 +23,9 @@ public class AuthService {
     JwtTokenService jwtTokenService;
     @Autowired
     AuthenticationManager authManager;
+
+    @Autowired
+    MailService mailService;
 
     public boolean isAlreadyExist(User user){
         User db_user = userReop.findUserByEmail(user.getEmail());
