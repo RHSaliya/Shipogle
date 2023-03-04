@@ -264,3 +264,29 @@ a:hover{
   color: white;
   text-decoration: none;
 }
+#success {
+  color: green;
+  font-weight: bold;
+}
+#fail {
+  color: red;
+  font-weight: bold;
+}
+.btn.checkVeri {
+  height: 20px;
+  background-color: white;
+  color: #3F0744;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+}
+.btn.checkVeri:hover {
+  color: white;
+  background-color: #3F0744;
+}
+.btn.checkVeri:clicked {
+  color: white;
+  background-color: #3F0744;
+}
+.validationForm {
+  font-size: 12px;
+  color: red;
+}
