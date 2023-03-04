@@ -42,16 +42,15 @@ public class Authfilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
-        System.out.println("Before Authorization check");
+
         if(request.getHeader("Authorization") == null){
            filterChain.doFilter(servletRequest,servletResponse);
-//           response.sendError(401,"Unauthorized");
-            return;
+
+           return;
         }else {
             String auth_details[] = request.getHeader("Authorization").split(" ");
             String token_type = auth_details[0];
             String jwt_token = auth_details[1];
-            System.out.println(jwt_token);
 
             if(token_type.equals("Bearer")){
 
