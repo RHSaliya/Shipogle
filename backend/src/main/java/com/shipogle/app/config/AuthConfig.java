@@ -38,7 +38,7 @@ public class AuthConfig extends WebSecurityConfigurerAdapter{
                   .csrf().disable()
                   .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                   .and()
-                  .authorizeRequests().antMatchers("/register").permitAll().antMatchers("/login").permitAll().antMatchers("/verification").permitAll().anyRequest().authenticated()
+                  .authorizeRequests().antMatchers("/register").permitAll().antMatchers("/login").permitAll().antMatchers("/verification").permitAll().antMatchers("/changepassword").permitAll().anyRequest().authenticated()
                   .and()
                   .logout().permitAll()
                   .and()

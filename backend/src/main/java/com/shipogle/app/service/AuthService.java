@@ -35,6 +35,20 @@ public class AuthService {
         return true;
     }
 
+    public String resetPassword(String email,String password){
+        try {
+            User user = userReop.getUserByEmail(email);
+            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+            String new_password = encoder.encode(password);
+            user.setPassword(new_password);
+            userReop.save(user);
+        }catch (Exception e){
+            return e.getMessage();
+        }
+
+        return "Password changed successfully";
+    }
+
     public String verifyEmail(String code,int id){
         User user = userReop.getById(id);
         if(user != null){

@@ -22,6 +22,11 @@ public class AuthController {
         return authService.login(json.get("email"),json.get("password"));
     }
 
+    @PostMapping("/changepassword")
+    public String changePassword(@RequestBody Map<String, String> json){
+        return authService.resetPassword(json.get("email"),json.get("password"));
+    }
+
     @GetMapping("/verification")
     public String emailVerification(@RequestParam("code") String code,@RequestParam("id") int id){
         return authService.verifyEmail(code,id);
