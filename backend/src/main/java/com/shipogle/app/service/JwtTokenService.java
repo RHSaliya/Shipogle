@@ -58,6 +58,12 @@ public class JwtTokenService {
         jwtTokenRepo.saveAll(activeTokens);
     }
 
+    public boolean isJwtActive(String token){
+        JwtToken jwt_token = jwtTokenRepo.getJwtTokensByToken(token);
+
+        return jwt_token.getIs_active();
+    }
+
 //    public boolean isJwtExpired(String token){
 ////        Date expiration = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getExpiration();
 ////        if(expiration.before(new Date())){

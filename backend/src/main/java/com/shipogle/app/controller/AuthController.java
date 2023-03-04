@@ -22,6 +22,11 @@ public class AuthController {
         return authService.login(json.get("email"),json.get("password"));
     }
 
+    @PostMapping("/logout")
+    public String logout(@RequestBody String token){
+        return authService.logout(token);
+    }
+
     @PostMapping("/changepassword")
     public String changePassword(@RequestBody Map<String, String> json){
         return authService.resetPassword(json.get("email"),json.get("password"));
@@ -30,5 +35,10 @@ public class AuthController {
     @GetMapping("/verification")
     public String emailVerification(@RequestParam("code") String code,@RequestParam("id") int id){
         return authService.verifyEmail(code,id);
+    }
+
+    @GetMapping("/test")
+    public String test(){
+        return "Test page ...";
     }
 }

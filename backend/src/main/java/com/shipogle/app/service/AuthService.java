@@ -6,6 +6,7 @@ import com.shipogle.app.repository.JwtTokenRepository;
 import com.shipogle.app.repository.UserRepository;
 import com.shipogle.app.service.MailService;
 
+import io.jsonwebtoken.Jwts;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -49,9 +50,18 @@ public class AuthService {
         return "Password changed successfully";
     }
 
+    public String logout(String token){
+        System.out.println("Flag logout service");
+        String email = Jwts.parser().parseClaimsJws(token).getBody().getAudience();
+        System.out.println(email);
+        return "";
+    }
+
     public String verifyEmail(String code,int id){
-        User user = userReop.getById(id);
-        if(user != null){
+
+        try{
+            User user = userReop.getById(id);
+
             if(!user.getIs_verified()){
                 BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
                 if(encoder.matches(user.getEmail(),code)){
@@ -64,9 +74,9 @@ public class AuthService {
             }else{
                 return "Already Verified";
             }
-
+        }catch (Exception e){
+            return e.getMessage();
         }
-        return "Not valid user";
     }
 
     public String register(User new_user){

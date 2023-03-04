@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface JwtTokenRepository extends JpaRepository<JwtToken,Integer> {
     List<JwtToken> getAllByUser(User user);
+
+    JwtToken getJwtTokensByToken(String token);
 }
