@@ -35,18 +35,40 @@ public class AuthService {
         return true;
     }
 
+    public String verifyEmail(String code,int id){
+        User user = userReop.getById(id);
+        if(user != null){
+            if(!user.getIs_verified()){
+                BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+                if(encoder.matches(user.getEmail(),code)){
+                    user.setIs_verified(true);
+                    userReop.save(user);
+                    return "Email Verified";
+                }else {
+                    return "Not valid user";
+                }
+            }else{
+                return "Already Verified";
+            }
+
+        }
+        return "Not valid user";
+    }
+
     public String register(User new_user){
         if(!isAlreadyExist(new_user)){
             String user_password = new_user.getPassword();
             System.out.println(new_user.getPassword());
             BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
             new_user.setPassword(encoder.encode(user_password));
-            System.out.println(new_user.getPassword());
-            System.out.println(encoder.encode("abc"));
+            new_user.setIs_verified(false);
             userReop.save(new_user);
-            JwtToken token = jwtTokenService.createJwtToken(new_user);
-            jwtTokenRepo.save(token);
-            return token.getToken();
+
+            String encoded_email = encoder.encode(new_user.getEmail());
+            mailService.sendMail(new_user.getEmail(), "http://localhost:8080/verification?code="+encoded_email+"&id="+new_user.getUser_id());
+
+            return "Verification email sent";
+
         }else {
             return "User Already exist with this email";
         }
@@ -64,9 +86,14 @@ public class AuthService {
 
         User storedUser = userReop.getUserByEmail(email);
 
-        JwtToken token = jwtTokenService.createJwtToken(storedUser);
-        jwtTokenService.deactiveUserTokens(storedUser);
-        jwtTokenRepo.save(token);
-        return token.getToken();
+        if(storedUser.getIs_verified()){
+            JwtToken token = jwtTokenService.createJwtToken(storedUser);
+            jwtTokenService.deactiveUserTokens(storedUser);
+            jwtTokenRepo.save(token);
+            return token.getToken();
+        }else {
+            return "User is not verified";
+        }
+
     }
 }

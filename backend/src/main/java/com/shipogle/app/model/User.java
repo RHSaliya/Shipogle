@@ -45,6 +45,8 @@ public class User implements UserDetails {
     private String country;
     @Column(name = "is_active")
     private Boolean is_activated;
+    @Column(name="is_verified")
+    private Boolean is_verified;
     @Column(name = "created_at")
     @CreationTimestamp
     private LocalDateTime created_at;
@@ -152,5 +154,13 @@ public class User implements UserDetails {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Boolean getIs_verified() {
+        return is_verified;
+    }
+
+    public void setIs_verified(Boolean is_verified) {
+        this.is_verified = is_verified;
     }
 }
