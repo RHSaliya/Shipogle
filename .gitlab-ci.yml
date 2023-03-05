@@ -1,20 +1,20 @@
 variables:
-
   # Act as a varibale to be used further in YML file.
   TARGET_FOLDER_NAME: "target"
 
 default:
-
   # Providing default image as openjdk:11
   image: openjdk:11
 
 stages:
-
   # builds shipogle application.
   - build
 
   # tests shipogle application.
   - test
+
+  # deploys shipogle application
+  - deploy
 
 backend-build:
   stage: build
@@ -47,3 +47,13 @@ backend-test:
   rules:
     - changes:
         - backend/**/*
+
+backend-deploy:
+  stage: deploy
+  script:
+    - echo "Backend Deployment started"
+
+frontend-deploy:
+  stage: deploy
+  script:
+    - echo "Front-end Deployment started"
