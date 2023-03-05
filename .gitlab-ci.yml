@@ -61,6 +61,7 @@ backend-deploy:
     - mvn package -B
     - sshpass -V
     - export SSHPASS=$CI_USER_PASS
+    - pwd
     - sshpass -e scp -o StrictHostKeyChecking=no $BACKEND_FOLDER_NAME/$TARGET_FOLDER_NAME/Shipogle.jar csci5308vm9@csci5308vm9.research.cs.dal.ca/home/csci5308vm9
     - sshpass -e ssh -tt -o StrictHostKeyChecking=no csci5308vm9@csci5308vm9.research.cs.dal.ca sudo mv /home/csci5308vm9/Shipogle.jar /opt/java/webapps
     - sshpass -e ssh -tt -o StrictHostKeyChecking=no csci5308vm9@csci5308vm9.research.cs.dal.ca sudo systemctl restart gitlab-ci-demo.service
@@ -68,8 +69,3 @@ backend-deploy:
     when: on_success
     paths:
       - $BACKEND_FOLDER_NAME/$TARGET_FOLDER_NAME/Shipogle.jar
-
-frontend-deploy:
-  stage: deploy
-  script:
-    - echo "Front-end Deployment started"
