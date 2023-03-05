@@ -1,6 +1,7 @@
 variables:
   # Act as a varibale to be used further in YML file.
   TARGET_FOLDER_NAME: "target"
+  BACKEND_FOLDER_NAME: "backend"
 
 default:
   # Providing default image as openjdk:11
@@ -53,13 +54,13 @@ backend-deploy:
   stage: deploy
   script:
     - echo "Backend Deployment started"
-    - cd backend
+    - cd $BACKEND_FOLDER_NAME
     - mvn clean package
     - mvn package -B
   artifacts:
     when: on_success
     paths:
-      - $TARGET_FOLDER_NAME/*.jar
+      - $BACKEND_FOLDER_NAME/$TARGET_FOLDER_NAME/*.jar
 
 frontend-deploy:
   stage: deploy
