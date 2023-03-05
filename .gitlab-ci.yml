@@ -49,9 +49,16 @@ backend-test:
         - backend/**/*
 
 backend-deploy:
+  image: maven:latest
   stage: deploy
   script:
     - echo "Backend Deployment started"
+    - mvn clean package
+    - mvn package -B
+  artifacts:
+    when: on_success
+    paths:
+      - $TARGET_FOLDER_NAME/*.jar
 
 frontend-deploy:
   stage: deploy
