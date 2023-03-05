@@ -53,6 +53,8 @@ backend-deploy:
   stage: deploy
   script:
     - echo "Backend Deployment started"
+    - cd backend
+    - mvn clean package
     - mvn package -B
   artifacts:
     when: on_success
