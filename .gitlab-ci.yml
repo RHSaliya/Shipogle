@@ -50,6 +50,8 @@ backend-test:
         - backend/**/*
 
 backend-deploy:
+  before_script:
+    - apt-get update -qq && apt-get install -y -qq sshpass
   image: maven:latest
   stage: deploy
   script:
@@ -57,11 +59,11 @@ backend-deploy:
     - cd $BACKEND_FOLDER_NAME
     - mvn clean package
     - mvn package -B
-    - sshpass -V                                                                                                                                
-    - export SSHPASS=$CI_USER_PASS                                                                                                              
-    - sshpass -e scp -o StrictHostKeyChecking=no $BACKEND_FOLDER_NAME/$TARGET_FOLDER_NAME/*.jar csci5308vm9@csci5308vm9.research.cs.dal.ca/home/csci5308vm9                            
-    - sshpass -e ssh -tt -o StrictHostKeyChecking=no csci5308vm9@csci5308vm9.research.cs.dal.ca sudo mv /home/csci5308vm9/*.jar /opt/java/webapps     
-    - sshpass -e ssh -tt -o StrictHostKeyChecking=no csci5308vm9@csci5308vm9.research.cs.dal.ca sudo systemctl restart gitlab-ci-demo.service                 
+    - sshpass -V
+    - export SSHPASS=$CI_USER_PASS
+    - sshpass -e scp -o StrictHostKeyChecking=no $BACKEND_FOLDER_NAME/$TARGET_FOLDER_NAME/*.jar csci5308vm9@csci5308vm9.research.cs.dal.ca/home/csci5308vm9
+    - sshpass -e ssh -tt -o StrictHostKeyChecking=no csci5308vm9@csci5308vm9.research.cs.dal.ca sudo mv /home/csci5308vm9/*.jar /opt/java/webapps
+    - sshpass -e ssh -tt -o StrictHostKeyChecking=no csci5308vm9@csci5308vm9.research.cs.dal.ca sudo systemctl restart gitlab-ci-demo.service
   artifacts:
     when: on_success
     paths:
