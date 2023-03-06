@@ -26,7 +26,6 @@ backend-build:
     - echo "Started building backend application."
     - cd backend
     - mvn clean package
-    - mvn package -B
     - echo "Backend application has been built successfully."
   rules:
     - changes:
@@ -35,7 +34,6 @@ backend-build:
     when: on_success
     paths:
       - $TARGET_FOLDER_NAME/*.war
-      - $BACKEND_FOLDER_NAME/$TARGET_FOLDER_NAME/Shipogle.jar
 
 backend-test:
   stage: test
@@ -62,6 +60,7 @@ backend-deploy:
     - export SSHPASS=$CI_USER_PASS
     - pwd
     - cd backend
+    - mvn package -B
     - ls
     - cd target
     - ls
