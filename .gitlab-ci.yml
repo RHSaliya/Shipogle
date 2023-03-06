@@ -61,6 +61,7 @@ backend-deploy:
     - export SSHPASS=$CI_USER_PASS
     - pwd
     - cd backend
+    - ls
     - cd target
     - ls
     - sshpass -e scp -o StrictHostKeyChecking=no $BACKEND_FOLDER_NAME/$TARGET_FOLDER_NAME/Shipogle.jar csci5308vm9@csci5308vm9.research.cs.dal.ca/home/csci5308vm9/Shipogle.jar
