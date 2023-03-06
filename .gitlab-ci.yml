@@ -27,7 +27,6 @@ backend-build:
     - cd backend
     - mvn clean package
     - mvn package -B
-    - mvn clean package
     - echo "Backend application has been built successfully."
   rules:
     - changes:
