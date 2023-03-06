@@ -61,10 +61,7 @@ backend-deploy:
     - pwd
     - cd backend
     - mvn package -B
-    - ls
-    - cd target
-    - ls
-    - sshpass -e scp -o StrictHostKeyChecking=no $BACKEND_FOLDER_NAME/$TARGET_FOLDER_NAME/Shipogle.jar csci5308vm9@csci5308vm9.research.cs.dal.ca/home/csci5308vm9/Shipogle.jar
+    - sshpass -e scp -o StrictHostKeyChecking=no $TARGET_FOLDER_NAME/Shipogle.jar csci5308vm9@csci5308vm9.research.cs.dal.ca/home/csci5308vm9/Shipogle.jar
     - sshpass -e ssh -tt -o StrictHostKeyChecking=no csci5308vm9@csci5308vm9.research.cs.dal.ca sudo mv /home/csci5308vm9/Shipogle.jar /opt/java/webapps
     - sshpass -e ssh -tt -o StrictHostKeyChecking=no csci5308vm9@csci5308vm9.research.cs.dal.ca sudo systemctl restart gitlab-ci-demo.service
   artifacts:
