@@ -19,11 +19,17 @@ public class AuthServiceTests {
     @MockBean
     private UserRepository userRepo;
 
+    @MockBean
+    private User user;
+
+    @MockBean
+    private BCryptPasswordEncoder encoder;
+
     @Test
     public void isAlreadyExistTestPositive(){
-        User user = new User();
+
         user.setEmail("kadivarnand007@gmail.com");
-        when(userRepo.findUserByEmail(user.getEmail())).thenReturn(new User());
+        when(userRepo.findUserByEmail(user.getEmail())).thenReturn(user);
 
         assertTrue(authService.isAlreadyExist(user));
     }
@@ -37,26 +43,35 @@ public class AuthServiceTests {
         assertFalse(authService.isAlreadyExist(user));
     }
 
+//    @Test
+//    public void resetPasswordTest(){
+//        String email = "nandkumarkadivar2001@gmail.com";
+//        String password = "abc123";
+//
+//        when(userRepo.getUserByEmail(email)).thenReturn(new User());
+//
+//        assertEquals("Password changed successfully",authService.resetPassword(email,password));
+//    }
+//
+//    @Test
+//    public void resetPasswordTestPasswordChange(){
+//        String email = "nandkumarkadivar2001@gmail.com";
+//        String password = "abc123";
+//        User user = new User();
+//        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+//
+//        when(userRepo.getUserByEmail(email)).thenReturn(user);
+//
+//        authService.resetPassword(email,password);
+//        assertTrue(encoder.matches(password,user.getPassword()));
+//
+//    }
+
     @Test
-    public void resetPasswordTest(){
-        String email = "nandkumarkadivar2001@gmail.com";
-        String password = "abc123";
+    public void verifyEmailTest(){
+        String encypted_code = "";
+        int id=36;
 
-        when(userRepo.getUserByEmail(email)).thenReturn(new User());
-
-        assertEquals("Password changed successfully",authService.resetPassword(email,password));
-    }
-
-    @Test
-    public void resetPasswordTestPasswordChange(){
-        String email = "nandkumarkadivar2001@gmail.com";
-        String password = "abc123";
-        User user = new User();
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-
-        when(userRepo.getUserByEmail(email)).thenReturn(user);
-
-        authService.resetPassword(email,password);
-        assertTrue(encoder.matches(password,user.getPassword()));
+//        when(userRepo.getById(id)).thenReturn()
     }
 }

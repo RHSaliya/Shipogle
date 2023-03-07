@@ -22,14 +22,14 @@ public class AuthController {
         return authService.login(json.get("email"),json.get("password"));
     }
 
-//    @PostMapping("/logout")
-//    public String logout(@RequestBody String token){
-//        return authService.logout(token);
-//    }
-
     @PostMapping("/changepassword")
     public String changePassword(@RequestBody Map<String, String> json){
-        return authService.resetPassword(json.get("email"),json.get("password"));
+        return authService.resetPassword(json.get("token"),json.get("password"));
+    }
+
+    @PostMapping("/forgotpassword")
+    public String forgotPassword(@RequestBody Map<String, String> json){
+        return authService.forgotPassword(json.get("email"));
     }
 
     @GetMapping("/verification")

@@ -42,7 +42,7 @@ public class AuthConfig extends WebSecurityConfigurerAdapter{
                   .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                   .and()
                   .authorizeRequests()
-                    .antMatchers("/register","/verification","/changepassword","/login").permitAll()
+                    .antMatchers("/register","/verification","/changepassword","/forgotpassword","/login").permitAll()
                     .anyRequest().authenticated()
                   .and()
                   .logout().logoutUrl("/logout").addLogoutHandler(logoutService)
@@ -51,7 +51,6 @@ public class AuthConfig extends WebSecurityConfigurerAdapter{
           ;
 
      }
-
 
      @Bean
      public AuthenticationManager authManager(AuthenticationConfiguration configuration) throws Exception {
