@@ -35,7 +35,7 @@ public class JwtTokenService {
                 .claim("email",user.getEmail())
                 .setSubject(user.getFirst_name())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(Date.from(Instant.now().plus(60, ChronoUnit.MINUTES)))
+                .setExpiration(Date.from(Instant.now().plus(60*24, ChronoUnit.MINUTES)))
                 .signWith(generateKey())
                 .compact();
 
