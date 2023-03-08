@@ -12,7 +12,6 @@ export default function Login(props) {
 
     let navigate = useNavigate();
     const submit = (e) => {
-      props.handleSubmit();
       navigate(path);
     };
    
@@ -31,7 +30,7 @@ export default function Login(props) {
 
                 </img>
                 <p>Don't have an account yet? <Link to="/registration" >Register now!</Link></p>
-                <form className="login-form" onSubmit={submit}>
+                <form className="login-form" >
                     <input
                     id="email"
                     name="email"
@@ -48,7 +47,7 @@ export default function Login(props) {
                         onChange={(e) => setPassword(e.target.value)}
                     />
                     <p>Forgot Password?</p>
-                    <button className="btn" type="submit">
+                    <button className="btn" type="submit" onClick={submit}>
                         Log in
                     </button>
                 </form>
