@@ -33,8 +33,16 @@ public class WebSocketConfig implements WebSocketConfigurer {
     public static class SocketHandler extends TextWebSocketHandler {
 
         @Override
-        public void handleTextMessage(WebSocketSession session, TextMessage message) {
+        public void handleTextMessage(WebSocketSession session, TextMessage message) throws IOException {
             System.out.println("Message received: " + message.getPayload());
+
+            // TODO: From here send message to other user
+            session.sendMessage(new TextMessage(message.getPayload()));
+        }
+
+        @Override
+        public void afterConnectionEstablished(WebSocketSession session) throws IOException {
+            System.out.println("Connection established");
         }
     }
 }

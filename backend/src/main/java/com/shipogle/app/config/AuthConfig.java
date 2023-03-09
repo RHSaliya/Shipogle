@@ -42,13 +42,12 @@ public class AuthConfig extends WebSecurityConfigurerAdapter{
                   .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                   .and()
                   .authorizeRequests()
-                    .antMatchers("/register","/verification","/changepassword","/login").permitAll()
+                    .antMatchers("/register","/verification","/changepassword","/login","/chatSocket").permitAll()
                     .anyRequest().authenticated()
                   .and()
                   .logout().logoutUrl("/logout").addLogoutHandler(logoutService)
                   .and()
-                  .authenticationProvider(authProvider()).addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class)
-          ;
+                  .authenticationProvider(authProvider()).addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class);
 
      }
 

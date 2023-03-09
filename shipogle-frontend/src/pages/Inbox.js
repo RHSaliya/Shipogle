@@ -7,7 +7,7 @@ const Inbox = () => {
     const [messages, setMessages] = useState([]);
     const [inputValue, setInputValue] = useState("");
     const ws = useRef(null);
-    const token = "eyJhbGciOiJIUzM4NCJ9.eyJlbWFpbCI6InJocy55b3BtYWlsLmNvbUB5b3BtYWlsLmNvbSIsInN1YiI6IlJhaHVsIiwiaWF0IjoxNjc4MzQ0MDY2LCJleHAiOjE2NzgzNDc2NjZ9.5kn0zsF9DDXsuKRlrAwiwfxg3bcs0yr5h5COWP4dEvutxNMA-p7_cDZqeX9Kf5e9";
+    const token = "eyJhbGciOiJIUzM4NCJ9.eyJlbWFpbCI6InJocy55b3BtYWlsLmNvbUB5b3BtYWlsLmNvbSIsInN1YiI6IlJhaHVsIiwiaWF0IjoxNjc4Mzc0NTc4LCJleHAiOjE2NzgzNzgxNzh9.cApYqrVMjK32o7aw2_y72WN2lG50O8JM48UEfZAslG7zInVh9bJcrgiJIEAR4kx-";
 
     useEffect(() => {
         axios.get(Constants.BASE_URL + "/chat/25/60", {
@@ -32,8 +32,14 @@ const Inbox = () => {
         };
 
         ws.current.onmessage = (message) => {
+            console.log("got message");
             console.log(message);
-            setMessages((prevMessages) => [...prevMessages, JSON.parse(message.data)]);
+            const msg = {
+                senderId: 25,
+                receiverId: 60,
+                message: message.data
+            }
+            setMessages((prevMessages) => [...prevMessages, msg]);
         };
 
         ws.current.onclose = () => {
@@ -61,6 +67,7 @@ const Inbox = () => {
                 }
             })
             .then(() => {
+                ws.current.send(inputValue);
                 setInputValue("");
             });
     };
