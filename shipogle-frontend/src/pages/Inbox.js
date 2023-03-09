@@ -6,8 +6,9 @@ import Constants from "../Constants";
 const Inbox = () => {
     const [messages, setMessages] = useState([]);
     const [inputValue, setInputValue] = useState("");
+    const [sessionId, setSessionId] = useState(null);
     const ws = useRef(null);
-    const token = "eyJhbGciOiJIUzM4NCJ9.eyJlbWFpbCI6InJocy55b3BtYWlsLmNvbUB5b3BtYWlsLmNvbSIsInN1YiI6IlJhaHVsIiwiaWF0IjoxNjc4Mzc0NTc4LCJleHAiOjE2NzgzNzgxNzh9.cApYqrVMjK32o7aw2_y72WN2lG50O8JM48UEfZAslG7zInVh9bJcrgiJIEAR4kx-";
+    const token = "eyJhbGciOiJIUzM4NCJ9.eyJlbWFpbCI6InJocy55b3BtYWlsLmNvbUB5b3BtYWlsLmNvbSIsInN1YiI6IlJhaHVsIiwiaWF0IjoxNjc4Mzc4MjIyLCJleHAiOjE2NzgzODE4MjJ9.ANJky11-6TDhuDLLyB2F5xbCpKkodKFYiSMCXUtMjisFda-eZd7GgfWe_7l19V16";
 
     useEffect(() => {
         axios.get(Constants.BASE_URL + "/chat/25/60", {
@@ -21,11 +22,13 @@ const Inbox = () => {
             console.log("~~~~~~~~~~~~~~");
         });
 
-        ws.current = new WebSocket("ws://localhost:8080/chatSocket", null, {
+        const options = {
             headers: {
                 Authorization: `Bearer ${token}`,
             },
-        });
+        };
+
+        ws.current = new WebSocket("ws://localhost:8080/chatSocket", null, null, options);
 
         ws.current.onopen = () => {
             console.log('WebSocket Client Connected');
@@ -74,6 +77,7 @@ const Inbox = () => {
 
     return (
         <div>
+            Session ID: {sessionId}
             <div>
                 {messages.map((message, index) => (
                     <div key={index}>

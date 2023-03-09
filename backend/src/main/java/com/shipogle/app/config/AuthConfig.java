@@ -42,7 +42,7 @@ public class AuthConfig extends WebSecurityConfigurerAdapter{
                   .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                   .and()
                   .authorizeRequests()
-                    .antMatchers("/register","/verification","/changepassword","/login","/chatSocket").permitAll()
+                    .antMatchers("/register","/verification","/changepassword","/login").permitAll()
                     .anyRequest().authenticated()
                   .and()
                   .logout().logoutUrl("/logout").addLogoutHandler(logoutService)
