@@ -11,7 +11,7 @@ public class ForgotPasswordToken {
     @Column(name = "forgetPasswordToken")
     private String forgetPasswordToken;
 
-    @ManyToOne
+    @ManyToOne(cascade=CascadeType.ALL)
     @JoinColumn(name = "USER_ID",referencedColumnName = "user_id")
     private User user;
 
