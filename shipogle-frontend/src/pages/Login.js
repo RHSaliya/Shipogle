@@ -28,6 +28,10 @@ export default function Login(props) {
             .then((response) => {
                 //            navigate(path);
                 console.log(response);
+                // You will save cookie here and move to next screen.
+
+                // In the next screen when you make a request to the server, you will
+                // use the token stored in the cookie.
             })
             .catch((err) => console.log(err));
     };

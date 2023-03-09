@@ -7,6 +7,8 @@ import com.shipogle.app.repository.MessageRepository;
 import com.shipogle.app.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -23,6 +25,8 @@ public class ChatController {
     private MessageRepository messageRepository;
 
     @PostMapping
+    @MessageMapping("/chat")
+    @SendTo("/topic/messages")
     public ResponseEntity<?> sendMessage(@RequestBody ChatMessageRequest request) {
         Optional<User> senderOptional = userRepository.findById(request.getSenderId());
         Optional<User> receiverOptional = userRepository.findById(request.getReceiverId());
@@ -62,5 +66,4 @@ public class ChatController {
 
         return messages;
     }
-
 }
