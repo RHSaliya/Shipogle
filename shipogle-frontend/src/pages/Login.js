@@ -6,6 +6,7 @@ import NavBar from '../components/NavBar';
 import shipogleLogo from "../assets/shipogleLogo.png";
 import Constants from '../Constants';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 
 export default function Login(props) {
     const [email, setEmail] = useState("");
@@ -13,12 +14,15 @@ export default function Login(props) {
 
     let path = "/userdash";
 
+    const COOKIE_EXPIRATION_TIME = 1 / 24;
+
     let navigate = useNavigate();
     const submit = (e) => {
         e.preventDefault();
         console.log("Submit");
         //props.handleSubmit();
         //navigate(path);
+        console.log(Constants.BASE_URL + Constants.API_LOGIN)
 
         axios
             .post(Constants.BASE_URL + Constants.API_LOGIN, {
@@ -28,6 +32,12 @@ export default function Login(props) {
             .then((response) => {
                 //            navigate(path);
                 console.log(response);
+                console.log(response.data);
+                //Set the token as cookie
+                const token = response.data;
+                Cookies.set("authToken", token, { expires: COOKIE_EXPIRATION_TIME });
+                console.log(Cookies.get('authToken'));
+                 navigate(path);
             })
             .catch((err) => console.log(err));
     };
