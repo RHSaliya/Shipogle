@@ -144,7 +144,7 @@ a:hover{
   width: 100%;
   background-color: #3F0744;
 }
-.regPageForm .Header{
+.regPageForm .Header, .sendform .Header{
   margin-top: 0px;
   padding: 4em 0;
   color: white;
@@ -209,7 +209,7 @@ a:hover{
   justify-content: flex-start;
 }
 
-.form .contact {
+.form .contact, .form .setpwd{
   margin: 1em 0 2em 0;
   display: flex;
   flex-wrap: wrap;
@@ -247,4 +247,84 @@ a:hover{
   .form .contact input, .form .name {
     width: 100%;
   }
+}
+
+/* regSuccessBox after successful registration page*/
+.regSuccessBox {
+  margin: 2em auto;
+  width: 60%;
+  padding: 4em;
+  box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
+  background-color: #3F0744;
+  color: white;
+  text-align: center;
+}
+
+.regSuccessBox > a {
+  color: white;
+  text-decoration: none;
+}
+#success {
+  color: green;
+  font-weight: bold;
+}
+#fail {
+  color: red;
+  font-weight: bold;
+}
+.btn.checkVeri {
+  height: 20px;
+  background-color: white;
+  color: #3F0744;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+}
+.btn.checkVeri:hover {
+  color: white;
+  background-color: #3F0744;
+}
+.btn.checkVeri:clicked {
+  color: white;
+  background-color: #3F0744;
+}
+.validationForm {
+  font-size: 12px;
+  color: red;
+}
+.dashboardToolbar {
+  background-color: #3F0744;
+}
+
+/* Send form */
+.send-del-form {
+  width: 65%;
+  margin: 3em auto;
+  padding: 2em;
+  border: 2px solid #3F0744;
+  border-radius: 10px;
+}
+.editprofile-icon {
+   margin-left: 70%;
+   display: flex;
+   justify-content:flex-end;
+   padding: 10px 30px;
+}
+.dashboard-bar {
+  flex-grow: 1;
+  display: flex;
+  justify-content: space-between;
+  }
+
+
+.routeinfo {
+  margin: 0em 0 2em 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1em;
+  justify-content: flex-start;
+  
+}
+.matchRes {
+  width: 80%;
+  margin: 2em auto;
+  border-top: 2px solid black;
 }
