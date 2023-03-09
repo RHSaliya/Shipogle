@@ -8,6 +8,9 @@ import Login from './pages/Login';
 import RegSuccessful from './pages/RegSuccessful';
 import UserDashboard from './pages/UserDashboard';
 import EditProfile from './pages/EditProfile';
+import CourierRegistration from './pages/courierRegistration';
+import CourierListing from './pages/couriersListing';
+import MapView from "./pages/mapView";
 
 function App() {
   return (
