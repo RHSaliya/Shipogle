@@ -37,7 +37,7 @@ export default function Login(props) {
                 const token = response.data;
                 Cookies.set("authToken", token, { expires: COOKIE_EXPIRATION_TIME });
                 console.log(Cookies.get('authToken'));
-                 navigate(path);
+                navigate(path);
             })
             .catch((err) => console.log(err));
     };
@@ -54,7 +54,7 @@ export default function Login(props) {
                 <img alt="logo" src={shipogleLogo} width="100px" height="100px">
                 </img>
                 <p>Don't have an account yet? <Link to="/registration" >Register now!</Link></p>
-                <form className="login-form" onSubmit={submit}>
+                <form className="login-form" >
                     <input
                         id="email"
                         name="email"
@@ -71,7 +71,7 @@ export default function Login(props) {
                         onChange={(e) => setPassword(e.target.value)}
                     />
                     <p>Forgot Password?</p>
-                    <button className="btn" type="submit">
+                    <button className="btn" type="submit" onClick={submit}>
                         Log in
                     </button>
                 </form>
