@@ -9,7 +9,7 @@ import Login from './pages/Login';
 import RegSuccessful from './pages/RegSuccessful';
 import UserDashboard from './pages/UserDashboard';
 import EditProfile from './pages/EditProfile';
-
+import DeliverItems from './pages/DeliverItems';
 function App() {
   return (
     <div className="App">
@@ -22,6 +22,7 @@ function App() {
         <Route path="/userdash" element={<UserDashboard/>} />
         <Route path="/user/editprofile" element = {<EditProfile />} />
         <Route path="/userdash/send" element={<SendItems/>} />
+        <Route path="/userdash/deliver" element={<DeliverItems/>} />
       </Routes>
     </div>
   );

@@ -57,7 +57,7 @@ function ResponsiveDrawer(props) {
         </Link>
 
 
-        <Link to="/userdash/send">
+        <Link to="/userdash/deliver">
           <ListItem key="1" disablePadding>
             <ListItemButton onClick={() => setKey(1)}>
               <ListItemIcon>

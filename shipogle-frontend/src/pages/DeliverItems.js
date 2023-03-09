@@ -10,20 +10,18 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
-export default function SendItems() {
+export default function () {
+    const { register, handleSubmit, control, watch, formState: { errors } } = useForm();
     const [mode, setMode] = useState("");
     const [packageType, setPackageType] = useState("");
     const [due, setDue] = useState(null);
     const [showRes, setShowRes] = useState(false);
 
-    
-    const { register, handleSubmit, control, watch, formState: { errors } } = useForm();
-
     return (
-        <div className="sendform">
+        <div className="deliverform">
             <Header
-                title="Send Items"
-                info="Enter details about the package you want to send and get matched with deliverers." />
+                title="Deliver Items"
+                info="Enter your details and get matched with orders put up by senders." />
             <div className="send-del-form">
                 <FormControl fullWidth size="small">
 
@@ -86,6 +84,38 @@ export default function SendItems() {
                         rules={{ required: 'Source is required' }}
                     />
                     <Controller
+                        name="stop1"
+                        control={control}
+                        defaultValue=""
+                        render={({ field: { onChange, value }, fieldState: { error } }) => (
+                            <TextField
+                                label="Stop 1"
+                                value={value}
+                                size="small"
+                                onChange={onChange}
+                                error={!!error}
+                                helperText={error ? error.message : null}
+                            />
+                        )}
+                       
+                    />
+                    <Controller
+                        name="stop2"
+                        control={control}
+                        defaultValue=""
+                        render={({ field: { onChange, value }, fieldState: { error } }) => (
+                            <TextField
+                                label="Stop 2"
+                                value={value}
+                                size="small"
+                                onChange={onChange}
+                                error={!!error}
+                                helperText={error ? error.message : null}
+                            />
+                        )}
+                       
+                    />
+                    <Controller
                         name="destination"
                         control={control}
                         defaultValue=""
@@ -108,7 +138,7 @@ export default function SendItems() {
                         defaultValue=""
                         render={({ field: { onChange, value }, fieldState: { error } }) => (
                             <TextField
-                                label="Package Weight (lbs)"
+                                label="Max Package Weight (lbs)"
                                 value={value}
                                 size="small"
                                 onChange={onChange}
