@@ -7,7 +7,7 @@ const Inbox = () => {
     const [messages, setMessages] = useState([]);
     const [inputValue, setInputValue] = useState("");
     const ws = useRef(null);
-    const token = "eyJhbGciOiJIUzM4NCJ9.eyJlbWFpbCI6InJocy55b3BtYWlsLmNvbUB5b3BtYWlsLmNvbSIsInN1YiI6IlJhaHVsIiwiaWF0IjoxNjc4MzM3MTA1LCJleHAiOjE2NzgzNDA3MDV9.Lq_5Ytqp8Ygx_ogyatoWfTzLTJ6X0OxPT0B0jszoOSMP3i5P8TuHSdnIcsW8ZHAG";
+    const token = "eyJhbGciOiJIUzM4NCJ9.eyJlbWFpbCI6InJocy55b3BtYWlsLmNvbUB5b3BtYWlsLmNvbSIsInN1YiI6IlJhaHVsIiwiaWF0IjoxNjc4MzQ0MDY2LCJleHAiOjE2NzgzNDc2NjZ9.5kn0zsF9DDXsuKRlrAwiwfxg3bcs0yr5h5COWP4dEvutxNMA-p7_cDZqeX9Kf5e9";
 
     useEffect(() => {
         axios.get(Constants.BASE_URL + "/chat/25/60", {
@@ -21,19 +21,28 @@ const Inbox = () => {
             console.log("~~~~~~~~~~~~~~");
         });
 
-        ws.current = new WebSocket("ws://localhost:8080/socket");
+        ws.current = new WebSocket("ws://localhost:8080/chatSocket", null, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
 
         ws.current.onopen = () => {
             console.log('WebSocket Client Connected');
         };
 
         ws.current.onmessage = (message) => {
+            console.log(message);
             setMessages((prevMessages) => [...prevMessages, JSON.parse(message.data)]);
         };
 
-        // return () => {
-        // ws.current.close();
-        // };
+        ws.current.onclose = () => {
+            console.log('WebSocket Client Disconnected');
+        }
+
+        return () => {
+            ws.current.close();
+        };
     }, []);
 
     const handleInputChange = (event) => {
