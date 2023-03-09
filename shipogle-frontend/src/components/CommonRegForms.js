@@ -6,6 +6,8 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import verified from '../assets/accept.png';
+import Constants from '../Constants';
+const axios = require('axios');
 
 
 export default function CommonRegForms() {
@@ -27,9 +29,6 @@ export default function CommonRegForms() {
     const govIDValidation = () => {
         //add condition for verification here
         setStatus(true);
-
-
-
 
     }
     return (
@@ -73,7 +72,7 @@ export default function CommonRegForms() {
             </div>
             <div className="subheading">Contact Information</div>
             <div className="contact">
-            <Controller
+                <Controller
                     name="email"
                     control={control}
                     defaultValue=""
@@ -109,7 +108,7 @@ export default function CommonRegForms() {
             <div className="subheading">Address Information</div>
             <div className="address">
 
-            <Controller
+                <Controller
                     name="address"
                     control={control}
                     defaultValue=""
@@ -141,7 +140,7 @@ export default function CommonRegForms() {
                     )}
                     rules={{ required: 'City  is required' }}
                 />
-              <Controller
+                <Controller
                     name="province"
                     control={control}
                     defaultValue=""
@@ -194,7 +193,7 @@ export default function CommonRegForms() {
             <div className="subheading">Verification Information</div>
             <div className="verification">
 
-            <Controller
+                <Controller
                     name="govtID"
                     control={control}
                     defaultValue=""
@@ -210,7 +209,7 @@ export default function CommonRegForms() {
                     )}
                     rules={{ required: 'Government ID  is required' }}
                 />
-                
+
                 <label>Upload profile picture: </label>
                 <input type="file" />
 
@@ -236,7 +235,7 @@ export default function CommonRegForms() {
             </div>
             <div className="subheading">Set Password</div>
             <div className="setpwd">
-            <Controller
+                <Controller
                     name="setpwd"
                     control={control}
                     defaultValue=""
@@ -253,7 +252,7 @@ export default function CommonRegForms() {
                     )}
                     rules={{ required: 'Password  is required' }}
                 />
-             <Controller
+                <Controller
                     name="confirmpwd"
                     control={control}
                     defaultValue=""
@@ -270,7 +269,7 @@ export default function CommonRegForms() {
                     )}
                     rules={{ required: 'Password should match' }}
                 />
-                
+
             </div>
 
 
