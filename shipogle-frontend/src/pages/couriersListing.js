@@ -99,7 +99,7 @@ function CourierListing() {
     },
   ];
   const [listingCards, setListingCards] = React.useState([]);
-  const [listingsLoaded, setListingsLoaded] = React.useState(true);
+  const [listingsLoaded, setListingsLoaded] = React.useState(false);
   const [center, setCenter] = useState({ lat: 0, lng: 0 });
   const createlistingcards = () => {
     let cards = [];
@@ -454,6 +454,18 @@ function CourierListing() {
               renderInput={(params) => <TextField {...params} />}
             />
           </LocalizationProvider>
+          &nbsp; &nbsp;
+          <TextField
+            id="radius"
+            type="Number"
+            variant="outlined"
+            label="Radius"
+            min="0"
+            required
+            className="courier-form-input"
+            value={packages <= 0 ? "" : packages}
+            helperText="e.g 1"
+          ></TextField>
         </div>
         {showFields && (
           <div>
@@ -515,7 +527,7 @@ function CourierListing() {
           </Button>
         </div>
       </form>
-
+      
       {listingsLoaded && !showMapView && (
         <div className="courier-listing-container">
           <div className="view-buttons-container">

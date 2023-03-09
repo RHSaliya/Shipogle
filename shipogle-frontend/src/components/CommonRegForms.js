@@ -20,6 +20,7 @@ export default function CommonRegForms() {
     let navigate = useNavigate();
 
     const navUser = () => {
+        console.log("in nav");
         navigate(path);
     }
     //https://stackoverflow.com/questions/58257648/how-do-i-display-text-on-button-click-in-react-js#:~:text=If%20you%20want%20to%20display,function%20to%20trigger%20the%20window.&text=However%2C%20if%20you%20need%20to,a%20state%20to%20manage%20that.&text=If%20you%20need%20to%20toggle,the%20onButtonClickHandler%20function%20to%20this.
@@ -31,6 +32,7 @@ export default function CommonRegForms() {
         setStatus(true);
 
     }
+
     return (
 
 
@@ -271,9 +273,6 @@ export default function CommonRegForms() {
                 />
 
             </div>
-
-
-
             <input className="btn" type="submit" />
         </form>
 

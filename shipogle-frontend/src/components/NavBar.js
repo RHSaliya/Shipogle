@@ -9,6 +9,9 @@ import Button from "@mui/material/Button";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import "./navBar.css";
 import styled from "@emotion/styled";
+import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
+import ForumIcon from '@mui/icons-material/Forum';
+import { IconButton } from "@mui/material";
 
 const ExpandButton = styled(Button)({
   minWidth: "18px",
@@ -53,6 +56,17 @@ export default function NavBar() {
             Deliver
           </Link>
         </button>
+        &nbsp;
+        <IconButton>
+          <NotificationsNoneIcon></NotificationsNoneIcon>
+        </IconButton>
+
+        &nbsp;
+        <IconButton>
+          <ForumIcon></ForumIcon>
+        </IconButton>
+
+        &nbsp;
         <div
           style={{
             display: "flex",
