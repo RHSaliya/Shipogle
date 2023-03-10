@@ -17,7 +17,6 @@ const styles = {
 const Inbox = () => {
     const [messages, setMessages] = useState([]);
     const [inputValue, setInputValue] = useState("");
-    const [sessionId, setSessionId] = useState(null);
     const ws = useRef(null);
     const token = "eyJhbGciOiJIUzM4NCJ9.eyJlbWFpbCI6InJocy55b3BtYWlsLmNvbUB5b3BtYWlsLmNvbSIsInN1YiI6IlJhaHVsIiwiaWF0IjoxNjc4NDE3MjQzLCJleHAiOjE2Nzg0MjA4NDN9.4hlqmh6XdY5jycqmaR8fFcBVNCgjgQ7GLONM9y6ICdcVb4W3rtafdUIlrHO7Jio-";
     const myId = 25;
@@ -116,7 +115,6 @@ const Inbox = () => {
 
     return (
         <div>
-            Session ID: {sessionId}
             <div>
                 {messages.map((message, index) => (
                     <div key={index}>

@@ -119,4 +119,8 @@ public class AuthService {
             return "User is not verified";
         }
     }
+
+    public User getUser(int id) {
+        return userReop.getReferenceById(id);
+    }
 }
