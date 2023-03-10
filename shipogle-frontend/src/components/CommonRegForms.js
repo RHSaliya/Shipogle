@@ -5,21 +5,42 @@ import TextField from "@mui/material/TextField";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import verified from '../assets/accept.png';
+import axios from 'axios';
 import Constants from '../Constants';
-const axios = require('axios');
-
 
 export default function CommonRegForms() {
-    const [dobvalue, setDOBValue] = React.useState(null);
+    const [dobvalue, setDOBValue] = useState(null);
 
-    const { register, handleSubmit, control, watch, formState: { errors } } = useForm();
+    // POSTMAN API parameters
+    // const [firstName, setFirstName] = useState("");
+    // const [lastName, setLastName] = useState("");
+    // const [email, setEmail] = useState("");
+    // const [password, setPassword] = useState("");
+    // const [is_verified, setIs_Verified] = useState(1);
+
+    const { handleSubmit, control, formState: { errors } } = useForm();
 
     let path = "/registration/success";
 
     let navigate = useNavigate();
 
-    const navUser = () => {
+    const navUser = (data) => {
+        
+       // Sending the form values to the api
+        axios.post(Constants.BASE_URL + Constants.API_REGISTER, {
+            first_name: data.firstName,
+            last_name: data.lastName,
+            email: data.email,
+            password: data.setpwd,
+            is_verified: 1
+        })
+          .then(response => {
+            console.log(response);
+          })
+          .catch(error => {
+            console.log(error);
+          });
+        
         navigate(path);
     }
     //https://stackoverflow.com/questions/58257648/how-do-i-display-text-on-button-click-in-react-js#:~:text=If%20you%20want%20to%20display,function%20to%20trigger%20the%20window.&text=However%2C%20if%20you%20need%20to,a%20state%20to%20manage%20that.&text=If%20you%20need%20to%20toggle,the%20onButtonClickHandler%20function%20to%20this.
@@ -31,6 +52,8 @@ export default function CommonRegForms() {
         setStatus(true);
 
     }
+    
+    
     return (
 
 
@@ -41,12 +64,12 @@ export default function CommonRegForms() {
                     name="firstName"
                     control={control}
                     defaultValue=""
-                    render={({ field: { onChange, value }, fieldState: { error } }) => (
+                    render={({ field: { onChange, value}, fieldState: { error } }) => (
                         <TextField
                             label="First Name"
-                            value={value}
+                           
                             size="small"
-                            onChange={onChange}
+                            onChange= {onChange}
                             error={!!error}
                             helperText={error ? error.message : null}
                         />
@@ -60,9 +83,9 @@ export default function CommonRegForms() {
                     render={({ field: { onChange, value }, fieldState: { error } }) => (
                         <TextField
                             label="Last Name"
-                            value={value}
+                      
                             size="small"
-                            onChange={onChange}
+                            onChange= {onChange}
                             error={!!error}
                             helperText={error ? error.message : null}
                         />
@@ -78,10 +101,9 @@ export default function CommonRegForms() {
                     defaultValue=""
                     render={({ field: { onChange, value }, fieldState: { error } }) => (
                         <TextField
-                            label="Email ID"
-                            value={value}
-                            size="small"
-                            onChange={onChange}
+                        label="email"
+                        size="small"
+                        onChange= {onChange}
                             error={!!error}
                             helperText={error ? error.message : null}
                         />
@@ -95,9 +117,9 @@ export default function CommonRegForms() {
                     render={({ field: { onChange, value }, fieldState: { error } }) => (
                         <TextField
                             label="Phone Number"
-                            value={value}
+                           
                             size="small"
-                            onChange={onChange}
+                            onChange= {onChange}
                             error={!!error}
                             helperText={error ? error.message : null}
                         />
@@ -115,9 +137,9 @@ export default function CommonRegForms() {
                     render={({ field: { onChange, value }, fieldState: { error } }) => (
                         <TextField
                             label="Address"
-                            value={value}
+                           
                             size="small"
-                            onChange={onChange}
+                            onChange= {onChange}
                             error={!!error}
                             helperText={error ? error.message : null}
                         />
@@ -131,9 +153,9 @@ export default function CommonRegForms() {
                     render={({ field: { onChange, value }, fieldState: { error } }) => (
                         <TextField
                             label="City"
-                            value={value}
+                           
                             size="small"
-                            onChange={onChange}
+                            onChange= {onChange}
                             error={!!error}
                             helperText={error ? error.message : null}
                         />
@@ -147,9 +169,9 @@ export default function CommonRegForms() {
                     render={({ field: { onChange, value }, fieldState: { error } }) => (
                         <TextField
                             label="Province"
-                            value={value}
+                           
                             size="small"
-                            onChange={onChange}
+                            onChange= {onChange}
                             error={!!error}
                             helperText={error ? error.message : null}
                         />
@@ -163,9 +185,9 @@ export default function CommonRegForms() {
                     render={({ field: { onChange, value }, fieldState: { error } }) => (
                         <TextField
                             label="Postal Code"
-                            value={value}
+                          
                             size="small"
-                            onChange={onChange}
+                            onChange= {onChange}
                             error={!!error}
                             helperText={error ? error.message : null}
                         />
@@ -179,9 +201,9 @@ export default function CommonRegForms() {
                     render={({ field: { onChange, value }, fieldState: { error } }) => (
                         <TextField
                             label="Country"
-                            value={value}
+                          
                             size="small"
-                            onChange={onChange}
+                            onChange= {onChange}
                             error={!!error}
                             helperText={error ? error.message : null}
                         />
@@ -200,9 +222,9 @@ export default function CommonRegForms() {
                     render={({ field: { onChange, value }, fieldState: { error } }) => (
                         <TextField
                             label="Govt ID"
-                            value={value}
+                           
                             size="small"
-                            onChange={onChange}
+                            onChange= {onChange}
                             error={!!error}
                             helperText={error ? error.message : null}
                         />
@@ -243,9 +265,9 @@ export default function CommonRegForms() {
                         <TextField
                             label="Set Password"
                             type="password"
-                            value={value}
+                           
                             size="small"
-                            onChange={onChange}
+                            onChange= {onChange}
                             error={!!error}
                             helperText={error ? error.message : null}
                         />
@@ -260,9 +282,9 @@ export default function CommonRegForms() {
                         <TextField
                             label="Confirm Password"
                             type="password"
-                            value={value}
+                          
                             size="small"
-                            onChange={onChange}
+                            onChange= {onChange}
                             error={!!error}
                             helperText={error ? error.message : null}
                         />
