@@ -7,9 +7,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User,Integer> {
-
     User getUserByEmail(String email);
     User findUserByEmail(String email);
-
     User findByEmail(String email);
 }
