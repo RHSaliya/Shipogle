@@ -3,12 +3,25 @@ import axios from "axios";
 import { w3cwebsocket as WebSocket } from "websocket";
 import Constants from "../Constants";
 
+const styles = {
+    myMessage: {
+        backgroundColor: "#f5f5f5",
+    },
+    otherMessage: {
+        backgroundColor: "#f5f5f5",
+        justifyContent: "end",
+        display: "flex",
+    },
+}
+
 const Inbox = () => {
     const [messages, setMessages] = useState([]);
     const [inputValue, setInputValue] = useState("");
     const [sessionId, setSessionId] = useState(null);
     const ws = useRef(null);
-    const token = "eyJhbGciOiJIUzM4NCJ9.eyJlbWFpbCI6InJocy55b3BtYWlsLmNvbUB5b3BtYWlsLmNvbSIsInN1YiI6IlJhaHVsIiwiaWF0IjoxNjc4Mzc4MjIyLCJleHAiOjE2NzgzODE4MjJ9.ANJky11-6TDhuDLLyB2F5xbCpKkodKFYiSMCXUtMjisFda-eZd7GgfWe_7l19V16";
+    const token = "eyJhbGciOiJIUzM4NCJ9.eyJlbWFpbCI6InJocy55b3BtYWlsLmNvbUB5b3BtYWlsLmNvbSIsInN1YiI6IlJhaHVsIiwiaWF0IjoxNjc4NDE3MjQzLCJleHAiOjE2Nzg0MjA4NDN9.4hlqmh6XdY5jycqmaR8fFcBVNCgjgQ7GLONM9y6ICdcVb4W3rtafdUIlrHO7Jio-";
+    const myId = 25;
+    const receiverId = 60;
 
     useEffect(() => {
         axios.get(Constants.BASE_URL + "/chat/25/60", {
@@ -37,10 +50,11 @@ const Inbox = () => {
         ws.current.onmessage = (message) => {
             console.log("got message");
             console.log(message);
+            const value = JSON.parse(message.data);
             const msg = {
-                senderId: 25,
-                receiverId: 60,
-                message: message.data
+                senderId: value.senderId,
+                receiverId: value.receiverId,
+                message: value.message,
             }
             setMessages((prevMessages) => [...prevMessages, msg]);
         };
@@ -58,11 +72,11 @@ const Inbox = () => {
         setInputValue(event.target.value);
     };
 
-    const handleSendClick = () => {
+    const handleSendasMeClick = () => {
         axios
             .post(Constants.BASE_URL + "/chat", {
-                senderId: 25,
-                receiverId: 60,
+                senderId: myId,
+                receiverId: receiverId,
                 message: inputValue,
             }, {
                 headers: {
@@ -70,7 +84,32 @@ const Inbox = () => {
                 }
             })
             .then(() => {
-                ws.current.send(inputValue);
+                ws.current.send(JSON.stringify({
+                    senderId: myId,
+                    receiverId: receiverId,
+                    message: inputValue,
+                }));
+                setInputValue("");
+            });
+    };
+
+    const handleSendasOtherClick = () => {
+        axios
+            .post(Constants.BASE_URL + "/chat", {
+                senderId: receiverId,
+                receiverId: myId,
+                message: inputValue,
+            }, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+            .then(() => {
+                ws.current.send(JSON.stringify({
+                    senderId: receiverId,
+                    receiverId: myId,
+                    message: inputValue,
+                }));
                 setInputValue("");
             });
     };
@@ -81,13 +120,18 @@ const Inbox = () => {
             <div>
                 {messages.map((message, index) => (
                     <div key={index}>
-                        {message.senderId}: {message.message}
+                        {
+                            <div style={message.senderId === myId ? styles.myMessage : styles.otherMessage}>
+                                <b>{message.senderId === myId ? 'You' : 'Him'}</b>: {message.message}
+                            </div>
+                        }
                     </div>
                 ))}
             </div>
             <div>
                 <input value={inputValue} onChange={handleInputChange} />
-                <button onClick={handleSendClick}>Send</button>
+                <button onClick={handleSendasMeClick}>Send as Me</button>
+                <button onClick={handleSendasOtherClick}>Send as Other</button>
             </div>
         </div>
     );
