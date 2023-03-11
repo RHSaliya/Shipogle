@@ -22,4 +22,8 @@ public class PackageController {
         return packageService.getPackages();
     }
 
+    @PutMapping("/package/update")
+    public String updatePackage(@RequestBody Package _package){
+        return packageService.updatePackage(_package);
+    }
 }

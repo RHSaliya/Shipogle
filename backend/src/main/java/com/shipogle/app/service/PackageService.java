@@ -51,4 +51,22 @@ public class PackageService {
             return null;
         }
     }
+
+    public String updatePackage(Package courier){
+        try{
+            Package p = packageRepo.getPackageById((Integer) courier.getId());
+            p.setTitle(courier.getTitle());
+            p.setDescription(courier.getDescription());
+            p.setHeigth(courier.getHeigth());
+            p.setWidth(courier.getWidth());
+            p.setLength(courier.getLength());
+            p.setPickup_address(courier.getPickup_address());
+            p.setDrop_address(courier.getDrop_address());
+            packageRepo.save(p);
+
+            return "Package updated";
+        }catch (Exception e){
+            return e.getMessage();
+        }
+    }
 }

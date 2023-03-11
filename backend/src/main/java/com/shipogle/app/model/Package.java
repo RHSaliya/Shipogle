@@ -13,7 +13,7 @@ public class Package {
     @Id
     @GeneratedValue
     @Column(name="package_id")
-    private Integer package_id;
+    private Integer id;
 
     @ManyToOne(cascade=CascadeType.ALL)
     @JoinColumn(name = "sender_id",referencedColumnName = "user_id")
@@ -48,12 +48,12 @@ public class Package {
     @UpdateTimestamp
     private LocalDateTime updated_at;
 
-    public Integer getPackage_id() {
-        return package_id;
+    public Integer getId() {
+        return id;
     }
 
-    public void setPackage_id(Integer package_id) {
-        this.package_id = package_id;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public User getSender() {
