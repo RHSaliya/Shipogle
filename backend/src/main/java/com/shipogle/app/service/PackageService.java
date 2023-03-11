@@ -9,6 +9,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Optional;
+
 @Service
 public class PackageService {
 
@@ -29,6 +32,23 @@ public class PackageService {
             return "Package saved";
         }catch (Exception e){
             return "Failed to save package";
+        }
+    }
+
+    public List<Package> getPackages(){
+        try {
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            String user_email = auth.getPrincipal().toString();
+            User user = userRepo.getUserByEmail(user_email);
+
+            List<Package> packages = packageRepo.getAllBySender(user);
+            for (Package i:packages) {
+                System.out.println(i);
+            }
+
+            return packages;
+        }catch (Exception e){
+            return null;
         }
     }
 }

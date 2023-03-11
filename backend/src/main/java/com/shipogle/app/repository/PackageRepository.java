@@ -11,7 +11,7 @@ import java.util.Optional;
 
 public interface PackageRepository extends JpaRepository<Package,Integer> {
 
-    Optional<Package> getAllBySender(Integer id);
+    List<Package> getAllBySender(User sender);
 
 
 }

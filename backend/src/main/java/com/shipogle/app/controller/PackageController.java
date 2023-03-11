@@ -3,9 +3,9 @@ package com.shipogle.app.controller;
 import com.shipogle.app.model.Package;
 import com.shipogle.app.service.PackageService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 public class PackageController {
@@ -16,4 +16,10 @@ public class PackageController {
     public String createPackage(@RequestBody Package _package){
         return packageService.storePackage(_package);
     }
+
+    @GetMapping("/package/getall")
+    public List<Package> getAllPackages(){
+        return packageService.getPackages();
+    }
+
 }
