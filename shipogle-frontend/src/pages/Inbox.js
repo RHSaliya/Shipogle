@@ -18,12 +18,13 @@ const Inbox = () => {
     const [messages, setMessages] = useState([]);
     const [inputValue, setInputValue] = useState("");
     const ws = useRef(null);
-    const token = "eyJhbGciOiJIUzM4NCJ9.eyJlbWFpbCI6InJocy55b3BtYWlsLmNvbUB5b3BtYWlsLmNvbSIsInN1YiI6IlJhaHVsIiwiaWF0IjoxNjc4NDE3MjQzLCJleHAiOjE2Nzg0MjA4NDN9.4hlqmh6XdY5jycqmaR8fFcBVNCgjgQ7GLONM9y6ICdcVb4W3rtafdUIlrHO7Jio-";
+    const token = "eyJhbGciOiJIUzM4NCJ9.eyJlbWFpbCI6InJocy55b3BtYWlsLmNvbUB5b3BtYWlsLmNvbSIsInN1YiI6IlJhaHVsIiwiaWF0IjoxNjc4NTgxNzY1LCJleHAiOjE2ODM3NjU3NjV9.KUFvR1GNYpQQxiVKe_zQwyS3mvfGUWIRJ04nlNT4wTysIgQd94Z4fi95rGSRXYSy";
     const myId = 25;
     const receiverId = 60;
+    // const receiverId = 58;
 
     useEffect(() => {
-        axios.get(Constants.BASE_URL + "/chat/25/60", {
+        axios.get(Constants.BASE_URL + `/chat/${myId}/${receiverId}`, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
