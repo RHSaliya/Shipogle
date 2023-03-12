@@ -1,57 +1,23 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { w3cwebsocket as WebSocket } from "websocket";
-import Constants from "../Constants";
-
-
-const styles = {
-    inboxArea: {
-        backgroundColor: "#ead4ec",
-    },
-    messageArea: {
-        padding: "1rem",
-        width: "60%",
-        margin: "0 0 0 auto",
-        backgroundColor: "white",
-
-    
-    },
-    otherMessage: {
-        color: "#3F0744",
-        backgroundColor : "white",
-        border: "1px solid black",
-        padding: "1em",
-        marginRight: "20rem",
-        marginBottom: "1em",
-        display: "inline-block",
-        borderRadius: '15px',
-        borderBottomLeftRadius:'0',
-    },
-    myMessage: {
-        backgroundColor: "#3F0744",
-        color: "white",
-        border: "1px solid black",
-        padding: "1em",
-        marginLeft: "20rem",
-        marginBottom: "1em",
-        display:"inline-block",
-        float: "right",
-        borderRadius:'15px',
-        borderBottomRightRadius:'0',
-    },
-}
+import Constants from "../../Constants";
+import "./inbox.css";
 
 const Inbox = () => {
     const [messages, setMessages] = useState([]);
+    const [chatUsers, setChatUsers] = useState([]);
     const [inputValue, setInputValue] = useState("");
+    const [receiverId, setReceiverId] = useState(60);
     const ws = useRef(null);
     const token = "eyJhbGciOiJIUzM4NCJ9.eyJlbWFpbCI6InJocy55b3BtYWlsLmNvbUB5b3BtYWlsLmNvbSIsInN1YiI6IlJhaHVsIiwiaWF0IjoxNjc4NTgxNzY1LCJleHAiOjE2ODM3NjU3NjV9.KUFvR1GNYpQQxiVKe_zQwyS3mvfGUWIRJ04nlNT4wTysIgQd94Z4fi95rGSRXYSy";
     const myId = 25;
-    const receiverId = 60;
-    // const receiverId = 58;
 
     useEffect(() => {
-        axios.get(Constants.BASE_URL + `/chat/${myId}/${receiverId}`, {
+    }, []);
+
+    useEffect(() => {
+        axios.get(`${Constants.API_CHAT}/${myId}/${receiverId}`, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -62,13 +28,7 @@ const Inbox = () => {
             console.log("~~~~~~~~~~~~~~");
         });
 
-        const options = {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        };
-
-        ws.current = new WebSocket("ws://localhost:8080/chatSocket", null, null, options);
+        ws.current = new WebSocket("ws://localhost:8080/chatSocket");
 
         ws.current.onopen = () => {
             console.log('WebSocket Client Connected');
@@ -93,7 +53,7 @@ const Inbox = () => {
         return () => {
             ws.current.close();
         };
-    }, []);
+    }, [receiverId]);
 
     const handleInputChange = (event) => {
         setInputValue(event.target.value);
@@ -101,7 +61,7 @@ const Inbox = () => {
 
     const handleSendasMeClick = () => {
         axios
-            .post(Constants.BASE_URL + "/chat", {
+            .post(Constants.API_CHAT, {
                 senderId: myId,
                 receiverId: receiverId,
                 message: inputValue,
@@ -122,7 +82,7 @@ const Inbox = () => {
 
     const handleSendasOtherClick = () => {
         axios
-            .post(Constants.BASE_URL + "/chat", {
+            .post(Constants.API_CHAT, {
                 senderId: receiverId,
                 receiverId: myId,
                 message: inputValue,
@@ -142,12 +102,15 @@ const Inbox = () => {
     };
 
     return (
-        <div style={styles.inboxArea}>
-            <div style={styles.messageArea}>
+        <div className="inboxArea">
+            <div className="userArea">
+
+            </div>
+            <div className="messageContainer">
                 {messages.map((message, index) => (
                     <div key={index}>
                         {
-                            <div style={message.senderId === myId ? styles.myMessage : styles.otherMessage}>
+                            <div className={message.senderId === myId ? "myMessage" : "otherMessage"}>
                                 <b>{message.senderId === myId ? 'You' : 'Him'}</b>: {message.message}
                             </div>
                         }
@@ -159,7 +122,7 @@ const Inbox = () => {
                 <button onClick={handleSendasMeClick}>Send as Me</button>
                 <button onClick={handleSendasOtherClick}>Send as Other</button>
             </div>
-        </div>
+        </div >
     );
 };
 

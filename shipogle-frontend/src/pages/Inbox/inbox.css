@@ -1,0 +1,37 @@
+.inboxArea {
+    background-color: #ead4ec;
+}
+
+.messageContainer {
+    padding: 1rem;
+    width: 60%;
+    margin: 0 0 0 auto;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+}
+
+
+.otherMessage {
+    color: #3F0744;
+    background-color: white;
+    border: 1px solid black;
+    padding: 1em;
+    margin-right: 20rem;
+    margin-bottom: 1em;
+    display: inline-block;
+    border-radius: 15px;
+    border-bottom-left-radius: 0;
+}
+
+.myMessage {
+    background-color: #3F0744;
+    color: white;
+    border: 1px solid black;
+    padding: 1em;
+    margin-left: 20rem;
+    margin-bottom: 1em;
+    float: right;
+    border-radius: 15px;
+    border-bottom-right-radius: 0;
+}
