@@ -3,6 +3,7 @@ import axios from "../../utils/MyAxios";
 import { w3cwebsocket as WebSocket } from "websocket";
 import Constants from "../../Constants";
 import "./inbox.css";
+import chatProfileImg from "../../assets/profile.png";
 
 const Inbox = () => {
     const [messages, setMessages] = useState([]);
@@ -96,12 +97,22 @@ const Inbox = () => {
     return (
         <div className="inboxArea">
             <div className="userArea">
+                <p className="titleSidebar">Chats</p>
                 <div className="userList">
                     {chatUsers.map((user, index) => (
-                        <div key={index}>
+                        <div className="users" key={index}>
+                            <div className="user-picture">
+                                   {/* <img style={{ width: 15, height: 15 }} alt="pfp chat user" src={chatProfileImg}></img>  */}
+                               {index %2 === 0 ?  <img style={{ width: 20, height: 20 }} alt="pfp chat user" src={chatProfileImg}></img>:
+                           
+                               user.first_name[0] + user.last_name[0] }
+                                 </div>
+                            <div className="user-name">
                             {
-                                user.first_name
+                                user.first_name +" "+ user.last_name
                             }
+                            </div>
+                          
                         </div>
                     ))}
                 </div>
