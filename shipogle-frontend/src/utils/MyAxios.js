@@ -6,7 +6,11 @@ const customAxios = axios.create({
 });
 
 const requestHandler = request => {
-    request.headers.Authorization = `Bearer ${Cookies.get('authToken')}`;
+    const token = Cookies.get('authToken');
+
+    if (token) {
+        request.headers.Authorization = `Bearer ${token}`;
+    }
 
     return request;
 };

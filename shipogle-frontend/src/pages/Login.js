@@ -22,10 +22,10 @@ export default function Login(props) {
         console.log("Submit");
         //props.handleSubmit();
         //navigate(path);
-        console.log(Constants.BASE_URL + Constants.API_LOGIN)
+        console.log(Constants.API_LOGIN)
 
         axios
-            .post(Constants.BASE_URL + Constants.API_LOGIN, {
+            .post(Constants.API_LOGIN, {
                 "email": email,
                 "password": password
             })
