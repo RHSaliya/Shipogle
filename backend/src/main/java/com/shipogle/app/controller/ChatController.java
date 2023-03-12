@@ -11,9 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.socket.WebSocketHandler;
-import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistration;
-import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -73,4 +70,19 @@ public class ChatController {
 
         return messages;
     }
+
+    @GetMapping("/{userId}")
+    public List<User> getChatUsers(@PathVariable int userId) {
+        Optional<User> receiverOptional = userRepository.findById(userId);
+        if (receiverOptional.isEmpty()) {
+            throw new RuntimeException("Invalid user ID");
+        }
+
+        User user = receiverOptional.get();
+
+        List<Integer> userIds = messageRepository.findDistinctSenderAndReceiverIdsByUserId(user.getUser_id());
+
+        return userRepository.getUserByIds(userIds);
+    }
+
 }
