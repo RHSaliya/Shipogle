@@ -6,6 +6,7 @@ import NavBar from '../components/NavBar';
 import shipogleLogo from "../assets/shipogleLogo.png";
 import Constants from '../Constants';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 
 export default function Login(props) {
     const [email, setEmail] = useState("");
@@ -13,12 +14,15 @@ export default function Login(props) {
 
     let path = "/userdash";
 
+    const COOKIE_EXPIRATION_TIME = 1 / 24;
+
     let navigate = useNavigate();
     const submit = (e) => {
         e.preventDefault();
         console.log("Submit");
         //props.handleSubmit();
         //navigate(path);
+        console.log(Constants.BASE_URL + Constants.API_LOGIN)
 
         axios
             .post(Constants.BASE_URL + Constants.API_LOGIN, {
@@ -27,11 +31,12 @@ export default function Login(props) {
             })
             .then((response) => {
                 //            navigate(path);
-                console.log(response);
-                // You will save cookie here and move to next screen.
-
-                // In the next screen when you make a request to the server, you will
-                // use the token stored in the cookie.
+                console.log(response.data);
+                //Set the token as cookie
+                const token = response.data;
+                Cookies.set("authToken", token, { expires: COOKIE_EXPIRATION_TIME });
+                console.log(Cookies.get('authToken'));
+                navigate(path);
             })
             .catch((err) => console.log(err));
     };
@@ -48,7 +53,7 @@ export default function Login(props) {
                 <img alt="logo" src={shipogleLogo} width="100px" height="100px">
                 </img>
                 <p>Don't have an account yet? <Link to="/registration" >Register now!</Link></p>
-                <form className="login-form" onSubmit={submit}>
+                <form className="login-form" >
                     <input
                         id="email"
                         name="email"
@@ -65,7 +70,7 @@ export default function Login(props) {
                         onChange={(e) => setPassword(e.target.value)}
                     />
                     <p>Forgot Password?</p>
-                    <button className="btn" type="submit">
+                    <button className="btn" type="submit" onClick={submit}>
                         Log in
                     </button>
                 </form>

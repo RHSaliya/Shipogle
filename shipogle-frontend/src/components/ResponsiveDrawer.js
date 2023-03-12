@@ -7,12 +7,13 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
-
+import Tooltip from '@mui/material/Tooltip';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
+
 
 import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
@@ -54,8 +55,8 @@ function ResponsiveDrawer(props) {
             </ListItemButton>
           </ListItem>
         </Link>
-      
-    
+
+
         <Link to="/userdash/send">
           <ListItem key="1" disablePadding>
             <ListItemButton onClick={() => setKey(1)}>
@@ -66,39 +67,10 @@ function ResponsiveDrawer(props) {
             </ListItemButton>
           </ListItem>
         </Link>
-        <Link to="/userdash/send">
-          <ListItem key="2" disablePadding>
-            <ListItemButton onClick={() => setKey(2)}>
-              <ListItemIcon>
-                <RouteIcon sx={{ color: purple[800] }} />
-              </ListItemIcon>
-              <ListItemText primary="Check Status" />
-            </ListItemButton>
-          </ListItem>
-        </Link>
-        <Link to="/userdash/send">
-          <ListItem key="3" disablePadding>
-            <ListItemButton onClick={() => setKey(3)}>
-              <ListItemIcon>
-                <PersonSearchIcon sx={{ color: purple[800] }} />
-              </ListItemIcon>
-              <ListItemText primary="Find Deliverer/Sender" />
-            </ListItemButton>
-          </ListItem>
-        </Link>
       </List>
       <Divider />
       <List>
-        <Link to="/userdash/send">
-          <ListItem key="4" disablePadding>
-            <ListItemButton onClick={() => setKey(4)}>
-              <ListItemIcon>
-                <AccountBoxIcon sx={{ color: purple[800] }} />
-              </ListItemIcon>
-              <ListItemText primary="Edit Profile" />
-            </ListItemButton>
-          </ListItem>
-        </Link>
+
         <Link to="/userdash/send">
           <ListItem key="5" disablePadding>
             <ListItemButton onClick={() => setKey(5)}>
@@ -136,9 +108,37 @@ function ResponsiveDrawer(props) {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap component="div">
-            Dashboard
-          </Typography>
+          <div className="dashboard-bar">
+
+            <Typography variant="h6" noWrap component="div">Welcome</Typography>
+
+
+            <Link to="/user/editprofile">
+              <Tooltip title="Edit profile">
+
+                <AccountBoxIcon sx={{ color: "white" }} />
+              </Tooltip>
+
+            </Link>
+
+
+
+          </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         </Toolbar>
       </AppBar>
       <Box
@@ -181,7 +181,7 @@ function ResponsiveDrawer(props) {
         <Typography paragraph>
           1. Current package
           2. Current routes
-          
+
         </Typography>
 
 

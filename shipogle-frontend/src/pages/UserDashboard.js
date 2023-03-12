@@ -7,7 +7,6 @@ export default function UserDashboard() {
     const state = useLocation();
   return (
     <div>UserDashboard
-
         <ResponsiveDrawer />
     </div>
   )
