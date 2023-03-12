@@ -16,7 +16,7 @@ public class User implements UserDetails {
 	@Id
 	@GeneratedValue
 	@Column(name = "user_id")
-	private Integer user_id;
+	private Integer id;
 	@Column(name = "first_name")
 	private String first_name;
 	@Column(name = "last_name")
@@ -55,7 +55,7 @@ public class User implements UserDetails {
 	private LocalDateTime updated_at;
 
 	public Integer getUser_id() {
-		return user_id;
+		return id;
 	}
 
 	public String getFirst_name() {
