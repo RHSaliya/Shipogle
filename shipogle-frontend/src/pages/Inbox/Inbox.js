@@ -14,16 +14,15 @@ const Inbox = () => {
     const myId = 25;
 
     useEffect(() => {
-    }, []);
-
-    useEffect(() => {
         axios.get(`${Constants.API_CHAT}/${myId}`).then((response) => {
             console.log("~~~~~~~~~~~~~~");
             console.log(response.data);
             setChatUsers(response.data);
             console.log("~~~~~~~~~~~~~~");
         });
+    }, []);
 
+    useEffect(() => {
         // get messages for the first time
         axios.get(`${Constants.API_CHAT}/${myId}/${receiverId}`).then((response) => {
             setMessages(response.data);
@@ -102,17 +101,17 @@ const Inbox = () => {
                     {chatUsers.map((user, index) => (
                         <div className="users" key={index}>
                             <div className="user-picture">
-                                   {/* <img style={{ width: 15, height: 15 }} alt="pfp chat user" src={chatProfileImg}></img>  */}
-                               {index %2 === 0 ?  <img style={{ width: 20, height: 20 }} alt="pfp chat user" src={chatProfileImg}></img>:
-                           
-                               user.first_name[0] + user.last_name[0] }
-                                 </div>
-                            <div className="user-name">
-                            {
-                                user.first_name +" "+ user.last_name
-                            }
+                                {/* <img style={{ width: 15, height: 15 }} alt="pfp chat user" src={chatProfileImg}></img>  */}
+                                {index % 2 === 0 ? <img style={{ width: 20, height: 20 }} alt="pfp chat user" src={chatProfileImg}></img> :
+
+                                    user.first_name[0] + user.last_name[0]}
                             </div>
-                          
+                            <div className="user-name">
+                                {
+                                    user.first_name + " " + user.last_name
+                                }
+                            </div>
+
                         </div>
                     ))}
                 </div>
