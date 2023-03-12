@@ -3,14 +3,41 @@ import axios from "axios";
 import { w3cwebsocket as WebSocket } from "websocket";
 import Constants from "../Constants";
 
+
 const styles = {
-    myMessage: {
-        backgroundColor: "#f5f5f5",
+    inboxArea: {
+        backgroundColor: "#ead4ec",
+    },
+    messageArea: {
+        padding: "1rem",
+        width: "60%",
+        margin: "0 0 0 auto",
+        backgroundColor: "white",
+
+    
     },
     otherMessage: {
-        backgroundColor: "#f5f5f5",
-        justifyContent: "end",
-        display: "flex",
+        color: "#3F0744",
+        backgroundColor : "white",
+        border: "1px solid black",
+        padding: "1em",
+        marginRight: "20rem",
+        marginBottom: "1em",
+        display: "inline-block",
+        borderRadius: '15px',
+        borderBottomLeftRadius:'0',
+    },
+    myMessage: {
+        backgroundColor: "#3F0744",
+        color: "white",
+        border: "1px solid black",
+        padding: "1em",
+        marginLeft: "20rem",
+        marginBottom: "1em",
+        display:"inline-block",
+        float: "right",
+        borderRadius:'15px',
+        borderBottomRightRadius:'0',
     },
 }
 
@@ -18,7 +45,7 @@ const Inbox = () => {
     const [messages, setMessages] = useState([]);
     const [inputValue, setInputValue] = useState("");
     const ws = useRef(null);
-    const token = "eyJhbGciOiJIUzM4NCJ9.eyJlbWFpbCI6InJocy55b3BtYWlsLmNvbUB5b3BtYWlsLmNvbSIsInN1YiI6IlJhaHVsIiwiaWF0IjoxNjc4NDE3MjQzLCJleHAiOjE2Nzg0MjA4NDN9.4hlqmh6XdY5jycqmaR8fFcBVNCgjgQ7GLONM9y6ICdcVb4W3rtafdUIlrHO7Jio-";
+    const token = "eyJhbGciOiJIUzM4NCJ9.eyJlbWFpbCI6InJocy55b3BtYWlsLmNvbUB5b3BtYWlsLmNvbSIsInN1YiI6IlJhaHVsIiwiaWF0IjoxNjc4NTc1ODcxLCJleHAiOjE2Nzg1Nzk0NzF9.sFl7w8ettWsjiPhBwli8rPxZj-13cPpThGxJP0XYNQ3IQbK_pN-XfxMifYiwMxbu";
     const myId = 25;
     const receiverId = 60;
 
@@ -114,8 +141,8 @@ const Inbox = () => {
     };
 
     return (
-        <div>
-            <div>
+        <div style={styles.inboxArea}>
+            <div style={styles.messageArea}>
                 {messages.map((message, index) => (
                     <div key={index}>
                         {
