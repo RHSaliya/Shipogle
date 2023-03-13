@@ -10,8 +10,19 @@ const Inbox = () => {
     const [chatUsers, setChatUsers] = useState([]);
     const [inputValue, setInputValue] = useState("");
     const [receiverId, setReceiverId] = useState(60);
+
+   
+
+
     const ws = useRef(null);
     const myId = 25;
+
+    function handleSelectUser(user) {
+        
+        console.log("Selected user is: " + user.first_name);
+        setReceiverId(prevReceiverId => user.user_id);
+        console.log(receiverId);
+    }
 
     useEffect(() => {
         axios.get(`${Constants.API_CHAT}/${myId}`).then((response) => {
@@ -106,10 +117,15 @@ const Inbox = () => {
 
                                     user.first_name[0] + user.last_name[0]}
                             </div>
-                            <div className="user-name">
+                            <div className="user-name" >
+                                <div onClick ={() => handleSelectUser(user)} >
                                 {
                                     user.first_name + " " + user.last_name
                                 }
+                                </div>
+                                
+
+
                             </div>
 
                         </div>
