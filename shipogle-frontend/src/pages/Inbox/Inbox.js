@@ -10,17 +10,14 @@ const Inbox = () => {
     const [chatUsers, setChatUsers] = useState([]);
     const [inputValue, setInputValue] = useState("");
     const [receiverId, setReceiverId] = useState(60);
-
-   
-
-
+    const [rxName, setRxName] = useState("");
     const ws = useRef(null);
     const myId = 25;
 
     function handleSelectUser(user) {
-        
         console.log("Selected user is: " + user.first_name);
         setReceiverId(prevReceiverId => user.user_id);
+        setRxName(prevRxName => user.first_name);
         console.log(receiverId);
     }
 
@@ -138,7 +135,7 @@ const Inbox = () => {
                         <div key={index}>
                             {
                                 <div className={message.senderId === myId ? "myMessage" : "otherMessage"}>
-                                    <b>{message.senderId === myId ? 'You' : 'Him'}</b>: {message.message}
+                                    <b>{message.senderId === myId ? 'You' : rxName}</b>: {message.message}
                                 </div>
                             }
                         </div>
