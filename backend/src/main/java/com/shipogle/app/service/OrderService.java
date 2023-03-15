@@ -1,10 +1,8 @@
 package com.shipogle.app.service;
 
 import com.shipogle.app.model.Order;
-import com.shipogle.app.repository.DriverRouteRepository;
 import com.shipogle.app.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
