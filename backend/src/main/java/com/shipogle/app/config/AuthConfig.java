@@ -9,6 +9,7 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import com.shipogle.app.filter.Authfilter;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -42,7 +43,7 @@ public class AuthConfig extends WebSecurityConfigurerAdapter{
                   .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                   .and()
                   .authorizeRequests()
-                    .antMatchers("/register","/verification","/changepassword","/login", "/chatSocket").permitAll()
+                    .antMatchers("/register","/verification","/changepassword","/login", "/chatSocket/*").permitAll()
                     .anyRequest().authenticated()
                   .and()
                   .logout().logoutUrl("/logout").addLogoutHandler(logoutService)
@@ -51,6 +52,11 @@ public class AuthConfig extends WebSecurityConfigurerAdapter{
 
      }
 
+     @Override
+     public void configure(WebSecurity web) throws Exception {
+          web.ignoring().antMatchers("/chatSocket/**");
+          super.configure(web);
+     }
 
      @Bean
      public AuthenticationManager authManager(AuthenticationConfiguration configuration) throws Exception {
@@ -59,8 +65,6 @@ public class AuthConfig extends WebSecurityConfigurerAdapter{
 
      @Bean
      public UserDetailsService userDetails(){
-
-
           return new UserDetailsService() {
                @Override
                public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

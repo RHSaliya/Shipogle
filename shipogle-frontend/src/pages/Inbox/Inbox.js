@@ -4,6 +4,7 @@ import { w3cwebsocket as WebSocket } from "websocket";
 import Constants from "../../Constants";
 import "./inbox.css";
 import chatProfileImg from "../../assets/profile.png";
+import Cookies from "js-cookie";
 
 const Inbox = () => {
     const [messages, setMessages] = useState([]);
@@ -36,7 +37,7 @@ const Inbox = () => {
             setMessages(response.data);
         });
 
-        ws.current = new WebSocket("ws://localhost:8080/chatSocket");
+        ws.current = new WebSocket(`ws://localhost:8080/chatSocket/${receiverId}`);
 
         ws.current.onopen = () => {
             console.log('WebSocket Client Connected');
@@ -115,12 +116,12 @@ const Inbox = () => {
                                     user.first_name[0] + user.last_name[0]}
                             </div>
                             <div className="user-name" >
-                                <div onClick ={() => handleSelectUser(user)} >
-                                {
-                                    user.first_name + " " + user.last_name
-                                }
+                                <div onClick={() => handleSelectUser(user)} >
+                                    {
+                                        user.first_name + " " + user.last_name
+                                    }
                                 </div>
-                                
+
 
 
                             </div>

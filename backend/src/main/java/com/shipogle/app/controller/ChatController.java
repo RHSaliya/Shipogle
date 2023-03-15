@@ -25,9 +25,6 @@ public class ChatController {
     @Autowired
     private MessageRepository messageRepository;
 
-    @Autowired
-    private WebSocketConfig webSocketConfig;
-
     @PostMapping
     @MessageMapping("/chat")
     @SendTo("/topic/messages")
