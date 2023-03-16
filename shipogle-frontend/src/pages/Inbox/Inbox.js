@@ -5,6 +5,12 @@ import Constants from "../../Constants";
 import "./inbox.css";
 import chatProfileImg from "../../assets/profile.png";
 
+const getUniqueSocketAddress = (user, selectedUser) => {
+    const joinUsing = "!";
+    // return `${user.user_id}${joinUsing}${selectedUser.user_id}`;
+    return `${user.user_id}`;
+}
+
 const Inbox = () => {
     const [user, setUser] = useState({});
     const [selectedUser, setSelectedUser] = useState({});
@@ -21,7 +27,8 @@ const Inbox = () => {
             setMessages(response.data);
         });
 
-        ws.current = new WebSocket(`ws://localhost:8080/chatSocket/${selectedUser.user_id}`);
+        console.log(`ws://localhost:8080/chatSocket/${getUniqueSocketAddress(user, selectedUser)}`);
+        ws.current = new WebSocket(`ws://localhost:8080/chatSocket/${getUniqueSocketAddress(user, selectedUser)}`);
 
         ws.current.onopen = () => {
             console.log('WebSocket Client Connected');
