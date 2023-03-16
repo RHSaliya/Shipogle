@@ -328,4 +328,10 @@ a:hover{
   margin: 2em auto;
   border-top: 2px solid black;
 }
+.forgotPwdMailField {
+  height: 25px;
+  width: 50%;
+  border: 2px solid white;
+  border-radius: 7px;
+}
 

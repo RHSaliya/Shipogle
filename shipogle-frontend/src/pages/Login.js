@@ -46,7 +46,7 @@ export default function Login(props) {
                         type="password"
                         onChange={(e) => setPassword(e.target.value)}
                     />
-                    <p>Forgot Password?</p>
+                    <Link to="/forgotPwd"><p>Forgot Password?</p></Link>
                     <button className="btn" type="submit" onClick={submit}>
                         Log in
                     </button>
