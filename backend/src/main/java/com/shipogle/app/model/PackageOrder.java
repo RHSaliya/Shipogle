@@ -37,6 +37,9 @@ public class PackageOrder {
     @Column(name="isDelivered")
     private boolean isDelivered;
 
+    @Column(name="isCanceled")
+    private boolean isCanceled;
+
     @Column(name = "created_at")
     @CreationTimestamp
     private LocalDateTime created_at;
@@ -91,6 +94,30 @@ public class PackageOrder {
 
     public void setDrop_code(Integer drop_code) {
         this.drop_code = drop_code;
+    }
+
+    public boolean isStarted() {
+        return isStarted;
+    }
+
+    public void setStarted(boolean started) {
+        isStarted = started;
+    }
+
+    public boolean isDelivered() {
+        return isDelivered;
+    }
+
+    public void setDelivered(boolean delivered) {
+        isDelivered = delivered;
+    }
+
+    public boolean isCanceled() {
+        return isCanceled;
+    }
+
+    public void setCanceled(boolean canceled) {
+        isCanceled = canceled;
     }
 
     public LocalDateTime getCreated_at() {

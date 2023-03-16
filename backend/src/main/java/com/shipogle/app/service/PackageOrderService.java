@@ -30,4 +30,11 @@ public class PackageOrderService {
 
         return "order created";
     }
+
+    public boolean isPackageOrderExist(Integer package_id){
+        PackageOrder order = packageOrderRepo.getBy_package_Id(package_id);
+        if(order!=null && order.isCanceled()==false)
+            return true;
+        return false;
+    }
 }
