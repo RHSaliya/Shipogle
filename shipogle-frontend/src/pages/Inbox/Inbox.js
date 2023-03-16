@@ -4,40 +4,24 @@ import { w3cwebsocket as WebSocket } from "websocket";
 import Constants from "../../Constants";
 import "./inbox.css";
 import chatProfileImg from "../../assets/profile.png";
-import Cookies from "js-cookie";
 
 const Inbox = () => {
+    const [user, setUser] = useState({});
+    const [selectedUser, setSelectedUser] = useState({});
     const [messages, setMessages] = useState([]);
     const [chatUsers, setChatUsers] = useState([]);
     const [inputValue, setInputValue] = useState("");
-    const [receiverId, setReceiverId] = useState(60);
-    const [rxName, setRxName] = useState("");
     const ws = useRef(null);
-    const myId = 25;
 
-    function handleSelectUser(user) {
-        console.log("Selected user is: " + user.first_name);
-        setReceiverId(prevReceiverId => user.user_id);
-        setRxName(prevRxName => user.first_name);
-        console.log(receiverId);
-    }
+    function handleUserClick(selectedUser) {
+        setSelectedUser(selectedUser);
 
-    useEffect(() => {
-        axios.get(`${Constants.API_CHAT}/${myId}`).then((response) => {
-            console.log("~~~~~~~~~~~~~~");
-            console.log(response.data);
-            setChatUsers(response.data);
-            console.log("~~~~~~~~~~~~~~");
-        });
-    }, []);
-
-    useEffect(() => {
         // get messages for the first time
-        axios.get(`${Constants.API_CHAT}/${myId}/${receiverId}`).then((response) => {
+        axios.get(`${Constants.API_CHAT}/${user.user_id}/${selectedUser.user_id}`).then((response) => {
             setMessages(response.data);
         });
 
-        ws.current = new WebSocket(`ws://localhost:8080/chatSocket/${receiverId}`);
+        ws.current = new WebSocket(`ws://localhost:8080/chatSocket/${selectedUser.user_id}`);
 
         ws.current.onopen = () => {
             console.log('WebSocket Client Connected');
@@ -62,7 +46,24 @@ const Inbox = () => {
         return () => {
             ws.current.close();
         };
-    }, [receiverId]);
+    }
+
+    useEffect(() => {
+        // Get user info from token
+        axios.get(Constants.API_USER_INFO_FROM_TOKEN).then((response) => {
+            const user = response.data;
+            console.log(user);
+            setUser(user);
+
+            // Get chats for current user
+            axios.get(`${Constants.API_CHAT}/${user.user_id}`).then((res) => {
+                console.log("~~~~~~~~~~~~~~");
+                console.log(res.data);
+                setChatUsers(res.data);
+                console.log("~~~~~~~~~~~~~~");
+            });
+        });
+    }, []);
 
     const handleInputChange = (event) => {
         setInputValue(event.target.value);
@@ -71,14 +72,14 @@ const Inbox = () => {
     const handleSendasMeClick = () => {
         axios
             .post(Constants.API_CHAT, {
-                senderId: myId,
-                receiverId: receiverId,
+                senderId: user.user_id,
+                receiverId: selectedUser.user_id,
                 message: inputValue,
             })
             .then(() => {
                 ws.current.send(JSON.stringify({
-                    senderId: myId,
-                    receiverId: receiverId,
+                    senderId: user.user_id,
+                    receiverId: selectedUser.user_id,
                     message: inputValue,
                 }));
                 setInputValue("");
@@ -88,14 +89,14 @@ const Inbox = () => {
     const handleSendasOtherClick = () => {
         axios
             .post(Constants.API_CHAT, {
-                senderId: receiverId,
-                receiverId: myId,
+                senderId: selectedUser.user_id,
+                receiverId: user.user_id,
                 message: inputValue,
             })
             .then(() => {
                 ws.current.send(JSON.stringify({
-                    senderId: receiverId,
-                    receiverId: myId,
+                    senderId: selectedUser.user_id,
+                    receiverId: user.user_id,
                     message: inputValue,
                 }));
                 setInputValue("");
@@ -108,7 +109,7 @@ const Inbox = () => {
                 <p className="titleSidebar">Chats</p>
                 <div className="userList">
                     {chatUsers.map((user, index) => (
-                        <div className="users" key={index}>
+                        <div className="users" key={index} onClick={() => handleUserClick(user)} >
                             <div className="user-picture">
                                 {/* <img style={{ width: 15, height: 15 }} alt="pfp chat user" src={chatProfileImg}></img>  */}
                                 {index % 2 === 0 ? <img style={{ width: 20, height: 20 }} alt="pfp chat user" src={chatProfileImg}></img> :
@@ -116,7 +117,7 @@ const Inbox = () => {
                                     user.first_name[0] + user.last_name[0]}
                             </div>
                             <div className="user-name" >
-                                <div onClick={() => handleSelectUser(user)} >
+                                <div>
                                     {
                                         user.first_name + " " + user.last_name
                                     }
@@ -135,8 +136,8 @@ const Inbox = () => {
                     {messages.map((message, index) => (
                         <div key={index}>
                             {
-                                <div className={message.senderId === myId ? "myMessage" : "otherMessage"}>
-                                    <b>{message.senderId === myId ? 'You' : rxName}</b>: {message.message}
+                                <div className={message.senderId === user.user_id ? "myMessage" : "otherMessage"}>
+                                    <b>{message.senderId === user.user_id ? 'You' : selectedUser.first_name}</b>: {message.message}
                                 </div>
                             }
                         </div>

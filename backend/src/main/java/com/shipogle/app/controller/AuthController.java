@@ -49,4 +49,9 @@ public class AuthController {
         System.out.println("id = " + id);
         return authService.getUser(id).toString();
     }
+
+    @GetMapping("/user_info")
+    public User getUserInfo(@RequestHeader("Authorization") String token){
+        return authService.getUserInfo(token);
+    }
 }

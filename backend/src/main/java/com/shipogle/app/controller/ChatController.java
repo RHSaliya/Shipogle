@@ -1,6 +1,5 @@
 package com.shipogle.app.controller;
 
-import com.shipogle.app.config.WebSocketConfig;
 import com.shipogle.app.model.ChatMessageRequest;
 import com.shipogle.app.model.Message;
 import com.shipogle.app.model.User;
