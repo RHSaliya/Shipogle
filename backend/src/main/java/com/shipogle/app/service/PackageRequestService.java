@@ -30,6 +30,9 @@ public class PackageRequestService {
     @Autowired
     PackageOrderRepository packageOrderRepo;
 
+    @Autowired
+    PackageOrderService packageOrderService;
+
 
     public String sendRequest(Map<String,String> req){
         try{
@@ -65,25 +68,36 @@ public class PackageRequestService {
         }
     }
 
+    private void changeRequestStatus(Integer package_request_id,String new_status){
+        PackageRequest packageRequest = packageRequestRepo.getPackageRequestById(package_request_id);
+        packageRequest.setStatus(new_status);
+        packageRequestRepo.save(packageRequest);
+    }
+
+    private void rejectOtherPackageRequests(Integer package_id){
+        List<PackageRequest> requests = packageRequestRepo.getAllBy_package_Id(package_id);
+        for (PackageRequest req: requests) {
+            req.setStatus("rejected");
+            packageRequestRepo.save(req);
+        }
+    }
+
     public String acceptRequest(Integer package_request_id){
         try{
-            PackageOrder packageOrder = new PackageOrder();
-            Random random = new Random();
-
             PackageRequest packageRequest = packageRequestRepo.getPackageRequestById(package_request_id);
 
-            packageOrder.set_package(packageRequest.get_package());
-            packageOrder.setDeliverer(packageRequest.getDeliverer());
-            packageOrder.setSender(packageRequest.getSender());
-            String pickup_code = String.format("%4d",random.nextInt(10000));
-            String dop_code = String.format("%4d",random.nextInt(10000));
+            if (packageRequest == null || packageRequest.getStatus().equals("rejected") || packageRequest.getStatus().equals("accepted"))
+                return "Cannot accept request";
 
-            packageOrder.setPickup_code(Integer.valueOf(pickup_code));
-            packageOrder.setDrop_code(Integer.valueOf(dop_code));
+            rejectOtherPackageRequests(packageRequest.get_package().getId());
+            changeRequestStatus(package_request_id,"accepted");
 
-            packageOrderRepo.save(packageOrder);
+            String result = packageOrderService.createPackageOrder(packageRequest);
 
-            return "Request accepted";
+            if(result.equals("order created"))
+                return "Request accepted";
+            else
+                return "fail to create order";
         }catch (Exception e){
             return e.getMessage();
         }
