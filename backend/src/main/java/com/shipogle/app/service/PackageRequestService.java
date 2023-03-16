@@ -140,4 +140,23 @@ public class PackageRequestService {
             return e.getMessage();
         }
     }
+
+    public List<PackageRequest> getRequest(){
+        try {
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            String user_email = auth.getPrincipal().toString();
+
+            User deliverer = userRepo.getUserByEmail(user_email);
+
+            if (deliverer == null)
+                return null;
+
+            return packageRequestRepo.getAllByDeliverer(deliverer);
+
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+
+        return null;
+    }
 }

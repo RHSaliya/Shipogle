@@ -1,6 +1,5 @@
 package com.shipogle.app.controller;
 
-import com.shipogle.app.model.Order;
 import com.shipogle.app.model.PackageOrder;
 import com.shipogle.app.service.PackageOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
