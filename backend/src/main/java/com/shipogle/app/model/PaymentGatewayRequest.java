@@ -65,4 +65,8 @@ public class PaymentGatewayRequest {
     public void setCardHolderName(String cardHolderName){
         this.cardHolderName = cardHolderName;
     }
+
+    public boolean hasEmptyFields() {
+        return amount == null || currency == null || cardNumber == null || cardCvv == null || cardHolderName == null;
+    }
 }

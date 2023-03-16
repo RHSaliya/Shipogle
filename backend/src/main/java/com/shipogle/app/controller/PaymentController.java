@@ -3,7 +3,6 @@ package com.shipogle.app.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.shipogle.app.exception.PaymentGatewayException;
-import com.shipogle.app.model.DriverRoute;
 import com.shipogle.app.model.PaymentGatewayRequest;
 import com.shipogle.app.model.PaymentResponse;
 import com.shipogle.app.service.PaymentService;
@@ -26,6 +25,9 @@ public class PaymentController {
             PaymentGatewayRequest paymentRequest = objectMapper.readValue(jsonString, PaymentGatewayRequest.class);
 
             PaymentResponse paymentResponse = paymentService.chargeCreditCard(paymentRequest);
+            if(paymentResponse == null)
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Payment Failed");
+
             return ResponseEntity.ok(paymentResponse);
         } catch (PaymentGatewayException | JsonProcessingException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());

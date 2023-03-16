@@ -28,8 +28,6 @@ public class DriverRouteController {
         return new ResponseEntity<>("Driver Details saved", HttpStatus.CREATED);
     }
 
-
-
     @GetMapping("/driverRoutes")
     public List<DriverRoute> getDriverRoutesByFilters(@RequestBody String jsonString) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
