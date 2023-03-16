@@ -23,4 +23,9 @@ public class PackageRequestController {
     public String sendPackageRequest(@RequestBody Map<String,String> req){
         return packageRequestService.sendRequest(req);
     }
+
+    @PostMapping("package/request/accept")
+    public String acceptPackageRequest(@RequestBody Map<String,String> req){
+        return packageRequestService.acceptRequest(Integer.parseInt(req.get("package_request_id")));
+    }
 }

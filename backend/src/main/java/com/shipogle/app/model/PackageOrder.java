@@ -7,12 +7,15 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name="package_request")
-public class PackageRequest {
+public class PackageOrder {
     @Id
     @GeneratedValue
-    @Column(name="package_request_id")
-    private Integer id;
+    @Column(name="order_id")
+    Integer id;
+
+    @OneToOne
+    @JoinColumn(name="package_id",referencedColumnName = "package_id")
+    private Package _package;
 
     @ManyToOne
     @JoinColumn(name = "sender_id",referencedColumnName = "user_id")
@@ -22,29 +25,40 @@ public class PackageRequest {
     @JoinColumn(name = "deliverer_id",referencedColumnName = "user_id")
     private User deliverer;
 
-    @ManyToOne
-    @JoinColumn(name = "package_id",referencedColumnName = "package_id")
-    private Package _package;
+    @Column(name="pickup_code")
+    private Integer pickup_code;
 
-    @Column(name="ask_price")
-    private Float aksPrice;
+    @Column(name="drop_code")
+    private Integer drop_code;
+
+    @Column(name="isStarted")
+    private boolean isStarted;
+
+    @Column(name="isDelivered")
+    private boolean isDelivered;
 
     @Column(name = "created_at")
     @CreationTimestamp
     private LocalDateTime created_at;
+
     @Column(name = "updated_at")
     @UpdateTimestamp
     private LocalDateTime updated_at;
 
-    @Column(name = "status")
-    private String status;
-
-    public Integer getPackage_request_id() {
+    public Integer getId() {
         return id;
     }
 
-    public void setPackage_request_id(Integer package_request_id) {
-        this.id = package_request_id;
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Package get_package() {
+        return _package;
+    }
+
+    public void set_package(Package _package) {
+        this._package = _package;
     }
 
     public User getSender() {
@@ -63,12 +77,20 @@ public class PackageRequest {
         this.deliverer = deliverer;
     }
 
-    public Package get_package() {
-        return _package;
+    public Integer getPickup_code() {
+        return pickup_code;
     }
 
-    public void set_package(Package _package) {
-        this._package = _package;
+    public void setPickup_code(Integer pickup_code) {
+        this.pickup_code = pickup_code;
+    }
+
+    public Integer getDrop_code() {
+        return drop_code;
+    }
+
+    public void setDrop_code(Integer drop_code) {
+        this.drop_code = drop_code;
     }
 
     public LocalDateTime getCreated_at() {
@@ -85,21 +107,5 @@ public class PackageRequest {
 
     public void setUpdated_at(LocalDateTime updated_at) {
         this.updated_at = updated_at;
-    }
-
-    public Float getAksPrice() {
-        return aksPrice;
-    }
-
-    public void setAksPrice(Float aksPrice) {
-        this.aksPrice = aksPrice;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
     }
 }
