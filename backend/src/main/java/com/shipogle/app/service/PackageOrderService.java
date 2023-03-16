@@ -37,4 +37,18 @@ public class PackageOrderService {
             return true;
         return false;
     }
+
+    public String cancelOrder(Integer order_id){
+        PackageOrder order = packageOrderRepo.getPackageOrderById(order_id);
+        if(order == null)
+            return "Order not found";
+        if(order.isCanceled())
+            return "Already canceled";
+        if(order.isStarted())
+            return "Cannot cancel order";
+        order.setCanceled(true);
+        packageOrderRepo.save(order);
+
+        return "order is canceled";
+    }
 }

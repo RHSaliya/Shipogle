@@ -106,4 +106,38 @@ public class PackageRequestService {
             return e.getMessage();
         }
     }
+
+    public String rejectRequest(Integer package_request_id){
+        try{
+            PackageRequest packageRequest = packageRequestRepo.getPackageRequestById(package_request_id);
+
+            if (packageRequest == null || packageRequest.getStatus().equals("rejected"))
+                return "Already rejected";
+
+            changeRequestStatus(package_request_id,"rejected");
+
+            return "Request rejected";
+        }catch (Exception e){
+            return e.getMessage();
+        }
+    }
+
+    public String unsendRequest(Integer package_request_id){
+        try{
+
+            PackageRequest packageRequest = packageRequestRepo.getPackageRequestById(package_request_id);
+
+            if (packageRequest == null)
+                return "No request found";
+
+            if(packageRequest.getStatus().equals("accepted"))
+                return "Cannot delete accepted request";
+
+            packageRequestRepo.delete(packageRequest);
+
+            return "Request deleted";
+        }catch (Exception e){
+            return e.getMessage();
+        }
+    }
 }
