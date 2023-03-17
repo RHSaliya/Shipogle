@@ -45,7 +45,7 @@ public class WebSocketConfig implements WebSocketConfigurer {
 
             session.sendMessage(new TextMessage(payload));
 
-            WebSocketSession receiverSession = sessions.get(getUniqueID(session));
+            WebSocketSession receiverSession = sessions.get(getSendingUniqueID(session));
             if (receiverSession != null) {
                 receiverSession.sendMessage(new TextMessage(payload));
             }
@@ -69,6 +69,13 @@ public class WebSocketConfig implements WebSocketConfigurer {
         private String getUniqueID(WebSocketSession session) {
             String url = Objects.requireNonNull(session.getUri()).toString();
             return url.substring(url.lastIndexOf("/") + 1);
+        }
+
+        private String getSendingUniqueID(WebSocketSession session) {
+            String url = Objects.requireNonNull(session.getUri()).toString();
+            String userId = url.substring(url.lastIndexOf("/") + 1);
+            String[] ids = userId.split("!");
+            return ids[1] + "!" + ids[0];
         }
     }
 }
