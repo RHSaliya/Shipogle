@@ -52,6 +52,8 @@ backend-test:
 backend-deploy:
   image: maven:latest
   stage: deploy
+  tags:
+    - ugrad
   script:
     - echo "Backend Deployment started"
     - cd backend
