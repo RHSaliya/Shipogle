@@ -12,13 +12,16 @@ public class PaymentService {
     @Autowired
     private PaymentGatewayClient paymentGatewayClient;
 
+    @Autowired
+    private TransactionService transactionService;
+
     public PaymentResponse chargeCreditCard(PaymentGatewayRequest paymentRequest) throws PaymentGatewayException {
         try {
             if(!validatePaymentRequest(paymentRequest))
                 return null;
 
             PaymentResponse paymentGatewayResponse = paymentGatewayClient.chargeCreditCard(paymentRequest);
-
+            transactionService.saveTransaction();
             return mapPaymentGatewayResponse(paymentGatewayResponse);
         } catch (PaymentGatewayException e) {
             throw new PaymentGatewayException("Error processing payment: " + e.getMessage());
