@@ -3,18 +3,9 @@ variables:
   TARGET_FOLDER_NAME: "target"
   BACKEND_FOLDER_NAME: "backend"
 
-default:
-  # Providing default image as openjdk:11
-  image: openjdk:11
-
 stages:
-  # builds shipogle application.
   - build
-
-  # tests shipogle application.
   - test
-
-  # deploys shipogle application
   - deploy
 
 backend-build:
@@ -33,7 +24,7 @@ backend-build:
   artifacts:
     when: on_success
     paths:
-      - $TARGET_FOLDER_NAME/*.war
+      - $TARGET_FOLDER_NAME
 
 backend-test:
   stage: test
@@ -49,20 +40,6 @@ backend-test:
     - changes:
         - backend/**/*
 
-backend-deploy:
-  image: maven:latest
-  stage: deploy
-  tags:
-    - ugrad
-  script:
-    - echo "Backend Deployment started"
-    - cd backend
-    - mvn package -B
-  artifacts:
-    when: on_success
-    paths:
-      - $BACKEND_FOLDER_NAME/$TARGET_FOLDER_NAME/Shipogle.jar
-
 backend-publish-deploy:
   stage: deploy
   tags:
@@ -74,4 +51,4 @@ backend-publish-deploy:
     - cd backend
     - chmod og-rwx ${VM_PRIVATE_KEY}
     - ls
-    - scp -r -o StrictHostKeyChecking=no -i ${VM_PRIVATE_KEY} ./${TARGET_FOLDER_NAME}/Shipogle.jar csci5308vm9@csci5308vm9.research.cs.dal.ca:Shipogle.jar
+    - scp -r -o StrictHostKeyChecking=no -i ${VM_PRIVATE_KEY} ${TARGET_FOLDER_NAME}/Shipogle.jar csci5308vm9@csci5308vm9.research.cs.dal.ca:Shipogle.jar
