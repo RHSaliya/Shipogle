@@ -45,9 +45,6 @@ backend-publish-deploy:
   image: maven:latest
   tags:
     - ugrad
-  artifacts:
-    paths:
-      - target
   script:
     - cd backend
     - mvn package
