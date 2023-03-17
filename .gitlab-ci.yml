@@ -63,6 +63,8 @@ backend-deploy:
 
 backend-publish-deploy:
   stage: deploy
+  tags:
+    - ugrad
   script:
     - cd backend
     - chmod og-rwx ${VM_PRIVATE_KEY}
