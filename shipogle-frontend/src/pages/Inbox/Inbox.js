@@ -7,8 +7,7 @@ import chatProfileImg from "../../assets/profile.png";
 
 const getUniqueSocketAddress = (user, selectedUser) => {
     const joinUsing = "!";
-    // return `${user.user_id}${joinUsing}${selectedUser.user_id}`;
-    return `${user.user_id}`;
+    return `${user.user_id}${joinUsing}${selectedUser.user_id}`;
 }
 
 const Inbox = () => {
