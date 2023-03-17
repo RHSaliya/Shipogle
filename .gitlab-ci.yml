@@ -57,7 +57,7 @@ backend-deploy:
     - cd backend
     - mvn package -B
     - chmod og-rwx ${VM_PRIVATE_KEY}
-    - scp -r -o StrictHostKeyChecking=no -i "${VM_PRIVATE_KEY}" Shipogle.jar "csci5308vm9@csci5308vm9.research.cs.dal.ca:"
+    - scp -r -o StrictHostKeyChecking=no -i "${VM_PRIVATE_KEY}" ${TARGET_FOLDER_NAME}/Shipogle.jar "csci5308vm9@csci5308vm9.research.cs.dal.ca:"
     # - sshpass -e ssh -tt -o StrictHostKeyChecking=no csci5308vm9@csci5308vm9.research.cs.dal.ca sudo systemctl restart gitlab-ci-demo.service
   artifacts:
     when: on_success
