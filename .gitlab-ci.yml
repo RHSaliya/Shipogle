@@ -56,9 +56,17 @@ backend-deploy:
     - echo "Backend Deployment started"
     - cd backend
     - mvn package -B
+  artifacts:
+    when: on_success
+    paths:
+      - $BACKEND_FOLDER_NAME/$TARGET_FOLDER_NAME/Shipogle.jar
+
+backend-publish-deploy:
+  stage: deploy
+  script:
+    - cd backend
     - chmod og-rwx ${VM_PRIVATE_KEY}
     - scp -r -o StrictHostKeyChecking=no -i "${VM_PRIVATE_KEY}" ${TARGET_FOLDER_NAME}/Shipogle.jar "csci5308vm9@csci5308vm9.research.cs.dal.ca:"
-    # - sshpass -e ssh -tt -o StrictHostKeyChecking=no csci5308vm9@csci5308vm9.research.cs.dal.ca sudo systemctl restart gitlab-ci-demo.service
   artifacts:
     when: on_success
     paths:
