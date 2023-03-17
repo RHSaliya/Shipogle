@@ -11,50 +11,70 @@ public class DriverRoute {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "source_city")
+    @Column(name = "driver_id", nullable = false)
+    private String driverId;
+
+    @Column(name = "source_city", nullable = false)
     private String sourceCity;
 
-    @ElementCollection
-    @CollectionTable(name = "destinations")
-    @Column(name = "city")
-    private List<String> destinations;
+    @Column(name = "source_city_reference_id", nullable = false)
+    private String sourceCityReferenceId;
 
-    @Column(name = "max_packages")
+    @Column(name = "destination_city", nullable = false)
+    private String destinationCity;
+
+    @Column(name = "destination_city_reference_id", nullable = false)
+    private String destinationCityReferenceId;
+
+    @Column(name = "max_packages", nullable = false)
     private int maxPackages;
 
-    @Column(name = "pickup_date")
+    @Column(name = "max_length", nullable = false)
+    private int maxLength;
+
+    @Column(name = "max_width", nullable = false)
+    private int maxWidth;
+
+    @Column(name = "max_height", nullable = false)
+    private int maxHeight;
+
+    @Column(name = "pickup_date", nullable = false)
     private Date pickupDate;
 
-    @Column(name = "days_to_deliver")
+    @Column(name = "dropoff_date", nullable = false)
+    private Date dropoffDate;
+
+    @Column(name = "days_to_deliver", nullable = false)
     private int daysToDeliver;
 
-    @ElementCollection
-    @CollectionTable(name = "location_coords")
-    private List<Double> locationCoords;
+    @ElementCollection(fetch = FetchType.LAZY)
+    @Column(name = "coord")
+    private List<Double> pickupLocationCoords;
 
-    @Column(name = "allowed_category")
-    private String allowedCategory;
+    @ElementCollection(fetch = FetchType.LAZY)
+    @Column(name = "coord")
+    private List<Double> dropoffLocationCoords;
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    @Column(name = "category")
+    private List<String> allowedCategory;
+
+    @Column(name = "radius", nullable = false)
+    private int radius;
+
+    @Column(name = "price", nullable = false)
+    private int price;
 
     public DriverRoute() {
         // default constructor for JPA
     }
 
-    public DriverRoute(String sourceCity, List<String> destinations, int maxPackages, Date pickupDate, int daysToDeliver, List<Double> locationCoords, String allowedCategory) {
-        this.sourceCity = sourceCity;
-        this.destinations = destinations;
-        this.maxPackages = maxPackages;
-        this.pickupDate = pickupDate;
-        this.daysToDeliver = daysToDeliver;
-        this.locationCoords = locationCoords;
-        this.allowedCategory = allowedCategory;
+    public String getDriverId() {
+        return driverId;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
+    public void setDriverId(String driverId) {
+        this.driverId = driverId;
     }
 
     public String getSourceCity() {
@@ -65,12 +85,28 @@ public class DriverRoute {
         this.sourceCity = sourceCity;
     }
 
-    public List<String> getDestinations() {
-        return destinations;
+    public String getSourceCityReferenceId() {
+        return sourceCityReferenceId;
     }
 
-    public void setDestinations(List<String> destinations) {
-        this.destinations = destinations;
+    public void setSourceCityReferenceId(String sourceCityReferenceId) {
+        this.sourceCityReferenceId = sourceCityReferenceId;
+    }
+
+    public String getDestinationCity() {
+        return destinationCity;
+    }
+
+    public void setDestinationCity(String destinationCity) {
+        this.destinationCity = destinationCity;
+    }
+
+    public String getDestinationCityReferenceId() {
+        return destinationCityReferenceId;
+    }
+
+    public void setDestinationCityReferenceId(String destinationCityReferenceId) {
+        this.destinationCityReferenceId = destinationCityReferenceId;
     }
 
     public int getMaxPackages() {
@@ -81,12 +117,44 @@ public class DriverRoute {
         this.maxPackages = maxPackages;
     }
 
+    public int getMaxLength() {
+        return maxLength;
+    }
+
+    public void setMaxLength(int maxLength) {
+        this.maxLength = maxLength;
+    }
+
+    public int getMaxWidth() {
+        return maxWidth;
+    }
+
+    public void setMaxWidth(int maxWidth) {
+        this.maxWidth = maxWidth;
+    }
+
+    public int getMaxHeight() {
+        return maxHeight;
+    }
+
+    public void setMaxHeight(int maxHeight) {
+        this.maxHeight = maxHeight;
+    }
+
     public Date getPickupDate() {
         return pickupDate;
     }
 
     public void setPickupDate(Date pickupDate) {
         this.pickupDate = pickupDate;
+    }
+
+    public Date getDropoffDate() {
+        return dropoffDate;
+    }
+
+    public void setDropoffDate(Date dropoffDate) {
+        this.dropoffDate = dropoffDate;
     }
 
     public int getDaysToDeliver() {
@@ -97,19 +165,43 @@ public class DriverRoute {
         this.daysToDeliver = daysToDeliver;
     }
 
-    public List<Double> getLocationCoords() {
-        return locationCoords;
+    public List<Double> getPickupLocationCoords() {
+        return pickupLocationCoords;
     }
 
-    public void setLocationCoords(List<Double> locationCoords) {
-        this.locationCoords = locationCoords;
+    public void setPickupLocationCoords(List<Double> pickupLocationCoords) {
+        this.pickupLocationCoords = pickupLocationCoords;
     }
 
-    public String getAllowedCategory() {
+    public List<Double> getDropoffLocationCoords() {
+        return dropoffLocationCoords;
+    }
+
+    public void setDropoffLocationCoords(List<Double> dropoffLocationCoords) {
+        this.dropoffLocationCoords = dropoffLocationCoords;
+    }
+
+    public List<String> getAllowedCategory() {
         return allowedCategory;
     }
 
-    public void setAllowedCategory(String allowedCategory) {
+    public void setAllowedCategory(List<String> allowedCategory) {
         this.allowedCategory = allowedCategory;
+    }
+
+    public int getRadius(){
+        return radius;
+    }
+
+    public void setRadius(int radius){
+        this.radius = radius;
+    }
+
+    public int getPrice(){
+        return price;
+    }
+
+    public void setPrice(int price){
+        this.price = price;
     }
 }

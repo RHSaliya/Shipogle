@@ -1,7 +1,6 @@
 package com.shipogle.app.controller;
 
 import java.util.List;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,12 +19,12 @@ public class DriverRouteController {
     private DriverRouteFilter driverRouteFilter;
 
     @PostMapping("/driverRoutes")
-    public ResponseEntity<String> createDriverRoute(@RequestBody String jsonString) throws JsonProcessingException {
+    public ResponseEntity<?> createDriverRoute(@RequestBody String jsonString) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         DriverRoute driverRoute = objectMapper.readValue(jsonString, DriverRoute.class);
 
         DriverRoute savedDriverRoute = driverRouteRepository.save(driverRoute);
-        return new ResponseEntity<>("Driver Details saved", HttpStatus.CREATED);
+        return new ResponseEntity<>("Driver Details saved : \n" +  savedDriverRoute, HttpStatus.CREATED);
     }
 
     @GetMapping("/driverRoutes")
