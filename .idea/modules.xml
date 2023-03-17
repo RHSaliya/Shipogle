@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/backend/Shipogle.iml" filepath="$PROJECT_DIR$/backend/Shipogle.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/group09.iml" filepath="$PROJECT_DIR$/.idea/group09.iml" />
     </modules>
   </component>

@@ -12,6 +12,7 @@ import EditProfile from "./pages/EditProfile";
 import CourierRegistration from "./pages/courierRegistration";
 import CourierListing from "./pages/couriersListing";
 import MapView from "./pages/mapView";
+
 function App() {
   return (
     <div className="App">
