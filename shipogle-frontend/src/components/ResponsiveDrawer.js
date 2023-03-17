@@ -25,6 +25,7 @@ import { purple } from '@mui/material/colors';
 import RouteIcon from '@mui/icons-material/Route';
 import Inventory2Icon from '@mui/icons-material/Inventory2';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
+import NotificationsMenu from './NotificationsMenu';
 
 const drawerWidth = 240;
 
@@ -71,13 +72,24 @@ function ResponsiveDrawer(props) {
       <Divider />
       <List>
 
-        <Link to="/userdash/send">
+        <Link to="/inbox">
           <ListItem key="5" disablePadding>
-            <ListItemButton onClick={() => setKey(5)}>
+            <ListItemButton onClick={() => setKey(2)}>
               <ListItemIcon>
                 <ChatIcon sx={{ color: purple[800] }} />
               </ListItemIcon>
               <ListItemText primary="Messages" />
+            </ListItemButton>
+          </ListItem>
+        </Link>
+
+        <Link to="/user/editProfile">
+          <ListItem key="5" disablePadding>
+            <ListItemButton onClick={() => setKey(3)}>
+              <ListItemIcon>
+                <AccountBoxIcon sx={{ color: purple[800] }} />
+              </ListItemIcon>
+              <ListItemText primary="Edit Profile" />
             </ListItemButton>
           </ListItem>
         </Link>
@@ -109,36 +121,13 @@ function ResponsiveDrawer(props) {
             <MenuIcon />
           </IconButton>
           <div className="dashboard-bar">
-
             <Typography variant="h6" noWrap component="div">Welcome</Typography>
-
-
-            <Link to="/user/editprofile">
-              <Tooltip title="Edit profile">
-
-                <AccountBoxIcon sx={{ color: "white" }} />
+             
+              <Tooltip title="Notifications">
+                <NotificationsMenu />
               </Tooltip>
-
-            </Link>
-
-
-
+            
           </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         </Toolbar>
       </AppBar>
       <Box
