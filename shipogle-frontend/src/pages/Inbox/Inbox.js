@@ -153,9 +153,9 @@ const Inbox = () => {
                 <div className="inputArea">
                     <input className="chatInput" placeholder="Type your message here..." value={inputValue} onChange={handleInputChange} />
                     <button className="btnSend" onClick={handleSendasMeClick}>Send</button>
-                    <button className="btnSend" style={{
+                    {/* <button className="btnSend" style={{
                         marginLeft: "10px",
-                    }} onClick={handleSendasOtherClick}>Reply</button>
+                    }} onClick={handleSendasOtherClick}>Reply</button> */}
                 </div>
             </div>
         </div >
