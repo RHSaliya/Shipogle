@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function RegRollBox(props) {
+export default function RegRoleBox(props) {
   return (
     <div className="reg-roll-box">
         <p className="role">{props.role}</p>
