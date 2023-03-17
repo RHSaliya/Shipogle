@@ -8,5 +8,5 @@ public class DashboardFilter {
     public String allowedCategory;
     public String radius;
     public String price;
-    //public String category;
+    public String category;
 }

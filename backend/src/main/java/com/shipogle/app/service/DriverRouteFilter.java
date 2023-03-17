@@ -22,7 +22,7 @@ public class DriverRouteFilter {//implements DriverRouteRepository {
 
     public List<DriverRoute> getDriverRoutesByFilters(DashboardFilter filter) {
         return driverRouteRepository.getDriverRoutesByFilters(filter.sourceCity, filter.destination, filter.pickupDataTime, filter.maxPackages
-                ,filter.allowedCategory, filter.radius, filter.price);
+                ,filter.allowedCategory, filter.radius, filter.price, filter.category);
     }
 
 }
