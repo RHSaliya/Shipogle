@@ -67,4 +67,5 @@ backend-publish-deploy:
     - cd backend
     - chmod og-rwx ${VM_PRIVATE_KEY}
     - echo ${VM_PRIVATE_KEY}
+    - pwd
     - scp -r -o StrictHostKeyChecking=no -i ${VM_PRIVATE_KEY} ${TARGET_FOLDER_NAME}/Shipogle.jar csci5308vm9@csci5308vm9.research.cs.dal.ca:Shipogle.jar
