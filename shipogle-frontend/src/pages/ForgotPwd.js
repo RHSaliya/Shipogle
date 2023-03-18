@@ -1,11 +1,31 @@
 import React, { useState } from 'react';
 import Header from '../components/Header';
 import shipogleLogo from '../assets/shipogleLogo.png';
-
+import Constants from '../Constants';
+import axios from 'axios';
+import Cookies from 'js-cookie';
 
 
 export default function ForgotPwd() {
     const [email, setEmail] = useState("");
+
+    const submit = (e) => {
+        e.preventDefault();
+        console.log("Submit");
+        //props.handleSubmit();
+        //navigate(path);
+        console.log(Constants.BASE_URL + Constants.API_FORGOT_PWD)
+
+        axios
+            .post(Constants.BASE_URL + Constants.API_FORGOT_PWD, {
+                "email": email,
+            })
+            .then((response) => {
+                console.log(response);
+            
+            })
+            .catch((err) => console.log(err));
+    };
     return (
         <div classname="regSuccessPage">
             <Header
@@ -35,7 +55,7 @@ export default function ForgotPwd() {
                 </div>
                 <br></br>
                 <div>
-                    <button className="btn" type="submit">
+                    <button className="btn" type="submit" onClick={submit}>
                         Reset password
                     </button>
                 </div>
