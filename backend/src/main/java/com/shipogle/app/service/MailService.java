@@ -11,13 +11,13 @@ public class MailService extends SimpleMailMessage {
     @Autowired
     JavaMailSender sender;
 
-    public void sendMail(String email, String link){
+    public void sendMail(String email, String subject, String body ,String link){
         SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
 
         simpleMailMessage.setFrom("shipogleApp@gmail.com");
         simpleMailMessage.setTo(email);
-        simpleMailMessage.setSubject("Verify your email");
-        simpleMailMessage.setText("Verification link: "+link);
+        simpleMailMessage.setSubject(subject);
+        simpleMailMessage.setText(body+" "+link);
         sender.send(simpleMailMessage);
     }
 }

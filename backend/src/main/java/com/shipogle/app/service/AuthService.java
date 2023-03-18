@@ -1,11 +1,14 @@
 package com.shipogle.app.service;
 
+import com.shipogle.app.model.ForgotPasswordToken;
 import com.shipogle.app.model.User;
 import com.shipogle.app.model.JwtToken;
+import com.shipogle.app.repository.ForgotPasswordTokenRepository;
 import com.shipogle.app.repository.JwtTokenRepository;
 import com.shipogle.app.repository.UserRepository;
 import com.shipogle.app.service.MailService;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -24,9 +27,14 @@ public class AuthService {
     JwtTokenService jwtTokenService;
     @Autowired
     AuthenticationManager authManager;
-
     @Autowired
     MailService mailService;
+    @Autowired
+    ForgotPasswordTokenRepository forgotPasswordTokenRepo;
+    @Autowired
+    ForgotPasswordTokenService forgotPasswordTokenService;
+
+    private String secretKey = "2A462D4A614E645267556B58703273357638792F423F4528472B4B6250655368";
 
     public boolean isAlreadyExist(User user){
         User db_user = userReop.findUserByEmail(user.getEmail());
@@ -36,26 +44,47 @@ public class AuthService {
         return true;
     }
 
-    public String resetPassword(String email,String password){
+    public String resetPassword(String token,String password){
+        try {
+            ForgotPasswordToken forgotPasswordToken = forgotPasswordTokenRepo.findByForgetPasswordToken(token);
+            if (forgotPasswordToken.getIs_active()){
+                Claims claim = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
+                String email = (String) claim.get("email");
+
+                User user = userReop.getUserByEmail(email);
+                BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+                String new_password = encoder.encode(password);
+                user.setPassword(new_password);
+                userReop.save(user);
+                forgotPasswordToken.setIs_active(false);
+                forgotPasswordTokenRepo.save(forgotPasswordToken);
+
+                return "Password changed successfully";
+            }else {
+                return "Link is not active";
+            }
+        }catch (Exception e){
+            return e.getMessage();
+        }
+    }
+
+    public String forgotPassword(String email){
         try {
             User user = userReop.getUserByEmail(email);
-            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-            String new_password = encoder.encode(password);
-            user.setPassword(new_password);
-            userReop.save(user);
+
+//            String forgot_password_token = forgotPasswordTokenService.createForgotPasswordToken(user).getForgot_password_token();
+            ForgotPasswordToken token = forgotPasswordTokenService.createForgotPasswordToken(user);
+            String forgot_password_token = token.getForgot_password_token();
+
+            mailService.sendMail(user.getEmail(), "Reset Password","Password rest link(Expires in 24 hours): ","http://localhost:8080/changepassword?token="+forgot_password_token);
+
         }catch (Exception e){
             return e.getMessage();
         }
 
-        return "Password changed successfully";
+        return "Password reset link sent";
     }
 
-//    public String logout(String token){
-//        System.out.println("Flag logout service");
-//        String email = Jwts.parser().parseClaimsJws(token).getBody().getAudience();
-//        System.out.println(email);
-//        return "";
-//    }
 
     public String verifyEmail(String code,int id){
 
@@ -89,7 +118,7 @@ public class AuthService {
             userReop.save(new_user);
 
             String encoded_email = encoder.encode(new_user.getEmail());
-            mailService.sendMail(new_user.getEmail(), "http://localhost:8080/verification?code="+encoded_email+"&id="+new_user.getUser_id());
+            mailService.sendMail(new_user.getEmail(),"Email Verification","Please verify your email:", "http://localhost:8080/verification?code="+encoded_email+"&id="+new_user.getUser_id());
 
             return "Verification email sent";
 
