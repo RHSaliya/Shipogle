@@ -43,7 +43,7 @@ public class AuthConfig extends WebSecurityConfigurerAdapter{
                   .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                   .and()
                   .authorizeRequests()
-                    .antMatchers("/register","/verification","/changepassword","/login", "/chatSocket/*").permitAll()
+                    .antMatchers("/register","/verification","/changepassword","/login", "/chatSocket/*", "notificationSocket/*").permitAll()
                     .anyRequest().authenticated()
                   .and()
                   .logout().logoutUrl("/logout").addLogoutHandler(logoutService)
@@ -55,6 +55,7 @@ public class AuthConfig extends WebSecurityConfigurerAdapter{
      @Override
      public void configure(WebSecurity web) throws Exception {
           web.ignoring().antMatchers("/chatSocket/**");
+          web.ignoring().antMatchers("/notificationSocket/**");
           super.configure(web);
      }
 

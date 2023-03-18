@@ -1,16 +1,23 @@
-import * as React from 'react';
+import React, { useState, useEffect, useRef } from "react";
+
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import Notification from './Notification';
 import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
+import axios from "../utils/MyAxios";
+import Constants from "../Constants";
+import { w3cwebsocket as WebSocket } from "websocket";
 
 export default function NotificationsMenu() {
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [hasNotfication, setHasNotification] = React.useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [hasNotfication, setHasNotification] = useState(false);
+  const [notifications, setNotifications] = useState([]);
+  const ws = useRef(null);
 
   const open = Boolean(anchorEl);
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -19,10 +26,47 @@ export default function NotificationsMenu() {
   };
 
   const handleNotif = () => {
-    setHasNotification(!hasNotfication);
+    setHasNotification(false);
   }
-  
 
+  useEffect(() => {
+    // Get user info from token
+    axios.get(Constants.API_USER_INFO_FROM_TOKEN).then((response) => {
+      console.log("~~~~~~~~~~~~~~");
+      const user = response.data;
+      console.log(user);
+
+      // Get notifications for current user
+      axios.get(`${Constants.API_NOTIFICATIONS}/${user.user_id}`).then((res) => {
+        console.log("~~~~~~~~~~~~~~");
+        console.log(res.data);
+        setNotifications(res.data);
+        console.log("~~~~~~~~~~~~~~");
+      });
+
+      ws.current = new WebSocket(`${Constants.SOCKET_NOTIFICATIONS}/${user.user_id}`);
+
+      ws.current.onmessage = (message) => {
+        console.log(message);
+        const value = JSON.parse(message.data);
+        setNotifications((prevNotifications) => [...prevNotifications, value]);
+        setHasNotification(true && !open);
+      };
+
+
+      ws.current.onopen = () => {
+        console.log('Notification WebSocket Client Connected');
+      };
+
+      ws.current.onclose = () => {
+        console.log('Notification WebSocket Client Disconnected');
+      }
+
+      return () => {
+        ws.current.close();
+      };
+    });
+  }, []);
 
   return (
     <div>
@@ -34,15 +78,14 @@ export default function NotificationsMenu() {
         onClick={handleClick}
       >
         <div onClick={handleNotif}>
-             {hasNotfication ? <NotificationsActiveIcon sx={{ color: "red" }} /> : <NotificationsIcon sx={{ color: "white" }} /> }
+          {hasNotfication ? <NotificationsActiveIcon sx={{ color: "red" }} /> : <NotificationsIcon sx={{ color: "white" }} />}
         </div>
-        
+
       </Button>
       <Menu
         id="demo-positioned-menu"
         aria-labelledby="demo-positioned-button"
         anchorEl={anchorEl}
-       
         open={open}
         onClose={handleClose}
         anchorOrigin={{
@@ -54,10 +97,10 @@ export default function NotificationsMenu() {
           horizontal: 'left',
         }}
       >
-        <p style={{padding:"0 1em 0 1em"}}>Notifications</p>
-        <MenuItem sx ={{width:"500px"}} onClick={handleClose}><Notification notificationName="Notification1" notificationAction="Matched with a sender." /></MenuItem>
-        <MenuItem sx ={{width:"500px"}} onClick={handleClose}><Notification notificationName="Notification2" notificationAction="You have a new message." /></MenuItem>
-        <MenuItem sx ={{width:"500px"}} onClick={handleClose}><Notification notificationName="Notification3" notificationAction="We found some possible matches." /></MenuItem>
+        <p style={{ padding: "0 1em 0 1em" }}>Notifications</p>
+        {notifications.map((notification, index) => (
+          <MenuItem sx={{ width: "500px" }} onClick={handleClose}><Notification notificationName={notification.title} notificationAction={notification.message} /></MenuItem>
+        ))}
       </Menu>
     </div>
   );

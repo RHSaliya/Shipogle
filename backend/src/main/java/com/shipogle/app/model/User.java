@@ -170,7 +170,8 @@ public class User implements UserDetails {
 
     @Override
     public String toString() {
-        return String.format("{ user_id:%d," +
+        return String.format("{ " +
+                "user_id:%d," +
                 "first_name:'%s'," +
                 "last_name:'%s'," +
                 "email:'%s'," +

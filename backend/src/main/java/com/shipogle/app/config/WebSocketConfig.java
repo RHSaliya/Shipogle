@@ -1,10 +1,10 @@
 package com.shipogle.app.config;
 
+import com.shipogle.app.model.Notification;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
-import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.config.annotation.EnableWebSocket;
 import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
@@ -21,22 +21,86 @@ import java.util.Objects;
 @EnableWebSocket
 public class WebSocketConfig implements WebSocketConfigurer {
 
+
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-        registry.addHandler(new SocketHandler(), "/chatSocket/{userId}")
+        registry.addHandler(ChatSocketHandler.getInstance(), "/chatSocket/{userId}")
+                .addHandler(NotificationSocketHandler.getInstance(), "/notificationSocket/{userId}")
                 .setAllowedOrigins("*")
                 .addInterceptors(new HttpSessionHandshakeInterceptor())
                 .setHandshakeHandler(new DefaultHandshakeHandler());
     }
 
     @Bean
-    public WebSocketHandler myHandler() {
-        return new SocketHandler();
+    public ChatSocketHandler chatHandler() {
+        return ChatSocketHandler.getInstance();
     }
 
-    public static class SocketHandler extends TextWebSocketHandler {
+    @Bean
+    public NotificationSocketHandler notificationHandler() {
+        return NotificationSocketHandler.getInstance();
+    }
 
-        HashMap<String, WebSocketSession> sessions = new HashMap<>();
+
+    private static String getUniqueID(WebSocketSession session) {
+        String url = Objects.requireNonNull(session.getUri()).toString();
+        return url.substring(url.lastIndexOf("/") + 1);
+    }
+
+    public static class NotificationSocketHandler extends TextWebSocketHandler {
+
+        private static NotificationSocketHandler instance;
+        public static NotificationSocketHandler getInstance() {
+            if (instance == null)
+                instance = new NotificationSocketHandler();
+            return instance;
+        }
+
+        private static final HashMap<String, WebSocketSession> sessions = new HashMap<>();
+
+        public void sendNotification(Notification notification){
+            WebSocketSession receiverSession = sessions.get(String.valueOf(notification.getUserId()));
+            if (receiverSession != null)
+                try {
+                    receiverSession.sendMessage(new TextMessage(notification.toString()));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+        }
+
+        @Override
+        public void handleTextMessage(WebSocketSession session, TextMessage message) throws IOException {
+            String payload = message.getPayload();
+
+            WebSocketSession receiverSession = sessions.get(getUniqueID(session));
+            if (receiverSession != null)
+                receiverSession.sendMessage(new TextMessage(payload));
+        }
+
+        @Override
+        public void afterConnectionEstablished(WebSocketSession session) {
+            sessions.put(getUniqueID(session), session);
+        }
+
+        @Override
+        public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
+            WebSocketSession sessionOld = sessions.remove(getUniqueID(session));
+            if (sessionOld != null)
+                sessionOld.close();
+            super.afterConnectionClosed(session, status);
+        }
+    }
+
+    public static class ChatSocketHandler extends TextWebSocketHandler {
+        private static ChatSocketHandler instance;
+        public static ChatSocketHandler getInstance() {
+            if (instance == null)
+                instance = new ChatSocketHandler();
+            return instance;
+        }
+
+        private static final HashMap<String, WebSocketSession> sessions = new HashMap<>();
+        private static final String ID_SPLITTER = "!";
 
         @Override
         public void handleTextMessage(WebSocketSession session, TextMessage message) throws IOException {
@@ -46,9 +110,8 @@ public class WebSocketConfig implements WebSocketConfigurer {
             session.sendMessage(new TextMessage(payload));
 
             WebSocketSession receiverSession = sessions.get(getSendingUniqueID(session));
-            if (receiverSession != null) {
+            if (receiverSession != null)
                 receiverSession.sendMessage(new TextMessage(payload));
-            }
         }
 
         @Override
@@ -56,26 +119,20 @@ public class WebSocketConfig implements WebSocketConfigurer {
             sessions.put(getUniqueID(session), session);
         }
 
-        // TODO: make url senderId;receiverId, right now it is only senderId
         @Override
         public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
-            String url = Objects.requireNonNull(session.getUri()).toString();
-            String userId = url.substring(url.lastIndexOf("/") + 1);
-            WebSocketSession sessionOld = sessions.remove(userId);
-            sessionOld.close();
+            WebSocketSession sessionOld = sessions.remove(getUniqueID(session));
+            if (sessionOld != null)
+                sessionOld.close();
             super.afterConnectionClosed(session, status);
-        }
-
-        private String getUniqueID(WebSocketSession session) {
-            String url = Objects.requireNonNull(session.getUri()).toString();
-            return url.substring(url.lastIndexOf("/") + 1);
         }
 
         private String getSendingUniqueID(WebSocketSession session) {
             String url = Objects.requireNonNull(session.getUri()).toString();
             String userId = url.substring(url.lastIndexOf("/") + 1);
-            String[] ids = userId.split("!");
-            return ids[1] + "!" + ids[0];
+            String[] ids = userId.split(ID_SPLITTER);
+            return ids[1] + ID_SPLITTER + ids[0];
         }
     }
+
 }

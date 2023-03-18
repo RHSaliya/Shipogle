@@ -26,8 +26,7 @@ const Inbox = () => {
             setMessages(response.data);
         });
 
-        console.log(`ws://localhost:8080/chatSocket/${getUniqueSocketAddress(user, selectedUser)}`);
-        ws.current = new WebSocket(`ws://localhost:8080/chatSocket/${getUniqueSocketAddress(user, selectedUser)}`);
+        ws.current = new WebSocket(`${Constants.SOCKET_CHAT}/${getUniqueSocketAddress(user, selectedUser)}`);
 
         ws.current.onopen = () => {
             console.log('WebSocket Client Connected');
