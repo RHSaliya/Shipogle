@@ -4,10 +4,12 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import Notification from './Notification';
-
+import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
 
 export default function NotificationsMenu() {
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [hasNotfication, setHasNotification] = React.useState(false);
+
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -15,6 +17,11 @@ export default function NotificationsMenu() {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const handleNotif = () => {
+    setHasNotification(!hasNotfication);
+  }
+  
 
 
   return (
@@ -26,7 +33,10 @@ export default function NotificationsMenu() {
         aria-expanded={open ? 'true' : undefined}
         onClick={handleClick}
       >
-         <NotificationsIcon sx={{ color: "white" }} />
+        <div onClick={handleNotif}>
+             {hasNotfication ? <NotificationsActiveIcon sx={{ color: "red" }} /> : <NotificationsIcon sx={{ color: "white" }} /> }
+        </div>
+        
       </Button>
       <Menu
         id="demo-positioned-menu"
