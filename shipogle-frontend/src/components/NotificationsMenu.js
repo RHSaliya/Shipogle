@@ -25,6 +25,10 @@ export default function NotificationsMenu() {
     setAnchorEl(null);
   };
 
+  const addNotification = (notification) => {
+    setNotifications([...notifications, notification]);
+    setHasNotification(true);
+  }
   const handleNotif = () => {
     setHasNotification(false);
   }
