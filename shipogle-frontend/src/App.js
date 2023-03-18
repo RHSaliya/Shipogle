@@ -11,6 +11,7 @@ import UserDashboard from './pages/UserDashboard';
 import EditProfile from './pages/EditProfile';
 import DeliverItems from './pages/DeliverItems';
 import ForgotPwd from './pages/ForgotPwd';
+import ResetPwd from './pages/ResetPwd';
 function App() {
   return (
     <div className="App">
@@ -25,6 +26,7 @@ function App() {
         <Route path="/user/editprofile" element = {<EditProfile />} />
         <Route path="/userdash/send" element={<SendItems/>} />
         <Route path="/userdash/deliver" element={<DeliverItems/>} />
+        <Route path="/resetPassword" element={<ResetPwd/>} />
       </Routes>
     </div>
   );

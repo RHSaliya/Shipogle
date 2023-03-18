@@ -4,12 +4,17 @@ import shipogleLogo from '../assets/shipogleLogo.png';
 import Constants from '../Constants';
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import { useNavigate } from 'react-router-dom';
 
 
 export default function ForgotPwd() {
     const [email, setEmail] = useState("");
+    const [showMsg, setShowMsg] = useState(0);
+
+    
 
     const submit = (e) => {
+        setShowMsg(prevShowMsg => 1);
         e.preventDefault();
         console.log("Submit");
         //props.handleSubmit();
@@ -25,6 +30,8 @@ export default function ForgotPwd() {
             
             })
             .catch((err) => console.log(err));
+
+            
     };
     return (
         <div classname="regSuccessPage">
@@ -55,9 +62,10 @@ export default function ForgotPwd() {
                 </div>
                 <br></br>
                 <div>
-                    <button className="btn" type="submit" onClick={submit}>
+                    <button className="btn" type="submit" onClick = {submit}>
                         Reset password
                     </button>
+                    {showMsg === 1 ? <p>Reset password email has been sent.</p> : <p></p>}
                 </div>
 
 
