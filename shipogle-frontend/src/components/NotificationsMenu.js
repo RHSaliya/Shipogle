@@ -9,7 +9,7 @@ import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
 export default function NotificationsMenu() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [hasNotfication, setHasNotification] = React.useState(false);
-
+  const [notifications, setNotifications] = React.useState([]);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -18,6 +18,10 @@ export default function NotificationsMenu() {
     setAnchorEl(null);
   };
 
+  const addNotification = (notification) => {
+    setNotifications([...notifications, notification]);
+    setHasNotification(true);
+  }
   const handleNotif = () => {
     setHasNotification(!hasNotfication);
   }
