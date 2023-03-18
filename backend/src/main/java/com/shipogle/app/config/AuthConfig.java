@@ -44,7 +44,7 @@ public class AuthConfig extends WebSecurityConfigurerAdapter{
                   .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                   .and()
                   .authorizeRequests()
-                    .antMatchers("/register","/verification","/changepassword","/forgotpassword","/login", "/driverRoutes").permitAll()
+                    .antMatchers("/register","/verification","/changepassword","/forgotpassword","/login", "/driverRoutes", "/ShipoglePay").permitAll()
                     .anyRequest().authenticated()
                   .and()
                   .logout().logoutUrl("/logout").addLogoutHandler(logoutService).logoutSuccessHandler((request, response, authentication) -> SecurityContextHolder.clearContext())
