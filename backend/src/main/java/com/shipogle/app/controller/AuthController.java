@@ -2,10 +2,12 @@ package com.shipogle.app.controller;
 
 import com.shipogle.app.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
 import com.shipogle.app.model.User;
 import com.shipogle.app.model.JwtToken;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 @RestController
@@ -28,8 +30,9 @@ public class AuthController {
     }
 
     @PostMapping("/forgotpassword")
-    public String forgotPassword(@RequestBody Map<String, String> json){
-        return authService.forgotPassword(json.get("email"));
+    public String forgotPassword(HttpServletRequest request, @RequestBody Map<String, String> json){
+        String origin = request.getHeader(HttpHeaders.ORIGIN);
+        return authService.forgotPassword(origin, json.get("email"));
     }
 
     @GetMapping("/verification")

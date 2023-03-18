@@ -95,7 +95,7 @@ public class AuthServiceTest {
 
 //        Mockito.verify(mailService,times(1)).sendMail(user.getEmail(), "Reset Password","Password rest link(Expires in 24 hours): ","http://localhost:8080/changepassword?token="+token.getForgot_password_token());
 
-        assertEquals("Password reset link sent",authService.forgotPassword("kadivarnand007@gmail.com"));
+        assertEquals("Password reset link sent",authService.forgotPassword("","kadivarnand007@gmail.com"));
     }
 
 //    @Test

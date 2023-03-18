@@ -68,7 +68,7 @@ public class AuthService {
         }
     }
 
-    public String forgotPassword(String email){
+    public String forgotPassword(String origin, String email){
         try {
             User user = userReop.getUserByEmail(email);
 
@@ -76,7 +76,7 @@ public class AuthService {
             ForgotPasswordToken token = forgotPasswordTokenService.createForgotPasswordToken(user);
             String forgot_password_token = token.getForgot_password_token();
 
-            mailService.sendMail(user.getEmail(), "Reset Password","Password rest link(Expires in 24 hours): ","http://localhost:8080/changepassword?token="+forgot_password_token);
+            mailService.sendMail(user.getEmail(), "Reset Password","Password rest link(Expires in 24 hours): ",origin+"/changePassword?token="+forgot_password_token);
 
         }catch (Exception e){
             return e.getMessage();
