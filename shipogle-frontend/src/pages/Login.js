@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
-import NavBar from "../components/NavBar";
+import NavBar from "../Components/Navbar";
 import shipogleLogo from "../assets/shipogleLogo.png";
 import Constants from "../Constants";
 import axios from "axios";
@@ -22,27 +22,23 @@ export default function Login(props) {
     console.log("Submit");
     //props.handleSubmit();
     //navigate(path);
-    console.log(Constants.BASE_URL + Constants.API_LOGIN);
-    if (email === "test@test.com" && password === "12345678") {
-      navigate("/search-courier");
-    } else {
-      axios
-        .post(Constants.BASE_URL + Constants.API_LOGIN, {
-          email: email,
-          password: password,
-        })
-        .then((response) => {
-          //            navigate(path);
-          console.log(response);
-          console.log(response.data);
-          //Set the token as cookie
-          const token = response.data;
-          Cookies.set("authToken", token, { expires: COOKIE_EXPIRATION_TIME });
-          console.log(Cookies.get("authToken"));
-          navigate(path);
-        })
-        .catch((err) => console.log(err));
-    }
+    console.log(Constants.API_LOGIN);
+
+    axios
+      .post(Constants.API_LOGIN, {
+        email: email,
+        password: password,
+      })
+      .then((response) => {
+        //            navigate(path);
+        console.log(response.data);
+        //Set the token as cookie
+        const token = response.data;
+        Cookies.set("authToken", token, { expires: COOKIE_EXPIRATION_TIME });
+        console.log(Cookies.get("authToken"));
+        navigate(path);
+      })
+      .catch((err) => console.log(err));
   };
 
   return (
@@ -72,7 +68,9 @@ export default function Login(props) {
             type="password"
             onChange={(e) => setPassword(e.target.value)}
           />
-          <p>Forgot Password?</p>
+          <Link to="/forgotPwd">
+            <p>Forgot Password?</p>
+          </Link>
           <button className="btn" type="submit" onClick={submit}>
             Log in
           </button>
