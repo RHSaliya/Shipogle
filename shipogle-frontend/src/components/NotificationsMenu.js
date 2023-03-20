@@ -25,10 +25,6 @@ export default function NotificationsMenu() {
     setAnchorEl(null);
   };
 
-  const addNotification = (notification) => {
-    setNotifications([...notifications, notification]);
-    setHasNotification(true);
-  }
   const handleNotif = () => {
     setHasNotification(false);
   }
@@ -44,7 +40,7 @@ export default function NotificationsMenu() {
       axios.get(`${Constants.API_NOTIFICATIONS}/${user.user_id}`).then((res) => {
         console.log("~~~~~~~~~~~~~~");
         console.log(res.data);
-        setNotifications(res.data);
+        setNotifications(res.data.reverse());
         console.log("~~~~~~~~~~~~~~");
       });
 
@@ -53,7 +49,7 @@ export default function NotificationsMenu() {
       ws.current.onmessage = (message) => {
         console.log(message);
         const value = JSON.parse(message.data);
-        setNotifications((prevNotifications) => [...prevNotifications, value]);
+        setNotifications((prevNotifications) => [value, ...prevNotifications]);
         setHasNotification(true && !open);
       };
 
