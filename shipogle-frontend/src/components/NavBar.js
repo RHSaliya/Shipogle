@@ -1,17 +1,20 @@
-import React from "react";
 import { Link } from "react-router-dom";
-import SearchIcon from "@mui/icons-material/Search";
-import AddRoadIcon from "@mui/icons-material/AddRoad";
+import React from "react";
+
+import { IconButton } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import Button from "@mui/material/Button";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import "./navBar.css";
 import styled from "@emotion/styled";
-import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
-import ForumIcon from '@mui/icons-material/Forum';
-import { IconButton } from "@mui/material";
+
+import AddRoadIcon from "@mui/icons-material/AddRoad";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import ForumIcon from "@mui/icons-material/Forum";
+import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
+import SearchIcon from "@mui/icons-material/Search";
+
+import "./navbar.css";
 
 const ExpandButton = styled(Button)({
   minWidth: "18px",
@@ -23,12 +26,15 @@ const ExpandButton = styled(Button)({
   marginTop: "4px",
   color: "black",
 });
+
 export default function NavBar() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
+
   const handleClickOnExpand = (event) => {
     setAnchorEl(event.currentTarget);
   };
+
   const handleCloseOnExpand = () => {
     setAnchorEl(null);
   };
@@ -46,26 +52,24 @@ export default function NavBar() {
       <div className="navbar-menu">
         <button className="navbar-menu-item">
           <SearchIcon></SearchIcon> &nbsp;
-          <Link to="/search-courier" style={{ textDecoration: "none" }}>
+          <Link style={{ textDecoration: "none" }} to="/courier/search">
             Search
           </Link>
         </button>
         <button className="navbar-menu-item">
           <AddRoadIcon></AddRoadIcon> &nbsp;
-          <Link to="/offer-courier" style={{ textDecoration: "none" }}>
+          <Link to="/courier/offer" style={{ textDecoration: "none" }}>
             Deliver
           </Link>
         </button>
         &nbsp;
-        <IconButton>
+        <IconButton className="icon-buttons">
           <NotificationsNoneIcon></NotificationsNoneIcon>
         </IconButton>
-
         &nbsp;
-        <IconButton>
+        <IconButton className="icon-buttons">
           <ForumIcon></ForumIcon>
         </IconButton>
-
         &nbsp;
         <div
           style={{
@@ -99,7 +103,10 @@ export default function NavBar() {
               }}
             >
               <MenuItem>
-                <Link style={{ textDecoration: "none" }} to="/login">
+                <Link
+                  style={{ textDecoration: "none", color: "black" }}
+                  to="/login"
+                >
                   Login
                 </Link>
               </MenuItem>
