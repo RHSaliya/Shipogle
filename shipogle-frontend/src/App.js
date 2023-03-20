@@ -6,6 +6,7 @@ import Registration from './pages/Registration';
 import RegistrationForm from './pages/RegistrationForm';
 import SendItems from './pages/SendItems';
 import Login from './pages/Login';
+import Inbox from './pages/Inbox';
 import RegSuccessful from './pages/RegSuccessful';
 import UserDashboard from './pages/UserDashboard';
 import EditProfile from './pages/EditProfile';
@@ -18,15 +19,16 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/registration" element={<Registration/>} />
-        <Route path="/registration/form" element={<RegistrationForm/>} />
-        <Route path="/registration/success" element={<RegSuccessful/>} />
-        <Route path="/userdash" element={<UserDashboard/>} />
         <Route path="/forgotPwd" element={<ForgotPwd />} />
-        <Route path="/user/editprofile" element = {<EditProfile />} />
-        <Route path="/userdash/send" element={<SendItems/>} />
-        <Route path="/userdash/deliver" element={<DeliverItems/>} />
-        <Route path="/resetPassword" element={<ResetPwd/>} />
+        <Route path="/userdash/deliver" element={<DeliverItems />} />
+        <Route path="/resetPassword" element={<ResetPwd />} />
+        <Route path="/inbox" element={<Inbox />} />
+        <Route path="/registration" element={<Registration />} />
+        <Route path="/registration/form" element={<RegistrationForm />} />
+        <Route path="/registration/success" element={<RegSuccessful />} />
+        <Route path="/userdash" element={<UserDashboard />} />
+        <Route path="/user/editprofile" element={<EditProfile />} />
+        <Route path="/userdash/send" element={<SendItems />} />
       </Routes>
     </div>
   );

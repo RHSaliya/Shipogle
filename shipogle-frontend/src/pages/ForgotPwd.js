@@ -11,7 +11,7 @@ export default function ForgotPwd() {
     const [email, setEmail] = useState("");
     const [showMsg, setShowMsg] = useState(0);
 
-    
+
 
     const submit = (e) => {
         setShowMsg(prevShowMsg => 1);
@@ -19,22 +19,22 @@ export default function ForgotPwd() {
         console.log("Submit");
         //props.handleSubmit();
         //navigate(path);
-        console.log(Constants.BASE_URL + Constants.API_FORGOT_PWD)
+        console.log(Constants.API_FORGOT_PWD)
 
         axios
-            .post(Constants.BASE_URL + Constants.API_FORGOT_PWD, {
+            .post(Constants.API_FORGOT_PWD, {
                 "email": email,
             })
             .then((response) => {
                 console.log(response);
-            
+
             })
             .catch((err) => console.log(err));
 
-            
+
     };
     return (
-        <div classname="regSuccessPage">
+        <div className="regSuccessPage">
             <Header
                 title="S H I P O G L E"
                 info="tagline"
@@ -47,7 +47,7 @@ export default function ForgotPwd() {
             <div className="regSuccessBox">
                 <div>
                     <h1>Forgot Password</h1>
-                  
+
                     <p>Please enter your email ID.</p>
                     <input
                         className="forgotPwdMailField"
@@ -57,12 +57,12 @@ export default function ForgotPwd() {
                         type="email"
                         onChange={(e) => setEmail(e.target.value)}
                     />
-                 
-                   
+
+
                 </div>
                 <br></br>
                 <div>
-                    <button className="btn" type="submit" onClick = {submit}>
+                    <button className="btn" type="submit" onClick={submit}>
                         Reset password
                     </button>
                     {showMsg === 1 ? <p>Reset password email has been sent.</p> : <p></p>}
