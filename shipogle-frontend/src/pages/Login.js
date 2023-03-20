@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
-import NavBar from "../Components/Navbar";
+
 import shipogleLogo from "../assets/shipogleLogo.png";
 import Constants from "../Constants";
 import axios from "axios";
@@ -43,7 +43,6 @@ export default function Login(props) {
 
   return (
     <div className="loginPage">
-      <NavBar />
       <Header title="S H I P O G L E" info="tagline" />
 
       <div className="login-box">

@@ -4,7 +4,7 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import Login from "./Pages/Login";
+import Login from "./pages/Login";
 import Registration from "./pages/Registration";
 import RegistrationForm from "./pages/RegistrationForm";
 import RegSuccessful from "./pages/RegSuccessful";

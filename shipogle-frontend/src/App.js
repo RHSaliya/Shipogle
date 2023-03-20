@@ -4,7 +4,7 @@ import { Outlet } from "react-router-dom";
 import "./App.css";
 import AlertMessage from "./components/AlertMessage";
 import CommonFunctions from "../src/services/CommonFunction";
-import NavBar from "./Components/Navbar";
+import NavBar from "./components/NavBar";
 
 const API_KEY = "AIzaSyBPtYm-CJPPW4yO9njM-e9YBWyp-DwIODM";
 let userLocation = { latitude: "", longitude: "" };
