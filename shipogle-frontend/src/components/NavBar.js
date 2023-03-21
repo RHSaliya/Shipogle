@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import React from "react";
 
 import { IconButton } from "@mui/material";
@@ -14,7 +14,7 @@ import ForumIcon from "@mui/icons-material/Forum";
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import SearchIcon from "@mui/icons-material/Search";
 
-import "./navbar.css";
+import "./navBar.css";
 
 const ExpandButton = styled(Button)({
   minWidth: "18px",
@@ -30,6 +30,7 @@ const ExpandButton = styled(Button)({
 export default function NavBar() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
+  const navigate = useNavigate();
 
   const handleClickOnExpand = (event) => {
     setAnchorEl(event.currentTarget);
@@ -37,6 +38,11 @@ export default function NavBar() {
 
   const handleCloseOnExpand = () => {
     setAnchorEl(null);
+  };
+
+  const route = (url) => {
+    console.log(url);
+    navigate(url);
   };
 
   return (
@@ -67,7 +73,12 @@ export default function NavBar() {
           <NotificationsNoneIcon></NotificationsNoneIcon>
         </IconButton>
         &nbsp;
-        <IconButton className="icon-buttons">
+        <IconButton
+          className="icon-buttons"
+          onClick={() => {
+            route("/inbox");
+          }}
+        >
           <ForumIcon></ForumIcon>
         </IconButton>
         &nbsp;

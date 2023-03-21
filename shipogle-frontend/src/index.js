@@ -12,6 +12,7 @@ import CourierForm from "./pages/CourierForm";
 import UserDashboard from "./pages/UserDashboard";
 import EditProfile from "./pages/EditProfile";
 import SendItems from "./pages/SendItems";
+import Inbox from "./pages/Inbox/Inbox";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
@@ -27,6 +28,7 @@ root.render(
         <Route path="/userdash" element={<UserDashboard />} />
         <Route path="/user/editprofile" element={<EditProfile />} />
         <Route path="/userdash/send" element={<SendItems />} />
+        <Route path="/inbox" element={<Inbox></Inbox>}></Route>
       </Route>
     </Routes>
   </BrowserRouter>
