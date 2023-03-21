@@ -182,11 +182,10 @@ class Login extends React.Component {
                     >
                       Signup
                     </Link>
-                    &nbsp; &nbsp;
-                    <Link to="/forgotPwd">
-                      <p>Forgot Password?</p>
-                    </Link>
                   </p>
+                  <Link to="/forgotPwd">
+                    <p style={{ fontSize: "14px" }}>Forgot Password?</p>
+                  </Link>
                   <div style={{ textAlign: "center", marginTop: "2rem" }}>
                     <Button
                       sx={{
