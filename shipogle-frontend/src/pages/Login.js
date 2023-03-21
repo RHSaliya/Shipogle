@@ -31,12 +31,20 @@ export default function Login(props) {
             })
             .then((response) => {
                 //            navigate(path);
-                console.log(response.data);
+                console.log("response value: " + response.value);
+                console.log("response.data :::: " +response.data);
+             
                 //Set the token as cookie
                 const token = response.data;
+
                 Cookies.set("authToken", token, { expires: COOKIE_EXPIRATION_TIME });
                 console.log(Cookies.get('authToken'));
-                navigate(path);
+                navigate(path, {
+                    state : {
+                        email: email,
+                        password: password
+                    }
+                });
             })
             .catch((err) => console.log(err));
     };
