@@ -140,7 +140,13 @@ const Inbox = () => {
                 )}
               </div>
               <div className="user-name">
-                <div>{user.first_name + " " + user.last_name}</div>
+                <div>
+                  {user === selectedUser ? (
+                    <b>{user.first_name + " " + user.last_name}</b>
+                  ) : (
+                    user.first_name + " " + user.last_name
+                  )}
+                </div>
               </div>
             </div>
           ))}

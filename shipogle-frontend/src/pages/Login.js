@@ -25,22 +25,30 @@ export default function Login(props) {
     //navigate(path);
     console.log(Constants.API_LOGIN);
 
-    axios
-      .post(Constants.API_LOGIN, {
-        email: email,
-        password: password,
-      })
-      .then((response) => {
-        //            navigate(path);
-        console.log(response.data);
-        //Set the token as cookie
-        const token = response.data;
-        Cookies.set("authToken", token, { expires: COOKIE_EXPIRATION_TIME });
-        console.log(Cookies.get("authToken"));
-        navigate(path);
-      })
-      .catch((err) => console.log(err));
-  };
+        axios
+            .post(Constants.API_LOGIN, {
+                "email": email,
+                "password": password
+            })
+            .then((response) => {
+                //            navigate(path);
+                console.log("response value: " + response.value);
+                console.log("response.data :::: " +response.data);
+             
+                //Set the token as cookie
+                const token = response.data;
+
+                Cookies.set("authToken", token, { expires: COOKIE_EXPIRATION_TIME });
+                console.log(Cookies.get('authToken'));
+                navigate(path, {
+                    state : {
+                        email: email,
+                        password: password
+                    }
+                });
+            })
+            .catch((err) => console.log(err));
+    };
 
   return (
     <div className="loginPage">

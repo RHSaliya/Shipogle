@@ -84,4 +84,33 @@ public class NotificationController {
         return new ArrayList<>(notificationRepository.findByUserOrderByCreatedAt(user));
     }
 
+
+    @DeleteMapping("/all/{userId}")
+    public ResponseEntity<?> deleteNotifications(@PathVariable int userId) {
+        Optional<User> userOptional = userRepository.findById(userId);
+        if (userOptional.isEmpty()) {
+            throw new RuntimeException("Invalid user ID");
+        }
+
+        User user = userOptional.get();
+
+        notificationRepository.deleteNotificationsByUser(user);
+
+        return ResponseEntity.ok("Deleted notifications for user with id: " + userId);
+    }
+
+    @DeleteMapping("/{notificationId}")
+    public ResponseEntity<?> deleteNotification(@PathVariable long notificationId) {
+        Optional<Notification> notificationOptional = notificationRepository.findById(notificationId);
+        if (notificationOptional.isEmpty()) {
+            throw new RuntimeException("Invalid notification ID");
+        }
+
+        Notification notification = notificationOptional.get();
+
+        notificationRepository.delete(notification);
+
+        return ResponseEntity.ok("Deleted notification with id: " + notificationId);
+    }
+
 }
