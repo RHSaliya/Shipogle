@@ -6,7 +6,7 @@
   padding: 1rem;
 }
 
-form {
+#courierForm {
   display: grid;
   grid-template-columns: minmax(220px, 350px) minmax(220px, 350px);
   grid-gap: 1.5rem;
