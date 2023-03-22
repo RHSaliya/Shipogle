@@ -15,6 +15,7 @@ import SendItems from "./pages/SendItems";
 import Inbox from "./pages/Inbox/Inbox";
 import OrderDetails from "./components/OrderDetails";
 import Orders from "./pages/Orders";
+import Payment from "./pages/payment";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -37,6 +38,10 @@ root.render(
         <Route
           path="/orders/details/:orderId"
           element={<OrderDetails></OrderDetails>}
+        ></Route>
+        <Route
+          path="/courier/payment/:id"
+          element={<Payment></Payment>}
         ></Route>
       </Route>
     </Routes>
