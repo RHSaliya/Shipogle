@@ -10,6 +10,7 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import com.shipogle.app.filter.Authfilter;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -24,7 +25,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @EnableWebSecurity
 @Configuration
-public class AuthConfig extends WebSecurityConfigurerAdapter{
+public class AuthConfig extends WebSecurityConfigurerAdapter {
      @Autowired
      Authfilter authFilter;
 
@@ -36,24 +37,33 @@ public class AuthConfig extends WebSecurityConfigurerAdapter{
 
      @Override
      protected void configure(HttpSecurity http) throws Exception {
-//          super.configure(auth);
+          // super.configure(auth);
           http.cors()
-                  .and()
-                  .csrf().disable()
-                  .httpBasic().disable()
-                  .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                  .and()
-                  .authorizeRequests()
-                    .antMatchers("/register","/verification","/changepassword","/forgotpassword","/login", "/driverRoutes", "/ShipoglePay").permitAll()
+                    .and()
+                    .csrf().disable()
+                    .httpBasic().disable()
+                    .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                    .and()
+                    .authorizeRequests()
+                    .antMatchers("/register", "/verification", "/changepassword", "/forgotpassword", "/login",
+                              "/driverRoutes", "/ShipoglePay", "/chatSocket/*", "notificationSocket/*")
+                    .permitAll()
                     .anyRequest().authenticated()
-                  .and()
-                  .logout().logoutUrl("/logout").addLogoutHandler(logoutService).logoutSuccessHandler((request, response, authentication) -> SecurityContextHolder.clearContext())
-                  .and()
-                  .authenticationProvider(authProvider()).addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class)
-          ;
+                    .and()
+                    .logout().logoutUrl("/logout").addLogoutHandler(logoutService)
+                    .logoutSuccessHandler((request, response, authentication) -> SecurityContextHolder.clearContext())
+                    .and()
+                    .authenticationProvider(authProvider())
+                    .addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class);
 
      }
 
+     @Override
+     public void configure(WebSecurity web) throws Exception {
+          web.ignoring().antMatchers("/chatSocket/**");
+          web.ignoring().antMatchers("/notificationSocket/**");
+          super.configure(web);
+     }
 
      @Bean
      public AuthenticationManager authManager(AuthenticationConfiguration configuration) throws Exception {
@@ -61,9 +71,7 @@ public class AuthConfig extends WebSecurityConfigurerAdapter{
      }
 
      @Bean
-     public UserDetailsService userDetails(){
-
-
+     public UserDetailsService userDetails() {
           return new UserDetailsService() {
                @Override
                public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -73,9 +81,9 @@ public class AuthConfig extends WebSecurityConfigurerAdapter{
      }
 
      @Bean
-     public AuthenticationProvider authProvider(){
+     public AuthenticationProvider authProvider() {
           DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-          //System.out.println("Flag from authProvider Method");
+          // System.out.println("Flag from authProvider Method");
           provider.setUserDetailsService(userDetails());
           provider.setPasswordEncoder(new BCryptPasswordEncoder());
           System.out.println(provider.getClass());
