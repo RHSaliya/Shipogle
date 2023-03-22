@@ -1,19 +1,39 @@
 import React, { useState } from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-import "./payments.css";
+import axios from "axios";
+import "./payment.css";
 import Data from "./data";
+import Constants from "../Constants";
 function Payment() {
   const [amount, setAmount] = useState("");
-  const [currency, setCurrency] = useState("");
-  const [cardNumber, setCardNumber] = useState("");
-  const [cardExpiryMonth, setCardExpiryMonth] = useState("");
-  const [cardExpiryYear, setCardExpiryYear] = useState("");
-  const [cardCvv, setCardCvv] = useState("");
-  const [cardHolderName, setCardHolderName] = useState("");
+  const [Currency, setCurrency] = useState("");
+  const [CardNumber, setCardNumber] = useState("");
+  const [CardExpiryMonth, setCardExpiryMonth] = useState("");
+  const [CardExpiryYear, setCardExpiryYear] = useState("");
+  const [CardCvv, setCardCvv] = useState("");
+  const [CardHolderName, setCardHolderName] = useState("");
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
+    const paymentDetails = {
+      amount: data.price,
+      currency: Currency,
+      cardNumber: CardNumber,
+      cardExpiryMonth: CardExpiryMonth,
+      cardExpiryYear: CardExpiryYear,
+      cardCvv: CardCvv,
+      cardHolderName: CardHolderName,
+    };
+
+    axios.post(Constants.PAYMENT_CHARGE, paymentDetails).then(
+      (res) => {
+        console.log(res);
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
     // handle form submission logic here
   };
   const data = new Data().courierDetails;
@@ -40,7 +60,7 @@ function Payment() {
         label="Currency"
         className="input-field"
         type="text"
-        value={currency}
+        value={Currency}
         onChange={(e) => setCurrency(e.target.value)}
       />
 
@@ -48,7 +68,7 @@ function Payment() {
         label="Card Number"
         className="input-field"
         type="text"
-        value={cardNumber}
+        value={CardNumber}
         onChange={(e) => setCardNumber(e.target.value)}
       />
 
@@ -56,7 +76,7 @@ function Payment() {
         label="Card Expiry Month"
         className="input-field"
         type="number"
-        value={cardExpiryMonth}
+        value={CardExpiryMonth}
         onChange={(e) => setCardExpiryMonth(e.target.value)}
       />
 
@@ -64,7 +84,7 @@ function Payment() {
         label="Card Expiry Year"
         className="input-field"
         type="number"
-        value={cardExpiryYear}
+        value={CardExpiryYear}
         onChange={(e) => setCardExpiryYear(e.target.value)}
       />
 
@@ -72,7 +92,7 @@ function Payment() {
         label="Card CVV"
         className="input-field"
         type="text"
-        value={cardCvv}
+        value={CardCvv}
         onChange={(e) => setCardCvv(e.target.value)}
       />
 
@@ -80,7 +100,7 @@ function Payment() {
         label="Card Holder Name"
         className="input-field"
         type="text"
-        value={cardHolderName}
+        value={CardHolderName}
         onChange={(e) => setCardHolderName(e.target.value)}
       />
 

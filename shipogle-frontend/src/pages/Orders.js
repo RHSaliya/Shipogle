@@ -12,6 +12,8 @@ import PendingActionsIcon from "@mui/icons-material/PendingActions";
 
 import Data from "./data";
 import OrderListing from "../components/OrderListing";
+import axios from "axios";
+import Constants from "../Constants";
 
 export default function Orders() {
   const data = new Data();
@@ -19,9 +21,20 @@ export default function Orders() {
   const [inProgress, setInProgress] = React.useState(data.listings);
   const [completed, setCompleted] = React.useState(data.listings);
   const [expanded, setExpand] = React.useState(true);
+  const [isLoadind, setIsLoaded] = React.useState(false);
   const expand = () => {
     setExpand(!expanded);
   };
+  React.useEffect(() => {
+    axios.get(Constants.ORDERS).then(
+      (res) => {
+        console.log(res);
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
+  }, []);
   return (
     <>
       <div style={{ width: "80%", margin: "2rem auto 2rem auto" }}>
@@ -84,7 +97,7 @@ export default function Orders() {
             </Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <OrderListing data={pending}></OrderListing>
+            <OrderListing data={pending} hideView={true}></OrderListing>
           </AccordionDetails>
         </Accordion>
       </div>

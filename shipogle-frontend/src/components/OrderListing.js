@@ -2,16 +2,16 @@ import { Button } from "@mui/material";
 import * as React from "react";
 import { Link } from "react-router-dom";
 
-import Data from "../Pages/data";
+import Data from "../pages/data";
 
 import "./OrderListing.css";
-export default function OrderListing(data) {
+export default function OrderListing(data, hideView) {
   console.log("logging datain listing");
   const demoData = new Data();
   const [listings, setListing] = React.useState([]);
   React.useEffect(() => {
     const cards = [];
-    console.log("logging data", demoData.listings);
+    console.log("logging data", demoData.listings, hideView);
     demoData.listings.forEach((element) => {
       console.log("listing");
       cards.push(
@@ -28,16 +28,18 @@ export default function OrderListing(data) {
               </p>
             </div>
           </div>
-          <div className="action-button">
-            <Button>
-              <Link
-                style={{ textDecoration: "none" }}
-                to="/orders/details/df341rfew5213rfe"
-              >
-                View
-              </Link>
-            </Button>
-          </div>
+          {!hideView && (
+            <div className="action-button">
+              <Button>
+                <Link
+                  style={{ textDecoration: "none" }}
+                  to="/orders/details/df341rfew5213rfe"
+                >
+                  View
+                </Link>
+              </Button>
+            </div>
+          )}
         </div>
       );
     });

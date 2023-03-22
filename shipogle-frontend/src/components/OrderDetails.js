@@ -11,7 +11,7 @@ import { Button } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
-import Data from "../Pages/data";
+import Data from "../pages/data";
 
 export default function OrderDetails(orderData) {
   const data = new Data();

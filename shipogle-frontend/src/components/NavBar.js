@@ -126,6 +126,11 @@ export default function NavBar() {
                   Register
                 </Link>
               </MenuItem>
+              <MenuItem>
+                <Link style={{ textDecoration: "none" }} to="/orders">
+                  Orders
+                </Link>
+              </MenuItem>
             </Menu>
           </div>
         </div>
