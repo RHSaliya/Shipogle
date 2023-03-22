@@ -131,6 +131,11 @@ export default function NavBar() {
                   Orders
                 </Link>
               </MenuItem>
+              <MenuItem>
+                <Link style={{ textDecoration: "none" }} to="/rides">
+                  My Rides
+                </Link>
+              </MenuItem>
             </Menu>
           </div>
         </div>
