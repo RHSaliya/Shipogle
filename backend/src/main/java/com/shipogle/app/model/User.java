@@ -167,22 +167,4 @@ public class User implements UserDetails {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-
-	@Override
-	public String toString() {
-		return String.format("{ " +
-				"user_id:%d," +
-				"first_name:'%s'," +
-				"last_name:'%s'," +
-				"email:'%s'," +
-				"gov_id_url:'%s'," +
-				"profile_pic_url:'%s'," +
-				"dob:'%s'," +
-				"address:'%s'," +
-				"city:'%s'," +
-				"province:'%s'," +
-				"postal_code:'%s'," +
-				"country:'%s' }", user_id, first_name, last_name, email, gov_id_url, profile_pic_url, dob, address,
-				city, province, postal_code, country);
-	}
 }
