@@ -186,7 +186,7 @@ class Login extends React.Component {
                     Don't have a shipogle account?{" "}
                     <Link
                       style={{ textDecoration: "none", color: "blue" }}
-                      to="/registration"
+                      to="/"
                     >
                       Signup
                     </Link>
