@@ -37,6 +37,10 @@ public class User implements UserDetails {
 	private String address;
 	@Column(name = "city")
 	private String city;
+	@Column(name="latitude")
+	private String latitude;
+	@Column(name="longitude")
+	private String longitude;
 	@Column(name = "province")
 	private String province;
 	@Column(name = "postal_code")
@@ -166,5 +170,21 @@ public class User implements UserDetails {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public String getLatitude() {
+		return latitude;
+	}
+
+	public void setLatitude(String latitude) {
+		this.latitude = latitude;
+	}
+
+	public String getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(String longitude) {
+		this.longitude = longitude;
 	}
 }

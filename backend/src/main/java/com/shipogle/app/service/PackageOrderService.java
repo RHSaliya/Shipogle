@@ -67,4 +67,26 @@ public class PackageOrderService {
 
         return packageOrderRepo.getAllBySender(user);
     }
+
+    public String startPackageOrder(int pickup_code,int order_id){
+        PackageOrder order = packageOrderRepo.getById(order_id);
+
+        if(!order.isCanceled() && Integer.valueOf(order.getPickup_code()) == pickup_code){
+            order.setStarted(true);
+            return "Order started";
+        }
+
+        return "Unable to start the order";
+    }
+
+    public String endPackageOrder(int drop_code,int order_id){
+        PackageOrder order = packageOrderRepo.getById(order_id);
+
+        if(!order.isCanceled() && order.isStarted() && Integer.valueOf(order.getDrop_code()) == drop_code){
+            order.setDelivered(true);
+            return "Order ended";
+        }
+
+        return "Unable to end the order";
+    }
 }

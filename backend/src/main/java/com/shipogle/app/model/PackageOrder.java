@@ -25,6 +25,10 @@ public class PackageOrder {
     @JoinColumn(name = "deliverer_id",referencedColumnName = "user_id")
     private User deliverer;
 
+    @ManyToOne
+    @JoinColumn(name="driver_route_id",referencedColumnName = "id")
+    private DriverRoute driverRoute;
+
     @Column(name="pickup_code")
     private Integer pickup_code;
 
@@ -78,6 +82,14 @@ public class PackageOrder {
 
     public void setDeliverer(User deliverer) {
         this.deliverer = deliverer;
+    }
+
+    public DriverRoute getDriverRoute() {
+        return driverRoute;
+    }
+
+    public void setDriverRoute(DriverRoute driverRoute) {
+        this.driverRoute = driverRoute;
     }
 
     public Integer getPickup_code() {

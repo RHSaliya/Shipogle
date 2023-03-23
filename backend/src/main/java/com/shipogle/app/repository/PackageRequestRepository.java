@@ -11,5 +11,6 @@ public interface PackageRequestRepository extends JpaRepository<PackageRequest,I
     PackageRequest getPackageRequestById(Integer package_request_id);
     List<PackageRequest> getAllBy_package_Id(Integer package_id);
     int countAllBy_package_IdAndDeliverer_Id(@Param("_package_Id") Integer package_id,@Param("Deliverer_Id") Integer deliverer_id);
+//    int countAllBy_package_IdAndDriverRoute_Id(@Param("_package_Id") Integer package_id,@Param("DriverRoute_Id") Long driver_route_id);
     List<PackageRequest> getAllByDeliverer(User deliverer);
 }
