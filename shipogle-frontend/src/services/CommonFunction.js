@@ -1,9 +1,11 @@
+import { Component } from "react";
 import AlertMessage from "../components/AlertMessage";
-
-class CommonFunctions {
+import NavBar from "../components/NavBar";
+class CommonFunctions extends Component {
   static backgroundUrl = "";
   static googleMapObjectStatus = false;
   constructor() {
+    super();
     this.fetchUrl();
   }
 
@@ -48,9 +50,12 @@ class CommonFunctions {
   }
 
   googleObjectDefinedStatus(status) {
-    console.log(status);
     CommonFunctions.googleMapObjectStatus = status;
-    console.log(CommonFunctions.googleMapObjectStatus);
+  }
+
+  login() {
+    const navBar = new NavBar();
+    navBar.login();
   }
 }
 

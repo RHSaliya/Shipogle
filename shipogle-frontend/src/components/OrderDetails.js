@@ -22,9 +22,7 @@ export default function OrderDetails(orderData) {
   const orderId = location[4];
   const pathname = location[3];
 
-  React.useEffect(() => {
-    console.log("in courier details", pathname);
-  }, []);
+  React.useEffect(() => {}, []);
 
   const cancelOrder = () => {
     const body = {

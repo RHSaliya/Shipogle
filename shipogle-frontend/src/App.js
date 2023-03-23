@@ -5,6 +5,7 @@ import "./App.css";
 import AlertMessage from "./components/AlertMessage";
 import CommonFunctions from "../src/services/CommonFunction";
 import NavBar from "./components/NavBar";
+import { AuthProvider } from "./utils/Auth";
 
 const API_KEY = "AIzaSyBPtYm-CJPPW4yO9njM-e9YBWyp-DwIODM";
 let userLocation = { latitude: "", longitude: "" };
@@ -66,16 +67,19 @@ class App extends React.Component {
   render() {
     return (
       <>
-        <NavBar></NavBar>
-        <Outlet></Outlet>
-        {this.state.showAlert && (
-          <AlertMessage
-            message={this.alertSettings.alertMessage}
-            messageType={this.alertSettings.alertType}
-            duration={this.alertSettings.alertDuration}
-            position={this.alertSettings.position}
-          ></AlertMessage>
-        )}
+        <AuthProvider>
+          <NavBar></NavBar>
+
+          <Outlet></Outlet>
+          {this.state.showAlert && (
+            <AlertMessage
+              message={this.alertSettings.alertMessage}
+              messageType={this.alertSettings.alertType}
+              duration={this.alertSettings.alertDuration}
+              position={this.alertSettings.position}
+            ></AlertMessage>
+          )}
+        </AuthProvider>
       </>
     );
   }

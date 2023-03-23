@@ -67,9 +67,6 @@ function CourierForm() {
     } else {
       setLocationPath("post");
     }
-    console.log("there is a change in component");
-    console.log(location.pathname);
-    // do any side-effect operation here that is equivalent to componentDidMount in class component
   }, [location]);
 
   const onLocationChange = (key, value) => {
@@ -134,7 +131,6 @@ function CourierForm() {
     if (path !== "search") {
       navigate("/courier/search");
     }
-    console.log(data);
   };
 
   const setAlertSettings = (message, type, duration, position) => {

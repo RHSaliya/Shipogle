@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import React from "react";
+import React, { useContext, useEffect } from "react";
 
 import { IconButton } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
@@ -13,8 +13,8 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ForumIcon from "@mui/icons-material/Forum";
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import SearchIcon from "@mui/icons-material/Search";
-
 import "./navBar.css";
+import { AuthContext } from "../utils/Auth";
 
 const ExpandButton = styled(Button)({
   minWidth: "18px",
@@ -28,6 +28,7 @@ const ExpandButton = styled(Button)({
 });
 
 export default function NavBar() {
+  const { isAuthenticated, login, logout } = useContext(AuthContext);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const navigate = useNavigate();
@@ -41,10 +42,11 @@ export default function NavBar() {
   };
 
   const route = (url) => {
-    console.log(url);
     navigate(url);
   };
-
+  useEffect(() => {
+    console.log(isAuthenticated);
+  }, [isAuthenticated]);
   return (
     <div className="navbar-container">
       <div className="navbar-logo">
@@ -104,44 +106,69 @@ export default function NavBar() {
             >
               <ExpandMoreIcon />
             </ExpandButton>
-            <Menu
-              id="basic-menu"
-              anchorEl={anchorEl}
-              open={open}
-              onClose={handleCloseOnExpand}
-              MenuListProps={{
-                "aria-labelledby": "basic-button",
-              }}
-            >
-              <MenuItem>
-                <Link
-                  style={{ textDecoration: "none", color: "black" }}
-                  to="/login"
+            {!isAuthenticated && (
+              <>
+                <Menu
+                  id="basic-menu"
+                  anchorEl={anchorEl}
+                  open={open}
+                  onClose={handleCloseOnExpand}
+                  MenuListProps={{
+                    "aria-labelledby": "basic-button",
+                  }}
                 >
-                  Login
-                </Link>
-              </MenuItem>
-              <MenuItem>
-                <Link style={{ textDecoration: "none" }} to="/registration">
-                  Register
-                </Link>
-              </MenuItem>
-              <MenuItem>
-                <Link style={{ textDecoration: "none" }} to="/orders">
-                  Orders
-                </Link>
-              </MenuItem>
-              <MenuItem>
-                <Link style={{ textDecoration: "none" }} to="/myrides">
-                  Delivery Requests
-                </Link>
-              </MenuItem>
-              <MenuItem>
-                <Link style={{ textDecoration: "none" }} to="/deliveries">
-                  Current Delivery
-                </Link>
-              </MenuItem>
-            </Menu>
+                  <MenuItem>
+                    <Link
+                      style={{ textDecoration: "none", color: "black" }}
+                      to="/login"
+                    >
+                      Login
+                    </Link>
+                  </MenuItem>
+                  <MenuItem>
+                    <Link style={{ textDecoration: "none" }} to="/registration">
+                      Register
+                    </Link>
+                  </MenuItem>
+                </Menu>
+              </>
+            )}
+            {isAuthenticated && (
+              <Menu
+                id="basic-menu"
+                anchorEl={anchorEl}
+                open={open}
+                onClose={handleCloseOnExpand}
+                MenuListProps={{
+                  "aria-labelledby": "basic-button",
+                }}
+              >
+                <MenuItem>
+                  <Link style={{ textDecoration: "none" }} to="/orders">
+                    Orders
+                  </Link>
+                </MenuItem>
+                <MenuItem>
+                  <Link style={{ textDecoration: "none" }} to="/myrides">
+                    Delivery Requests
+                  </Link>
+                </MenuItem>
+                <MenuItem>
+                  <Link style={{ textDecoration: "none" }} to="/deliveries">
+                    Current Delivery
+                  </Link>
+                </MenuItem>
+                <MenuItem
+                  onClick={() => {
+                    logout();
+                  }}
+                >
+                  <Link style={{ textDecoration: "none" }} to="/login">
+                    Logout
+                  </Link>
+                </MenuItem>
+              </Menu>
+            )}
           </div>
         </div>
       </div>

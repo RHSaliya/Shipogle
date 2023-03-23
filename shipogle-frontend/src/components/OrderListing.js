@@ -6,14 +6,11 @@ import Data from "../pages/data";
 
 import "./OrderListing.css";
 export default function OrderListing(props) {
-  console.log("logging datain listing");
   const demoData = new Data();
   const [listings, setListing] = React.useState([]);
   React.useEffect(() => {
     const cards = [];
-    console.log("allowed view", props);
     props.data.forEach((element) => {
-      console.log("listing", element);
       cards.push(
         <div className="order-listing-container">
           <div className="order-details">

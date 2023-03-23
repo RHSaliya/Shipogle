@@ -33,7 +33,6 @@ function Payment() {
 
     customAxios.post(Constants.PAYMENT_CHARGE, paymentDetails).then(
       (res) => {
-        console.log(res);
         commFunc.showAlertMessage("success", "success", 2000, "bottom");
         alert("Payment Successfull");
         navigate("/orders");

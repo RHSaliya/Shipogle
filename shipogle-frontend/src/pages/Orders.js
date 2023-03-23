@@ -31,9 +31,7 @@ export default function Orders() {
     setIsLoading(true);
     customAxios.get(Constants.ORDERS).then(
       (res) => {
-        console.log(res, "response success");
         setOrders(res);
-        console.log(isLoading);
       },
       (error) => {
         console.error(error);
@@ -42,8 +40,6 @@ export default function Orders() {
   }, []);
 
   const setOrders = (res) => {
-    console.log(data.orders);
-
     const resData = data.orders;
     const inprogressOrders = [];
     const pendingOrders = [];
@@ -59,7 +55,6 @@ export default function Orders() {
     setCanceled(canceledOrders);
     setInProgress(inprogressOrders);
     setPending(pendingOrders);
-    console.log(pending, completed, inProgress, canceled);
     setIsLoading(false);
   };
   return (

@@ -13,9 +13,7 @@ import Constants from "../Constants";
 export default function CurrentDelivery(props) {
   React.useEffect(() => {
     customAxios.get(Constants.GETREQUESTS).then(
-      (res) => {
-        console.log(res);
-      },
+      (res) => {},
       (error) => {
         console.error(error);
       }
