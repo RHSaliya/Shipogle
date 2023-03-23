@@ -13,6 +13,8 @@ import EditProfile from './pages/EditProfile';
 import DeliverItems from './pages/DeliverItems';
 import ForgotPwd from './pages/ForgotPwd';
 import ResetPwd from './pages/ResetPwd';
+import Feedback from './pages/FeedbackIssues/Feedback';
+import Issues from './pages/FeedbackIssues/Issues';
 function App() {
   return (
     <div className="App">
@@ -29,6 +31,8 @@ function App() {
         <Route path="/userdash" element={<UserDashboard />} />
         <Route path="/user/editprofile" element={<EditProfile />} />
         <Route path="/userdash/send" element={<SendItems />} />
+        <Route path="/feedback" element={<Feedback />} />
+        <Route path="/issues" element={<Issues />} />
       </Routes>
     </div>
   );
