@@ -11,58 +11,58 @@ public class DriverRoute {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "driver_id", nullable = false)
+    @Column(name = "driverId")
     private String driverId;
 
-    @Column(name = "source_city", nullable = false)
+    @Column(name = "sourceCity")
     private String sourceCity;
 
-    @Column(name = "source_city_reference_id", nullable = false)
+    @Column(name = "sourceCityReferenceId")
     private String sourceCityReferenceId;
 
-    @Column(name = "destination_city", nullable = false)
+    @Column(name = "destinationCity")
     private String destinationCity;
 
-    @Column(name = "destination_city_reference_id", nullable = false)
+    @Column(name = "destinationCityReferenceId")
     private String destinationCityReferenceId;
 
-    @Column(name = "max_packages", nullable = false)
+    @Column(name = "maxPackages")
     private int maxPackages;
 
-    @Column(name = "max_length", nullable = false)
+    @Column(name = "maxLength")
     private int maxLength;
 
-    @Column(name = "max_width", nullable = false)
+    @Column(name = "maxWidth")
     private int maxWidth;
 
-    @Column(name = "max_height", nullable = false)
+    @Column(name = "maxHeight", nullable = false)
     private int maxHeight;
 
-    @Column(name = "pickup_date", nullable = false)
+    @Column(name = "pickupDate", nullable = false)
     private Date pickupDate;
 
-    @Column(name = "dropoff_date", nullable = false)
+    @Column(name = "dropoffDate")
     private Date dropoffDate;
 
-    @Column(name = "days_to_deliver", nullable = false)
+    @Column(name = "daysToDeliver")
     private int daysToDeliver;
 
     @ElementCollection(fetch = FetchType.LAZY)
-    @Column(name = "coord")
+    @Column(name = "pickupLocationCoords")
     private List<Double> pickupLocationCoords;
 
     @ElementCollection(fetch = FetchType.LAZY)
-    @Column(name = "coord")
+    @Column(name = "dropoffLocationCoords")
     private List<Double> dropoffLocationCoords;
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    @Column(name = "category")
+    @ElementCollection()
+    @Column(name = "allowedCategory")
     private List<String> allowedCategory;
 
-    @Column(name = "radius", nullable = false)
+    @Column(name = "radius")
     private int radius;
 
-    @Column(name = "price", nullable = false)
+    @Column(name = "price")
     private int price;
 
     public DriverRoute() {
