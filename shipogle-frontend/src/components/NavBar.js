@@ -132,8 +132,13 @@ export default function NavBar() {
                 </Link>
               </MenuItem>
               <MenuItem>
-                <Link style={{ textDecoration: "none" }} to="/rides">
-                  My Rides
+                <Link style={{ textDecoration: "none" }} to="/myrides">
+                  Delivery Requests
+                </Link>
+              </MenuItem>
+              <MenuItem>
+                <Link style={{ textDecoration: "none" }} to="/deliveries">
+                  Current Delivery
                 </Link>
               </MenuItem>
             </Menu>

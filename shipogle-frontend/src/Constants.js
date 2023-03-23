@@ -10,7 +10,13 @@ const APIS = {
   SOCKET_CHAT: `${SOCKET_BASE_URL}/chatSocket`,
   SOCKET_NOTIFICATIONS: `${SOCKET_BASE_URL}/notificationSocket`,
   PAYMENT_CHARGE: `${BASE_URL}/payment/charge`,
-  ORDERS: `${BASE_URL}/orders`,
+  ORDERS: `${BASE_URL}/package/order/getall`,
+  CANCELORDER: `${BASE_URL}/package/order/cancel`,
+  STARTORDER: `${BASE_URL}/package/order/start`,
+  ENDORDER: `${BASE_URL}/package/order/end`,
+  ACCEPTREQUEST: `${BASE_URL}/package/request/accept`,
+  REJECTREQUEST: `${BASE_URL}/package/request/reject`,
+  GETREQUESTS: `${BASE_URL}/package/request/getall`,
 };
 export default APIS;
 export { BASE_URL };

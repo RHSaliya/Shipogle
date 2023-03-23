@@ -5,15 +5,15 @@ import { Link } from "react-router-dom";
 import Data from "../pages/data";
 
 import "./OrderListing.css";
-export default function OrderListing(data, hideView) {
+export default function OrderListing(props) {
   console.log("logging datain listing");
   const demoData = new Data();
   const [listings, setListing] = React.useState([]);
   React.useEffect(() => {
     const cards = [];
-    console.log("logging data", demoData.listings, hideView);
-    demoData.listings.forEach((element) => {
-      console.log("listing");
+    console.log("allowed view", props);
+    props.data.forEach((element) => {
+      console.log("listing", element);
       cards.push(
         <div className="order-listing-container">
           <div className="order-details">
@@ -28,18 +28,16 @@ export default function OrderListing(data, hideView) {
               </p>
             </div>
           </div>
-          {!hideView && (
-            <div className="action-button">
-              <Button>
-                <Link
-                  style={{ textDecoration: "none" }}
-                  to="/orders/details/df341rfew5213rfe"
-                >
-                  View
-                </Link>
-              </Button>
-            </div>
-          )}
+          <div className="action-button">
+            <Button color={props.color}>
+              <Link
+                style={{ textDecoration: "none", color: "inherit" }}
+                to={`/orders/details/${props.status}/${element.order_id}`}
+              >
+                {props.actionButtonText ? props.actionButtonText : "View"}
+              </Link>
+            </Button>
+          </div>
         </div>
       );
     });

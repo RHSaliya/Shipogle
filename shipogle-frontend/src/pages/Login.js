@@ -242,8 +242,9 @@ class Login extends React.Component {
         Cookies.set("authToken", token, {
           expires: this.COOKIE_EXPIRATION_TIME,
         });
+        window.localStorage.setItem("authToken", token);
         console.log(Cookies.get("authToken"));
-        window.location.href = window.location.origin;
+        window.location = window.location.origin;
       })
       .catch((err) => console.log(err));
   };

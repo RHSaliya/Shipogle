@@ -1,11 +1,23 @@
-import { Component } from "react";
+import AlertMessage from "../components/AlertMessage";
 
-class CommonFunctions extends Component {
+class CommonFunctions {
   static backgroundUrl = "";
   static googleMapObjectStatus = false;
   constructor() {
-    super();
     this.fetchUrl();
+  }
+
+  showAlertMessage(message, type, duration, position) {
+    document
+      .querySelector("body")
+      .appendChild(
+        <AlertMessage
+          message={message}
+          messageType={type}
+          duration={duration}
+          position={position}
+        ></AlertMessage>
+      );
   }
 
   fetchUrl() {

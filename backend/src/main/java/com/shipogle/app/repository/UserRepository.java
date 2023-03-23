@@ -16,8 +16,9 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     User findByEmail(String email);
 
     User getUserById(Integer id);
-
-    @Query("SELECT u FROM User u WHERE u.user_id in :userIds")
-    List<User> getUserByIds(@Param("userIds") List<Integer> userIds);
+    /*
+     * @Query("SELECT u FROM User u WHERE u.user_id in :userIds")
+     * List<User> getUserByIds(@Param("userIds") List<Integer> userIds);
+     */
 
 }

@@ -1,11 +1,16 @@
 import React, { useState } from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-import axios from "axios";
+
 import "./payment.css";
 import Data from "./data";
 import Constants from "../Constants";
+import customAxios from "../utils/MyAxios";
+import CommonFunctions from "../services/CommonFunction";
+import { useNavigate } from "react-router-dom";
 function Payment() {
+  const navigate = useNavigate();
+  const commFunc = new CommonFunctions();
   const [amount, setAmount] = useState("");
   const [Currency, setCurrency] = useState("");
   const [CardNumber, setCardNumber] = useState("");
@@ -26,9 +31,12 @@ function Payment() {
       cardHolderName: CardHolderName,
     };
 
-    axios.post(Constants.PAYMENT_CHARGE, paymentDetails).then(
+    customAxios.post(Constants.PAYMENT_CHARGE, paymentDetails).then(
       (res) => {
         console.log(res);
+        commFunc.showAlertMessage("success", "success", 2000, "bottom");
+        alert("Payment Successfull");
+        navigate("/orders");
       },
       (error) => {
         console.error(error);

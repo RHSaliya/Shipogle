@@ -16,6 +16,8 @@ import Inbox from "./pages/Inbox/Inbox";
 import OrderDetails from "./components/OrderDetails";
 import Orders from "./pages/Orders";
 import Payment from "./pages/payment";
+import MyRides from "./components/MyRides";
+import CurrentDelivery from "./components/CurrentDelivery";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -36,12 +38,17 @@ root.render(
 
         <Route path="/orders" element={<Orders></Orders>}></Route>
         <Route
-          path="/orders/details/:orderId"
+          path="/orders/details/:status/:orderId"
           element={<OrderDetails></OrderDetails>}
         ></Route>
         <Route
           path="/courier/payment/:id"
           element={<Payment></Payment>}
+        ></Route>
+        <Route path="/myrides" element={<MyRides></MyRides>}></Route>
+        <Route
+          path="/deliveries"
+          element={<CurrentDelivery></CurrentDelivery>}
         ></Route>
       </Route>
     </Routes>
