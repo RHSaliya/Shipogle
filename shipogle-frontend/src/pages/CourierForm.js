@@ -15,8 +15,12 @@ import SearchIcon from "@mui/icons-material/Search";
 import PostAddIcon from "@mui/icons-material/PostAdd";
 
 import LocationAutoComplete from "../components/LocationAutoComplete";
+import customAxios from "../utils/MyAxios";
+import Constants from "../Constants";
 import AlertMessage from "../components/AlertMessage";
 import "./courierForm.css";
+import Listings from "../components/Listings";
+import Data from "./data";
 
 const API_KEY = "AIzaSyBPtYm-CJPPW4yO9njM-e9YBWyp-DwIODM";
 const ITEM_HEIGHT = 48;
@@ -31,6 +35,7 @@ const MenuProps = {
 };
 
 function CourierForm() {
+  const demoData = new Data();
   const date = new Date();
   const location = useLocation();
   const navigate = useNavigate();
@@ -61,6 +66,7 @@ function CourierForm() {
   const [alertPosition, setAlertPosition] = useState("bottom");
   const [pickupLocationCoords, setPickupLocationCoords] = useState([]);
   const [dropoffLocationCoords, setDropoffLocationCoords] = useState([]);
+  const [listings, setListings] = useState([]);
   useEffect(() => {
     if (location.pathname.includes("search")) {
       setLocationPath("search");
@@ -74,7 +80,7 @@ function CourierForm() {
       return;
     }
     const data = { place: value.description, place_id: value.place_id };
-    const latLng = [];
+    let latLng = [];
     if (path !== "search") {
       fetch(
         `https://maps.googleapis.com/maps/api/place/details/json?place_id=${data.place_id}&fields=geometry&key=${API_KEY}`,
@@ -83,8 +89,8 @@ function CourierForm() {
         (res) => {
           if (res) {
             latLng = [
-              res.results.geometry.location.lat,
-              res.results.geometry.location.lng,
+              res?.results?.geometry?.location?.lat,
+              res?.results?.geometry?.location?.lng,
             ];
           }
         },
@@ -126,10 +132,31 @@ function CourierForm() {
     data["price"] = price;
     if (path === "search") {
       data["radius"] = radius;
+      const parms = new URLSearchParams(data).toString();
+      /*customAxios.get(Constants.DRIVERROUTE + "?" + parms).then(
+        (res) => {
+          console.log(res);
+        },
+        (error) => {
+          console.error(error);
+        }
+      );*/
+      setListings(demoData.listings);
     }
 
     if (path !== "search") {
+      alert("post created");
       navigate("/courier/search");
+      /*customAxios.post(Constants.DRIVERROUTE, data).then(
+        (res) => {
+          console.log(res);
+          alert("post created");
+          navigate("/courier/search");
+        },
+        (error) => {
+          console.error(error);
+        }
+      );*/
     }
   };
 
@@ -379,7 +406,11 @@ function CourierForm() {
           </Button>
         </form>
       </div>
-      <div className="listing-container"></div>
+      {path === "search" && listings.length > 0 && (
+        <div className="listing-container">
+          <Listings data={listings}></Listings>
+        </div>
+      )}
     </>
   );
 }

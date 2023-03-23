@@ -1,6 +1,17 @@
 import React from "react";
 
 class Data extends React.Component {
+  requests = [
+    {
+      order_id: "12ewq4124",
+      source_city: "Halifax, NS",
+      destination_city: "Toronto, ON",
+      pickupDate: "2023-03-23",
+      sender_id: "234asr2312341",
+      sender_name: "test courier 3",
+      package_request_id: 234,
+    },
+  ];
   orders = [
     {
       order_id: "1",
@@ -63,6 +74,7 @@ class Data extends React.Component {
     {
       postId: "32u4ua334183904urq9ufai",
       driverId: "1o2uj2uvvo08023n340pofav87",
+
       pickupData: {
         date: "2023-03-16",
         description: "Dalhousie University, South Street, Halifax, NS, Canada",
@@ -163,7 +175,7 @@ class Data extends React.Component {
     price: 40, //in cad
   };
 
-  imageUel = "data:image/png;base64,dW5kZWZpbmVk";
+  imageUrl = "data:image/png;base64,dW5kZWZpbmVk";
 }
 
 export default Data;

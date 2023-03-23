@@ -67,7 +67,7 @@ export default function Login() {
         });
         window.localStorage.setItem("authToken", token);
         login();
-        navigate("/");
+        navigate("/courier/search");
       })
       .catch((err) => console.error(err));
   };

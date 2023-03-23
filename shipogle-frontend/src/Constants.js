@@ -17,6 +17,7 @@ const APIS = {
   ACCEPTREQUEST: `${BASE_URL}/package/request/accept`,
   REJECTREQUEST: `${BASE_URL}/package/request/reject`,
   GETREQUESTS: `${BASE_URL}/package/request/getall`,
+  DRIVERROUTE: `${BASE_URL}/driverRoutes`,
 };
 export default APIS;
 export { BASE_URL };
