@@ -133,21 +133,21 @@ function CourierForm() {
     if (path === "search") {
       data["radius"] = radius;
       const parms = new URLSearchParams(data).toString();
-      /*customAxios.get(Constants.DRIVERROUTE + "?" + parms).then(
+      customAxios.get(Constants.DRIVERROUTE + "?" + parms).then(
         (res) => {
           console.log(res);
         },
         (error) => {
           console.error(error);
         }
-      );*/
+      );
       setListings(demoData.listings);
     }
 
     if (path !== "search") {
       alert("post created");
       navigate("/courier/search");
-      /*customAxios.post(Constants.DRIVERROUTE, data).then(
+      customAxios.post(Constants.DRIVERROUTE, data).then(
         (res) => {
           console.log(res);
           alert("post created");
@@ -156,7 +156,7 @@ function CourierForm() {
         (error) => {
           console.error(error);
         }
-      );*/
+      );
     }
   };
 
