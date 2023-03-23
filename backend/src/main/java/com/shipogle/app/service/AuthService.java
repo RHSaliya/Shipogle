@@ -81,7 +81,7 @@ public class AuthService {
         } catch (Exception e) {
             return e.getMessage();
         }
-        return "Password reset link sent to your email";
+        return "Password reset link sent";
     }
 
     // public String logout(String token){
