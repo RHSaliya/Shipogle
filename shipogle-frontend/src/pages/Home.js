@@ -1,13 +1,22 @@
 import React from 'react'
 import Header from '../components/Header';
 import Section from "../components/Section";
+import NavBar from '../components/NavBar';
+import shipogleLogo from "../assets/shipogleLogo.png";
 export default function Home() {
   return (
     <div className="Homepage">
+      <NavBar />
       <Header 
-      title="Shipogle" 
+      title="S H I P O G L E" 
       info = "tagline" 
       />
+      <center>
+      <img alt="logo" src={shipogleLogo} width="200px" height="200px">
+
+      </img>
+      </center>
+      
 
       <Section
       title="Who are we?"
