@@ -33,4 +33,5 @@ public interface MessageRepository extends JpaRepository<Message, Long> {
     @Query(value = "SELECT DISTINCT m.receiver_id as id FROM messages as m WHERE m.sender_id = :userId UNION SELECT DISTINCT m.sender_id as id FROM messages as m WHERE m.receiver_id = :userId", nativeQuery = true)
     List<Integer> findDistinctSenderAndReceiverIdsByUserId(@Param("userId") Integer userId);
 
+    void deleteMessagesByReceiverAndSender(User receiver, User sender);
 }

@@ -1,43 +1,49 @@
-import axios from 'axios';
-import Cookies from 'js-cookie';
+import axios from "axios";
+import Cookies from "js-cookie";
 
 const customAxios = axios.create({
-    timeout: 10000,
+  timeout: 10000,
 });
 
-const requestHandler = request => {
-    const token = Cookies.get('authToken');
+const requestHandler = (request) => {
+  console.log("appending token");
+  const token = Cookies.get("authToken");
 
-    if (token) {
-        request.headers.Authorization = `Bearer ${token}`;
-    }
-
-    return request;
+  if (token) {
+    request.headers.Authorization = `Bearer ${token}`;
+  }
+  console.log(request);
+  return request;
 };
 
-const responseHandler = response => {
-    if (response.status === 401) {
-        window.location = '/login';
-    }
+const responseHandler = (response) => {
+  if (response?.status === 401 || response?.status === 403) {
+    window.location = "/login";
+  }
 
-    return response;
+  return response;
 };
 
-const errorHandler = error => {
-    return Promise.reject(error);
+const errorHandler = (error) => {
+  if (error?.response?.status === 401 || error?.response?.status === 403) {
+    window.location = "/login";
+  }
+  return Promise.reject(error);
 };
 
 customAxios.interceptors.request.use(
-    (request) => requestHandler(request),
-    (error) => errorHandler(error)
+  (request) => {
+    console.log("in request");
+    return requestHandler(request);
+  },
+  (error) => errorHandler(error)
 );
 
 customAxios.interceptors.response.use(
-    (response) => responseHandler(response),
-    (error) => errorHandler(error)
+  (response) => responseHandler(response),
+  (error) => errorHandler(error)
 );
 
 export default customAxios;
-
 
 // Reference: https://blog.clairvoyantsoft.com/intercepting-requests-responses-using-axios-df498b6cab62

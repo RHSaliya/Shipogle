@@ -50,10 +50,9 @@ public class AuthServiceTest {
     @Mock
     BCryptPasswordEncoder bCryptPasswordEncoder;
 
-
     @Test
-    public void isAlreadyExistTestPositive(){
-        //User user = Mockito.mock(User.class);
+    public void isAlreadyExistTestPositive() {
+        // User user = Mockito.mock(User.class);
         Mockito.when(user.getEmail()).thenReturn("kadivarnand007@gmail.com");
 
         Mockito.when(userRepo.findUserByEmail(user.getEmail())).thenReturn(user);
@@ -62,7 +61,7 @@ public class AuthServiceTest {
     }
 
     @Test
-    public void isAlreadyExistTestNagative(){
+    public void isAlreadyExistTestNagative() {
         Mockito.when(user.getEmail()).thenReturn("kadivarnand007@gmail.com");
         Mockito.lenient().when(userRepo.findUserByEmail(user.getEmail())).thenReturn(null);
 
@@ -70,7 +69,7 @@ public class AuthServiceTest {
     }
 
     @Test
-    public void verifyEmailTestUserAlreadyVerified(){
+    public void verifyEmailTestUserAlreadyVerified() {
 
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
@@ -81,11 +80,11 @@ public class AuthServiceTest {
         Mockito.lenient().when(user.getUser_id()).thenReturn(40);
         Mockito.lenient().when(userRepo.getById(user.getUser_id())).thenReturn(user);
 
-        assertEquals("Already Verified",authService.verifyEmail(code,user.getUser_id()));
+        assertEquals("Already Verified", authService.verifyEmail(code, user.getUser_id()));
     }
 
     @Test
-    public void forgotPasswordTest(){
+    public void forgotPasswordTest() {
 
         Mockito.when(user.getEmail()).thenReturn("kadivarnand007@gmail.com");
         Mockito.when(userRepo.getUserByEmail("kadivarnand007@gmail.com")).thenReturn(user);
@@ -93,43 +92,46 @@ public class AuthServiceTest {
         Mockito.when(forgotPasswordTokenService.createForgotPasswordToken(user)).thenReturn(forgotPasswordToken);
         Mockito.when(forgotPasswordToken.getForgot_password_token()).thenReturn("token");
 
-//        Mockito.verify(mailService,times(1)).sendMail(user.getEmail(), "Reset Password","Password rest link(Expires in 24 hours): ","http://localhost:8080/changepassword?token="+token.getForgot_password_token());
+        // Mockito.verify(mailService,times(1)).sendMail(user.getEmail(), "Reset
+        // Password","Password rest link(Expires in 24 hours):
+        // ","http://localhost:8080/changepassword?token="+token.getForgot_password_token());
 
-        assertEquals("Password reset link sent",authService.forgotPassword("kadivarnand007@gmail.com"));
+        assertEquals("Password reset link sent", authService.forgotPassword("kadivarnand007@gmail.com"));
     }
 
-//    @Test
-//    public void resetPasswordTest(){
-//        String token = "token";
-//        Jwts jwts = Mockito.mock(Jwts.class);
-//
-//        Mockito.lenient().when(forgotPasswordTokenRepo.findByForgetPasswordToken(token)).thenReturn(forgotPasswordToken);
-//        Mockito.lenient().when(forgotPasswordToken.getIs_active()).thenReturn(true);
-//        Mockito.lenient().when(jwts.parser().setSigningKey("2A462D4A614E645267556B58703273357638792F423F4528472B4B6250655368").parseClaimsJws(token).getBody()).thenReturn(claims);
-//        Mockito.lenient().when(claims.get("email")).thenReturn("kadivarnand007@gmail.com");
-//
-//        Mockito.lenient().when(user.getEmail()).thenReturn("kadivarnand007@gmail.com");
-//        Mockito.lenient().when(userRepo.getUserByEmail("kadivarnand007@gmail.com")).thenReturn(user);
-//
-//        assertEquals("Password changed successfully",authService.resetPassword(token,"abc"));
-//    }
+    // @Test
+    // public void resetPasswordTest(){
+    // String token = "token";
+    // Jwts jwts = Mockito.mock(Jwts.class);
+    //
+    // Mockito.lenient().when(forgotPasswordTokenRepo.findByForgetPasswordToken(token)).thenReturn(forgotPasswordToken);
+    // Mockito.lenient().when(forgotPasswordToken.getIs_active()).thenReturn(true);
+    // Mockito.lenient().when(jwts.parser().setSigningKey("2A462D4A614E645267556B58703273357638792F423F4528472B4B6250655368").parseClaimsJws(token).getBody()).thenReturn(claims);
+    // Mockito.lenient().when(claims.get("email")).thenReturn("kadivarnand007@gmail.com");
+    //
+    // Mockito.lenient().when(user.getEmail()).thenReturn("kadivarnand007@gmail.com");
+    // Mockito.lenient().when(userRepo.getUserByEmail("kadivarnand007@gmail.com")).thenReturn(user);
+    //
+    // assertEquals("Password changed
+    // successfully",authService.resetPassword(token,"abc"));
+    // }
 
     @Test
-    public void registerTestUserAlreadyExist(){
+    public void registerTestUserAlreadyExist() {
         authService = Mockito.spy(new AuthService());
         Mockito.doReturn(true).when(authService).isAlreadyExist(user);
 
-        assertEquals("User Already exist with this email",authService.register(user));
+        assertEquals("User Already exist with this email", authService.register(user));
     }
 
-//    @Test
-//    public void registerTestUser(){
-//        authService = Mockito.spy(new AuthService());
-//        Mockito.doReturn(false).when(authService).isAlreadyExist(user);
-//        Mockito.when(user.getPassword()).thenReturn("");
-//        Mockito.when(bCryptPasswordEncoder.encode("")).thenReturn("");
-//        authService.register(user);
-//        Mockito.verify(userRepo,times(1)).save(user);
-//    }
+    // @Test
+    // public void registerTestUser(){
+    // authService = Mockito.spy(new AuthService());
+    // Mockito.doReturn(false).when(authService).isAlreadyExist(user);
+    // Mockito.when(user.getPassword()).thenReturn("");
+    // Mockito.when(bCryptPasswordEncoder.encode("")).thenReturn("");
+    // authService.register(user);
+    // Mockito.verify(userRepo,times(1)).save(user);
+    // }
 
 }

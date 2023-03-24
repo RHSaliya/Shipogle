@@ -12,4 +12,5 @@ public interface NotificationRepository  extends JpaRepository<Notification, Lon
 
     List<Notification> findByUserOrderByCreatedAt(@Param("user") User user);
 
+    void deleteNotificationsByUser(User user);
 }

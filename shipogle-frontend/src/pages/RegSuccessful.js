@@ -17,12 +17,9 @@ export default function RegSuccessful() {
       </center>
       <div className="regSuccessBox">
         <h1>Registration successful!</h1>
-        <Link to="/login"><p>Click here to login</p></Link>
-
-
+        <p>A verification email has been sent. Please check your email and click on the link provided.</p>
+        <Link to="/login">Once verified, click here to login.</Link>
       </div>
-
     </div>
-
   )
 }

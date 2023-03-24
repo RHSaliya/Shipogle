@@ -14,6 +14,7 @@ export default function NotificationsMenu() {
   const [anchorEl, setAnchorEl] = useState(null);
   const [hasNotfication, setHasNotification] = useState(false);
   const [notifications, setNotifications] = useState([]);
+  const [count, setCount] = useState(0);
   const ws = useRef(null);
 
   const open = Boolean(anchorEl);
@@ -25,10 +26,6 @@ export default function NotificationsMenu() {
     setAnchorEl(null);
   };
 
-  const addNotification = (notification) => {
-    setNotifications([...notifications, notification]);
-    setHasNotification(true);
-  }
   const handleNotif = () => {
     setHasNotification(false);
   }
@@ -44,7 +41,8 @@ export default function NotificationsMenu() {
       axios.get(`${Constants.API_NOTIFICATIONS}/${user.user_id}`).then((res) => {
         console.log("~~~~~~~~~~~~~~");
         console.log(res.data);
-        setNotifications(res.data);
+        setCount(res.data.length);
+        setNotifications(res.data.reverse());
         console.log("~~~~~~~~~~~~~~");
       });
 
@@ -53,7 +51,8 @@ export default function NotificationsMenu() {
       ws.current.onmessage = (message) => {
         console.log(message);
         const value = JSON.parse(message.data);
-        setNotifications((prevNotifications) => [...prevNotifications, value]);
+        setCount(notifications.length + 1);
+        setNotifications((prevNotifications) => [value, ...prevNotifications]);
         setHasNotification(true && !open);
       };
 
@@ -101,9 +100,9 @@ export default function NotificationsMenu() {
           horizontal: 'left',
         }}
       >
-        <p style={{ padding: "0 1em 0 1em" }}>Notifications</p>
+        <p style={{ padding: "0 1em 0 1em", fontSize: "20px" , marginTop : "0" }}>Notifications {count !== 0 ? `(${count})` : ""}</p>
         {notifications.map((notification, index) => (
-          <MenuItem sx={{ width: "500px" }} onClick={handleClose}><Notification notificationName={notification.title} notificationAction={notification.message} /></MenuItem>
+          <MenuItem style={{ borderBottom: "1px solid black" }} sx={{ width: "500px" }} onClick={handleClose}><Notification notificationName={notification.title} notificationAction={notification.message} /></MenuItem>
         ))}
       </Menu>
     </div>
