@@ -87,6 +87,7 @@ export default function NotificationsMenu() {
 
       </Button>
       <Menu
+        className="notifMenu"
         id="demo-positioned-menu"
         aria-labelledby="demo-positioned-button"
         anchorEl={anchorEl}
@@ -101,9 +102,9 @@ export default function NotificationsMenu() {
           horizontal: 'left',
         }}
       >
-        <p style={{ padding: "0 1em 0 1em" }}>Notifications</p>
+        <p style={{ padding: "0 1em 0 1em" , fontSize: "20px", fontWeight: "bold", textAlign: "center"}}>Notifications</p>
         {notifications.map((notification, index) => (
-          <MenuItem sx={{ width: "500px" }} onClick={handleClose}><Notification notificationName={notification.title} notificationAction={notification.message} /></MenuItem>
+          <MenuItem style={{borderBottom:"1px solid black"}} sx={{ width: "500px" }} onClick={handleClose}><Notification notificationName={notification.title} notificationAction={notification.message} /></MenuItem>
         ))}
       </Menu>
     </div>
