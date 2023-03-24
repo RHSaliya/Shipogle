@@ -32,7 +32,7 @@ public class AuthController {
     @PostMapping("/forgotpassword")
     public String forgotPassword(HttpServletRequest request, @RequestBody Map<String, String> json) {
         String origin = request.getHeader(HttpHeaders.ORIGIN);
-        return authService.forgotPassword(origin, json.get("email"));
+        return authService.forgotPassword(json.get("email"));
     }
 
     @GetMapping("/verification")
