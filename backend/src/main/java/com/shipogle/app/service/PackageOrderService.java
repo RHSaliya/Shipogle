@@ -28,6 +28,7 @@ public class PackageOrderService {
         packageOrder.set_package(packageRequest.get_package());
         packageOrder.setDeliverer(packageRequest.getDeliverer());
         packageOrder.setSender(packageRequest.getSender());
+        packageOrder.setDriverRoute(packageRequest.getDriverRoute());
         String pickup_code = String.format("%4d",random.nextInt(10000));
         String dop_code = String.format("%4d",random.nextInt(10000));
 
@@ -73,9 +74,9 @@ public class PackageOrderService {
 
         if(!order.isCanceled() && Integer.valueOf(order.getPickup_code()) == pickup_code){
             order.setStarted(true);
+            packageOrderRepo.save(order);
             return "Order started";
         }
-
         return "Unable to start the order";
     }
 
@@ -84,9 +85,9 @@ public class PackageOrderService {
 
         if(!order.isCanceled() && order.isStarted() && Integer.valueOf(order.getDrop_code()) == drop_code){
             order.setDelivered(true);
+            packageOrderRepo.save(order);
             return "Order ended";
         }
-
         return "Unable to end the order";
     }
 }

@@ -2,10 +2,7 @@ package com.shipogle.app.service;
 
 import com.shipogle.app.model.*;
 import com.shipogle.app.model.Package;
-import com.shipogle.app.repository.PackageOrderRepository;
-import com.shipogle.app.repository.PackageRepository;
-import com.shipogle.app.repository.PackageRequestRepository;
-import com.shipogle.app.repository.UserRepository;
+import com.shipogle.app.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -33,34 +30,38 @@ public class PackageRequestService {
     @Autowired
     PackageOrderService packageOrderService;
 
+    @Autowired
+    DriverRouteRepository driverRouteRepo;
+
 
     public String sendRequest(Map<String,String> req){
         try{
-            int request_count = packageRequestRepo.countAllBy_package_IdAndDeliverer_Id(Integer.valueOf(req.get("package_id")),Integer.valueOf(req.get("deliverer_id")));
-//            int request_count = packageRequestRepo.countAllBy_package_IdAndDriverRoute_Id(Integer.valueOf(req.get("package_id")),Long.valueOf(req.get("driver_route_id")));
-
+//            int request_count = packageRequestRepo.countAllBy_package_IdAndDeliverer_Id(Integer.valueOf(req.get("package_id")),Integer.valueOf(req.get("deliverer_id")));
+            int request_count = packageRequestRepo.countAllBy_package_IdAndDriverRoute_Id(Integer.valueOf(req.get("package_id")),Long.valueOf(req.get("driver_route_id")));
             if(packageOrderService.isPackageOrderExist(Integer.valueOf(req.get("package_id"))))
                 return "Cannot send request after order creation";
 
             if(request_count == 0){
                 PackageRequest packageRequest = new PackageRequest();
+                DriverRoute driverRoute = driverRouteRepo.getDriverRouteById(Long.valueOf(req.get("driver_route_id")));
 
                 Authentication auth = SecurityContextHolder.getContext().getAuthentication();
                 String user_email = auth.getPrincipal().toString();
 
                 User sender = userRepo.getUserByEmail(user_email);
-                User deliverer = userRepo.getUserById(Integer.valueOf(req.get("deliverer_id")));
+                User deliverer = userRepo.getUserById(Integer.valueOf(driverRoute.getDriverId()));
 
                 packageRequest.setStatus("requested");
                 packageRequest.setSender(sender);
                 packageRequest.setDeliverer(deliverer);
                 packageRequest.setAksPrice(Float.valueOf(req.get("ask_price")));
-//                packageRequest.setDriverRoute();
+
+                packageRequest.setDriverRoute(driverRoute);
 
                 Package p = packageRepo.getPackageById(Integer.valueOf(req.get("package_id")));
                 packageRequest.set_package(p);
 
-                if(sender==null || deliverer==null || p==null)
+                if(sender==null || deliverer==null || p==null || driverRoute==null)
                     return "Invalid request";
 
                 packageRequestRepo.save(packageRequest);
