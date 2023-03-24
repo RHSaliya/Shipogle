@@ -11,7 +11,7 @@ export default function Notification(props) {
 
 
   return (
-    <div>
+    <div className="notif">
         <h4> {props.notificationName}</h4>
 
         {notifType === 0 ? <Link to="/inbox">  <p> {props.notificationAction}</p></Link> :  <Link to="/userdash">  <p> {props.notificationAction}</p></Link>}
