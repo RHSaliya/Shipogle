@@ -26,6 +26,10 @@ public class PackageRequest {
     @JoinColumn(name = "package_id",referencedColumnName = "package_id")
     private Package _package;
 
+    @ManyToOne
+    @JoinColumn(name="driver_route_id",referencedColumnName = "id")
+    private DriverRoute driverRoute;
+
     @Column(name="ask_price")
     private Float aksPrice;
 
@@ -69,6 +73,14 @@ public class PackageRequest {
 
     public void set_package(Package _package) {
         this._package = _package;
+    }
+
+    public DriverRoute getDriverRoute() {
+        return driverRoute;
+    }
+
+    public void setDriverRoute(DriverRoute driverRoute) {
+        this.driverRoute = driverRoute;
     }
 
     public LocalDateTime getCreated_at() {

@@ -22,4 +22,15 @@ public class PackageOrderController {
     public String cancelOrder(@RequestBody Map<String,String> req){
         return packageOrderService.cancelOrder(Integer.valueOf(req.get("package_order_id")));
     }
+
+    @PutMapping("package/order/start")
+    public String startOrder(@RequestBody Map<String,String> req){
+        return packageOrderService.startPackageOrder(Integer.valueOf(req.get("pickup_code")),Integer.valueOf(req.get("order_id")));
+    }
+
+    @PutMapping("package/order/end")
+    public String endOrder(@RequestBody Map<String,String> req){
+        return packageOrderService.endPackageOrder(Integer.valueOf(req.get("drop_code")),Integer.valueOf(req.get("order_id")));
+    }
+
 }

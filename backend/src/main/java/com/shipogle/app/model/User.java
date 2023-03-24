@@ -37,6 +37,10 @@ public class User implements UserDetails {
 	private String address;
 	@Column(name = "city")
 	private String city;
+	@Column(name = "latitude")
+	private String latitude;
+	@Column(name = "longitude")
+	private String longitude;
 	@Column(name = "province")
 	private String province;
 	@Column(name = "postal_code")
@@ -166,5 +170,39 @@ public class User implements UserDetails {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public String getLatitude() {
+		return latitude;
+	}
+
+	public void setLatitude(String latitude) {
+		this.latitude = latitude;
+	}
+
+	public String getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(String longitude) {
+		this.longitude = longitude;
+	}
+
+	@Override
+	public String toString() {
+		return String.format("{ " +
+				"user_id:%d," +
+				"first_name:'%s'," +
+				"last_name:'%s'," +
+				"email:'%s'," +
+				"gov_id_url:'%s'," +
+				"profile_pic_url:'%s'," +
+				"dob:'%s'," +
+				"address:'%s'," +
+				"city:'%s'," +
+				"province:'%s'," +
+				"postal_code:'%s'," +
+				"country:'%s' }", id, first_name, last_name, email, gov_id_url, profile_pic_url, dob, address, city,
+				province, postal_code, country);
 	}
 }

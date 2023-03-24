@@ -116,20 +116,20 @@ function CourierForm() {
     const data = {};
     data["sourceCity"] = sourceCityName;
     data["sourceCityReferenceId"] = sourceCityReferenceId;
-    data["destinationsCityName"] = destinationsCityName;
-    data["destinationsCityReferenceId"] = destinationsCityReferenceId;
-    data["maxPackages"] = maxPackages;
-    data["maxLength"] = maxLength;
-    data["maxWidth"] = maxWidth;
-    data["maxHeight"] = maxHeight;
+    data["destinationCity"] = destinationsCityName;
+    data["destinationCityReferenceId"] = destinationsCityReferenceId;
+    data["maxPackages"] = maxPackages.toString();
+    data["maxLength"] = maxLength.toString();
+    data["maxWidth"] = maxWidth.toString();
+    data["maxHeight"] = maxHeight.toString();
     data["pickupDate"] = pickupDate;
     data["dropoffDate"] = dropoffDate;
-    data["daysToDeliver"] = "";
+    data["daysToDeliver"] = "1";
     data["pickupLocationCoords"] = "";
     data["dropoffLocationCoords"] = "";
     data["allowedCategory"] = allowedCategory;
     data["driverId"] = localStorage.getItem("userId");
-    data["price"] = price;
+    data["price"] = price.toString();
     if (path === "search") {
       data["radius"] = radius;
       const parms = new URLSearchParams(data).toString();
@@ -145,8 +145,6 @@ function CourierForm() {
     }
 
     if (path !== "search") {
-      alert("post created");
-      navigate("/courier/search");
       customAxios.post(Constants.DRIVERROUTE, data).then(
         (res) => {
           console.log(res);

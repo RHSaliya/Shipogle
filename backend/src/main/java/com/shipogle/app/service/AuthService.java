@@ -42,7 +42,31 @@ public class AuthService {
         return true;
     }
 
-    public String forgotPassword(String origin, String email) {
+    public String resetPassword(String token, String password) {
+        try {
+            ForgotPasswordToken forgotPasswordToken = forgotPasswordTokenRepo.findByForgetPasswordToken(token);
+            if (forgotPasswordToken.getIs_active()) {
+                Claims claim = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
+                String email = (String) claim.get("email");
+
+                User user = userReop.getUserByEmail(email);
+                BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+                String new_password = encoder.encode(password);
+                user.setPassword(new_password);
+                userReop.save(user);
+                forgotPasswordToken.setIs_active(false);
+                forgotPasswordTokenRepo.save(forgotPasswordToken);
+
+                return "Password changed successfully";
+            } else {
+                return "Link is not active";
+            }
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+    }
+
+    public String forgotPassword(String email) {
         try {
             User user = userReop.getUserByEmail(email);
 
@@ -52,26 +76,20 @@ public class AuthService {
             String forgot_password_token = token.getForgot_password_token();
 
             mailService.sendMail(user.getEmail(), "Reset Password", "Password rest link(Expires in 24 hours): ",
-                    origin + "/resetPassword?token=" + forgot_password_token);
+                    "http://localhost:8080/changepassword?token=" + forgot_password_token);
+
         } catch (Exception e) {
             return e.getMessage();
         }
         return "Password reset link sent";
     }
 
-    public String resetPassword(String email, String password) {
-        try {
-            User user = userReop.getUserByEmail(email);
-            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-            String new_password = encoder.encode(password);
-            user.setPassword(new_password);
-            userReop.save(user);
-        } catch (Exception e) {
-            return e.getMessage();
-        }
-
-        return "Password reset link sent";
-    }
+    // public String logout(String token){
+    // System.out.println("Flag logout service");
+    // String email = Jwts.parser().parseClaimsJws(token).getBody().getAudience();
+    // System.out.println(email);
+    // return "";
+    // }
 
     public String verifyEmail(String code, int id) {
 

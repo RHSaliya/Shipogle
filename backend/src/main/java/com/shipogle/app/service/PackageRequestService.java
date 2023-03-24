@@ -37,6 +37,7 @@ public class PackageRequestService {
     public String sendRequest(Map<String,String> req){
         try{
             int request_count = packageRequestRepo.countAllBy_package_IdAndDeliverer_Id(Integer.valueOf(req.get("package_id")),Integer.valueOf(req.get("deliverer_id")));
+//            int request_count = packageRequestRepo.countAllBy_package_IdAndDriverRoute_Id(Integer.valueOf(req.get("package_id")),Long.valueOf(req.get("driver_route_id")));
 
             if(packageOrderService.isPackageOrderExist(Integer.valueOf(req.get("package_id"))))
                 return "Cannot send request after order creation";
@@ -54,6 +55,7 @@ public class PackageRequestService {
                 packageRequest.setSender(sender);
                 packageRequest.setDeliverer(deliverer);
                 packageRequest.setAksPrice(Float.valueOf(req.get("ask_price")));
+//                packageRequest.setDriverRoute();
 
                 Package p = packageRepo.getPackageById(Integer.valueOf(req.get("package_id")));
                 packageRequest.set_package(p);
