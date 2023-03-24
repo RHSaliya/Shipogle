@@ -28,9 +28,25 @@ public class DriverRouteController {
     }
 
     @GetMapping("/driverRoutes")
-    public List<DriverRoute> getDriverRoutesByFilters(@RequestBody String jsonString) throws JsonProcessingException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        DashboardFilter dashboardFilters = objectMapper.readValue(jsonString, DashboardFilter.class);
+    public List<DriverRoute> getDriverRoutesByFilters(
+            @RequestParam(required = false) String sourceCity,
+            @RequestParam(required = false) String destination,
+            @RequestParam(required = false) String pickupDataTime,
+            @RequestParam(required = false) String maxPackages,
+            @RequestParam(required = false) String allowedCategory,
+            @RequestParam(required = false) String radius,
+            @RequestParam(required = false) String price,
+            @RequestParam(required = false) String category
+    ) {
+        DashboardFilter dashboardFilters = new DashboardFilter();
+        dashboardFilters.sourceCity = sourceCity;
+        dashboardFilters.destination = destination;
+        dashboardFilters.pickupDataTime = pickupDataTime;
+        dashboardFilters.maxPackages = maxPackages;
+        dashboardFilters.allowedCategory = allowedCategory;
+        dashboardFilters.radius = radius;
+        dashboardFilters.price = price;
+        dashboardFilters.category = category;
 
         return driverRouteFilter.getDriverRoutesByFilters(dashboardFilters);
     }
