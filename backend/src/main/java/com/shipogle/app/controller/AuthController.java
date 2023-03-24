@@ -2,6 +2,7 @@ package com.shipogle.app.controller;
 
 import com.shipogle.app.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.shipogle.app.model.User;
 import com.shipogle.app.model.JwtToken;
@@ -40,5 +41,17 @@ public class AuthController {
     @GetMapping("/test")
     public String test(){
         return "Test page ...";
+    }
+
+    @GetMapping("/user")
+    public String getUser(@RequestParam("id") int id)
+    {
+        System.out.println("id = " + id);
+        return authService.getUser(id).toString();
+    }
+
+    @GetMapping("/user_info")
+    public User getUserInfo(@RequestHeader("Authorization") String token){
+        return authService.getUserInfo(token);
     }
 }
