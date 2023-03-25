@@ -129,3 +129,15 @@
         width: 20%;
     }
 }
+.users{
+    position: relative;
+}
+.user-name {
+    display: flex;
+
+}
+.user-name > div > button {
+    position: absolute;
+    right: 0.5em;
+    
+}

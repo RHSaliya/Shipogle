@@ -4,6 +4,7 @@ import { w3cwebsocket as WebSocket } from "websocket";
 import Constants from "../../Constants";
 import "./inbox.css";
 import chatProfileImg from "../../assets/profile.png";
+import { Link } from "react-router-dom";
 
 const getUniqueSocketAddress = (user, selectedUser) => {
     const joinUsing = "!";
@@ -16,6 +17,8 @@ const Inbox = () => {
     const [messages, setMessages] = useState([]);
     const [chatUsers, setChatUsers] = useState([]);
     const [inputValue, setInputValue] = useState("");
+    const [clearMsg, setClearMsg] = useState(false);
+   // const [clearMsgUser, setClearMsgUser] = useState("");
     const ws = useRef(null);
 
     function handleUserClick(selectedUser) {
@@ -32,7 +35,7 @@ const Inbox = () => {
         ws.current.onopen = () => {
             console.log('WebSocket Client Connected');
         };
-
+ 
         ws.current.onmessage = (message) => {
             console.log("got message");
             console.log(message);
@@ -91,6 +94,10 @@ const Inbox = () => {
                 setInputValue("");
             });
     };
+    const handleClearMessages = () => {
+        setClearMsg(prevClearMsg => true);
+      // setClearMsgUser(prevClearMsgUser => selectedUser);
+      };
 
     const handleSendasOtherClick = () => {
         axios
@@ -118,33 +125,41 @@ const Inbox = () => {
                         <div className="users" key={index} onClick={() => handleUserClick(user)} >
                             <div className="user-picture">
                                 {/* <img style={{ width: 15, height: 15 }} alt="pfp chat user" src={chatProfileImg}></img>  */}
-                                {index % 2 === 0 ? <img style={{ width: 20, height: 20 }} alt="pfp chat user" src={chatProfileImg}></img> :
-
-                                    user.first_name[0] + user.last_name[0]}
+                                {index % 2 === 0 ?<Link to="/userdash"><img style={{ width: 20, height: 20 }} alt="pfp chat user" src={chatProfileImg}></img></Link> :
+                                //userdash link can be redirected to myOrders or anywhere the image should redirect
+                                <Link to="/userdash">{user.first_name[0] + user.last_name[0]}</Link>}
                             </div>
                             <div className="user-name" >
                                 <div>
                                     {
-                                        user.first_name + " " + user.last_name
+                                        (user === selectedUser) ? <b>{user.first_name + " " + user.last_name}</b> :
+                                            user.first_name + " " + user.last_name
                                     }
                                 </div>
 
-
-
+                                <div>
+                                    <button className="btn" onClick={handleClearMessages}>Clear</button>
+                                </div>
                             </div>
-
                         </div>
                     ))}
                 </div>
             </div>
             <div className="chatWindow">
                 <div className="messageContainer">
-                    {messages.map((message, index) => (
+                    
+                    {
+                    (clearMsg === true /*&& selectedUser === clearMsgUser*/ ) ? <div>Messages cleared</div> :
+                    
+                    messages.map((message, index) => (
                         <div key={index}>
+                           
                             {
+                               
                                 <div className={message.senderId === user.user_id ? "myMessage" : "otherMessage"}>
                                     <b>{message.senderId === user.user_id ? 'You' : selectedUser.first_name}</b>: {message.message}
                                 </div>
+                               
                             }
                         </div>
                     ))}
