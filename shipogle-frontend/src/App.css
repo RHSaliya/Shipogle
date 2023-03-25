@@ -328,8 +328,17 @@ a:hover{
   margin: 2em auto;
   border-top: 2px solid black;
 }
+.notification-header{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.notification-header > button {
+  margin-right: 1em;
+  padding-bottom: 20px;
+  height: 30px;
 
-
+}
 
 .notif > h4 {
   margin-top: 0px;
@@ -339,4 +348,4 @@ a:hover{
   margin-top: 0px;
   margin-bottom: 0.5em;
 }
-  
+

@@ -14,6 +14,7 @@ export default function NotificationsMenu() {
   const [anchorEl, setAnchorEl] = useState(null);
   const [hasNotfication, setHasNotification] = useState(false);
   const [notifications, setNotifications] = useState([]);
+  const [clearNotif, setClearNotif] = useState(false);
   const ws = useRef(null);
 
   const open = Boolean(anchorEl);
@@ -31,6 +32,10 @@ export default function NotificationsMenu() {
   }
   const handleNotif = () => {
     setHasNotification(false);
+  }
+  const handleClearNotif = () => {
+    setClearNotif(prevClearNotif => true);
+
   }
 
   useEffect(() => {
@@ -102,9 +107,17 @@ export default function NotificationsMenu() {
           horizontal: 'left',
         }}
       >
+        <div className="notification-header">
         <p style={{ padding: "0 1em 0 1em" , fontSize: "20px", fontWeight: "bold", textAlign: "center"}}>Notifications</p>
-        {notifications.map((notification, index) => (
-          <MenuItem style={{borderBottom:"1px solid black"}} sx={{ width: "500px" }} onClick={handleClose}><Notification notificationName={notification.title} notificationAction={notification.message} /></MenuItem>
+        <button className="btn" onClick={handleClearNotif}>Clear</button>
+
+        </div>
+       
+        {
+         (clearNotif === true ?   <p style={{ padding: "0 1em 0 1em" ,textAlign: "center"}}>Empty Notifications</p> :
+         notifications.map((notification, index) => (
+          <MenuItem style={{borderBottom:"1px solid black"}} sx={{ width: "500px" }} onClick={handleClose}><Notification notificationName={notification.title} notificationAction={notification.message} /></MenuItem> )
+       
         ))}
       </Menu>
     </div>
