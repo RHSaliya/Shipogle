@@ -66,3 +66,4 @@ frontend-publish-deploy:
     - zip -r build.zip build
     - scp -r -o StrictHostKeyChecking=no -i ${VM_PRIVATE_KEY} build.zip csci5308vm9@csci5308vm9.research.cs.dal.ca:frontend.zip
     - ssh -i ${VM_PRIVATE_KEY} csci5308vm9@csci5308vm9.research.cs.dal.ca "unzip frontend.zip; rm -rf frontend; mv build frontend; rm -rf frontend.zip"
+    - ssh -i ${VM_PRIVATE_KEY} csci5308vm9@csci5308vm9.research.cs.dal.ca "cd build; serve"
