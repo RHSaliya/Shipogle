@@ -3,18 +3,9 @@ variables:
   TARGET_FOLDER_NAME: "target"
   BACKEND_FOLDER_NAME: "backend"
 
-default:
-  # Providing default image as openjdk:11
-  image: openjdk:11
-
 stages:
-  # builds shipogle application.
   - build
-
-  # tests shipogle application.
   - test
-
-  # deploys shipogle application
   - deploy
 
 backend-build:
@@ -33,7 +24,7 @@ backend-build:
   artifacts:
     when: on_success
     paths:
-      - $TARGET_FOLDER_NAME/*.war
+      - $TARGET_FOLDER_NAME
 
 backend-test:
   stage: test
@@ -49,27 +40,15 @@ backend-test:
     - changes:
         - backend/**/*
 
-backend-deploy:
-  before_script:
-    - apt-get update -qq && apt-get install -y -qq sshpass
+backend-publish-deploy:
+  stage: deploy
   image: maven:latest
-  stage: deploy
+  tags:
+    - ugrad
   script:
-    - echo "Backend Deployment started"
-    - cd $BACKEND_FOLDER_NAME
-    - mvn clean package
-    - mvn package -B
-    - sshpass -V
-    - export SSHPASS=$CI_USER_PASS
-    - sshpass -e scp -o StrictHostKeyChecking=no $BACKEND_FOLDER_NAME/$TARGET_FOLDER_NAME/Shipogle.jar csci5308vm9@csci5308vm9.research.cs.dal.ca/home/csci5308vm9
-    - sshpass -e ssh -tt -o StrictHostKeyChecking=no csci5308vm9@csci5308vm9.research.cs.dal.ca sudo mv /home/csci5308vm9/Shipogle.jar /opt/java/webapps
-    - sshpass -e ssh -tt -o StrictHostKeyChecking=no csci5308vm9@csci5308vm9.research.cs.dal.ca sudo systemctl restart gitlab-ci-demo.service
-  artifacts:
-    when: on_success
-    paths:
-      - $BACKEND_FOLDER_NAME/$TARGET_FOLDER_NAME/Shipogle.jar
-
-frontend-deploy:
-  stage: deploy
-  script:
-    - echo "Front-end Deployment started"
+    - cd backend
+    - mvn package
+    - chmod og-rwx ${VM_PRIVATE_KEY}
+    - ls
+    - scp -r -o StrictHostKeyChecking=no -i ${VM_PRIVATE_KEY} ${TARGET_FOLDER_NAME}/Shipogle.jar csci5308vm9@csci5308vm9.research.cs.dal.ca:Shipogle.jar
+    - ssh -i ${VM_PRIVATE_KEY} csci5308vm9@csci5308vm9.research.cs.dal.ca "java -jar Shipogle.jar"
