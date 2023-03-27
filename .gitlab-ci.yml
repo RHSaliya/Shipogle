@@ -56,6 +56,8 @@ backend-publish-deploy:
 
 frontend-publish-deploy:
   stage: deploy
+  before_script:
+    - apt-get update && apt-get install -y zip
   script:
     - chmod og-rwx ${VM_PRIVATE_KEY}
     - zip -r shipogle-frontend.zip shipogle-frontend
