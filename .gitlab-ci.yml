@@ -55,7 +55,7 @@ backend-publish-deploy:
 
 frontend-publish-deploy:
   stage: deploy
-  image: node:latest
+  image: node:v19.5.0
   tags:
     - ugrad
   script:
