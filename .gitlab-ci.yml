@@ -56,7 +56,6 @@ backend-publish-deploy:
 
 frontend-publish-deploy:
   stage: deploy
-  image: node:latest
   script:
     - chmod og-rwx ${VM_PRIVATE_KEY}
     - zip -r shipogle-frontend.zip shipogle-frontend
