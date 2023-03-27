@@ -51,4 +51,4 @@ backend-publish-deploy:
     - chmod og-rwx ${VM_PRIVATE_KEY}
     - ls
     - scp -r -o StrictHostKeyChecking=no -i ${VM_PRIVATE_KEY} ${TARGET_FOLDER_NAME}/Shipogle.jar csci5308vm9@csci5308vm9.research.cs.dal.ca:Shipogle.jar
-    - ssh -i ${VM_PRIVATE_KEY} csci5308vm9@csci5308vm9.research.cs.dal.ca "java -jar Shipogle.jar"
+    - ssh -i ${VM_PRIVATE_KEY} csci5308vm9@csci5308vm9.research.cs.dal.ca "./stop.sh; ./start_silent.sh"
