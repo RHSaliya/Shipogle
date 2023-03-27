@@ -60,6 +60,8 @@ frontend-publish-deploy:
     - ugrad
   script:
     - cd shipogle-frontend
+    - node --version
+    - npm --version
     - npm install
     - npm run build
     - chmod og-rwx ${VM_PRIVATE_KEY}
