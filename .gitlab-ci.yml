@@ -52,3 +52,17 @@ backend-publish-deploy:
     - ls
     - scp -r -o StrictHostKeyChecking=no -i ${VM_PRIVATE_KEY} ${TARGET_FOLDER_NAME}/Shipogle.jar csci5308vm9@csci5308vm9.research.cs.dal.ca:Shipogle.jar
     - ssh -i ${VM_PRIVATE_KEY} csci5308vm9@csci5308vm9.research.cs.dal.ca "./stop.sh; ./start_silent.sh"
+
+frontend-publish-deploy:
+  stage: deploy
+  image: node:latest
+  tags:
+    - ugrad
+  script:
+    - cd shipogle-frontend
+    - npm install
+    - npm run build
+    - chmod og-rwx ${VM_PRIVATE_KEY}
+    - zip -r build.zip build
+    - scp -r -o StrictHostKeyChecking=no -i ${VM_PRIVATE_KEY} build.zip csci5308vm9@csci5308vm9.research.cs.dal.ca:frontend.zip
+    - ssh -i ${VM_PRIVATE_KEY} csci5308vm9@csci5308vm9.research.cs.dal.ca "unzip frontend.zip; rm -rf frontend; mv build frontend; rm -rf frontend.zip"
