@@ -55,15 +55,11 @@ backend-publish-deploy:
 
 frontend-publish-deploy:
   stage: deploy
-  image: node:v19.5.0
-  tags:
-    - ugrad
+  image: node:latest
   script:
     - cd shipogle-frontend
     - node --version
     - npm --version
-    - curl -fsSL https://deb.nodesource.com/setup_current.x | sudo -E bash - &&\
-    - sudo apt-get install -y nodejs
     - npm install
     - npm run build
     - chmod og-rwx ${VM_PRIVATE_KEY}
