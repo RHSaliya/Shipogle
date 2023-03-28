@@ -7,6 +7,7 @@ const APIS = {
   API_USER_INFO_FROM_TOKEN: `${BASE_URL}/user_info`,
   API_NOTIFICATIONS: `${BASE_URL}/notifications`,
   API_FORGOT_PWD: `${BASE_URL}/forgotpassword`,
+  API_USER: `${BASE_URL}/user`,
   SOCKET_CHAT: `${SOCKET_BASE_URL}/chatSocket`,
   SOCKET_NOTIFICATIONS: `${SOCKET_BASE_URL}/notificationSocket`,
   PAYMENT_CHARGE: `${BASE_URL}/payment/charge`,
