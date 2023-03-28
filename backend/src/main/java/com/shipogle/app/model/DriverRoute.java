@@ -14,6 +14,9 @@ public class DriverRoute {
     @Column(name = "driverId")
     private String driverId;
 
+    @Column(name = "driverName")
+    private String driverName;
+
     @Column(name = "sourceCity")
     private String sourceCity;
 
@@ -69,12 +72,28 @@ public class DriverRoute {
         // default constructor for JPA
     }
 
+    public String getDriverRouteId() {
+        return driverId;
+    }
+
+    public void setDriverRouteId(long id) {
+        this.id = id;
+    }
+
     public String getDriverId() {
         return driverId;
     }
 
     public void setDriverId(String driverId) {
         this.driverId = driverId;
+    }
+
+    public String getDriverName() {
+        return driverName;
+    }
+
+    public void setDriverName(String driverName) {
+        this.driverName = driverName;
     }
 
     public String getSourceCity() {
