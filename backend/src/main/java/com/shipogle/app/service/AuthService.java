@@ -10,10 +10,12 @@ import com.shipogle.app.repository.UserRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 @Service
 public class AuthService {
@@ -76,7 +78,7 @@ public class AuthService {
             String forgot_password_token = token.getForgot_password_token();
 
             mailService.sendMail(user.getEmail(), "Reset Password", "Password rest link(Expires in 24 hours): ",
-                    "http://localhost:8080/changepassword?token=" + forgot_password_token);
+                    "http://localhost:3000/forgotpassword/reset?token=" + forgot_password_token);
 
         } catch (Exception e) {
             return e.getMessage();
@@ -140,7 +142,8 @@ public class AuthService {
         try {
             authManager.authenticate(auth_token);
         } catch (Exception e) {
-            return e.getMessage();
+//            return e.getMessage();
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
         }
 
         User storedUser = userReop.getUserByEmail(email);
@@ -151,7 +154,8 @@ public class AuthService {
             jwtTokenRepo.save(token);
             return token.getToken();
         } else {
-            return "User is not verified";
+//            return "User is not verified";
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User is not verified");
         }
     }
 
