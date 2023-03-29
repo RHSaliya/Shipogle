@@ -9,8 +9,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class PaymentService {
 
+    private final PaymentGatewayClient paymentGatewayClient;
+
     @Autowired
-    private PaymentGatewayClient paymentGatewayClient;
+    public PaymentService(PaymentGatewayClient paymentGatewayClient) {
+        this.paymentGatewayClient = paymentGatewayClient;
+    }
 
     public PaymentResponse chargeCreditCard(PaymentGatewayRequest paymentRequest) throws PaymentGatewayException {
         try {

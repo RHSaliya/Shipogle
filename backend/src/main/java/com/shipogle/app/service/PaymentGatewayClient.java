@@ -11,26 +11,20 @@ import org.springframework.web.client.RestTemplate;
 
 @Component
 public class PaymentGatewayClient {
-
     @Value("${payment.gateway.url}")
     private String paymentGatewayUrl;
 
     public PaymentResponse chargeCreditCard(PaymentGatewayRequest paymentRequest) throws PaymentGatewayException {
+        PaymentGatewayRequest paymentGatewayRequest = createPaymentGatewayRequest(paymentRequest);
+        RestTemplate restTemplate = new RestTemplate();
+        HttpHeaders headers = new HttpHeaders();
         try {
-            PaymentGatewayRequest paymentGatewayRequest = createPaymentGatewayRequest(paymentRequest);
-
-            RestTemplate restTemplate = new RestTemplate();
-            HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
             ObjectMapper objectMapper = new ObjectMapper();
-            String jsonString = objectMapper.writeValueAsString(paymentRequest);
-
+            String jsonString = objectMapper.writeValueAsString(paymentGatewayRequest);
             HttpEntity<String> requestEntity = new HttpEntity<>(jsonString, headers);
-
             ResponseEntity<PaymentResponse> responseEntity = restTemplate.exchange(paymentGatewayUrl, HttpMethod.POST, requestEntity, PaymentResponse.class);
-
-            PaymentResponse responseBody = responseEntity.getBody();
-            return responseBody;
+            return responseEntity.getBody();
         } catch (Exception e) {
             throw new PaymentGatewayException("Error processing payment: " + e.getMessage());
         }
@@ -44,9 +38,6 @@ public class PaymentGatewayClient {
         paymentGatewayRequest.setCardExpiryMonth(paymentRequest.getCardExpiryMonth());
         paymentGatewayRequest.setCardExpiryYear(paymentRequest.getCardExpiryYear());
         paymentGatewayRequest.setCardCvv(paymentRequest.getCardCvv());
-
         return paymentGatewayRequest;
     }
 }
-
-
