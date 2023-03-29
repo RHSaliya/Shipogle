@@ -5,6 +5,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 import com.shipogle.app.service.JwtTokenService;
+import org.springframework.web.server.ResponseStatusException;
 
 @Component
 public class Authfilter implements Filter {
@@ -69,7 +71,9 @@ public class Authfilter implements Filter {
                     }
 
                 }catch (ExpiredJwtException e){
-                    response.getWriter().print(e.getMessage());
+                    response.sendError(401,"Unauthorized");
+//                    response.getWriter().print(e.getMessage());
+//                    throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
                 }
             }
             else {

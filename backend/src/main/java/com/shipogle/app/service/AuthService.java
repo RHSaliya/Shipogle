@@ -61,10 +61,12 @@ public class AuthService {
 
                 return "Password changed successfully";
             } else {
-                return "Link is not active";
+//                return "Link is not active";
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Link is not active");
             }
         } catch (Exception e) {
-            return e.getMessage();
+//            return e.getMessage();
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
 
@@ -81,7 +83,8 @@ public class AuthService {
                     "http://localhost:3000/forgotpassword/reset?token=" + forgot_password_token);
 
         } catch (Exception e) {
-            return e.getMessage();
+//            return e.getMessage();
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
         return "Password reset link sent";
     }
@@ -105,13 +108,16 @@ public class AuthService {
                     userReop.save(user);
                     return "Email Verified";
                 } else {
-                    return "Not valid user";
+//                    return "Not valid user";
+                    throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Not valid user");
                 }
             } else {
-                return "Already Verified";
+//                return "Already Verified";
+                throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Not valid user");
             }
         } catch (Exception e) {
-            return e.getMessage();
+//            return e.getMessage();
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
 
@@ -131,7 +137,8 @@ public class AuthService {
             return "Verification email sent";
 
         } else {
-            return "User Already exist with this email";
+//            return "User Already exist with this email";
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User Already exist with this email");
         }
     }
 
