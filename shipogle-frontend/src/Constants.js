@@ -1,5 +1,7 @@
-const BASE_URL = 'http://csci5308vm9.research.cs.dal.ca:8080';
-const SOCKET_BASE_URL = 'ws://csci5308vm9.research.cs.dal.ca:8080';
+// const HOST = "csci5308vm9.research.cs.dal.ca"
+const HOST = "127.0.0.1"
+const BASE_URL = `http://${HOST}:8080`;
+const SOCKET_BASE_URL = `ws://${HOST}:8080`;
 const APIS = {
     API_REGISTER: `${BASE_URL}/register`,
     API_LOGIN: `${BASE_URL}/login`,
