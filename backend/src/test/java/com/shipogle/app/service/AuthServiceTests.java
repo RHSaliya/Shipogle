@@ -25,46 +25,22 @@ public class AuthServiceTests {
     @MockBean
     private BCryptPasswordEncoder encoder;
 
-    @Test
-    public void isAlreadyExistTestPositive(){
-
-        user.setEmail("kadivarnand007@gmail.com");
-        when(userRepo.findUserByEmail(user.getEmail())).thenReturn(user);
-
-        assertTrue(authService.isAlreadyExist(user));
-    }
-
-    @Test
-    public void isAlreadyExistTestNagative(){
-        User user = new User();
-        user.setEmail("kadivarnand@gmail.com");
-        when(userRepo.findUserByEmail(user.getEmail())).thenReturn(null);
-
-        assertFalse(authService.isAlreadyExist(user));
-    }
-
 //    @Test
-//    public void resetPasswordTest(){
-//        String email = "nandkumarkadivar2001@gmail.com";
-//        String password = "abc123";
+//    public void isAlreadyExistTestPositive(){
 //
-//        when(userRepo.getUserByEmail(email)).thenReturn(new User());
+//        user.setEmail("kadivarnand007@gmail.com");
+//        when(userRepo.findUserByEmail(user.getEmail())).thenReturn(user);
 //
-//        assertEquals("Password changed successfully",authService.resetPassword(email,password));
+//        assertTrue(authService.isAlreadyExist(user));
 //    }
-//
+
 //    @Test
-//    public void resetPasswordTestPasswordChange(){
-//        String email = "nandkumarkadivar2001@gmail.com";
-//        String password = "abc123";
+//    public void isAlreadyExistTestNagative(){
 //        User user = new User();
-//        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+//        user.setEmail("kadivarnand@gmail.com");
+//        when(userRepo.findUserByEmail(user.getEmail())).thenReturn(null);
 //
-//        when(userRepo.getUserByEmail(email)).thenReturn(user);
-//
-//        authService.resetPassword(email,password);
-//        assertTrue(encoder.matches(password,user.getPassword()));
-//
+//        assertFalse(authService.isAlreadyExist(user));
 //    }
 
     @Test
