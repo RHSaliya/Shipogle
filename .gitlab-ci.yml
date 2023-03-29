@@ -64,4 +64,4 @@ frontend-publish-deploy:
     - chmod og-rwx ${VM_PRIVATE_KEY}
     - zip -r shipogle-frontend.zip shipogle-frontend
     - scp -r -o StrictHostKeyChecking=no -i ${VM_PRIVATE_KEY} shipogle-frontend.zip csci5308vm9@csci5308vm9.research.cs.dal.ca:${FRONTEND_FOLDER_NAME}/shipogle-frontend.zip
-    - ssh -i ${VM_PRIVATE_KEY} csci5308vm9@csci5308vm9.research.cs.dal.ca "cd ${FRONTEND_FOLDER_NAME}; ./stop.sh; ./start.sh"
+    - ssh -i ${VM_PRIVATE_KEY} csci5308vm9@csci5308vm9.research.cs.dal.ca "cd ${FRONTEND_FOLDER_NAME}; ./stop.sh; ./start_silent.sh"
