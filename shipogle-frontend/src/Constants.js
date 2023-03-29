@@ -1,5 +1,5 @@
 // const HOST = "csci5308vm9.research.cs.dal.ca"
-const HOST = "127.0.0.1"
+const HOST = "csci5308vm9.research.cs.dal.ca"
 const BASE_URL = `http://${HOST}:8080`;
 const SOCKET_BASE_URL = `ws://${HOST}:8080`;
 const APIS = {
