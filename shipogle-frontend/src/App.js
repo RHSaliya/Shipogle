@@ -6,12 +6,14 @@ import AlertMessage from "./components/AlertMessage";
 import CommonFunctions from "../src/services/CommonFunction";
 import NavBar from "./components/NavBar";
 import { AuthProvider } from "./utils/Auth";
+import "./Constants";
 
 const API_KEY = "AIzaSyBPtYm-CJPPW4yO9njM-e9YBWyp-DwIODM";
 let userLocation = { latitude: "", longitude: "" };
 
 window.initMap = function () {
   const comfunc = new CommonFunctions();
+  comfunc.fetchUrl();
   comfunc.googleObjectDefinedStatus(true);
 };
 class App extends React.Component {

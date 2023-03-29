@@ -6,13 +6,11 @@ const customAxios = axios.create({
 });
 
 const requestHandler = (request) => {
-  console.log("appending token");
   const token = Cookies.get("authToken");
 
   if (token) {
     request.headers.Authorization = `Bearer ${token}`;
   }
-  console.log(request);
   return request;
 };
 
@@ -33,7 +31,6 @@ const errorHandler = (error) => {
 
 customAxios.interceptors.request.use(
   (request) => {
-    console.log("in request");
     return requestHandler(request);
   },
   (error) => errorHandler(error)

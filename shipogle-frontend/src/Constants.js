@@ -1,5 +1,6 @@
 const BASE_URL = "http://localhost:8080";
 const SOCKET_BASE_URL = "ws://localhost:8080";
+const API_KEY = "AIzaSyBPtYm-CJPPW4yO9njM-e9YBWyp-DwIODM";
 const APIS = {
   API_REGISTER: `${BASE_URL}/register`,
   API_LOGIN: `${BASE_URL}/login`,
@@ -20,5 +21,6 @@ const APIS = {
   GETREQUESTS: `${BASE_URL}/package/request/getall`,
   DRIVERROUTE: `${BASE_URL}/driverRoutes`,
 };
+
 export default APIS;
-export { BASE_URL };
+export { BASE_URL, API_KEY };

@@ -73,29 +73,31 @@ class Data extends React.Component {
   listings = [
     {
       postId: "32u4ua334183904urq9ufai",
-      driverId: "1o2uj2uvvo08023n340pofav87",
-
+      driverId: "372",
       pickupData: {
         date: "2023-03-16",
         description: "Dalhousie University, South Street, Halifax, NS, Canada",
         place_id: "ChIJ19nmdTAiWksRA1TUEF1FjHQ",
+        pickupLocationCoords: [44.63658119999999, -63.59165549999999],
       },
       dropoffData: {
         date: "2023-03-16",
         description: "Toronto, ON, Canada",
         place_id: "ChIJpTvG15DL1IkRd8S0KlBVNTI",
+        dropoffLocationCoords: [43.653226, -79.3831843],
       },
-      name: "Test courier 4",
+      name: "Shahraj Singh",
       avatar: "https://material.angular.io/assets/img/examples/shiba1.jpg",
       max_packages: "1",
       package_dimensions: { l: "50", h: "50", w: "40" },
     },
     {
       postId: "234qvaq35twfdvat45",
-      driverId: "23rqvqetr908p9v",
+      driverId: "372",
       pickupData: {
         date: "2023-03-09",
         description: "South Street, Halifax, NS, Canada",
+        pickupLocationCoords: [44.6368155, -63.58368899999999],
         place_id:
           "EiFTb3V0aCBTdHJlZXQsIEhhbGlmYXgsIE5TLCBDYW5hZGEiLiosChQKEglHUqlaOiJaSxHJCn-MzHmqQxIUChIJwfrbBxQhWksR3C2LQ6bja2Y",
       },
@@ -103,44 +105,32 @@ class Data extends React.Component {
         date: "2023-03-09",
         description: "Montreal, QC, Canada ",
         place_id: "ChIJDbdkHFQayUwR7-8fITgxTmU",
+
+        dropoffLocationCoords: [45.5018869, -73.56739189999999],
       },
-      name: "Test courier 3",
+      name: "Shahraj Singh",
       avatar: "https://material.angular.io/assets/img/examples/shiba1.jpg",
       max_packages: "2",
       package_dimensions: { l: "100", h: "50", w: "40" },
     },
     {
       postId: "r890qfuvasduf98ryiuf",
-      driverId: "38rufoivjhaoufqwhk2r89u709",
+      driverId: "372",
       pickupData: {
         date: "2023-03-09",
         description: "Halifax, NS, Canada",
         place_id: "ChIJwfrbBxQhWksR3C2LQ6bja2Y",
+
+        pickupLocationCoords: [44.6475811, -63.5727683],
       },
       dropoffData: {
         date: "2023-03-09",
         description: "Montreal, QC, Canada ",
         place_id: "ChIJDbdkHFQayUwR7-8fITgxTmU",
+
+        dropoffLocationCoords: [45.5018869, -73.56739189999999],
       },
-      name: "Test courier 2",
-      avatar: "https://material.angular.io/assets/img/examples/shiba1.jpg",
-      max_packages: "2",
-      package_dimensions: { l: "100", h: "50", w: "40" },
-    },
-    {
-      postId: "fej2ioefhakjzvwfy",
-      driverId: "fasfa2orufosvsv129sdv",
-      pickupData: {
-        date: "2023-03-09",
-        description: "Halifax, NS, Canada",
-        place_id: "ChIJwfrbBxQhWksR3C2LQ6bja2Y",
-      },
-      dropoffData: {
-        date: "2023-03-09",
-        description: "Montreal, QC, Canada ",
-        place_id: "ChIJDbdkHFQayUwR7-8fITgxTmU",
-      },
-      name: "Test courier 1",
+      name: "Shahraj Singh",
       avatar: "https://material.angular.io/assets/img/examples/shiba1.jpg",
       max_packages: "2",
       package_dimensions: { l: "100", h: "50", w: "40" },

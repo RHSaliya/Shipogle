@@ -16,7 +16,7 @@ public class User implements UserDetails {
 	@Id
 	@GeneratedValue
 	@Column(name = "user_id")
-	private Integer user_id;
+	private Integer id;
 	@Column(name = "first_name")
 	private String first_name;
 	@Column(name = "last_name")
@@ -59,7 +59,7 @@ public class User implements UserDetails {
 	private LocalDateTime updated_at;
 
 	public Integer getUser_id() {
-		return user_id;
+		return id;
 	}
 
 	public String getFirst_name() {
@@ -188,66 +188,6 @@ public class User implements UserDetails {
 		this.longitude = longitude;
 	}
 
-	public void setUser_id(Integer user_id) {
-		this.user_id = user_id;
-	}
-
-	public void setFirst_name(String first_name) {
-		this.first_name = first_name;
-	}
-
-	public void setLast_name(String last_name) {
-		this.last_name = last_name;
-	}
-
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
-
-	public void setGov_id_url(String gov_id_url) {
-		this.gov_id_url = gov_id_url;
-	}
-
-	public void setProfile_pic_url(String profile_pic_url) {
-		this.profile_pic_url = profile_pic_url;
-	}
-
-	public void setDob(Date dob) {
-		this.dob = dob;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
-	}
-
-	public void setCity(String city) {
-		this.city = city;
-	}
-
-	public void setProvince(String province) {
-		this.province = province;
-	}
-
-	public void setPostal_code(String postal_code) {
-		this.postal_code = postal_code;
-	}
-
-	public void setCountry(String country) {
-		this.country = country;
-	}
-
-	public void setIs_activated(Boolean is_activated) {
-		this.is_activated = is_activated;
-	}
-
-	public void setCreated_at(LocalDateTime created_at) {
-		this.created_at = created_at;
-	}
-
-	public void setUpdated_at(LocalDateTime updated_at) {
-		this.updated_at = updated_at;
-	}
-
 	@Override
 	public String toString() {
 		return String.format("{ " +
@@ -262,8 +202,7 @@ public class User implements UserDetails {
 				"city:'%s'," +
 				"province:'%s'," +
 				"postal_code:'%s'," +
-				"country:'%s' }", user_id, first_name, last_name, email, gov_id_url, profile_pic_url, dob, address,
-				city,
+				"country:'%s' }", id, first_name, last_name, email, gov_id_url, profile_pic_url, dob, address, city,
 				province, postal_code, country);
 	}
 
@@ -284,4 +223,5 @@ public class User implements UserDetails {
 		this.is_verified = user.getIs_verified();
 		this.updated_at = LocalDateTime.now();
 	}
+
 }

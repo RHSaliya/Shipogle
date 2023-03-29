@@ -10,7 +10,9 @@ import CardHeader from "@mui/material/CardHeader";
 import CardActions from "@mui/material/CardActions";
 
 import Data from "./data";
+import Constants from "../Constants";
 import { useNavigate } from "react-router-dom";
+import customAxios from "../utils/MyAxios";
 
 function CourierDetails() {
   const navigate = new useNavigate();
@@ -22,10 +24,10 @@ function CourierDetails() {
   const confirmBookingFunction = (bool) => {
     setViewDetails(!bool);
     setConfirmBooking(bool);
-    console.log(confirmBooking);
   };
 
   const requestDriver = (bool) => {
+    //customAxios.post(Constants.);
     setViewDetails(false);
     setConfirmBooking(false);
     setRequestSent(true);

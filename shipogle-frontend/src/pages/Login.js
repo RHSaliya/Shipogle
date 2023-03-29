@@ -11,6 +11,7 @@ import Constants from "../Constants";
 import CommonFunctions from "../services/CommonFunction";
 import Header from "../components/Header";
 import { AuthContext } from "../utils/Auth";
+import customAxios from "../utils/MyAxios";
 
 export default function Login() {
   const { login } = useContext(AuthContext);
@@ -21,6 +22,7 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [containerStyle, setContainerStyle] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     setBackgroundImage(window.localStorage.getItem("backgroundUrlLogin"));
@@ -54,22 +56,61 @@ export default function Login() {
 
   const submit = (e) => {
     e.preventDefault();
-
+    setIsLoading(true);
     axios
       .post(Constants.API_LOGIN, {
         email: email,
         password: password,
       })
       .then((response) => {
-        const token = response.data;
-        Cookies.set("authToken", token, {
-          expires: COOKIE_EXPIRATION_TIME,
-        });
-        window.localStorage.setItem("authToken", token);
-        login();
-        navigate("/courier/search");
+        if (response.data === "Bad credentials") {
+          commFunc.showAlertMessage(
+            "Error while loging in please check credentials or try again later!!!",
+            "error",
+            3000,
+            "bottom"
+          );
+          setIsLoading(false);
+        } else {
+          const token = response.data;
+          Cookies.set("authToken", token, {
+            expires: COOKIE_EXPIRATION_TIME,
+          });
+          window.localStorage.setItem("authToken", token);
+
+          commFunc.showAlertMessage("Login Success", "success", 1500, "bottom");
+        }
       })
-      .catch((err) => console.error(err));
+      .then(() => {
+        const authToken = window.localStorage.getItem("authToken");
+        if (!authToken || authToken !== "") {
+          customAxios.get(Constants.API_USER_INFO_FROM_TOKEN).then(
+            (res) => {
+              const user_id = res.data.user_id;
+              const user_name = res.data.first_name + " " + res.data.last_name;
+              window.localStorage.setItem("user_id", user_id);
+              window.localStorage.setItem("user_name", user_name);
+              login();
+              setIsLoading(false);
+              navigate("/courier/search");
+            },
+            (error) => {
+              setIsLoading(false);
+              console.error(error);
+            }
+          );
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+        commFunc.showAlertMessage(
+          "Error while loging in please check credentials or try again later!!!",
+          "error",
+          3000,
+          "bottom"
+        );
+        setIsLoading(false);
+      });
   };
   return (
     <>
@@ -149,6 +190,7 @@ export default function Login() {
                 </Link>
                 <div style={{ textAlign: "center", marginTop: "2rem" }}>
                   <Button
+                    disabled={isLoading}
                     sx={{
                       minWidth: "94px",
                       maxWidth: "240px",
