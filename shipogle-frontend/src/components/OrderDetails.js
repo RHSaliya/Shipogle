@@ -16,7 +16,7 @@ import Data from "../pages/data";
 import customAxios from "../utils/MyAxios";
 import Constants from "../Constants";
 
-export default function OrderDetails(orderData) {
+export default function OrderDetails() {
   const data = new Data();
   const location = useLocation().pathname.split("/");
   const orderId = location[4];

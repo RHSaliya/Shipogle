@@ -13,8 +13,10 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ForumIcon from "@mui/icons-material/Forum";
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import SearchIcon from "@mui/icons-material/Search";
+
 import "./navBar.css";
 import { AuthContext } from "../utils/Auth";
+import CommonFunctions from "../services/CommonFunction";
 
 const ExpandButton = styled(Button)({
   minWidth: "18px",
@@ -31,6 +33,7 @@ export default function NavBar() {
   const { isAuthenticated, login, logout } = useContext(AuthContext);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
+  const commFunc = new CommonFunctions();
   const navigate = useNavigate();
 
   const handleClickOnExpand = (event) => {
@@ -64,9 +67,23 @@ export default function NavBar() {
             Search
           </Link>
         </button>
-        <button className="navbar-menu-item">
+        <button
+          className="navbar-menu-item"
+          onClick={() => {
+            if (!isAuthenticated)
+              commFunc.showAlertMessage(
+                "Please Login before posting an ad.",
+                "info",
+                3000,
+                "bottom"
+              );
+          }}
+        >
           <AddRoadIcon></AddRoadIcon> &nbsp;
-          <Link to="/courier/offer" style={{ textDecoration: "none" }}>
+          <Link
+            to={isAuthenticated ? "/courier/offer" : "/login"}
+            style={{ textDecoration: "none" }}
+          >
             Deliver
           </Link>
         </button>

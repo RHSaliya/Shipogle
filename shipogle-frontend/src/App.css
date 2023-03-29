@@ -335,3 +335,15 @@ a:hover{
   border-radius: 7px;
 }
 
+
+
+
+.notif > h4 {
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+.notif > a > p {
+  margin-top: 0px;
+  margin-bottom: 0.5em;
+}
+  

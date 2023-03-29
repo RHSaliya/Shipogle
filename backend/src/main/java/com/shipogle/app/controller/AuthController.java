@@ -55,4 +55,9 @@ public class AuthController {
     public User getUserInfo(@RequestHeader("Authorization") String token) {
         return authService.getUserInfo(token);
     }
+
+    @PutMapping("/user")
+    public String updateUser(@RequestHeader("Authorization") String token, @RequestBody User user) {
+        return authService.updateUser(token, user);
+    }
 }

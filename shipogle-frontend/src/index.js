@@ -19,6 +19,7 @@ import Payment from "./pages/payment";
 import MyRides from "./components/MyRides";
 import CurrentDelivery from "./components/CurrentDelivery";
 import CourierDetails from "./pages/CourierDetails";
+import ForgotPwd from "./pages/ForgotPwd";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -38,7 +39,7 @@ root.render(
         <Route path="/inbox" element={<Inbox></Inbox>}></Route>
 
         <Route path="/orders" element={<Orders></Orders>}></Route>
-
+        <Route path="/forgotPwd" element={<ForgotPwd></ForgotPwd>}></Route>
         <Route
           path="/orders/details/:status/:orderId"
           element={<OrderDetails></OrderDetails>}

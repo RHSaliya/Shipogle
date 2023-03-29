@@ -17,10 +17,11 @@ import PostAddIcon from "@mui/icons-material/PostAdd";
 import LocationAutoComplete from "../components/LocationAutoComplete";
 import customAxios from "../utils/MyAxios";
 import Constants from "../Constants";
-import AlertMessage from "../components/AlertMessage";
+import CommonFunctions from "../services/CommonFunction";
 import "./courierForm.css";
 import Listings from "../components/Listings";
 import Data from "./data";
+import axios from "axios";
 
 const API_KEY = "AIzaSyBPtYm-CJPPW4yO9njM-e9YBWyp-DwIODM";
 const ITEM_HEIGHT = 48;
@@ -37,6 +38,7 @@ const MenuProps = {
 function CourierForm() {
   const demoData = new Data();
   const date = new Date();
+  const commFunc = new CommonFunctions();
   const location = useLocation();
   const navigate = useNavigate();
   const [path, setLocationPath] = useState("");
@@ -67,6 +69,18 @@ function CourierForm() {
   const [pickupLocationCoords, setPickupLocationCoords] = useState([]);
   const [dropoffLocationCoords, setDropoffLocationCoords] = useState([]);
   const [listings, setListings] = useState([]);
+
+  useEffect(() => {
+    if (!path) {
+      if (location.pathname.includes("search")) {
+        setLocationPath("search");
+      } else {
+        setLocationPath("post");
+      }
+    }
+    //setListings(demoData.listings);
+  }, []);
+
   useEffect(() => {
     if (location.pathname.includes("search")) {
       setLocationPath("search");
@@ -82,22 +96,36 @@ function CourierForm() {
     const data = { place: value.description, place_id: value.place_id };
     let latLng = [];
     if (path !== "search") {
-      fetch(
-        `https://maps.googleapis.com/maps/api/place/details/json?place_id=${data.place_id}&fields=geometry&key=${API_KEY}`,
-        { mode: "no-cors" }
-      ).then(
-        (res) => {
-          if (res) {
-            latLng = [
-              res?.results?.geometry?.location?.lat,
-              res?.results?.geometry?.location?.lng,
-            ];
+      axios
+        .get(
+          `https://maps.googleapis.com/maps/api/place/details/json?place_id=${data.place_id}&fields=geometry&key=${API_KEY}`
+        )
+        .then(
+          (res) => {
+            if (res.data) {
+              latLng = [
+                res.data?.result?.geometry?.location?.lat,
+                res.data?.result?.geometry?.location?.lng,
+              ];
+            }
+          },
+          (error) => {
+            commFunc.showAlertMessage(
+              "Could not fetch entered location coordinates",
+              "error",
+              3000,
+              "bottom"
+            );
+            console.error(error);
           }
-        },
-        (error) => {
-          console.error(error);
-        }
-      );
+        )
+        .then(() => {
+          if (key === "sourceCity") {
+            setPickupLocationCoords(latLng);
+          } else if (key === "destinations") {
+            setDropoffLocationCoords(latLng);
+          }
+        });
     }
     if (key === "sourceCity") {
       setSourceCityName(data.place);
@@ -113,74 +141,81 @@ function CourierForm() {
   const onSubmit = (event) => {
     event.preventDefault();
     // submit form data
+    //add days to deliver
     const data = {};
-    data["sourceCity"] = sourceCityName;
-    data["sourceCityReferenceId"] = sourceCityReferenceId;
-    data["destinationCity"] = destinationsCityName;
-    data["destinationCityReferenceId"] = destinationsCityReferenceId;
+
     data["maxPackages"] = maxPackages.toString();
-    data["maxLength"] = maxLength.toString();
-    data["maxWidth"] = maxWidth.toString();
-    data["maxHeight"] = maxHeight.toString();
-    data["pickupDate"] = pickupDate;
-    data["dropoffDate"] = dropoffDate;
-    data["daysToDeliver"] = "1";
-    data["pickupLocationCoords"] = "";
-    data["dropoffLocationCoords"] = "";
-    data["allowedCategory"] = allowedCategory;
-    data["driverId"] = localStorage.getItem("userId");
+
     data["price"] = price.toString();
+
     if (path === "search") {
-      data["radius"] = radius;
+      data["pickupDataTime"] = pickupDate + " 21:00:00";
+      data["sourceCity"] = sourceCityName.split(",")[0];
+      data["destination"] = destinationsCityName.split(",")[0];
+      data["radius"] = "-1";
+      const testData = {
+        sourceCity: "San Francisco",
+        destination: "Los Angeles",
+        pickupDataTime: "2023-03-31 21:00:00",
+        maxPackages: "1",
+        radius: "1",
+        price: "1",
+      };
       const parms = new URLSearchParams(data).toString();
       customAxios.get(Constants.DRIVERROUTE + "?" + parms).then(
         (res) => {
-          console.log(res);
+          setListings(res.data);
         },
         (error) => {
           console.error(error);
         }
       );
-      setListings(demoData.listings);
     }
 
     if (path !== "search") {
+      data["pickupDate"] = pickupDate;
+      data["sourceCity"] = sourceCityName.split(",")[0];
+      data["sourceCityReferenceId"] = sourceCityReferenceId;
+      data["destinationCity"] = destinationsCityName.split(",")[0];
+      data["destinationCityReferenceId"] = destinationsCityReferenceId;
+      data["maxLength"] = maxLength.toString();
+      data["maxWidth"] = maxWidth.toString();
+      data["maxHeight"] = maxHeight.toString();
+      data["dropoffDate"] = dropoffDate;
+      data["daysToDeliver"] = "1";
+      data["pickupLocationCoords"] = pickupLocationCoords;
+      data["dropoffLocationCoords"] = dropoffLocationCoords;
+      data["allowedCategory"] = allowedCategory;
+      data["driverId"] = localStorage.getItem("user_id");
+      const driverName = window.localStorage.getItem("user_name");
+      data["driverName"] = driverName ? driverName : "Name not provided";
       customAxios.post(Constants.DRIVERROUTE, data).then(
         (res) => {
-          console.log(res);
-          alert("post created");
-          navigate("/courier/search");
+          commFunc.showAlertMessage(
+            "Post created Successfully.",
+            "success",
+            3000,
+            "bottom"
+          );
+          setTimeout(() => {
+            navigate("/courier/search");
+          }, 1000);
         },
         (error) => {
           console.error(error);
+          commFunc.showAlertMessage(
+            "There was an error creating post",
+            "error",
+            3000,
+            "bottom"
+          );
         }
       );
     }
-  };
-
-  const setAlertSettings = (message, type, duration, position) => {
-    setAlert(true);
-    setAlertMessage(message);
-    setAlertType(type);
-    setAlertDuration(duration);
-    setAlertPosition(position ? position : "bottom");
-
-    setTimeout(() => {
-      setAlert(false);
-    }, duration + 50);
   };
 
   return (
     <>
-      {showAlert && (
-        <AlertMessage
-          message={alertMessage}
-          messageType={alertType}
-          duration={alertDuration}
-          position={alertPosition}
-        ></AlertMessage>
-      )}
-
       <div className="form-container">
         <h3 style={{ margin: "0px 0px 16px 6px" }}>
           {path === "search" ? "Search Couriers" : "Post a delivery"}

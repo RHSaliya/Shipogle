@@ -72,8 +72,8 @@ public class DriverRoute {
         // default constructor for JPA
     }
 
-    public String getDriverRouteId() {
-        return driverId;
+    public long getDriverRouteId() {
+        return id;
     }
 
     public void setDriverRouteId(long id) {

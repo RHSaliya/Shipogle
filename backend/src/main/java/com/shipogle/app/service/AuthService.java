@@ -176,4 +176,14 @@ public class AuthService {
         String email = (String) claim.get("email");
         return userReop.getUserByEmail(email);
     }
+
+    public String updateUser(String token, User user) {
+        token = token.replace("Bearer", "").trim();
+        Claims claim = Jwts.parser().setSigningKey(JwtTokenService.secretKey).parseClaimsJws(token).getBody();
+        String email = (String) claim.get("email");
+        User db_user = userReop.getUserByEmail(email);
+        db_user.update(user);
+        userReop.save(db_user);
+        return "User updated";
+    }
 }
