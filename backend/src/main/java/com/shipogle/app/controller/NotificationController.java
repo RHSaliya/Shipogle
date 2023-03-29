@@ -23,7 +23,6 @@ public class NotificationController {
     @Autowired
     private NotificationRepository notificationRepository;
 
-
     @Autowired
     private WebSocketConfig webSocketConfig;
 
@@ -72,6 +71,7 @@ public class NotificationController {
 
         return new ArrayList<>(notificationRepository.findByUserOrderByCreatedAt(user));
     }
+
     @GetMapping("/{userId}")
     public List<Notification> getNotifications(@PathVariable int userId) {
         Optional<User> userOptional = userRepository.findById(userId);
@@ -83,7 +83,6 @@ public class NotificationController {
 
         return new ArrayList<>(notificationRepository.findByUserOrderByCreatedAt(user));
     }
-
 
     @DeleteMapping("/all/{userId}")
     public ResponseEntity<?> deleteNotifications(@PathVariable int userId) {
