@@ -80,7 +80,7 @@ public class AuthService {
             String forgot_password_token = token.getForgot_password_token();
 
             mailService.sendMail(user.getEmail(), "Reset Password", "Password rest link(Expires in 24 hours): ",
-                    "http://localhost:3000/forgotpassword/reset?token=" + forgot_password_token);
+                    "http://localhost:3000/forgotpwd/reset/" + forgot_password_token);
 
         } catch (Exception e) {
 //            return e.getMessage();
