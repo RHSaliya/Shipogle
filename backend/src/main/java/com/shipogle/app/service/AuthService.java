@@ -106,7 +106,8 @@ public class AuthService {
 
             String encoded_email = encoder.encode(new_user.getEmail());
             mailService.sendMail(new_user.getEmail(), "Email Verification", "Please verify your email:",
-                    "http://localhost:8080/verification?code=" + encoded_email + "&id=" + new_user.getUser_id());
+                    "http://csci5308vm9.research.cs.dal.ca:8080/verification?code=" + encoded_email + "&id="
+                            + new_user.getUser_id());
 
             return "Verification email sent";
 
