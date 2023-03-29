@@ -130,30 +130,60 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
 import "./Listings.css";
 import MapView from "./MapView";
-import { Typography } from "@mui/material";
+import { Avatar, Typography } from "@mui/material";
 
 function Listings({ data }) {
   const navigate = useNavigate();
   const [listingCards, setListingCards] = useState([]);
   const [showMapView, setShowMapView] = useState(false);
 
+  const getDriverInitials = (name) => {
+    const nameArray = name.split(" ");
+    const fInitial = nameArray[0].charAt(0);
+    const sInitial = nameArray.length > 1 ? nameArray[1].charAt(0) : "";
+    return fInitial + " " + sInitial;
+  };
+
   const createListingCards = () => {
     const cards = data.map((listing) => (
       <div
         className="listing-card"
-        onClick={() => navigate(`/courier/details/${listing?.driverRouteId}`)}
+        onClick={() =>
+          navigate(`/courier/details/${listing?.driverRouteId}`, {
+            state: { routeData: listing },
+          })
+        }
         key={listing?.driverRouteId}
       >
-        {listing.avatar}
-        <img
-          className="listing-card-avatar"
-          src={listing?.avatar}
-          alt="avatar"
-        ></img>
+        {listing.avatar && (
+          <>
+            <img
+              className="listing-card-avatar"
+              src={listing?.avatar}
+              alt="avatar"
+            ></img>
+          </>
+        )}
+        {!listing.avatar && (
+          <>
+            <Avatar
+              sx={{
+                height: "56px",
+                width: "56px",
+                fontSize: "32px",
+                marginLeft: "12px",
+                marginRight: "4px",
+              }}
+            >
+              {getDriverInitials(listing.driverName)}
+            </Avatar>
+          </>
+        )}
+
         <span className="listing-card-divider"></span>
         <div className="lisitng-card-header">
           <p className="listing-card-heading">
-            {listing?.driveName ? listing.driveName : "Name not found"}
+            {listing?.driverName ? listing.driverName : "Name not found"}
           </p>
           <hr style={{ marginBottom: "0px", flexGrow: 1 }} />
           <div className="listing-card-subheading">
@@ -186,7 +216,7 @@ function Listings({ data }) {
             <Typography>Tap on a deliverer to book or know more</Typography>
           </p>
           <IconButton
-            sx={{ height: "32px", width: "32px" }}
+            sx={{ height: "42px", width: "42px" }}
             aria-label="list-view"
             onClick={() => setShowMapView(false)}
           >

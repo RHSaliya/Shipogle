@@ -78,6 +78,7 @@ function CourierForm() {
         setLocationPath("post");
       }
     }
+    //setListings(demoData.listings);
   }, []);
 
   useEffect(() => {

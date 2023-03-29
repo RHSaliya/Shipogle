@@ -11,81 +11,142 @@ import CardActions from "@mui/material/CardActions";
 
 import Data from "./data";
 import Constants from "../Constants";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import customAxios from "../utils/MyAxios";
+import StaticMap from "../components/StaticMap";
+import CommonFunctions from "../services/CommonFunction";
 
 function CourierDetails() {
-  const navigate = new useNavigate();
+  const { state } = useLocation();
+  const [routeDetails] = React.useState(state.routeData);
+  console.log(routeDetails);
   const [viewDetails, setViewDetails] = React.useState(true);
   const [confirmBooking, setConfirmBooking] = React.useState(false);
   const [requestSent, setRequestSent] = React.useState(false);
+  const [staticMapWidth, setMapWidth] = React.useState(0);
   const data = new Data().courierDetails;
-
+  const commFunc = new CommonFunctions();
+  React.useEffect(() => {
+    const el = document.getElementById("static-map-container");
+    if (el) {
+      setMapWidth(el.offsetWidth * 0.8);
+    }
+  }, []);
   const confirmBookingFunction = (bool) => {
     setViewDetails(!bool);
     setConfirmBooking(bool);
   };
-
+  const getDriverInitials = (name) => {
+    const nameArray = name.split(" ");
+    const fInitial = nameArray[0].charAt(0);
+    const sInitial = nameArray.length > 1 ? nameArray[1].charAt(0) : "";
+    return fInitial + " " + sInitial;
+  };
   const requestDriver = (bool) => {
     //customAxios.post(Constants.);
     setViewDetails(false);
-    setConfirmBooking(false);
-    setRequestSent(true);
+    const data = {
+      deliverer_id: routeDetails.driverId + "",
+      package_id: routeDetails.driverRouteId + "",
+      ask_price: parseInt(routeDetails.price).toFixed(2) + "",
+    };
+    console.log(data, "inside requestDriver");
+    customAxios.post(Constants.SENDPACKAGEREQUEST, data).then(
+      (res) => {
+        setConfirmBooking(false);
+        setRequestSent(true);
+      },
+      (error) => {
+        commFunc.showAlertMessage(
+          "Failed to send request to driver",
+          "error",
+          3000,
+          "top"
+        );
+        console.error(error);
+      }
+    );
   };
   return (
     <>
       <Card
-        sx={{ maxWidth: "80%", margin: " 2rem auto ", borderRadius: "4px" }}
+        id="route-details-card"
+        sx={{ maxWidth: "768px", margin: " 2rem auto ", borderRadius: "4px" }}
       >
         {viewDetails && (
           <>
             <CardHeader
               sx={{
                 boxShadow: "0px 0px 1px 1px rgba(0,0,0,0.2)",
-                fontSize: "16px",
+                fontSize: "24px",
               }}
               avatar={
-                <Avatar sx={{ bgcolor: "blue" }} aria-label="recipe">
-                  <img src={data.avatar}></img>
-                </Avatar>
+                routeDetails.avatar ? (
+                  <Avatar sx={{ bgcolor: "blue" }}>
+                    <img src={routeDetails.avatar} alt="no img"></img>
+                  </Avatar>
+                ) : (
+                  <Avatar>{getDriverInitials(routeDetails.driverName)}</Avatar>
+                )
               }
-              title="Test courier 4"
-              subheader="sub"
+              title={routeDetails.driverName}
+              subheader="rating"
             />
-            <CardMedia
-              component="img"
-              alt="Route view in map"
-              height="250"
-              style={{ width: "80%", margin: "0.5rem auto" }}
-              src={data.routeMap}
-            />
+            <div
+              id="static-map-container"
+              style={{
+                width: "100%",
+                margin: "auto",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                padding: "1rem 1rem 1rem 0rem",
+                marginBottom: "-1rem",
+              }}
+            >
+              <StaticMap
+                pickup={routeDetails.pickupLocationCoords}
+                dropOff={routeDetails.dropoffLocationCoords}
+                height={250}
+                width={600}
+                zoom={6}
+              ></StaticMap>
+            </div>
+
             <CardContent>
               <Typography gutterBottom variant="h6" component="div">
-                Pickup Location: {data.sourceCityName}
+                Pickup Location: {routeDetails.sourceCity}
                 <br></br>
-                Dropoff Location: {data.destinationsCityName}
+                Dropoff Location: {routeDetails.destinationCity}
               </Typography>
               <Typography
                 variant="body2"
                 color="text.secondary"
                 style={{ fontSize: "16px" }}
               >
-                <li>{"Pickup: " + data.pickupDate}</li>
-                <li>{"Dropoff: " + data.dropoffDate}</li>
-                <li>{"Price: " + data.price + " CAD"}</li>
+                <li>
+                  {"Pickup Date: " +
+                    new Date(routeDetails.pickupDate).toLocaleDateString()}
+                </li>
+                <li>
+                  {"Dropoff Date: " +
+                    new Date(routeDetails.dropoffDate).toLocaleDateString()}
+                </li>
+                <li>{"Price: " + routeDetails.price + " CAD"}</li>
                 <li>
                   {"Max package dimensions (l*b*h cm): " +
-                    data.maxLength +
+                    routeDetails.maxLength +
                     ", " +
-                    data.maxWidth +
+                    routeDetails.maxWidth +
                     ", " +
-                    data.maxHeight}
+                    routeDetails.maxHeight}
                 </li>
-                <li>{"Allowed Categories: " + data.allowedCategory}</li>
+                <li>{"Allowed Categories: " + routeDetails.allowedCategory}</li>
               </Typography>
             </CardContent>
             <CardActions sx={{ display: "flex", justifyContent: "center" }}>
               <Button
+                sx={{ marginBottom: "1rem", width: "240px" }}
                 variant="contained"
                 onClick={() => {
                   confirmBookingFunction(true);
@@ -101,7 +162,7 @@ function CourierDetails() {
           <div style={{ width: "100%", textAlign: "center", padding: "1rem" }}>
             <h4>
               Are you sure you want to confirm Booking with{" "}
-              <b>Test Courier 4</b>
+              <b>{routeDetails.driverName}</b>
             </h4>
             <div style={{ display: "flex", justifyContent: "center" }}>
               <Button
@@ -135,3 +196,4 @@ function CourierDetails() {
 }
 
 export default CourierDetails;
+//document.getElementById("route-details-card").clientWidth * 0.8
