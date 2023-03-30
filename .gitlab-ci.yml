@@ -41,7 +41,7 @@ backend-test:
     - changes:
         - backend/**/*
 
-backend-publish-deploy:
+backend-deploy:
   stage: deploy
   image: maven:latest
   tags:
@@ -57,7 +57,7 @@ backend-publish-deploy:
     refs:
       - master
 
-frontend-publish-deploy:
+frontend-deploy:
   stage: deploy
   before_script:
     - apt-get update && apt-get install -y zip
