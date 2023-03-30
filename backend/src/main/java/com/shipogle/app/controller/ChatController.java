@@ -82,13 +82,13 @@ public class ChatController {
     }
 
     @DeleteMapping("/{messageId}")
-    public ResponseEntity<?>  removeMessage(@PathVariable long messageId) {
+    public ResponseEntity<?> removeMessage(@PathVariable long messageId) {
         messageRepository.deleteById(messageId);
         return ResponseEntity.ok("Message deleted successfully");
     }
 
     @DeleteMapping("/all/{receiverId}/{senderId}")
-    public ResponseEntity<?>  removeAllMessages(@PathVariable int receiverId, @PathVariable int senderId) {
+    public ResponseEntity<?> removeAllMessages(@PathVariable int receiverId, @PathVariable int senderId) {
         Optional<User> senderOptional = userRepository.findById(senderId);
         Optional<User> receiverOptional = userRepository.findById(receiverId);
         if (senderOptional.isEmpty() || receiverOptional.isEmpty()) {

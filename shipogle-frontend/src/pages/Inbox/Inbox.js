@@ -4,6 +4,14 @@ import { w3cwebsocket as WebSocket } from "websocket";
 import Constants from "../../Constants";
 import "./inbox.css";
 import chatProfileImg from "../../assets/profile.png";
+import { Link } from "react-router-dom";
+
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 
 const getUniqueSocketAddress = (user, selectedUser) => {
     const joinUsing = "!";
@@ -11,11 +19,14 @@ const getUniqueSocketAddress = (user, selectedUser) => {
 }
 
 const Inbox = () => {
+    const [dialogOpen, setDialogOpen] = React.useState(false);
     const [user, setUser] = useState({});
     const [selectedUser, setSelectedUser] = useState({});
     const [messages, setMessages] = useState([]);
     const [chatUsers, setChatUsers] = useState([]);
     const [inputValue, setInputValue] = useState("");
+    const [clearMsg, setClearMsg] = useState(false);
+    // const [clearMsgUser, setClearMsgUser] = useState("");
     const ws = useRef(null);
 
     function handleUserClick(selectedUser) {
@@ -52,6 +63,11 @@ const Inbox = () => {
             ws.current.close();
         };
     }
+
+    const handleClose = () => {
+        setDialogOpen(false);
+    };
+
 
     useEffect(() => {
         // Get user info from token
@@ -90,6 +106,19 @@ const Inbox = () => {
                 setInputValue("");
             });
     };
+    const handleClearMessages = () => {
+        setDialogOpen(true);
+        setClearMsg(prevClearMsg => true);
+        // setClearMsgUser(prevClearMsgUser => selectedUser);
+    };
+
+    const handleClear = () => {
+        setDialogOpen(false);
+        axios.delete(`${Constants.API_CHAT}/all/${user.user_id}/${selectedUser.user_id}`).then((response) => {
+            console.log(response);
+            setMessages([]);
+        });
+    };
 
     const handleSendasOtherClick = () => {
         axios
@@ -110,6 +139,27 @@ const Inbox = () => {
 
     return (
         <div className="inboxArea">
+            <Dialog
+                open={dialogOpen}
+                onClose={handleClose}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
+                <DialogTitle id="alert-dialog-title">
+                    Please confirm
+                </DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        Are you sure you want to clear all messages with <b>{selectedUser.first_name} {selectedUser.last_name}</b>?
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleClose}>Cancel</Button>
+                    <Button onClick={handleClear} autoFocus>
+                        Clear
+                    </Button>
+                </DialogActions>
+            </Dialog>
             <div className="userArea">
                 <p className="titleSidebar">Chats</p>
                 <div className="userList">
@@ -117,9 +167,9 @@ const Inbox = () => {
                         <div className="users" key={index} onClick={() => handleUserClick(user)} >
                             <div className="user-picture">
                                 {/* <img style={{ width: 15, height: 15 }} alt="pfp chat user" src={chatProfileImg}></img>  */}
-                                {index % 2 === 0 ? <img style={{ width: 20, height: 20 }} alt="pfp chat user" src={chatProfileImg}></img> :
-
-                                    user.first_name[0] + user.last_name[0]}
+                                {index % 2 === 0 ? <Link to="/userdash"><img style={{ width: 20, height: 20 }} alt="pfp chat user" src={chatProfileImg}></img></Link> :
+                                    //userdash link can be redirected to myOrders or anywhere the image should redirect
+                                    <Link to="/userdash">{user.first_name[0] + user.last_name[0]}</Link>}
                             </div>
                             <div className="user-name" >
                                 <div>
@@ -129,25 +179,32 @@ const Inbox = () => {
                                     }
                                 </div>
 
-
-
+                                <div>
+                                    <button className="btn" onClick={handleClearMessages}>Clear</button>
+                                </div>
                             </div>
-
                         </div>
                     ))}
                 </div>
             </div>
             <div className="chatWindow">
                 <div className="messageContainer">
-                    {messages.map((message, index) => (
-                        <div key={index}>
-                            {
-                                <div className={message.senderId === user.user_id ? "myMessage" : "otherMessage"}>
-                                    <b>{message.senderId === user.user_id ? 'You' : selectedUser.first_name}</b>: {message.message}
+
+                    {
+                        (clearMsg === true /*&& selectedUser === clearMsgUser*/) ? <div>Messages cleared</div> :
+
+                            messages.map((message, index) => (
+                                <div key={index}>
+
+                                    {
+
+                                        <div className={message.senderId === user.user_id ? "myMessage" : "otherMessage"}>
+                                            <b>{message.senderId === user.user_id ? 'You' : selectedUser.first_name}</b>: {message.message}
+                                        </div>
+
+                                    }
                                 </div>
-                            }
-                        </div>
-                    ))}
+                            ))}
                 </div>
                 <div className="inputArea">
                     <input className="chatInput" placeholder="Type your message here..." value={inputValue} onChange={handleInputChange} />
