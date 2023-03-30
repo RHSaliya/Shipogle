@@ -23,18 +23,21 @@ public class PackageService {
     @Autowired
     UserRepository userRepo;
 
-    public String storePackage(Package courier){
+    public Integer storePackage(Package courier){
         try {
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             String user_email = auth.getPrincipal().toString();
             User user = userRepo.getUserByEmail(user_email);
 
             courier.setSender(user);
-            packageRepo.save(courier);
-            return "Package saved";
+            Integer package_id = packageRepo.save(courier).getId();
+
+            return package_id;
         }catch (Exception e){
+            System.out.println(e.getMessage());
+            return null;
 //            return "Failed to save package";
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Failed to save package");
+//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Failed to save package");
         }
     }
 
