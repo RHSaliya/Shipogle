@@ -53,6 +53,9 @@ backend-publish-deploy:
     - ls
     - scp -r -o StrictHostKeyChecking=no -i ${VM_PRIVATE_KEY} ${TARGET_FOLDER_NAME}/Shipogle.jar csci5308vm9@csci5308vm9.research.cs.dal.ca:${BACKEND_FOLDER_NAME}/Shipogle.jar
     - ssh -i ${VM_PRIVATE_KEY} csci5308vm9@csci5308vm9.research.cs.dal.ca "./${BACKEND_FOLDER_NAME}/stop.sh; ./${BACKEND_FOLDER_NAME}/start_silent.sh"
+  only:
+    refs:
+      - master
 
 frontend-publish-deploy:
   stage: deploy
@@ -65,3 +68,6 @@ frontend-publish-deploy:
     - zip -r shipogle-frontend.zip shipogle-frontend
     - scp -r -o StrictHostKeyChecking=no -i ${VM_PRIVATE_KEY} shipogle-frontend.zip csci5308vm9@csci5308vm9.research.cs.dal.ca:${FRONTEND_FOLDER_NAME}/shipogle-frontend.zip
     - ssh -i ${VM_PRIVATE_KEY} csci5308vm9@csci5308vm9.research.cs.dal.ca "cd ${FRONTEND_FOLDER_NAME}; ./stop.sh; ./start_silent.sh"
+  only:
+    refs:
+      - master
