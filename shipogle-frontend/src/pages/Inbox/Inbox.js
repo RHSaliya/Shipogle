@@ -18,8 +18,9 @@ const Inbox = () => {
     const [inputValue, setInputValue] = useState("");
     const ws = useRef(null);
 
-    function handleUserClick(selectedUser) {
+    function handleUserClick(selectedUser, user) {
         setSelectedUser(selectedUser);
+        setMessages([]);
 
         // get messages for the first time
         axios.get(`${Constants.API_CHAT}/${user.user_id}/${selectedUser.user_id}`).then((response) => {
@@ -65,6 +66,9 @@ const Inbox = () => {
                 console.log("~~~~~~~~~~~~~~");
                 console.log(res.data);
                 setChatUsers(res.data);
+                if (res.data.length > 0) {
+                    handleUserClick(res.data[0], user);
+                }
                 console.log("~~~~~~~~~~~~~~");
             });
         });
@@ -74,7 +78,7 @@ const Inbox = () => {
         setInputValue(event.target.value);
     };
 
-    const handleSendasMeClick = () => {
+    const handleSendMessage = () => {
         axios
             .post(Constants.API_CHAT, {
                 senderId: user.user_id,
@@ -91,21 +95,10 @@ const Inbox = () => {
             });
     };
 
-    const handleSendasOtherClick = () => {
-        axios
-            .post(Constants.API_CHAT, {
-                senderId: selectedUser.user_id,
-                receiverId: user.user_id,
-                message: inputValue,
-            })
-            .then(() => {
-                ws.current.send(JSON.stringify({
-                    senderId: selectedUser.user_id,
-                    receiverId: user.user_id,
-                    message: inputValue,
-                }));
-                setInputValue("");
-            });
+    const handleKeyDown = (event) => {
+        if (event.key === 'Enter') {
+            handleSendMessage();
+        }
     };
 
     return (
@@ -113,23 +106,20 @@ const Inbox = () => {
             <div className="userArea">
                 <p className="titleSidebar">Chats</p>
                 <div className="userList">
-                    {chatUsers.map((user, index) => (
-                        <div className="users" key={index} onClick={() => handleUserClick(user)} >
+                    {chatUsers.map((currUser, index) => (
+                        <div className="users" key={index} onClick={() => handleUserClick(currUser, user)} >
                             <div className="user-picture">
                                 {/* <img style={{ width: 15, height: 15 }} alt="pfp chat user" src={chatProfileImg}></img>  */}
                                 {index % 2 === 0 ? <img style={{ width: 20, height: 20 }} alt="pfp chat user" src={chatProfileImg}></img> :
 
-                                    user.first_name[0] + user.last_name[0]}
+                                    currUser.first_name[0] + currUser.last_name[0]}
                             </div>
                             <div className="user-name" >
-                                <div>
-                                    {
-                                        user.first_name + " " + user.last_name
-                                    }
-                                </div>
-
-
-
+                                {
+                                    selectedUser && selectedUser.user_id === currUser.user_id ?
+                                        <b>{currUser.first_name + " " + currUser.last_name}</b> :
+                                        currUser.first_name + " " + currUser.last_name
+                                }
                             </div>
 
                         </div>
@@ -149,11 +139,9 @@ const Inbox = () => {
                     ))}
                 </div>
                 <div className="inputArea">
-                    <input className="chatInput" placeholder="Type your message here..." value={inputValue} onChange={handleInputChange} />
-                    <button className="btnSend" onClick={handleSendasMeClick}>Send</button>
-                    {/* <button className="btnSend" style={{
-                        marginLeft: "10px",
-                    }} onClick={handleSendasOtherClick}>Reply</button> */}
+                    <input className="chatInput" placeholder="Type your message here..." value={inputValue} onKeyDown={handleKeyDown}
+                        onChange={handleInputChange} />
+                    <button className="btnSend" onClick={handleSendMessage}>Send</button>
                 </div>
             </div>
         </div >

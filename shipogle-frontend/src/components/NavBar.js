@@ -89,13 +89,9 @@ export default function NavBar() {
             Deliver
           </Link>
         </button>
-        <div>
-        <NotificationsMenu />
-        </div>
-      
-    
 
-        
+        <NotificationsMenu />
+
         <IconButton
           className="icon-buttons"
           onClick={() => {
@@ -104,7 +100,7 @@ export default function NavBar() {
         >
           <ForumIcon></ForumIcon>
         </IconButton>
-  
+
         <div
           style={{
             display: "flex",
@@ -114,7 +110,7 @@ export default function NavBar() {
           }}
         >
           <Avatar></Avatar>
-        
+
           <div>
             <ExpandButton
               aria-label="expand"
