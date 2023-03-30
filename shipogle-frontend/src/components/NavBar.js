@@ -13,7 +13,8 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ForumIcon from "@mui/icons-material/Forum";
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import SearchIcon from "@mui/icons-material/Search";
-
+import NotificationsMenu from "./NotificationsMenu";
+import Tooltip from '@mui/material/Tooltip';
 import "./navBar.css";
 import { AuthContext } from "../utils/Auth";
 import CommonFunctions from "../services/CommonFunction";
@@ -35,6 +36,7 @@ export default function NavBar() {
   const open = Boolean(anchorEl);
   const commFunc = new CommonFunctions();
   const navigate = useNavigate();
+
 
   const handleClickOnExpand = (event) => {
     setAnchorEl(event.currentTarget);
@@ -87,11 +89,13 @@ export default function NavBar() {
             Deliver
           </Link>
         </button>
-        &nbsp;
-        <IconButton className="icon-buttons">
-          <NotificationsNoneIcon></NotificationsNoneIcon>
-        </IconButton>
-        &nbsp;
+        <div>
+        <NotificationsMenu />
+        </div>
+      
+    
+
+        
         <IconButton
           className="icon-buttons"
           onClick={() => {
@@ -100,7 +104,7 @@ export default function NavBar() {
         >
           <ForumIcon></ForumIcon>
         </IconButton>
-        &nbsp;
+  
         <div
           style={{
             display: "flex",
@@ -110,7 +114,7 @@ export default function NavBar() {
           }}
         >
           <Avatar></Avatar>
-          &nbsp;
+        
           <div>
             <ExpandButton
               aria-label="expand"
