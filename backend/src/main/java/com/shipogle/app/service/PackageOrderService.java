@@ -1,5 +1,6 @@
 package com.shipogle.app.service;
 
+import com.shipogle.app.model.Package;
 import com.shipogle.app.model.PackageOrder;
 import com.shipogle.app.model.PackageRequest;
 import com.shipogle.app.model.User;
@@ -80,6 +81,17 @@ public class PackageOrderService {
         try {
             List<PackageOrder> orders = packageOrderRepo.getAllByDriverRoute_Id(driver_route_id);
             return orders;
+        }catch (Exception e){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
+    }
+
+    public String recordPayment(Integer package_order_id){
+        try {
+            PackageOrder order = packageOrderRepo.getById(package_order_id);
+            order.setPaymentStatus(Integer.valueOf(1));
+            packageOrderRepo.save(order);
+            return "Payment is recorded";
         }catch (Exception e){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }

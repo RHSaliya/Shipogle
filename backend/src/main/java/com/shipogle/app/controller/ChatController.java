@@ -66,23 +66,21 @@ public class ChatController {
 
         return messages;
     }
-    /*
-     * @GetMapping("/{userId}")
-     * public List<User> getChatUsers(@PathVariable int userId) {
-     * Optional<User> receiverOptional = userRepository.findById(userId);
-     * if (receiverOptional.isEmpty()) {
-     * throw new RuntimeException("Invalid user ID");
-     * }
-     * 
-     * User user = receiverOptional.get();
-     * 
-     * List<Integer> userIds =
-     * messageRepository.findDistinctSenderAndReceiverIdsByUserId(user.getUser_id())
-     * ;
-     * 
-     * return userRepository.getUserByIds(userIds);
-     * }
-     */
+
+    @GetMapping("/{userId}")
+    public List<User> getChatUsers(@PathVariable int userId) {
+        Optional<User> receiverOptional = userRepository.findById(userId);
+        if (receiverOptional.isEmpty()) {
+            throw new RuntimeException("Invalid user ID");
+        }
+
+        User user = receiverOptional.get();
+
+        List<Integer> userIds =
+                messageRepository.findDistinctSenderAndReceiverIdsByUserId(user.getUser_id());
+
+        return userRepository.getUserByIds(userIds);
+    }
 
     @DeleteMapping("/{messageId}")
     public ResponseEntity<?> removeMessage(@PathVariable long messageId) {

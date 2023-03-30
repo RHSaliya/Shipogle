@@ -38,4 +38,9 @@ public class PackageOrderController {
         return packageOrderService.endPackageOrder(Integer.valueOf(req.get("drop_code")),Integer.valueOf(req.get("order_id")));
     }
 
+    @PutMapping("package/order/recordPayment")
+    public String recordPayment(@RequestBody Map<String,String> req){
+        return packageOrderService.recordPayment(Integer.valueOf(req.get("package_order_id")));
+    }
+
 }
