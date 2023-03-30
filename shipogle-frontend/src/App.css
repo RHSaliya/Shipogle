@@ -8,15 +8,18 @@
   min-height: 100%;
   position: relative;
 }
-a{
-  color:black;
+
+a {
+  color: black;
   text-decoration: none;
 }
-a:hover{
-  color:#211522;
+
+a:hover {
+  color: #211522;
   text-decoration: underline;
-  
+
 }
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -47,6 +50,7 @@ a:hover{
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
@@ -61,16 +65,18 @@ a:hover{
   text-align: center;
   padding: 30px;
   color: #3F0744;
-  
+
 }
+
 .Header .title {
   font-size: 3em;
-  
+
   font-weight: bold;
 }
+
 .Header .info {
   font-size: 30px;
-  
+
 }
 
 /* Section css for Home Page */
@@ -80,7 +86,8 @@ a:hover{
   width: 60%;
   box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
 }
-.section-title{
+
+.section-title {
   font-size: 30px;
   font-weight: bold;
   padding: 1em 0;
@@ -90,21 +97,24 @@ a:hover{
 /*login area*/
 .navbar {
   display: flex;
-  justify-content:flex-end;
+  justify-content: flex-end;
   padding: 10px 30px;
 }
+
 .navbar>a {
   padding: 10px;
-  color:#3F0744;
+  color: #3F0744;
   text-decoration: none;
 }
-.navbar>a:hover{
+
+.navbar>a:hover {
   font-size: 1.2em;
 }
 
-.logo{
+.logo {
   margin: auto;
 }
+
 .login-box {
   margin: 1rem auto;
   padding: 2%;
@@ -123,12 +133,14 @@ a:hover{
   border-radius: 10px;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
+
 .btn {
   background-color: #3F0744;
   color: white;
   padding: 0.5rem 1rem;
   border-radius: 5px;
 }
+
 .btn:hover {
   background-color: white;
   color: #3F0744;
@@ -136,21 +148,26 @@ a:hover{
   border-radius: 5px;
   cursor: pointer;
 }
+
 /*registration page*/
-.regPage .Header{
+.regPage .Header {
   margin-top: 0px;
   padding: 4em 0;
   color: white;
   width: 100%;
   background-color: #3F0744;
 }
-.regPageForm .Header, .sendform .Header{
+
+.regPageForm .Header,
+.sendform .Header,
+.deliverform .Header {
   margin-top: 0px;
   padding: 4em 0;
   color: white;
   width: 100%;
   background-color: #3F0744;
 }
+
 /*role box*/
 .reg-roll-box {
   border: 2px solid #3F0744;
@@ -160,11 +177,13 @@ a:hover{
   text-align: center;
   flex-direction: column;
 }
+
 @media (max-width:540px) {
-  .regRole{
+  .regRole {
     flex-direction: column;
   }
 }
+
 .regRole {
   display: flex;
   width: 80%;
@@ -172,25 +191,30 @@ a:hover{
   margin: 0 auto;
   justify-content: space-evenly;
 }
-.reg-roll-box .role{
+
+.reg-roll-box .role {
   font-size: 2em;
   padding: 10px 10px 2px 10px;
 }
-.reg-roll-box .role-info{
-  
+
+.reg-roll-box .role-info {
+
   padding: 10px;
 }
+
 .reg-roll-box .role-img {
   width: 25%;
   height: 25%;
   margin: 0 auto;
 }
+
 .btn.reg {
   border-radius: 0px;
-  
+
 
 }
-.one{
+
+.one {
   align-items: center;
 }
 
@@ -201,7 +225,8 @@ a:hover{
   padding: 5em;
 }
 
-.form .name, .form .verification {
+.form .name,
+.form .verification {
   margin: 1em 0 2em 0;
   display: flex;
   flex-wrap: wrap;
@@ -209,7 +234,8 @@ a:hover{
   justify-content: flex-start;
 }
 
-.form .contact, .form .setpwd{
+.form .contact,
+.form .setpwd {
   margin: 1em 0 2em 0;
   display: flex;
   flex-wrap: wrap;
@@ -222,17 +248,21 @@ a:hover{
   flex-wrap: wrap;
   gap: 2em;
 }
+
 .subheading {
-  color:#3F0744;
+  color: #3F0744;
   font-size: 1.7em;
 }
 
 @media (max-width:936px) {
-  .form .address, .form .name, .form .contact{
+
+  .form .address,
+  .form .name,
+  .form .contact {
     flex-direction: column;
   }
-  
-  
+
+
 }
 
 @media (max-width:400px) {
@@ -243,8 +273,11 @@ a:hover{
   }
 
 }
+
 @media (max-width:800px) {
-  .form .contact input, .form .name {
+
+  .form .contact input,
+  .form .name {
     width: 100%;
   }
 }
@@ -260,36 +293,43 @@ a:hover{
   text-align: center;
 }
 
-.regSuccessBox > a {
+.regSuccessBox>a {
   color: white;
   text-decoration: none;
 }
+
 #success {
   color: green;
   font-weight: bold;
 }
+
 #fail {
   color: red;
   font-weight: bold;
 }
+
 .btn.checkVeri {
   height: 20px;
   background-color: white;
   color: #3F0744;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
 }
+
 .btn.checkVeri:hover {
   color: white;
   background-color: #3F0744;
 }
+
 .btn.checkVeri:clicked {
   color: white;
   background-color: #3F0744;
 }
+
 .validationForm {
   font-size: 12px;
   color: red;
 }
+
 .dashboardToolbar {
   background-color: #3F0744;
 }
@@ -302,17 +342,19 @@ a:hover{
   border: 2px solid #3F0744;
   border-radius: 10px;
 }
+
 .editprofile-icon {
-   margin-left: 70%;
-   display: flex;
-   justify-content:flex-end;
-   padding: 10px 30px;
+  margin-left: 70%;
+  display: flex;
+  justify-content: flex-end;
+  padding: 10px 30px;
 }
+
 .dashboard-bar {
   flex-grow: 1;
   display: flex;
   justify-content: space-between;
-  }
+}
 
 
 .routeinfo {
@@ -321,10 +363,41 @@ a:hover{
   flex-wrap: wrap;
   gap: 1em;
   justify-content: flex-start;
-  
+
 }
+
 .matchRes {
   width: 80%;
   margin: 2em auto;
   border-top: 2px solid black;
+}
+
+.forgotPwdMailField {
+  height: 25px;
+  width: 50%;
+  border: 2px solid white;
+  border-radius: 7px;
+}
+
+.notification-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.notification-header>button {
+  margin-right: 1em;
+  padding-bottom: 20px;
+  height: 30px;
+
+}
+
+.notif>h4 {
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+.notif>a>p {
+  margin-top: 0px;
+  margin-bottom: 0.5em;
 }

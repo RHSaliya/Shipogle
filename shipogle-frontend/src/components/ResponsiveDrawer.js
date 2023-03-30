@@ -6,6 +6,7 @@ import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
 import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
+import axios from "../utils/MyAxios";
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import List from '@mui/material/List';
@@ -25,12 +26,15 @@ import { purple } from '@mui/material/colors';
 import RouteIcon from '@mui/icons-material/Route';
 import Inventory2Icon from '@mui/icons-material/Inventory2';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
+import NotificationsMenu from './NotificationsMenu';
+import Constants from "../Constants";
 
 const drawerWidth = 240;
 
 function ResponsiveDrawer(props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [user, setUser] = React.useState({});
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -39,6 +43,14 @@ function ResponsiveDrawer(props) {
 
   const [key, setKey] = React.useState(0);
 
+  React.useEffect(() => {
+    // Get user info from token
+    axios.get(Constants.API_USER_INFO_FROM_TOKEN).then((response) => {
+      const user = response.data;
+      console.log(user);
+      setUser(user);
+    });
+  }, []);
 
   const drawer = (
     <div>
@@ -57,7 +69,7 @@ function ResponsiveDrawer(props) {
         </Link>
 
 
-        <Link to="/userdash/send">
+        <Link to="/userdash/deliver">
           <ListItem key="1" disablePadding>
             <ListItemButton onClick={() => setKey(1)}>
               <ListItemIcon>
@@ -71,13 +83,24 @@ function ResponsiveDrawer(props) {
       <Divider />
       <List>
 
-        <Link to="/userdash/send">
+        <Link to="/inbox">
           <ListItem key="5" disablePadding>
-            <ListItemButton onClick={() => setKey(5)}>
+            <ListItemButton onClick={() => setKey(2)}>
               <ListItemIcon>
                 <ChatIcon sx={{ color: purple[800] }} />
               </ListItemIcon>
               <ListItemText primary="Messages" />
+            </ListItemButton>
+          </ListItem>
+        </Link>
+
+        <Link to="/user/editProfile">
+          <ListItem key="5" disablePadding>
+            <ListItemButton onClick={() => setKey(3)}>
+              <ListItemIcon>
+                <AccountBoxIcon sx={{ color: purple[800] }} />
+              </ListItemIcon>
+              <ListItemText primary="Edit Profile" />
             </ListItemButton>
           </ListItem>
         </Link>
@@ -109,36 +132,13 @@ function ResponsiveDrawer(props) {
             <MenuIcon />
           </IconButton>
           <div className="dashboard-bar">
+            <Typography variant="h6" noWrap component="div">Welcome {user !== undefined ? user.first_name + " " + user.last_name : ""}</Typography>
 
-            <Typography variant="h6" noWrap component="div">Welcome</Typography>
-
-
-            <Link to="/user/editprofile">
-              <Tooltip title="Edit profile">
-
-                <AccountBoxIcon sx={{ color: "white" }} />
-              </Tooltip>
-
-            </Link>
-
-
+            <Tooltip title="Notifications">
+              <NotificationsMenu />
+            </Tooltip>
 
           </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         </Toolbar>
       </AppBar>
       <Box
