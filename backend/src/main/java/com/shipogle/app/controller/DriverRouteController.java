@@ -50,4 +50,9 @@ public class DriverRouteController {
 
         return driverRouteFilter.getDriverRoutesByFilters(dashboardFilters);
     }
+
+    @GetMapping("/driverRoutesByDriverId")
+    public List<DriverRoute> getDriverRoutes(@RequestParam(required = true) String driverId) {
+        return driverRouteFilter.getDriverRouteById(driverId);
+    }
 }
