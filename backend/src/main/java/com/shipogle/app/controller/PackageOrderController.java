@@ -18,6 +18,11 @@ public class PackageOrderController {
         return packageOrderService.getSenderOrders();
     }
 
+    @GetMapping("package/order/getAllDelivererRouteOrders")
+    public List<PackageOrder> getDelivererRouteOrders(@RequestBody Map<String,String> req){
+        return packageOrderService.getDelivererRouteOrders(Long.valueOf(req.get("driver_route_id")));
+    }
+
     @PutMapping("/package/order/cancel")
     public String cancelOrder(@RequestBody Map<String,String> req){
         return packageOrderService.cancelOrder(Integer.valueOf(req.get("package_order_id")));

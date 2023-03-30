@@ -33,7 +33,7 @@ public class PackageOrderService {
         packageOrder.setDriverRoute(packageRequest.getDriverRoute());
         String pickup_code = String.format("%4d",random.nextInt(10000));
         String dop_code = String.format("%4d",random.nextInt(10000));
-
+        packageOrder.setPaymentStatus(Integer.valueOf(0));
         packageOrder.setPickup_code(Integer.valueOf(pickup_code));
         packageOrder.setDrop_code(Integer.valueOf(dop_code));
 
@@ -52,23 +52,37 @@ public class PackageOrderService {
     public String cancelOrder(Integer order_id){
         PackageOrder order = packageOrderRepo.getPackageOrderById(order_id);
         if(order == null)
-            return "Order not found";
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Order not found");
         if(order.isCanceled())
-            return "Already canceled";
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Already canceled");
         if(order.isStarted())
-            return "Cannot cancel order";
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cannot cancel order");
         order.setCanceled(true);
+        order.setPaymentStatus(Integer.valueOf(-1));
         packageOrderRepo.save(order);
 
         return "order is canceled";
     }
 
     public List<PackageOrder> getSenderOrders(){
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String user_email = auth.getPrincipal().toString();
-        User user = userRepo.getUserByEmail(user_email);
+        try {
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            String user_email = auth.getPrincipal().toString();
+            User user = userRepo.getUserByEmail(user_email);
 
-        return packageOrderRepo.getAllBySender(user);
+            return packageOrderRepo.getAllBySender(user);
+        }catch (Exception e){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
+    }
+
+    public List<PackageOrder> getDelivererRouteOrders(Long driver_route_id){
+        try {
+            List<PackageOrder> orders = packageOrderRepo.getAllByDriverRoute_Id(driver_route_id);
+            return orders;
+        }catch (Exception e){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
     }
 
     public String startPackageOrder(int pickup_code,int order_id){

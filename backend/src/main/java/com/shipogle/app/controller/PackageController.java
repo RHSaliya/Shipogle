@@ -13,7 +13,7 @@ public class PackageController {
     PackageService packageService;
 
     @PostMapping("/package/create")
-    public String createPackage(@RequestBody Package _package){
+    public Integer createPackage(@RequestBody Package _package){
         return packageService.storePackage(_package);
     }
 

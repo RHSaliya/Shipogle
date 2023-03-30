@@ -44,6 +44,9 @@ public class PackageOrder {
     @Column(name="isCanceled")
     private boolean isCanceled;
 
+    @Column(name="paymentStatus")
+    private Integer paymentStatus;
+
     @Column(name = "created_at")
     @CreationTimestamp
     private LocalDateTime created_at;
@@ -130,6 +133,14 @@ public class PackageOrder {
 
     public void setCanceled(boolean canceled) {
         isCanceled = canceled;
+    }
+
+    public Integer getPaymentStatus() {
+        return paymentStatus;
+    }
+
+    public void setPaymentStatus(Integer paymentStatus) {
+        this.paymentStatus = paymentStatus;
     }
 
     public LocalDateTime getCreated_at() {
