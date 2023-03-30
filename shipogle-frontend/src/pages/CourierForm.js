@@ -22,6 +22,7 @@ import "./courierForm.css";
 import Listings from "../components/Listings";
 import Data from "./data";
 import axios from "axios";
+import { CircularProgress } from "@mui/material";
 
 const API_KEY = "AIzaSyBPtYm-CJPPW4yO9njM-e9YBWyp-DwIODM";
 const ITEM_HEIGHT = 48;
@@ -36,7 +37,6 @@ const MenuProps = {
 };
 
 function CourierForm() {
-  const demoData = new Data();
   const date = new Date();
   const commFunc = new CommonFunctions();
   const location = useLocation();
@@ -60,15 +60,10 @@ function CourierForm() {
   const [radius, setRadius] = useState(2);
   const [price, setPrice] = useState(1);
   const allowedCategoryLabels = ["Documents", "Fragile", "Liquids", "General"];
-  const [showAlert, setAlert] = useState(false);
-
-  const [alertMessage, setAlertMessage] = useState("");
-  const [alertType, setAlertType] = useState("");
-  const [alertDuration, setAlertDuration] = useState(2000);
-  const [alertPosition, setAlertPosition] = useState("bottom");
   const [pickupLocationCoords, setPickupLocationCoords] = useState([]);
   const [dropoffLocationCoords, setDropoffLocationCoords] = useState([]);
   const [listings, setListings] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (!path) {
@@ -149,24 +144,25 @@ function CourierForm() {
     data["price"] = price.toString();
 
     if (path === "search") {
+      setIsLoading(true);
       data["pickupDataTime"] = pickupDate + " 21:00:00";
       data["sourceCity"] = sourceCityName.split(",")[0];
       data["destination"] = destinationsCityName.split(",")[0];
       data["radius"] = "-1";
-      const testData = {
-        sourceCity: "San Francisco",
-        destination: "Los Angeles",
-        pickupDataTime: "2023-03-31 21:00:00",
-        maxPackages: "1",
-        radius: "1",
-        price: "1",
-      };
+
       const parms = new URLSearchParams(data).toString();
       customAxios.get(Constants.DRIVERROUTE + "?" + parms).then(
         (res) => {
           setListings(res.data);
+          setIsLoading(false);
         },
         (error) => {
+          commFunc.showAlertMessage(
+            "Error while fetching posts",
+            "error",
+            3000,
+            "bottom"
+          );
           console.error(error);
         }
       );
@@ -439,7 +435,23 @@ function CourierForm() {
           </Button>
         </form>
       </div>
-      {path === "search" && listings.length > 0 && (
+      {isLoading && (
+        <>
+          <div
+            style={{
+              width: "100%",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              flexFlow: "column",
+            }}
+          >
+            <CircularProgress sx={{ margin: "auto" }}></CircularProgress>
+            <h4>Loading posts</h4>
+          </div>
+        </>
+      )}
+      {path === "search" && listings.length > 0 && !isLoading && (
         <div className="listing-container">
           <Listings data={listings}></Listings>
         </div>

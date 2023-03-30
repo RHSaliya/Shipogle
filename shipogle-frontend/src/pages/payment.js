@@ -7,11 +7,12 @@ import Data from "./data";
 import Constants from "../Constants";
 import customAxios from "../utils/MyAxios";
 import CommonFunctions from "../services/CommonFunction";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 function Payment() {
   const navigate = useNavigate();
+  const { state } = useLocation();
   const commFunc = new CommonFunctions();
-  const [amount, setAmount] = useState("");
+  const [amount, setAmount] = useState(state.price);
   const [Currency, setCurrency] = useState("");
   const [CardNumber, setCardNumber] = useState("");
   const [CardExpiryMonth, setCardExpiryMonth] = useState("");
@@ -22,7 +23,7 @@ function Payment() {
   const handleFormSubmit = (e) => {
     e.preventDefault();
     const paymentDetails = {
-      amount: data.price,
+      amount: amount,
       currency: Currency,
       cardNumber: CardNumber,
       cardExpiryMonth: CardExpiryMonth,
@@ -34,7 +35,9 @@ function Payment() {
     customAxios.post(Constants.PAYMENT_CHARGE, paymentDetails).then(
       (res) => {
         commFunc.showAlertMessage("success", "success", 2000, "bottom");
-        alert("Payment Successfull");
+        const paid_orders = window.localStorage.getItem("paid_orders");
+        console.log(paid_orders);
+        paid_orders.push(state.id);
         navigate("/orders");
       },
       (error) => {
@@ -55,58 +58,71 @@ function Payment() {
         Please enter payment Details
       </p>
       <TextField
+        sx={{ minWidth: 200, maxWidth: 350, width: "100%" }}
         label="Amount (CAD)"
-        type="number"
+        type="text"
         className="input-field"
-        value={data.price}
+        value={amount}
         disabled
-        onChange={(e) => setAmount(e.target.value)}
+        required
       />
 
       <TextField
+        sx={{ minWidth: 200, maxWidth: 350, width: "100%" }}
         label="Currency"
         className="input-field"
         type="text"
+        required
         value={Currency}
         onChange={(e) => setCurrency(e.target.value)}
       />
 
       <TextField
+        sx={{ minWidth: 200, maxWidth: 350, width: "100%" }}
         label="Card Number"
         className="input-field"
-        type="text"
+        type="number"
+        required
         value={CardNumber}
         onChange={(e) => setCardNumber(e.target.value)}
       />
 
       <TextField
+        sx={{ minWidth: 200, maxWidth: 350, width: "100%" }}
         label="Card Expiry Month"
         className="input-field"
         type="number"
+        required
         value={CardExpiryMonth}
         onChange={(e) => setCardExpiryMonth(e.target.value)}
       />
 
       <TextField
+        sx={{ minWidth: 200, maxWidth: 350, width: "100%" }}
         label="Card Expiry Year"
         className="input-field"
         type="number"
+        required
         value={CardExpiryYear}
         onChange={(e) => setCardExpiryYear(e.target.value)}
       />
 
       <TextField
+        sx={{ minWidth: 200, maxWidth: 350, width: "100%" }}
         label="Card CVV"
         className="input-field"
         type="text"
+        required
         value={CardCvv}
         onChange={(e) => setCardCvv(e.target.value)}
       />
 
       <TextField
+        sx={{ minWidth: 200, maxWidth: 350, width: "100%" }}
         label="Card Holder Name"
         className="input-field"
         type="text"
+        required
         value={CardHolderName}
         onChange={(e) => setCardHolderName(e.target.value)}
       />

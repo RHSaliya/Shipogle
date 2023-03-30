@@ -2,7 +2,6 @@ import * as React from "react";
 
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Avatar from "@mui/material/Avatar";
@@ -11,7 +10,7 @@ import CardActions from "@mui/material/CardActions";
 
 import Data from "./data";
 import Constants from "../Constants";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import customAxios from "../utils/MyAxios";
 import StaticMap from "../components/StaticMap";
 import CommonFunctions from "../services/CommonFunction";
@@ -20,12 +19,12 @@ import CreatePackage from "./CreatePackage";
 function CourierDetails() {
   const { state } = useLocation();
   const [routeDetails] = React.useState(state.routeData);
-  console.log(routeDetails);
   const [viewDetails, setViewDetails] = React.useState(true);
   const [confirmBooking, setConfirmBooking] = React.useState(false);
   const [requestSent, setRequestSent] = React.useState(false);
   const [createPackage, setCreatePackage] = React.useState(false);
   const [staticMapWidth, setMapWidth] = React.useState(0);
+  const [packageID, setPackageID] = React.useState("");
   const data = new Data().courierDetails;
   const commFunc = new CommonFunctions();
   React.useEffect(() => {
@@ -35,11 +34,12 @@ function CourierDetails() {
     }
   }, []);
 
-  const packageCreated = () => {
+  const packageCreated = (package_id) => {
     setConfirmBooking(true);
     setCreatePackage(false);
     setViewDetails(false);
     setRequestSent(false);
+    setPackageID(package_id);
   };
 
   const confirmBookingFunction = (bool) => {
@@ -50,14 +50,13 @@ function CourierDetails() {
   };
 
   const requestDriver = (bool) => {
-    //customAxios.post(Constants.);
     setViewDetails(false);
     const data = {
-      deliverer_id: routeDetails.driverId + "",
-      package_id: routeDetails.driverRouteId + "",
+      driver_route_id: routeDetails.driverRouteId + "",
+      package_id: packageID + "",
       ask_price: parseInt(routeDetails.price).toFixed(2) + "",
     };
-    console.log(data, "inside requestDriver");
+
     customAxios.post(Constants.SENDPACKAGEREQUEST, data).then(
       (res) => {
         setConfirmBooking(false);
@@ -225,4 +224,3 @@ function CourierDetails() {
 }
 
 export default CourierDetails;
-//document.getElementById("route-details-card").clientWidth * 0.8

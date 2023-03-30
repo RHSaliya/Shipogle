@@ -40,15 +40,18 @@ export default function Orders() {
   }, []);
 
   const setOrders = (res) => {
-    const resData = data.orders;
+    const resData = res.data;
     const inprogressOrders = [];
     const pendingOrders = [];
     const completedOrders = [];
     const canceledOrders = [];
+
     resData.forEach((order) => {
-      if (order.is_delivered) completedOrders.push(order);
-      else if (order.is_started) inprogressOrders.push(order);
-      else if (order.is_canceled) canceledOrders.push(order);
+      // Updated line
+      console.log(order, "logging order", order.delivered);
+      if (order.delivered) completedOrders.push(order);
+      else if (order.started) inprogressOrders.push(order);
+      else if (order.canceled) canceledOrders.push(order);
       else pendingOrders.push(order);
     });
     setCompleted(completedOrders);

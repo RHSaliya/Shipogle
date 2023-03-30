@@ -10,6 +10,9 @@ import {
   TextField,
 } from "@mui/material";
 import * as React from "react";
+import customAxios from "../utils/MyAxios";
+import Constants from "../Constants";
+import CommonFunctions from "../services/CommonFunction";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -23,27 +26,49 @@ const MenuProps = {
 };
 
 export default function CreatePackage({ routeDetails, packageCreated }) {
+  const commFunc = new CommonFunctions();
   const [packages, setPackages] = React.useState(1);
   const [maxLength, setMaxLength] = React.useState(1);
   const [maxWidth, setMaxWidth] = React.useState(1);
   const [maxHeight, setMaxHeight] = React.useState(1);
   const [askPrice, setAskPrice] = React.useState(routeDetails.price);
+  const [packageDescription, setDescription] = React.useState("");
   const allowedCategoryLabels = routeDetails.allowedCategory;
-  const [category, setCategory] = React.useState([]);
+  const [Category, setCategory] = React.useState([]);
   const onSubmit = (event) => {
     event.preventDefault();
+    const body = {
+      width: maxWidth,
+      height: maxHeight,
+      length: maxLength,
+      title: "Package request by " + window.localStorage.getItem("user_name"),
+      description: packageDescription,
+      pickup_address: routeDetails.sourceCity,
+      drop_address: routeDetails.destinationCity,
+    };
+    customAxios.post(Constants.CREATEPACKAGE, body).then(
+      (res) => {
+        packageCreated(res.data);
+      },
+      (error) => {
+        console.error(error);
+        commFunc.showAlertMessage(
+          "error while creating packages",
+          "error",
+          3000,
+          "bottom"
+        );
+      }
+    );
   };
   return (
     <>
-      <div className="form-container">
-        <h3 style={{ margin: "0px 0px 16px 6px" }}>
-          Enter your Package Details
-        </h3>
+      <div className="package-form-container">
+        <h3 style={{ margin: "1.5rem 2rem" }}>Enter your Package Details</h3>
         <form
           id="courierForm"
           onSubmit={(event) => {
             onSubmit(event);
-            packageCreated();
           }}
         >
           <TextField
@@ -129,7 +154,7 @@ export default function CreatePackage({ routeDetails, packageCreated }) {
               sx={{
                 flexGrow: 1,
               }}
-              label="Price (CAD)"
+              label="Ask Price (CAD)"
               required
               type="number"
               min="1"
@@ -148,7 +173,7 @@ export default function CreatePackage({ routeDetails, packageCreated }) {
               labelId="allowedCategoryLabel"
               id="allowedCategory"
               multiple
-              value={category}
+              value={Category}
               onChange={(event) => {
                 const {
                   target: { value },
@@ -163,18 +188,29 @@ export default function CreatePackage({ routeDetails, packageCreated }) {
             >
               {allowedCategoryLabels.map((cateogory) => (
                 <MenuItem key={cateogory} value={cateogory}>
-                  <Checkbox checked={cateogory.indexOf(cateogory) > -1} />
+                  <Checkbox checked={Category.indexOf(cateogory) > -1} />
                   <ListItemText primary={cateogory} />
                 </MenuItem>
               ))}
             </Select>
           </FormControl>
+          <TextField
+            id="package-description"
+            label="Description"
+            sx={{ gridColumnEnd: "span 2", width: "93%" }}
+            value={packageDescription}
+            required
+            multiline
+            maxRows={3}
+            onChange={(event) => {
+              setDescription(event.target.value);
+            }}
+          ></TextField>
           <Button
             type="submit"
             variant="contained"
             style={{
-              margin: "auto",
-              marginTop: "0.5rem",
+              margin: "0.5rem auto 1rem auto",
               gridColumnEnd: "span 2",
               minWidth: "180px",
               maxWidth: "300px",

@@ -118,7 +118,7 @@ export default function Listings(props) {
 */
 
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
@@ -130,9 +130,11 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
 import "./Listings.css";
 import MapView from "./MapView";
-import { Avatar, Typography } from "@mui/material";
+import { Avatar, Button, Typography } from "@mui/material";
 
 function Listings({ data }) {
+  const location = useLocation();
+  const path = location.pathname;
   const navigate = useNavigate();
   const [listingCards, setListingCards] = useState([]);
   const [showMapView, setShowMapView] = useState(false);
@@ -143,15 +145,17 @@ function Listings({ data }) {
     const sInitial = nameArray.length > 1 ? nameArray[1].charAt(0) : "";
     return fInitial + " " + sInitial;
   };
-
+  const noting = () => {};
   const createListingCards = () => {
     const cards = data.map((listing) => (
       <div
         className="listing-card"
         onClick={() =>
-          navigate(`/courier/details/${listing?.driverRouteId}`, {
-            state: { routeData: listing },
-          })
+          path !== "/deliveries"
+            ? navigate(`/courier/details/${listing?.driverRouteId}`, {
+                state: { routeData: listing },
+              })
+            : noting()
         }
         key={listing?.driverRouteId}
       >
@@ -175,7 +179,7 @@ function Listings({ data }) {
                 marginRight: "4px",
               }}
             >
-              {getDriverInitials(listing.driverName)}
+              {listing.driverName ? getDriverInitials(listing.driverName) : ""}
             </Avatar>
           </>
         )}
@@ -194,11 +198,35 @@ function Listings({ data }) {
             <WhereToVoteIcon />
             &nbsp;
             <p className="listing-card-location">{listing?.destinationCity}</p>
+            <span style={{ flexGrow: 1 }}></span>
+            <p>
+              Pickup Date:{" "}
+              {new Date(listing.pickupDate).toLocaleString().split(",")[0]}
+            </p>
           </div>
         </div>
+        {path === "/deliveries" && (
+          <>
+            <Button
+              sx={{ margin: "0px 12px", height: "74px" }}
+              disabled={
+                new Date(listing.pickupDate).toLocaleString().split(",")[0] !==
+                new Date().toLocaleDateString()
+              }
+            >
+              Start
+            </Button>
+          </>
+        )}
       </div>
     ));
-    setListingCards(cards);
+    if (path === "/deliveries") {
+      let newArr = [];
+      cards.forEach((element) => {
+        newArr.unshift(element);
+      });
+      setListingCards(newArr);
+    } else setListingCards(cards);
   };
 
   useEffect(() => {
@@ -209,27 +237,34 @@ function Listings({ data }) {
     <>
       <div
         className="courier-listing-container"
-        style={{ marginBottom: "1rem" }}
+        style={{
+          marginBottom: "1rem",
+          marginTop: path === "/deliveries" ? "2rem" : "initial",
+        }}
       >
-        <div className="view-buttons-container">
-          <p className="view-buttons-text">
-            <Typography>Tap on a deliverer to book or know more</Typography>
-          </p>
-          <IconButton
-            sx={{ height: "42px", width: "42px" }}
-            aria-label="list-view"
-            onClick={() => setShowMapView(false)}
-          >
-            <FormatListBulletedIcon />
-          </IconButton>
-          <IconButton
-            sx={{ height: "42px", width: "42px" }}
-            aria-label="map-view"
-            onClick={() => setShowMapView(true)}
-          >
-            <MapIcon />
-          </IconButton>
-        </div>
+        {path === "/deliveries" && <h3>Your posts</h3>}
+        {path !== "/deliveries" && (
+          <div className="view-buttons-container">
+            <p className="view-buttons-text">
+              <Typography>Tap on a deliverer to book or know more</Typography>
+            </p>
+            <IconButton
+              sx={{ height: "42px", width: "42px" }}
+              aria-label="list-view"
+              onClick={() => setShowMapView(false)}
+            >
+              <FormatListBulletedIcon />
+            </IconButton>
+            <IconButton
+              sx={{ height: "42px", width: "42px" }}
+              aria-label="map-view"
+              onClick={() => setShowMapView(true)}
+            >
+              <MapIcon />
+            </IconButton>
+          </div>
+        )}
+
         <br />
         {!showMapView && <>{listingCards}</>}
         {showMapView && <MapView listing={data} />}

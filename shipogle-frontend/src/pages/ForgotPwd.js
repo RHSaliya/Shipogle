@@ -10,6 +10,7 @@ import Card from "@mui/material/Card";
 import TextField from "@mui/material/TextField";
 import { Typography } from "@mui/material";
 import CommonFunctions from "../services/CommonFunction";
+import customAxios from "../utils/MyAxios";
 
 export default function ForgotPwd() {
   //forgot password rest
@@ -58,28 +59,45 @@ export default function ForgotPwd() {
   const submit = (e) => {
     setShowMsg((prevShowMsg) => 1);
     e.preventDefault();
-
-    axios
-      .post(Constants.API_FORGOT_PWD, {
-        email: email,
-      })
-      .then((response) => {
-        commFunc(
-          "Reset Link sent successfully to your email id. Please use it to reset password",
-          "success",
-          4000,
-          "top"
-        );
-      })
-      .catch((err) => {
-        console.error(err);
-        commFunc.showAlertMessage(
-          "Error while sending link, please check email or try again later!",
-          "error",
-          4000,
-          "top"
-        );
-      });
+    if (path === "/resetpwd") {
+      axios
+        .post(Constants.API_FORGOT_PWD, {
+          email: email,
+        })
+        .then((response) => {
+          commFunc(
+            "Reset Link sent successfully to your email id. Please use it to reset password",
+            "success",
+            4000,
+            "top"
+          );
+        })
+        .catch((err) => {
+          console.error(err);
+          commFunc.showAlertMessage(
+            "Error while sending link, please check email or try again later!",
+            "error",
+            4000,
+            "top"
+          );
+        });
+    } else {
+      const token =
+        "eyJhbGciOiJIUzM4NCJ9.eyJlbWFpbCI6InNpbmdoc2hhaHJhakBnbWFpbC5jb20iLCJzdWIiOiJzaGFocmFqIiwiaWF0IjoxNjgwMTYyNjYyLCJleHAiOjE2ODAyNDkwNjJ9.ixuz2tX9zG4rI_k_BeHD8-qMYrMs15yyCbDYiya9P1j_JuYSiBD8VETot-3KZgpC";
+      const password = newpassword;
+      const body = {
+        token: token,
+        password: password,
+      };
+      customAxios.post(Constants.API_RESET_PWD, body).then(
+        (res) => {
+          alert("password changed, please login");
+        },
+        (error) => {
+          console.error(error);
+        }
+      );
+    }
   };
   return (
     <div style={containerStyle} className="container">

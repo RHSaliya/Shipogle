@@ -111,7 +111,13 @@ export default function NavBar() {
             marginTop: "-8px",
           }}
         >
-          <Avatar></Avatar>
+          <Avatar>
+            {isAuthenticated
+              ? commFunc.getDriverInitials(
+                  window.localStorage.getItem("user_name")
+                )
+              : ""}
+          </Avatar>
 
           <div>
             <ExpandButton
@@ -168,7 +174,7 @@ export default function NavBar() {
                   </Link>
                 </MenuItem>
                 <MenuItem>
-                  <Link style={{ textDecoration: "none" }} to="/myrides">
+                  <Link style={{ textDecoration: "none" }} to="/myrequests">
                     Delivery Requests
                   </Link>
                 </MenuItem>

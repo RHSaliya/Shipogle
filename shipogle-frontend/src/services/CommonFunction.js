@@ -6,6 +6,13 @@ class CommonFunctions extends Component {
   static backgroundUrl = "";
   static googleMapObjectStatus = false;
 
+  getDriverInitials(name) {
+    const nameArray = name.split(" ");
+    const fInitial = nameArray[0].charAt(0);
+    const sInitial = nameArray.length > 1 ? nameArray[1].charAt(0) : "";
+    return fInitial + " " + sInitial;
+  }
+
   showAlertMessage(message, type, duration, position) {
     const alertMessage = (
       <AlertMessage

@@ -21,9 +21,9 @@ export default function OrderDetails() {
   const location = useLocation().pathname.split("/");
   const orderId = location[4];
   const pathname = location[3];
-
+  const { state } = useLocation();
+  console.log(state);
   React.useEffect(() => {}, []);
-
   const cancelOrder = () => {
     const body = {
       package_order_id: orderId,
@@ -41,7 +41,7 @@ export default function OrderDetails() {
     <div className="order-details-container">
       <Card sx={{ maxWidth: "600px", margin: "2rem auto" }}>
         <CardHeader
-          title="Order ID/ Driver Name"
+          title={`Deliverer: ${state.order?.deliverer?.first_name} ${state.order?.deliverer?.last_name}`}
           subheader={`status: ${pathname}`}
         />
         {(pathname === "completed" || pathname === "inprogress") && (
@@ -55,14 +55,24 @@ export default function OrderDetails() {
         )}
         {pathname === "pending" && (
           <h4 style={{ margin: "auto 2rem" }}>
-            Tracking will be available once user Pickups your package
+            Tracking will be available once Deliverer Pickups your package
           </h4>
         )}
         <CardContent>
           <ul>
-            <li>Order Date</li>
-            <li>From: source City || To: destination City</li>
-            <li>More details</li>
+            <li>
+              Order Date:{" "}
+              {`${state.order.created_at[1]} / ${state.order.created_at[0]} / ${state.order.created_at[0]}`}
+            </li>
+            <li>
+              From: {state.order.driverRoute.sourceCity} || To:{" "}
+              {state.order.driverRoute.destinationCity}
+            </li>
+            <li>{`Pickup Date: ${
+              new Date(state.order.driverRoute.pickupDate)
+                .toLocaleDateString()
+                .split(",")[0]
+            }`}</li>
           </ul>
         </CardContent>
         <CardActions

@@ -20,6 +20,7 @@ import MyRides from "./components/MyRides";
 import CurrentDelivery from "./components/CurrentDelivery";
 import CourierDetails from "./pages/CourierDetails";
 import ForgotPwd from "./pages/ForgotPwd";
+import PackageRequests from "./components/PackageRequests";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -55,7 +56,10 @@ root.render(
           path="/courier/payment/:id"
           element={<Payment></Payment>}
         ></Route>
-        <Route path="/myrides" element={<MyRides></MyRides>}></Route>
+        <Route
+          path="/myrequests"
+          element={<PackageRequests></PackageRequests>}
+        ></Route>
         <Route
           path="/deliveries"
           element={<CurrentDelivery></CurrentDelivery>}

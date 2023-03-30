@@ -30,6 +30,8 @@ class App extends React.Component {
     this.state = {
       showAlert: false,
     };
+    const paid_orders = window.localStorage.getItem("paid_orders");
+    if (!paid_orders) window.localStorage.setItem("paid_orders", []);
   }
 
   componentDidMount() {

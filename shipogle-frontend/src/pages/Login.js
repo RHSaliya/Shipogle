@@ -63,23 +63,13 @@ export default function Login() {
         password: password,
       })
       .then((response) => {
-        if (response.data === "Bad credentials") {
-          commFunc.showAlertMessage(
-            "Error while loging in please check credentials or try again later!!!",
-            "error",
-            3000,
-            "bottom"
-          );
-          setIsLoading(false);
-        } else {
-          const token = response.data;
-          Cookies.set("authToken", token, {
-            expires: COOKIE_EXPIRATION_TIME,
-          });
-          window.localStorage.setItem("authToken", token);
+        const token = response.data;
+        Cookies.set("authToken", token, {
+          expires: COOKIE_EXPIRATION_TIME,
+        });
+        window.localStorage.setItem("authToken", token);
 
-          commFunc.showAlertMessage("Login Success", "success", 1500, "bottom");
-        }
+        commFunc.showAlertMessage("Login Success", "success", 1500, "bottom");
       })
       .then(() => {
         const authToken = window.localStorage.getItem("authToken");
