@@ -23,7 +23,7 @@ export default function MyRides() {
         alert("request approved");
       },
       (error) => {
-        console.log(error);
+        console.error(error);
       }
     );
   };
@@ -36,7 +36,7 @@ export default function MyRides() {
         alert("request rejected");
       },
       (error) => {
-        console.log(error);
+        console.error(error);
       }
     );
   };

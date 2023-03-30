@@ -205,4 +205,23 @@ public class User implements UserDetails {
 				"country:'%s' }", id, first_name, last_name, email, gov_id_url, profile_pic_url, dob, address, city,
 				province, postal_code, country);
 	}
+
+	public void update(User user) {
+		this.first_name = user.getFirst_name();
+		this.last_name = user.getLast_name();
+		this.phone = user.getPhone();
+		this.email = user.getEmail();
+		this.gov_id_url = user.getGov_id_url();
+		this.profile_pic_url = user.getProfile_pic_url();
+		this.dob = user.getDob();
+		this.address = user.getAddress();
+		this.city = user.getCity();
+		this.province = user.getProvince();
+		this.postal_code = user.getPostal_code();
+		this.country = user.getCountry();
+		this.is_activated = user.getIs_activated();
+		this.is_verified = user.getIs_verified();
+		this.updated_at = LocalDateTime.now();
+	}
+
 }

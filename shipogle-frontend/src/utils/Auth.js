@@ -6,7 +6,6 @@ export function AuthProvider({ children }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const login = () => {
-    console.log("loged in");
     setIsAuthenticated(true);
   };
 

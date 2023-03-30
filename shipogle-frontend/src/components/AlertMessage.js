@@ -7,17 +7,18 @@ class AlertMessage extends React.Component {
   messageType;
   duration;
   position;
-  alertContainerStyle = {
-    width: "100%",
-    padding: "0.5rem, 1rem",
-    position: "absolute",
-    zIndex: "99999",
-    margin: "0.5rem 0rem",
-  };
 
   render() {
+    let alertContainerStyle = {
+      width: "100%",
+      padding: "0.5rem, 1rem",
+      position: "absolute",
+      zIndex: "99999",
+      margin: "0.5rem 0rem",
+    };
+
     Object.assign(
-      this.alertContainerStyle,
+      alertContainerStyle,
       this.props?.position
         ? this.props?.position === "top"
           ? { top: 0 }
@@ -31,7 +32,7 @@ class AlertMessage extends React.Component {
     this.duration = this.props?.duration ? this.props.duration : 3000;
     this.position = this.props?.position ? this.props.position : "bottom";
     return (
-      <div style={this.alertContainerStyle}>
+      <div style={alertContainerStyle}>
         <Alert
           id="floating-alert-bar"
           style={{ width: "70%", margin: "auto" }}

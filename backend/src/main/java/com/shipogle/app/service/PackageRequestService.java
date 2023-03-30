@@ -4,9 +4,11 @@ import com.shipogle.app.model.*;
 import com.shipogle.app.model.Package;
 import com.shipogle.app.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Map;
@@ -38,8 +40,10 @@ public class PackageRequestService {
         try{
 //            int request_count = packageRequestRepo.countAllBy_package_IdAndDeliverer_Id(Integer.valueOf(req.get("package_id")),Integer.valueOf(req.get("deliverer_id")));
             int request_count = packageRequestRepo.countAllBy_package_IdAndDriverRoute_Id(Integer.valueOf(req.get("package_id")),Long.valueOf(req.get("driver_route_id")));
-            if(packageOrderService.isPackageOrderExist(Integer.valueOf(req.get("package_id"))))
-                return "Cannot send request after order creation";
+            if(packageOrderService.isPackageOrderExist(Integer.valueOf(req.get("package_id")))){
+//                return "Cannot send request after order creation";
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cannot send request after order creation");
+            }
 
             if(request_count == 0){
                 PackageRequest packageRequest = new PackageRequest();
@@ -61,17 +65,21 @@ public class PackageRequestService {
                 Package p = packageRepo.getPackageById(Integer.valueOf(req.get("package_id")));
                 packageRequest.set_package(p);
 
-                if(sender==null || deliverer==null || p==null || driverRoute==null)
-                    return "Invalid request";
+                if(sender==null || deliverer==null || p==null || driverRoute==null){
+//                    return "Invalid request";
+                    throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid request");
+                }
 
                 packageRequestRepo.save(packageRequest);
             }else {
-                return "Already requested";
+//                return "Already requested";
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Already requested");
             }
 
             return "Request sent";
         }catch (Exception e){
-            return e.getMessage();
+//            return e.getMessage();
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
 
@@ -93,8 +101,10 @@ public class PackageRequestService {
         try{
             PackageRequest packageRequest = packageRequestRepo.getPackageRequestById(package_request_id);
 
-            if (packageRequest == null || packageRequest.getStatus().equals("rejected") || packageRequest.getStatus().equals("accepted"))
-                return "Cannot accept request";
+            if (packageRequest == null || packageRequest.getStatus().equals("rejected") || packageRequest.getStatus().equals("accepted")){
+//                return "Cannot accept request";
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cannot accept request");
+            }
 
             rejectOtherPackageRequests(packageRequest.get_package().getId());
             changeRequestStatus(package_request_id,"accepted");
@@ -104,9 +114,11 @@ public class PackageRequestService {
             if(result.equals("order created"))
                 return "Request accepted";
             else
-                return "fail to create order";
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Fail to create order");
+
         }catch (Exception e){
-            return e.getMessage();
+//            return e.getMessage();
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
 
@@ -114,14 +126,17 @@ public class PackageRequestService {
         try{
             PackageRequest packageRequest = packageRequestRepo.getPackageRequestById(package_request_id);
 
-            if (packageRequest == null || packageRequest.getStatus().equals("rejected"))
-                return "Already rejected";
+            if (packageRequest == null || packageRequest.getStatus().equals("rejected")){
+//                return "Already rejected";
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Already rejected");
+            }
 
             changeRequestStatus(package_request_id,"rejected");
 
             return "Request rejected";
         }catch (Exception e){
-            return e.getMessage();
+//            return e.getMessage();
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
 
@@ -130,17 +145,22 @@ public class PackageRequestService {
 
             PackageRequest packageRequest = packageRequestRepo.getPackageRequestById(package_request_id);
 
-            if (packageRequest == null)
-                return "No request found";
+            if (packageRequest == null){
+//                return "No request found";
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "No request found");
+            }
 
-            if(packageRequest.getStatus().equals("accepted"))
-                return "Cannot delete accepted request";
+            if(packageRequest.getStatus().equals("accepted")){
+//                return "Cannot delete accepted request";
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cannot delete accepted request");
+            }
 
             packageRequestRepo.delete(packageRequest);
 
             return "Request deleted";
         }catch (Exception e){
-            return e.getMessage();
+//            return e.getMessage();
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
 

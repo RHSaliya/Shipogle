@@ -5,9 +5,11 @@ import com.shipogle.app.model.User;
 import com.shipogle.app.repository.PackageRepository;
 import com.shipogle.app.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
@@ -31,7 +33,8 @@ public class PackageService {
             packageRepo.save(courier);
             return "Package saved";
         }catch (Exception e){
-            return "Failed to save package";
+//            return "Failed to save package";
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Failed to save package");
         }
     }
 
@@ -42,13 +45,14 @@ public class PackageService {
             User user = userRepo.getUserByEmail(user_email);
 
             List<Package> packages = packageRepo.getAllBySender(user);
-            for (Package i:packages) {
-                System.out.println(i);
-            }
+//            for (Package i:packages) {
+//                System.out.println(i);
+//            }
 
             return packages;
         }catch (Exception e){
-            return null;
+//            return null;
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
 
@@ -66,7 +70,8 @@ public class PackageService {
 
             return "Package updated";
         }catch (Exception e){
-            return e.getMessage();
+//            return e.getMessage();
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
 }

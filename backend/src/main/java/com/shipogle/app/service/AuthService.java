@@ -61,10 +61,12 @@ public class AuthService {
 
                 return "Password changed successfully";
             } else {
-                return "Link is not active";
+//                return "Link is not active";
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Link is not active");
             }
         } catch (Exception e) {
-            return e.getMessage();
+//            return e.getMessage();
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
 
@@ -78,10 +80,11 @@ public class AuthService {
             String forgot_password_token = token.getForgot_password_token();
 
             mailService.sendMail(user.getEmail(), "Reset Password", "Password rest link(Expires in 24 hours): ",
-                    "http://localhost:3000/forgotpassword/reset?token=" + forgot_password_token);
+                    "http://localhost:3000/forgotpwd/reset/" + forgot_password_token);
 
         } catch (Exception e) {
-            return e.getMessage();
+//            return e.getMessage();
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
         return "Password reset link sent";
     }
@@ -105,13 +108,16 @@ public class AuthService {
                     userReop.save(user);
                     return "Email Verified";
                 } else {
-                    return "Not valid user";
+//                    return "Not valid user";
+                    throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Not valid user");
                 }
             } else {
-                return "Already Verified";
+//                return "Already Verified";
+                throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Not valid user");
             }
         } catch (Exception e) {
-            return e.getMessage();
+//            return e.getMessage();
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
 
@@ -131,7 +137,8 @@ public class AuthService {
             return "Verification email sent";
 
         } else {
-            return "User Already exist with this email";
+//            return "User Already exist with this email";
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User Already exist with this email");
         }
     }
 
@@ -168,5 +175,15 @@ public class AuthService {
         Claims claim = Jwts.parser().setSigningKey(JwtTokenService.secretKey).parseClaimsJws(token).getBody();
         String email = (String) claim.get("email");
         return userReop.getUserByEmail(email);
+    }
+
+    public String updateUser(String token, User user) {
+        token = token.replace("Bearer", "").trim();
+        Claims claim = Jwts.parser().setSigningKey(JwtTokenService.secretKey).parseClaimsJws(token).getBody();
+        String email = (String) claim.get("email");
+        User db_user = userReop.getUserByEmail(email);
+        db_user.update(user);
+        userReop.save(db_user);
+        return "User updated";
     }
 }
