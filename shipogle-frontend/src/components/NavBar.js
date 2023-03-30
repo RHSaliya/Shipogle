@@ -14,7 +14,7 @@ import ForumIcon from "@mui/icons-material/Forum";
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import SearchIcon from "@mui/icons-material/Search";
 import NotificationsMenu from "./NotificationsMenu";
-import Tooltip from '@mui/material/Tooltip';
+import Tooltip from "@mui/material/Tooltip";
 import "./navBar.css";
 import { AuthContext } from "../utils/Auth";
 import CommonFunctions from "../services/CommonFunction";
@@ -36,7 +36,6 @@ export default function NavBar() {
   const open = Boolean(anchorEl);
   const commFunc = new CommonFunctions();
   const navigate = useNavigate();
-
 
   const handleClickOnExpand = (event) => {
     setAnchorEl(event.currentTarget);
@@ -89,18 +88,21 @@ export default function NavBar() {
             Deliver
           </Link>
         </button>
-
-        <NotificationsMenu />
-
-        <IconButton
-          className="icon-buttons"
-          onClick={() => {
-            route("/inbox");
-          }}
-        >
-          <ForumIcon></ForumIcon>
-        </IconButton>
-
+        &nbsp;
+        {isAuthenticated && (
+          <>
+            {" "}
+            <NotificationsMenu />
+            <IconButton
+              className="icon-buttons"
+              onClick={() => {
+                route("/inbox");
+              }}
+            >
+              <ForumIcon></ForumIcon>
+            </IconButton>
+          </>
+        )}
         <div
           style={{
             display: "flex",

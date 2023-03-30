@@ -185,7 +185,7 @@ export default function Login() {
                     Signup
                   </Link>
                 </p>
-                <Link to="/forgotPwd">
+                <Link to="/forgotpwd">
                   <p style={{ fontSize: "14px" }}>Forgot Password?</p>
                 </Link>
                 <div style={{ textAlign: "center", marginTop: "2rem" }}>

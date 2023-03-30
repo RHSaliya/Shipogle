@@ -39,7 +39,14 @@ root.render(
         <Route path="/inbox" element={<Inbox></Inbox>}></Route>
 
         <Route path="/orders" element={<Orders></Orders>}></Route>
-        <Route path="/forgotPwd" element={<ForgotPwd></ForgotPwd>}></Route>
+        <Route
+          path="/forgotpwd"
+          element={<ForgotPwd path={1}></ForgotPwd>}
+        ></Route>
+        <Route
+          path="/forgotpwd/reset/:token"
+          element={<ForgotPwd path={2}></ForgotPwd>}
+        ></Route>
         <Route
           path="/orders/details/:status/:orderId"
           element={<OrderDetails></OrderDetails>}

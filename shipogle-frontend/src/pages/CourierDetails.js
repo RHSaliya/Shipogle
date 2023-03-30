@@ -15,6 +15,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import customAxios from "../utils/MyAxios";
 import StaticMap from "../components/StaticMap";
 import CommonFunctions from "../services/CommonFunction";
+import CreatePackage from "./CreatePackage";
 
 function CourierDetails() {
   const { state } = useLocation();
@@ -23,25 +24,31 @@ function CourierDetails() {
   const [viewDetails, setViewDetails] = React.useState(true);
   const [confirmBooking, setConfirmBooking] = React.useState(false);
   const [requestSent, setRequestSent] = React.useState(false);
+  const [createPackage, setCreatePackage] = React.useState(false);
   const [staticMapWidth, setMapWidth] = React.useState(0);
   const data = new Data().courierDetails;
   const commFunc = new CommonFunctions();
   React.useEffect(() => {
     const el = document.getElementById("static-map-container");
     if (el) {
-      setMapWidth(el.offsetWidth * 0.8);
+      setMapWidth(el.offsetWidth * 0.9);
     }
   }, []);
+
+  const packageCreated = () => {
+    setConfirmBooking(true);
+    setCreatePackage(false);
+    setViewDetails(false);
+    setRequestSent(false);
+  };
+
   const confirmBookingFunction = (bool) => {
-    setViewDetails(!bool);
-    setConfirmBooking(bool);
+    setViewDetails(false);
+    setCreatePackage(true);
+    setConfirmBooking(false);
+    setRequestSent(false);
   };
-  const getDriverInitials = (name) => {
-    const nameArray = name.split(" ");
-    const fInitial = nameArray[0].charAt(0);
-    const sInitial = nameArray.length > 1 ? nameArray[1].charAt(0) : "";
-    return fInitial + " " + sInitial;
-  };
+
   const requestDriver = (bool) => {
     //customAxios.post(Constants.);
     setViewDetails(false);
@@ -54,6 +61,7 @@ function CourierDetails() {
     customAxios.post(Constants.SENDPACKAGEREQUEST, data).then(
       (res) => {
         setConfirmBooking(false);
+        setCreatePackage(false);
         setRequestSent(true);
       },
       (error) => {
@@ -67,6 +75,14 @@ function CourierDetails() {
       }
     );
   };
+
+  const getDriverInitials = (name) => {
+    const nameArray = name.split(" ");
+    const fInitial = nameArray[0].charAt(0);
+    const sInitial = nameArray.length > 1 ? nameArray[1].charAt(0) : "";
+    return fInitial + " " + sInitial;
+  };
+
   return (
     <>
       <Card
@@ -105,11 +121,19 @@ function CourierDetails() {
               }}
             >
               <StaticMap
-                pickup={routeDetails.pickupLocationCoords}
-                dropOff={routeDetails.dropoffLocationCoords}
-                height={250}
-                width={600}
-                zoom={6}
+                pickup={[
+                  routeDetails.pickupLocationCoords[0],
+                  routeDetails.pickupLocationCoords[1],
+                  routeDetails.sourceCity,
+                ]}
+                dropOff={[
+                  routeDetails.dropoffLocationCoords[0],
+                  routeDetails.dropoffLocationCoords[1],
+                  routeDetails.destinationCity,
+                ]}
+                height={264}
+                width={768}
+                zoom={5}
               ></StaticMap>
             </div>
 
@@ -157,7 +181,12 @@ function CourierDetails() {
             </CardActions>
           </>
         )}
-
+        {createPackage && (
+          <CreatePackage
+            routeDetails={routeDetails}
+            packageCreated={packageCreated}
+          ></CreatePackage>
+        )}
         {confirmBooking && (
           <div style={{ width: "100%", textAlign: "center", padding: "1rem" }}>
             <h4>
