@@ -19,9 +19,15 @@ export default function EditProfile() {
 
     // State to hold user profile information
     const [profileInfo, setProfileInfo] = useState({
-        first_name: 'John',
-        last_name: "Doe",
-        email: 'john@gmail.com',
+        first_name: '',
+        last_name: '',
+        email: '',
+        phone: '',
+        address: '',
+        city: '',
+        province: '',
+        postal_code: '',
+        country: ''
     });
 
     React.useEffect(() => {
@@ -29,8 +35,7 @@ export default function EditProfile() {
         axios.get(Constants.API_USER_INFO_FROM_TOKEN).then((response) => {
             const user = response.data;
             console.log(user);
-            // TODO: Uncomment the following line to set the user profile information
-            //setProfileInfo(user);
+            setProfileInfo(user);
         });
     }, []);
 
@@ -45,8 +50,7 @@ export default function EditProfile() {
     };
 
     // Function to handle form submission
-    const handleChange = (event) => {
-        event.preventDefault();
+    const onFormSubmit = (event) => {
         console.log(profileInfo);
         // TODO: profileInfo paylod should contain following data.
         /* {
@@ -65,9 +69,9 @@ export default function EditProfile() {
             "is_activated": null,
             "is_verified": true,
         } */
-        axios.put(Constants.API_USER, profileInfo).then((response) => {
+        /* axios.put(Constants.API_USER, profileInfo).then((response) => {
             console.log(response);
-        });
+        }); */
         // Code to update user profile information goes here
     };
 
@@ -75,9 +79,8 @@ export default function EditProfile() {
 
     return (
         <div className="editprofile">
-            <Header
-                title="Edit profile details" />
-            <form className="form" onSubmit={handleSubmit(handleInputChange)}>
+            <Header title="Edit profile details" />
+            <form className="form" onSubmit={handleSubmit(onFormSubmit)}>
                 <div className="subheading">Name</div>
                 <div className="name" >
                     <Controller
@@ -99,11 +102,11 @@ export default function EditProfile() {
                     <Controller
                         name="last_name"
                         control={control}
-                        defaultValue=""
+                        defaultValue={profileInfo.last_name}
                         render={({ field: { onChange, value }, fieldState: { error } }) => (
                             <TextField
                                 label="Last Name"
-                                value={profileInfo.last_name}
+                                value={value}
                                 size="small"
                                 onChange={onChange}
                                 error={!!error}
@@ -118,7 +121,7 @@ export default function EditProfile() {
                     <Controller
                         name="email"
                         control={control}
-                        defaultValue=""
+                        defaultValue={profileInfo.email}
                         render={({ field: { onChange, value }, fieldState: { error } }) => (
                             <TextField
                                 label="Email ID"
@@ -134,7 +137,7 @@ export default function EditProfile() {
                     <Controller
                         name="phone"
                         control={control}
-                        defaultValue=""
+                        defaultValue={profileInfo.phone}
                         render={({ field: { onChange, value }, fieldState: { error } }) => (
                             <TextField
                                 label="Phone Number"
@@ -153,7 +156,7 @@ export default function EditProfile() {
                     <Controller
                         name="address"
                         control={control}
-                        defaultValue=""
+                        defaultValue={profileInfo.address}
                         render={({ field: { onChange, value }, fieldState: { error } }) => (
                             <TextField
                                 label="Address"
@@ -169,7 +172,7 @@ export default function EditProfile() {
                     <Controller
                         name="city"
                         control={control}
-                        defaultValue=""
+                        defaultValue={profileInfo.city}
                         render={({ field: { onChange, value }, fieldState: { error } }) => (
                             <TextField
                                 label="City"
@@ -185,7 +188,7 @@ export default function EditProfile() {
                     <Controller
                         name="province"
                         control={control}
-                        defaultValue=""
+                        defaultValue={profileInfo.province}
                         render={({ field: { onChange, value }, fieldState: { error } }) => (
                             <TextField
                                 label="Province"
@@ -201,7 +204,7 @@ export default function EditProfile() {
                     <Controller
                         name="postal code"
                         control={control}
-                        defaultValue=""
+                        defaultValue={profileInfo.postal_code}
                         render={({ field: { onChange, value }, fieldState: { error } }) => (
                             <TextField
                                 label="Postal Code"
@@ -217,7 +220,7 @@ export default function EditProfile() {
                     <Controller
                         name="country"
                         control={control}
-                        defaultValue=""
+                        defaultValue={profileInfo.country}
                         render={({ field: { onChange, value }, fieldState: { error } }) => (
                             <TextField
                                 label="Country"
@@ -240,3 +243,5 @@ export default function EditProfile() {
         </div>
     )
 }
+
+// FormSubmit:   https://blog.logrocket.com/react-hook-form-complete-guide/
