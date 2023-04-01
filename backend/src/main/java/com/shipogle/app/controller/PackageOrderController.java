@@ -30,7 +30,9 @@ public class PackageOrderController {
 
     @PutMapping("package/order/start")
     public String startOrder(@RequestBody Map<String,String> req){
-        return packageOrderService.startPackageOrder(Integer.valueOf(req.get("pickup_code")),Integer.valueOf(req.get("order_id")));
+        Integer pickup_code = Integer.valueOf(req.get("pickup_code"));
+        Integer order_id = Integer.valueOf(req.get("order_id"));
+        return packageOrderService.startPackageOrder(pickup_code,order_id);
     }
 
     @PutMapping("package/order/end")

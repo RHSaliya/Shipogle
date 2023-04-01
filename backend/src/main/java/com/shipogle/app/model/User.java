@@ -66,11 +66,11 @@ public class User implements UserDetails {
 		return first_name;
 	}
 
-	public String getLast_name() {
+	private String getLast_name() {
 		return last_name;
 	}
 
-	public String getPhone() {
+	private String getPhone() {
 		return phone;
 	}
 
@@ -112,48 +112,40 @@ public class User implements UserDetails {
 		return true;
 	}
 
-	public String getGov_id_url() {
+	private String getGov_id_url() {
 		return gov_id_url;
 	}
 
-	public String getProfile_pic_url() {
+	private String getProfile_pic_url() {
 		return profile_pic_url;
 	}
 
-	public Date getDob() {
+	private Date getDob() {
 		return dob;
 	}
 
-	public String getAddress() {
+	private String getAddress() {
 		return address;
 	}
 
-	public String getCity() {
+	private String getCity() {
 		return city;
 	}
 
-	public String getProvince() {
+	private String getProvince() {
 		return province;
 	}
 
-	public String getPostal_code() {
+	private String getPostal_code() {
 		return postal_code;
 	}
 
-	public String getCountry() {
+	private String getCountry() {
 		return country;
 	}
 
-	public Boolean getIs_activated() {
+	private Boolean getIs_activated() {
 		return is_activated;
-	}
-
-	public LocalDateTime getCreated_at() {
-		return created_at;
-	}
-
-	public LocalDateTime getUpdated_at() {
-		return updated_at;
 	}
 
 	public void setPassword(String password) {
@@ -168,23 +160,16 @@ public class User implements UserDetails {
 		this.is_verified = is_verified;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
 	public String getLatitude() {
 		return latitude;
-	}
-
-	public void setLatitude(String latitude) {
-		this.latitude = latitude;
 	}
 
 	public String getLongitude() {
 		return longitude;
 	}
 
-	public void setLongitude(String longitude) {
+	public void setLocation(String latitude, String longitude){
+		this.latitude = latitude;
 		this.longitude = longitude;
 	}
 

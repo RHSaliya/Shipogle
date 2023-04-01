@@ -46,7 +46,7 @@ public class AuthServiceTests {
     @Test
     public void verifyEmailTest(){
         String encypted_code = "";
-        int id=36;
+//        int id=36;
 
 //        when(userRepo.getById(id)).thenReturn()
     }

@@ -52,10 +52,6 @@ public class Package {
         return id;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
     public User getSender() {
         return sender;
     }
@@ -80,28 +76,22 @@ public class Package {
         this.description = description;
     }
 
-    public float getWidth() {
-        return width;
+    public void setPackageDimension(float length, float width, float heigth){
+        this.length = length;
+        this.width = width;
+        this.heigth = heigth;
     }
 
-    public void setWidth(float width) {
-        this.width = width;
+    public float getWidth() {
+        return width;
     }
 
     public float getLength() {
         return length;
     }
 
-    public void setLength(float length) {
-        this.length = length;
-    }
-
     public float getHeigth() {
         return heigth;
-    }
-
-    public void setHeigth(float heigth) {
-        this.heigth = heigth;
     }
 
     public String getPickup_address() {
@@ -120,19 +110,4 @@ public class Package {
         this.drop_address = drop_address;
     }
 
-    public LocalDateTime getCreated_at() {
-        return created_at;
-    }
-
-    public void setCreated_at(LocalDateTime created_at) {
-        this.created_at = created_at;
-    }
-
-    public LocalDateTime getUpdated_at() {
-        return updated_at;
-    }
-
-    public void setUpdated_at(LocalDateTime updated_at) {
-        this.updated_at = updated_at;
-    }
 }

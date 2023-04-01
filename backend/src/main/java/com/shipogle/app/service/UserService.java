@@ -22,8 +22,7 @@ public class UserService {
 
         User user = userRepo.getUserByEmail(user_email);
 
-        user.setLatitude(latitude);
-        user.setLongitude(longitude);
+        user.setLocation(latitude,longitude);
 
         userRepo.save(user);
 
