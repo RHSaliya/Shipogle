@@ -34,8 +34,12 @@ export default function EditProfile() {
         // Get user info from token
         axios.get(Constants.API_USER_INFO_FROM_TOKEN).then((response) => {
             const user = response.data;
+            console.log("user data inside use effect")
             console.log(user);
             setProfileInfo(user);
+            console.log("userprofile set: ");
+            console.log(profileInfo);
+            console.log(profileInfo.first_name);
         });
     }, []);
 
@@ -51,6 +55,7 @@ export default function EditProfile() {
 
     // Function to handle form submission
     const onFormSubmit = (event) => {
+        console.log("profile info on onFormSubmit")
         console.log(profileInfo);
         // TODO: profileInfo paylod should contain following data.
         /* {
@@ -73,166 +78,100 @@ export default function EditProfile() {
             console.log(response);
         }); */
         // Code to update user profile information goes here
+        axios
+        .post(Constants.API_LOGIN, {
+            phone: profileInfo.phone,
+            
+            
+        })
     };
 
-    const { register, handleSubmit, control, watch, formState: { errors } } = useForm();
+
 
     return (
         <div className="editprofile">
             <Header title="Edit profile details" />
-            <form className="form" onSubmit={handleSubmit(onFormSubmit)}>
+            <form className="form" onSubmit={onFormSubmit}>
                 <div className="subheading">Name</div>
                 <div className="name" >
-                    <Controller
-                        name="first_name"
-                        control={control}
-                        defaultValue={profileInfo.first_name}
-                        render={({ field: { onChange, value }, fieldState: { error } }) => (
-                            <TextField
-                                label="First Name"
-                                value={value}
-                                size="small"
-                                onChange={onChange}
-                                error={!!error}
-                                helperText={error ? error.message : null}
-                            />
-                        )}
-                        rules={{ required: 'First name required' }}
+                    <TextField
+                        label="First Name"
+                        value={profileInfo.first_name}
+                        size="small"
+                        onChange={handleInputChange}
+                        disabled={true}
                     />
-                    <Controller
-                        name="last_name"
-                        control={control}
-                        defaultValue={profileInfo.last_name}
-                        render={({ field: { onChange, value }, fieldState: { error } }) => (
-                            <TextField
-                                label="Last Name"
-                                value={value}
-                                size="small"
-                                onChange={onChange}
-                                error={!!error}
-                                helperText={error ? error.message : null}
-                            />
-                        )}
-                        rules={{ required: 'Last name required' }}
+                    <TextField
+                        label="Last Name"
+                        value={profileInfo.last_name}
+                        size="small"
+                        onChange={handleInputChange}
+                        disabled={true}
                     />
                 </div>
                 <div className="subheading">Contact Information</div>
                 <div className="contact">
-                    <Controller
-                        name="email"
-                        control={control}
-                        defaultValue={profileInfo.email}
-                        render={({ field: { onChange, value }, fieldState: { error } }) => (
-                            <TextField
-                                label="Email ID"
-                                value={value}
-                                size="small"
-                                onChange={onChange}
-                                error={!!error}
-                                helperText={error ? error.message : null}
-                            />
-                        )}
-                        rules={{ required: 'Email ID is required' }}
+                <TextField
+                        label="Email"
+                        type="email"
+                        value={profileInfo.email}
+                        size="small"
+                        onChange={handleInputChange}
+                        disabled={true}
                     />
-                    <Controller
-                        name="phone"
-                        control={control}
-                        defaultValue={profileInfo.phone}
-                        render={({ field: { onChange, value }, fieldState: { error } }) => (
-                            <TextField
-                                label="Phone Number"
-                                value={value}
-                                size="small"
-                                onChange={onChange}
-                                error={!!error}
-                                helperText={error ? error.message : null}
-                            />
-                        )}
-                        rules={{ required: 'Phone No. is required' }}
+                <TextField
+                        label="Phone Number"
+                        value={profileInfo.phone}
+                        size="small"
+                        onChange={handleInputChange}
+                      
                     />
+                
+        
                 </div>
                 <div className="subheading">Address Information</div>
                 <div className="address">
-                    <Controller
-                        name="address"
-                        control={control}
-                        defaultValue={profileInfo.address}
-                        render={({ field: { onChange, value }, fieldState: { error } }) => (
-                            <TextField
-                                label="Address"
-                                value={value}
-                                size="small"
-                                onChange={onChange}
-                                error={!!error}
-                                helperText={error ? error.message : null}
-                            />
-                        )}
-                        rules={{ required: 'Address  is required' }}
+                <TextField
+                        label="Address"
+                        type="text"
+                        value={profileInfo.address}
+                        size="small"
+                        onChange={handleInputChange}
+                        
                     />
-                    <Controller
-                        name="city"
-                        control={control}
-                        defaultValue={profileInfo.city}
-                        render={({ field: { onChange, value }, fieldState: { error } }) => (
-                            <TextField
-                                label="City"
-                                value={value}
-                                size="small"
-                                onChange={onChange}
-                                error={!!error}
-                                helperText={error ? error.message : null}
-                            />
-                        )}
-                        rules={{ required: 'City  is required' }}
+                    <TextField
+                        label="City"
+                        type="text"
+                        value={profileInfo.city}
+                        size="small"
+                        onChange={handleInputChange}
+                        
                     />
-                    <Controller
-                        name="province"
-                        control={control}
-                        defaultValue={profileInfo.province}
-                        render={({ field: { onChange, value }, fieldState: { error } }) => (
-                            <TextField
-                                label="Province"
-                                value={value}
-                                size="small"
-                                onChange={onChange}
-                                error={!!error}
-                                helperText={error ? error.message : null}
-                            />
-                        )}
-                        rules={{ required: 'Province  is required' }}
+                    <TextField
+                        label="Province"
+                        type="text"
+                        value={profileInfo.province}
+                        size="small"
+                        onChange={handleInputChange}
+                        
                     />
-                    <Controller
-                        name="postal code"
-                        control={control}
-                        defaultValue={profileInfo.postal_code}
-                        render={({ field: { onChange, value }, fieldState: { error } }) => (
-                            <TextField
-                                label="Postal Code"
-                                value={value}
-                                size="small"
-                                onChange={onChange}
-                                error={!!error}
-                                helperText={error ? error.message : null}
-                            />
-                        )}
-                        rules={{ required: 'Postal Code  is required' }}
+                    <TextField
+                        label="Postal Code"
+                        type="text"
+                        value={profileInfo.postal_code}
+                        size="small"
+                        onChange={handleInputChange}
+                        
                     />
-                    <Controller
-                        name="country"
-                        control={control}
-                        defaultValue={profileInfo.country}
-                        render={({ field: { onChange, value }, fieldState: { error } }) => (
-                            <TextField
-                                label="Country"
-                                value={value}
-                                size="small"
-                                onChange={onChange}
-                                error={!!error}
-                                helperText={error ? error.message : null}
-                            />
-                        )}
-                        rules={{ required: 'Country  is required' }}
+                    <TextField
+                        label="Country"
+                        type="text"
+                        value={profileInfo.country}
+                        size="small"
+                        onChange={handleInputChange}
+                        
                     />
+    
                 </div>
                 <div>
                     <label>Upload profile picture: </label>
