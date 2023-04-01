@@ -44,48 +44,30 @@ export default function EditProfile() {
     }, []);
 
     // Function to handle changes to the input fields
-    const handleInputChange = (event) => {
-        const { first_name, value } = event.target;
+    // Function to handle changes to the input fields
+    const handleInputChange = (event, fieldName) => {
+        const value = event.target.value;
 
         setProfileInfo((prevState) => ({
             ...prevState,
-            [first_name]: value,
+            [fieldName]: value,
         }));
     };
 
     // Function to handle form submission
     const onFormSubmit = (event) => {
+        event.preventDefault(); // prevent default form submission behavior
         console.log("profile info on onFormSubmit")
         console.log(profileInfo);
-        // TODO: profileInfo paylod should contain following data.
-        /* {
-            "first_name": "John",
-            "last_name": "Doe",
-            "phone": null,
-            "email": "rhs.yopmail.com@yopmail.com",
-            "gov_id_url": null,
-            "profile_pic_url": null,
-            "dob": null,
-            "address": null,
-            "city": null,
-            "province": null,
-            "postal_code": null,
-            "country": null,
-            "is_activated": null,
-            "is_verified": true,
-        } */
-        /* axios.put(Constants.API_USER, profileInfo).then((response) => {
-            console.log(response);
-        }); */
-        // Code to update user profile information goes here
-        axios
-        .post(Constants.API_LOGIN, {
-            phone: profileInfo.phone,
-            
-            
-        })
-    };
 
+        axios.put(Constants.API_USER, profileInfo) // send updated user profile data to the API endpoint
+            .then((response) => {
+                console.log(response);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    };
 
 
     return (
@@ -98,20 +80,22 @@ export default function EditProfile() {
                         label="First Name"
                         value={profileInfo.first_name}
                         size="small"
-                        onChange={handleInputChange}
                         disabled={true}
+                        onChange={(event) => handleInputChange(event, 'first_name')}
+                       
                     />
                     <TextField
                         label="Last Name"
                         value={profileInfo.last_name}
                         size="small"
-                        onChange={handleInputChange}
                         disabled={true}
+                        onChange={(event) => handleInputChange(event, 'last_name')}
+                        
                     />
                 </div>
                 <div className="subheading">Contact Information</div>
                 <div className="contact">
-                <TextField
+                    <TextField
                         label="Email"
                         type="email"
                         value={profileInfo.email}
@@ -119,59 +103,59 @@ export default function EditProfile() {
                         onChange={handleInputChange}
                         disabled={true}
                     />
-                <TextField
+                    <TextField
                         label="Phone Number"
                         value={profileInfo.phone}
                         size="small"
-                        onChange={handleInputChange}
-                      
+                        onChange={(event) => handleInputChange(event, 'phone')}
+
                     />
-                
-        
+
+
                 </div>
                 <div className="subheading">Address Information</div>
                 <div className="address">
-                <TextField
+                    <TextField
                         label="Address"
                         type="text"
                         value={profileInfo.address}
                         size="small"
-                        onChange={handleInputChange}
-                        
+                        onChange={(event) => handleInputChange(event, 'address')}
+
                     />
                     <TextField
                         label="City"
                         type="text"
                         value={profileInfo.city}
                         size="small"
-                        onChange={handleInputChange}
-                        
+                        onChange={(event) => handleInputChange(event, 'city')}
+
                     />
                     <TextField
                         label="Province"
                         type="text"
                         value={profileInfo.province}
                         size="small"
-                        onChange={handleInputChange}
-                        
+                        onChange={(event) => handleInputChange(event, 'province')}
+
                     />
                     <TextField
                         label="Postal Code"
                         type="text"
                         value={profileInfo.postal_code}
                         size="small"
-                        onChange={handleInputChange}
-                        
+                        onChange={(event) => handleInputChange(event, 'postal_code')}
+
                     />
                     <TextField
                         label="Country"
                         type="text"
                         value={profileInfo.country}
                         size="small"
-                        onChange={handleInputChange}
-                        
+                        onChange={(event) => handleInputChange(event, 'country')}
+
                     />
-    
+
                 </div>
                 <div>
                     <label>Upload profile picture: </label>
