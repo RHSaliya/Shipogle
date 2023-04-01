@@ -21,6 +21,8 @@ import java.io.IOException;
 import com.shipogle.app.service.JwtTokenService;
 import org.springframework.web.server.ResponseStatusException;
 
+import static com.shipogle.app.utility.Const.UNAUTHORIZED_ERROR_CODE;
+
 @Component
 public class Authfilter implements Filter {
 
@@ -66,12 +68,12 @@ public class Authfilter implements Filter {
                         SecurityContextHolder.getContext().setAuthentication(auth_token);
                         filterChain.doFilter(request,response);
                     }else {
-                        response.sendError(401,"Unauthorized");
+                        response.sendError(UNAUTHORIZED_ERROR_CODE,"Unauthorized");
                         return;
                     }
 
                 }catch (ExpiredJwtException e){
-                    response.sendError(401,"Unauthorized");
+                    response.sendError(UNAUTHORIZED_ERROR_CODE,"Unauthorized");
 //                    response.getWriter().print(e.getMessage());
 //                    throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
                 }

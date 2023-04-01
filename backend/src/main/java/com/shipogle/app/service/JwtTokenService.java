@@ -1,5 +1,7 @@
 package com.shipogle.app.service;
 
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,25 +18,24 @@ import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 
+import static com.shipogle.app.utility.Const.SECRETKEY;
+import static com.shipogle.app.utility.Const.TOKEN_EXPIRATION_TIME;
+
 @Service
 public class JwtTokenService {
 
     @Autowired
     JwtTokenRepository jwtTokenRepo;
 
-    // @Value("${jwt.secret.key}")
-    public static String secretKey = "2A462D4A614E645267556B58703273357638792F423F4528472B4B6250655368";
-
     public JwtToken createJwtToken(User user) {
         JwtToken token = new JwtToken();
 
-        String jwt_token = Jwts.builder()
-                .claim("email", user.getEmail())
-                .setSubject(user.getFirst_name())
-                .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(Date.from(Instant.now().plus(60 * 24, ChronoUnit.MINUTES)))
-                .signWith(generateKey())
-                .compact();
+        JwtBuilder jwtBuilder = Jwts.builder().claim("email", user.getEmail());
+        jwtBuilder.setSubject(user.getFirst_name());
+        jwtBuilder.setIssuedAt(new Date(System.currentTimeMillis()));
+        jwtBuilder.setExpiration(Date.from(Instant.now().plus(TOKEN_EXPIRATION_TIME, ChronoUnit.MINUTES)));
+        jwtBuilder.signWith(generateKey());
+        String jwt_token = jwtBuilder.compact();
 
         // System.out.println("JWT Token is "+jwt_token);
         token.setToken(jwt_token);
@@ -44,7 +45,7 @@ public class JwtTokenService {
     }
 
     public Key generateKey() {
-        return new SecretKeySpec(Base64.getDecoder().decode(secretKey), SignatureAlgorithm.HS256.getJcaName());
+        return new SecretKeySpec(Base64.getDecoder().decode(SECRETKEY), SignatureAlgorithm.HS256.getJcaName());
     }
 
     public void deactiveUserTokens(User user) {

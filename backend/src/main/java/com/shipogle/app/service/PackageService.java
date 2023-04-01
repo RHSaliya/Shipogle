@@ -62,11 +62,13 @@ public class PackageService {
     public String updatePackage(Package courier){
         try{
             Package p = packageRepo.getPackageById((Integer) courier.getId());
+            float length = courier.getLength();
+            float width = courier.getWidth();
+            float height = courier.getHeigth();
+
             p.setTitle(courier.getTitle());
             p.setDescription(courier.getDescription());
-            p.setHeigth(courier.getHeigth());
-            p.setWidth(courier.getWidth());
-            p.setLength(courier.getLength());
+            p.setPackageDimension(length,width,height);
             p.setPickup_address(courier.getPickup_address());
             p.setDrop_address(courier.getDrop_address());
             packageRepo.save(p);

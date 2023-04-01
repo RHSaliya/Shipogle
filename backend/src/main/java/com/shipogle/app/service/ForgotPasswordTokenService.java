@@ -3,6 +3,7 @@ package com.shipogle.app.service;
 import com.shipogle.app.model.ForgotPasswordToken;
 import com.shipogle.app.model.User;
 import com.shipogle.app.repository.ForgotPasswordTokenRepository;
+import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,23 +15,24 @@ import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Base64;
 import java.util.Date;
+
+import static com.shipogle.app.utility.Const.SECRETKEY;
+import static com.shipogle.app.utility.Const.TOKEN_EXPIRATION_TIME;
+
 @Service
 public class ForgotPasswordTokenService {
 
     @Autowired
     ForgotPasswordTokenRepository forgotPasswordTokenRepo;
 
-    private String secretKey = "2A462D4A614E645267556B58703273357638792F423F4528472B4B6250655368";
-
     public ForgotPasswordToken createForgotPasswordToken(User user){
         ForgotPasswordToken forgotPasswordToken = new ForgotPasswordToken();
-        String forgot_password_token = Jwts.builder()
-                .claim("email",user.getEmail())
-                .setSubject(user.getFirst_name())
-                .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(Date.from(Instant.now().plus(60*24, ChronoUnit.MINUTES)))
-                .signWith(generateKey())
-                .compact();
+        JwtBuilder jwtBuilder = Jwts.builder().claim("email",user.getEmail());
+        jwtBuilder.setSubject(user.getFirst_name());
+        jwtBuilder.setIssuedAt(new Date(System.currentTimeMillis()));
+        jwtBuilder.setExpiration(Date.from(Instant.now().plus(TOKEN_EXPIRATION_TIME, ChronoUnit.MINUTES)));
+        jwtBuilder.signWith(generateKey());
+        String forgot_password_token = jwtBuilder.compact();
 
         forgotPasswordToken.setForgot_password_token(forgot_password_token);
         forgotPasswordToken.setIs_active(true);
@@ -41,6 +43,6 @@ public class ForgotPasswordTokenService {
     }
 
     public Key generateKey(){
-        return new SecretKeySpec(Base64.getDecoder().decode(secretKey), SignatureAlgorithm.HS256.getJcaName());
+        return new SecretKeySpec(Base64.getDecoder().decode(SECRETKEY), SignatureAlgorithm.HS256.getJcaName());
     }
 }
