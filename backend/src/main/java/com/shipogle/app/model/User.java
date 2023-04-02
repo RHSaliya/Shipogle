@@ -215,4 +215,12 @@ public class User implements UserDetails {
 	public void setUser_Id(int i) {
 		this.id = i;
 	}
+
+	public void setFirst_name(String first_name) {
+		this.first_name = first_name;
+	}
+
+	public void setLast_name(String last_name) {
+		this.last_name = last_name;
+	}
 }
