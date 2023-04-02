@@ -173,6 +173,9 @@ public class User implements UserDetails {
 		this.longitude = longitude;
 	}
 
+
+
+
 	@Override
 	public String toString() {
 		return String.format("{ " +
@@ -209,4 +212,7 @@ public class User implements UserDetails {
 		this.updated_at = LocalDateTime.now();
 	}
 
+	public void setUser_Id(int i) {
+		this.id = i;
+	}
 }
