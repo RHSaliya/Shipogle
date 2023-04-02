@@ -66,11 +66,11 @@ public class User implements UserDetails {
 		return first_name;
 	}
 
-	private String getLast_name() {
+	public String getLast_name() {
 		return last_name;
 	}
 
-	private String getPhone() {
+	public String getPhone() {
 		return phone;
 	}
 
@@ -112,39 +112,39 @@ public class User implements UserDetails {
 		return true;
 	}
 
-	private String getGov_id_url() {
+	public String getGov_id_url() {
 		return gov_id_url;
 	}
 
-	private String getProfile_pic_url() {
+	public String getProfile_pic_url() {
 		return profile_pic_url;
 	}
 
-	private Date getDob() {
+	public Date getDob() {
 		return dob;
 	}
 
-	private String getAddress() {
+	public String getAddress() {
 		return address;
 	}
 
-	private String getCity() {
+	public String getCity() {
 		return city;
 	}
 
-	private String getProvince() {
+	public String getProvince() {
 		return province;
 	}
 
-	private String getPostal_code() {
+	public String getPostal_code() {
 		return postal_code;
 	}
 
-	private String getCountry() {
+	public String getCountry() {
 		return country;
 	}
 
-	private Boolean getIs_activated() {
+	public Boolean getIs_activated() {
 		return is_activated;
 	}
 
@@ -172,8 +172,6 @@ public class User implements UserDetails {
 		this.latitude = latitude;
 		this.longitude = longitude;
 	}
-
-
 
 
 	@Override

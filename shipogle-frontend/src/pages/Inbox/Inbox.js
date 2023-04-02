@@ -28,6 +28,9 @@ const Inbox = () => {
     axios
       .get(`${Constants.API_CHAT}/${user.user_id}/${selectedUser.user_id}`)
       .then((response) => {
+        console.log("~~~~~~~~~~~~~~");
+        console.log(response.data);
+        console.log("~~~~~~~~~~~~~~");
         setMessages(response.data);
       });
 
@@ -71,11 +74,11 @@ const Inbox = () => {
       axios.get(`${Constants.API_CHAT}/${user.user_id}`).then((res) => {
         console.log("~~~~~~~~~~~~~~");
         console.log(res.data);
+        console.log("~~~~~~~~~~~~~~");
         setChatUsers(res.data);
         if (res.data.length > 0) {
           handleUserClick(res.data[0], user);
         }
-        console.log("~~~~~~~~~~~~~~");
       });
     });
   }, []);
