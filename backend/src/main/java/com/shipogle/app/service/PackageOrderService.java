@@ -26,6 +26,9 @@ public class PackageOrderService {
     @Autowired
     UserRepository userRepo;
 
+    @Autowired
+    UserService userService;
+
     public String createPackageOrder(PackageRequest packageRequest){
         PackageOrder packageOrder = new PackageOrder();
         Random random = new Random();
@@ -69,9 +72,10 @@ public class PackageOrderService {
 
     public List<PackageOrder> getSenderOrders(){
         try {
-            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-            String user_email = auth.getPrincipal().toString();
-            User user = userRepo.getUserByEmail(user_email);
+//            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//            String user_email = auth.getPrincipal().toString();
+//            User user = userRepo.getUserByEmail(user_email);
+            User user = userService.getLoggedInUser();
 
             return packageOrderRepo.getAllBySender(user);
         }catch (Exception e){

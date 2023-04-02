@@ -35,6 +35,9 @@ public class PackageRequestService {
     @Autowired
     DriverRouteRepository driverRouteRepo;
 
+    @Autowired
+    UserService userService;
+
 
     public String sendRequest(Map<String,String> req){
         try{
@@ -51,10 +54,11 @@ public class PackageRequestService {
                 PackageRequest packageRequest = new PackageRequest();
                 DriverRoute driverRoute = driverRouteRepo.getDriverRouteById(Long.valueOf(req.get("driver_route_id")));
 
-                Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-                String user_email = auth.getPrincipal().toString();
-
-                User sender = userRepo.getUserByEmail(user_email);
+//                Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//                String user_email = auth.getPrincipal().toString();
+//
+//                User sender = userRepo.getUserByEmail(user_email);
+                User sender = userService.getLoggedInUser();
                 User deliverer = userRepo.getUserById(Integer.valueOf(driverRoute.getDriverId()));
 
                 packageRequest.setStatus("requested");
@@ -178,10 +182,12 @@ public class PackageRequestService {
 
     public List<PackageRequest> getRequest(){
         try {
-            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-            String user_email = auth.getPrincipal().toString();
+//            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//            String user_email = auth.getPrincipal().toString();
+//
+//            User deliverer = userRepo.getUserByEmail(user_email);
 
-            User deliverer = userRepo.getUserByEmail(user_email);
+            User deliverer = userService.getLoggedInUser();
 
             if (deliverer == null)
                 return null;
