@@ -19,28 +19,6 @@ function Listings({ data }) {
   const path = location.pathname;
   const [listingCards, setListingCards] = useState([]);
   const [showMapView, setShowMapView] = useState(false);
-  const [mapCenter, setMapCenter] = useState({});
-
-  const getCurrentLocation = (callback) => {
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        const userLocation = {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude,
-        };
-        console.log("Current location:", userLocation); // Log the userLocation to check if it's valid
-        callback(setMapCenter(userLocation));
-      },
-      (error) => {
-        this.showAlertMessage(
-          error.message ? error.message : "Please give Location Access",
-          "error",
-          3000,
-          "bottom"
-        );
-      }
-    );
-  };
 
   const routeTo = (routeId) => {
     navigate("/order/startend", { state: { id: routeId } });
@@ -155,7 +133,6 @@ function Listings({ data }) {
   };
 
   useEffect(() => {
-    getCurrentLocation();
     createListingCards();
   }, [data]);
 
@@ -193,7 +170,7 @@ function Listings({ data }) {
 
         <br />
         {!showMapView && <>{listingCards}</>}
-        {showMapView && <MapView center={mapCenter} locations={data} />}
+        {showMapView && <MapView locations={data} />}
       </div>
     </>
   );
