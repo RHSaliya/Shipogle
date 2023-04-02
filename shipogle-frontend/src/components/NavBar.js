@@ -245,11 +245,17 @@ export default function NavBar() {
                     Current Delivery
                   </Link>
                 </MenuItem>
+                <MenuItem>
+                  <Link style={{ textDecoration: "none" }} to="/user/editprofile">
+                    Edit Profile
+                  </Link>
+                </MenuItem>
                 <MenuItem
                   onClick={() => {
                     logout();
                   }}
                 >
+                
                   <Link style={{ textDecoration: "none" }} to="/login">
                     Logout
                   </Link>
