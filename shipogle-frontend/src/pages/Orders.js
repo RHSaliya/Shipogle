@@ -48,7 +48,6 @@ export default function Orders() {
 
     resData.forEach((order) => {
       // Updated line
-      console.log(order, "logging order", order.delivered);
       if (order.delivered) completedOrders.push(order);
       else if (order.started) inprogressOrders.push(order);
       else if (order.canceled) canceledOrders.push(order);

@@ -67,25 +67,6 @@ class CommonFunctions extends Component {
   googleObjectDefinedStatus(status) {
     CommonFunctions.googleMapObjectStatus = status;
   }
-
-  getCurrentLocation() {
-    let userLocation = { latitude: 0, longitude: 0 };
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        userLocation.latitude = position.coords.latitude;
-        userLocation.longitude = position.coords.longitude;
-      },
-      (error) => {
-        this.showAlertMessage(
-          error.message ? error.message : "Please give Location Access",
-          "error",
-          3000,
-          "bottom"
-        );
-      }
-    );
-    return userLocation;
-  }
 }
 
 export default CommonFunctions;
