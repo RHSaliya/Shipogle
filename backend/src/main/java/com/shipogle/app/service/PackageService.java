@@ -23,29 +23,34 @@ public class PackageService {
     @Autowired
     UserRepository userRepo;
 
+    @Autowired
+    UserService userService;
+
     public Integer storePackage(Package courier){
         try {
-            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-            String user_email = auth.getPrincipal().toString();
-            User user = userRepo.getUserByEmail(user_email);
+//            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//            String user_email = auth.getPrincipal().toString();
+//            User user = userRepo.getUserByEmail(user_email);
+            User user = userService.getLoggedInUser();
 
             courier.setSender(user);
             Integer package_id = packageRepo.save(courier).getId();
 
             return package_id;
         }catch (Exception e){
-            System.out.println(e.getMessage());
-            return null;
+//            System.out.println(e.getMessage());
+//            return null;
 //            return "Failed to save package";
-//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Failed to save package");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Failed to save package");
         }
     }
 
     public List<Package> getPackages(){
         try {
-            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-            String user_email = auth.getPrincipal().toString();
-            User user = userRepo.getUserByEmail(user_email);
+//            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//            String user_email = auth.getPrincipal().toString();
+//            User user = userRepo.getUserByEmail(user_email);
+            User user = userService.getLoggedInUser();
 
             List<Package> packages = packageRepo.getAllBySender(user);
 //            for (Package i:packages) {
@@ -62,11 +67,13 @@ public class PackageService {
     public String updatePackage(Package courier){
         try{
             Package p = packageRepo.getPackageById((Integer) courier.getId());
+            float length = courier.getLength();
+            float width = courier.getWidth();
+            float height = courier.getHeigth();
+
             p.setTitle(courier.getTitle());
             p.setDescription(courier.getDescription());
-            p.setHeigth(courier.getHeigth());
-            p.setWidth(courier.getWidth());
-            p.setLength(courier.getLength());
+            p.setPackageDimension(length,width,height);
             p.setPickup_address(courier.getPickup_address());
             p.setDrop_address(courier.getDrop_address());
             packageRepo.save(p);

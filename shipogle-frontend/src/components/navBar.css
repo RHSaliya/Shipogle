@@ -12,14 +12,14 @@
 }
 
 .navbar-logo {
-  width: 120px;
-  margin: 0px 8px;
-  height: 100%;
+  display: flex;
 }
 
 .navbar-logo-img {
-  width: 100%;
-  height: auto;
+  width: 58px;
+  height: 58px;
+  margin: 0px;
+  margin-top: -1rem;
 }
 
 .navbar-secondary-menu {

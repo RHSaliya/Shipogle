@@ -24,6 +24,10 @@ public class Message {
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public void setSender(User sender) {
         this.sender = sender;
     }

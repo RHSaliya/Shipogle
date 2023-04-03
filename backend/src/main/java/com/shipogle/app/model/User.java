@@ -148,14 +148,6 @@ public class User implements UserDetails {
 		return is_activated;
 	}
 
-	public LocalDateTime getCreated_at() {
-		return created_at;
-	}
-
-	public LocalDateTime getUpdated_at() {
-		return updated_at;
-	}
-
 	public void setPassword(String password) {
 		this.password = password;
 	}
@@ -168,25 +160,92 @@ public class User implements UserDetails {
 		this.is_verified = is_verified;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
 	public String getLatitude() {
 		return latitude;
-	}
-
-	public void setLatitude(String latitude) {
-		this.latitude = latitude;
 	}
 
 	public String getLongitude() {
 		return longitude;
 	}
 
+	public void setLocation(String latitude, String longitude){
+		this.latitude = latitude;
+		this.longitude = longitude;
+	}
+
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public void setFirst_name(String first_name) {
+		this.first_name = first_name;
+	}
+
+	public void setLast_name(String last_name) {
+		this.last_name = last_name;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public void setGov_id_url(String gov_id_url) {
+		this.gov_id_url = gov_id_url;
+	}
+
+	public void setProfile_pic_url(String profile_pic_url) {
+		this.profile_pic_url = profile_pic_url;
+	}
+
+	public void setDob(Date dob) {
+		this.dob = dob;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public void setLatitude(String latitude) {
+		this.latitude = latitude;
+	}
+
 	public void setLongitude(String longitude) {
 		this.longitude = longitude;
 	}
+
+	public void setProvince(String province) {
+		this.province = province;
+	}
+
+	public void setPostal_code(String postal_code) {
+		this.postal_code = postal_code;
+	}
+
+	public void setCountry(String country) {
+		this.country = country;
+	}
+
+	public void setIs_activated(Boolean is_activated) {
+		this.is_activated = is_activated;
+	}
+
+	public void setCreated_at(LocalDateTime created_at) {
+		this.created_at = created_at;
+	}
+
+	public void setUpdated_at(LocalDateTime updated_at) {
+		this.updated_at = updated_at;
+	}
+
 
 	@Override
 	public String toString() {
@@ -224,4 +283,7 @@ public class User implements UserDetails {
 		this.updated_at = LocalDateTime.now();
 	}
 
+	public void setUser_Id(int i) {
+		this.id = i;
+	}
 }

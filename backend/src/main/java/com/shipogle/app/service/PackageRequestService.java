@@ -35,11 +35,16 @@ public class PackageRequestService {
     @Autowired
     DriverRouteRepository driverRouteRepo;
 
+    @Autowired
+    UserService userService;
+
 
     public String sendRequest(Map<String,String> req){
         try{
 //            int request_count = packageRequestRepo.countAllBy_package_IdAndDeliverer_Id(Integer.valueOf(req.get("package_id")),Integer.valueOf(req.get("deliverer_id")));
-            int request_count = packageRequestRepo.countAllBy_package_IdAndDriverRoute_Id(Integer.valueOf(req.get("package_id")),Long.valueOf(req.get("driver_route_id")));
+            Integer package_id = Integer.valueOf(req.get("package_id"));
+            Long driver_route_id = Long.valueOf(req.get("driver_route_id"));
+            int request_count = packageRequestRepo.countAllBy_package_IdAndDriverRoute_Id(package_id,driver_route_id);
             if(packageOrderService.isPackageOrderExist(Integer.valueOf(req.get("package_id")))){
 //                return "Cannot send request after order creation";
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cannot send request after order creation");
@@ -49,10 +54,11 @@ public class PackageRequestService {
                 PackageRequest packageRequest = new PackageRequest();
                 DriverRoute driverRoute = driverRouteRepo.getDriverRouteById(Long.valueOf(req.get("driver_route_id")));
 
-                Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-                String user_email = auth.getPrincipal().toString();
-
-                User sender = userRepo.getUserByEmail(user_email);
+//                Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//                String user_email = auth.getPrincipal().toString();
+//
+//                User sender = userRepo.getUserByEmail(user_email);
+                User sender = userService.getLoggedInUser();
                 User deliverer = userRepo.getUserById(Integer.valueOf(driverRoute.getDriverId()));
 
                 packageRequest.setStatus("requested");
@@ -65,7 +71,10 @@ public class PackageRequestService {
                 Package p = packageRepo.getPackageById(Integer.valueOf(req.get("package_id")));
                 packageRequest.set_package(p);
 
-                if(sender==null || deliverer==null || p==null || driverRoute==null){
+                boolean isInvalidSenderOrDeliverer = sender==null || deliverer==null;
+                boolean isInvalidPackageOrRoute = p==null || driverRoute==null;
+
+                if(isInvalidSenderOrDeliverer || isInvalidPackageOrRoute){
 //                    return "Invalid request";
                     throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid request");
                 }
@@ -101,7 +110,7 @@ public class PackageRequestService {
         try{
             PackageRequest packageRequest = packageRequestRepo.getPackageRequestById(package_request_id);
 
-            if (packageRequest == null || packageRequest.getStatus().equals("rejected") || packageRequest.getStatus().equals("accepted")){
+            if (isAbleToAcceptRequest(packageRequest)){
 //                return "Cannot accept request";
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cannot accept request");
             }
@@ -120,6 +129,13 @@ public class PackageRequestService {
 //            return e.getMessage();
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
+    }
+
+    private boolean isAbleToAcceptRequest(PackageRequest packageRequest){
+        boolean isRequestRejected = packageRequest.getStatus().equals("rejected");
+        boolean isRequestAccepted = packageRequest.getStatus().equals("accepted");
+
+        return packageRequest == null || isRequestRejected || isRequestAccepted;
     }
 
     public String rejectRequest(Integer package_request_id){
@@ -166,10 +182,12 @@ public class PackageRequestService {
 
     public List<PackageRequest> getRequest(){
         try {
-            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-            String user_email = auth.getPrincipal().toString();
+//            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//            String user_email = auth.getPrincipal().toString();
+//
+//            User deliverer = userRepo.getUserByEmail(user_email);
 
-            User deliverer = userRepo.getUserByEmail(user_email);
+            User deliverer = userService.getLoggedInUser();
 
             if (deliverer == null)
                 return null;

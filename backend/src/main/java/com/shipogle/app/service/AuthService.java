@@ -17,6 +17,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import static com.shipogle.app.utility.Const.*;
+
 @Service
 public class AuthService {
     @Autowired
@@ -34,8 +36,6 @@ public class AuthService {
     @Autowired
     ForgotPasswordTokenService forgotPasswordTokenService;
 
-    private String secretKey = "2A462D4A614E645267556B58703273357638792F423F4528472B4B6250655368";
-
     public boolean isAlreadyExist(User user) {
         User db_user = userReop.findUserByEmail(user.getEmail());
         if (db_user == null) {
@@ -48,7 +48,7 @@ public class AuthService {
         try {
             ForgotPasswordToken forgotPasswordToken = forgotPasswordTokenRepo.findByForgetPasswordToken(token);
             if (forgotPasswordToken.getIs_active()) {
-                Claims claim = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
+                Claims claim = Jwts.parser().setSigningKey(SECRETKEY).parseClaimsJws(token).getBody();
                 String email = (String) claim.get("email");
 
                 User user = userReop.getUserByEmail(email);
@@ -79,8 +79,11 @@ public class AuthService {
             ForgotPasswordToken token = forgotPasswordTokenService.createForgotPasswordToken(user);
             String forgot_password_token = token.getForgot_password_token();
 
-            mailService.sendMail(user.getEmail(), "Reset Password", "Password rest link(Expires in 24 hours): ",
-                    "http://localhost:3000/forgotpwd/reset/" + forgot_password_token);
+            String user_email = user.getEmail();
+            String subject = "Reset Password";
+            String body = "Password rest link(Expires in 24 hours): ";
+            String reset_link =  URL_FRONTEND+"/forgotpwd/reset/"+forgot_password_token;
+            mailService.sendMail(user_email, subject, body, reset_link);
 
         } catch (Exception e) {
 //            return e.getMessage();
@@ -88,13 +91,6 @@ public class AuthService {
         }
         return "Password reset link sent";
     }
-
-    // public String logout(String token){
-    // System.out.println("Flag logout service");
-    // String email = Jwts.parser().parseClaimsJws(token).getBody().getAudience();
-    // System.out.println(email);
-    // return "";
-    // }
 
     public String verifyEmail(String code, int id) {
 
@@ -124,15 +120,19 @@ public class AuthService {
     public String register(User new_user) {
         if (!isAlreadyExist(new_user)) {
             String user_password = new_user.getPassword();
-            System.out.println(new_user.getPassword());
             BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
             new_user.setPassword(encoder.encode(user_password));
             new_user.setIs_verified(false);
             userReop.save(new_user);
 
             String encoded_email = encoder.encode(new_user.getEmail());
-            mailService.sendMail(new_user.getEmail(), "Email Verification", "Please verify your email:",
-                    "http://localhost:8080/verification?code=" + encoded_email + "&id=" + new_user.getUser_id());
+
+            String user_email = new_user.getEmail();
+            String subject = "Email Verification";
+            String body = "Please verify your email:";
+            String link =  URL_BACKEND+"/verification?code="+encoded_email+"&id="+new_user.getUser_id();
+
+            mailService.sendMail(user_email,subject, body, link);
 
             return "Verification email sent";
 
@@ -172,14 +172,14 @@ public class AuthService {
 
     public User getUserInfo(String token) {
         token = token.replace("Bearer", "").trim();
-        Claims claim = Jwts.parser().setSigningKey(JwtTokenService.secretKey).parseClaimsJws(token).getBody();
+        Claims claim = Jwts.parser().setSigningKey(SECRETKEY).parseClaimsJws(token).getBody();
         String email = (String) claim.get("email");
         return userReop.getUserByEmail(email);
     }
 
     public String updateUser(String token, User user) {
         token = token.replace("Bearer", "").trim();
-        Claims claim = Jwts.parser().setSigningKey(JwtTokenService.secretKey).parseClaimsJws(token).getBody();
+        Claims claim = Jwts.parser().setSigningKey(SECRETKEY).parseClaimsJws(token).getBody();
         String email = (String) claim.get("email");
         User db_user = userReop.getUserByEmail(email);
         db_user.update(user);

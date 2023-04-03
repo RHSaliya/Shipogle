@@ -63,10 +63,6 @@ public class PackageOrder {
         this.id = id;
     }
 
-    public Package get_package() {
-        return _package;
-    }
-
     public void set_package(Package _package) {
         this._package = _package;
     }
@@ -79,16 +75,8 @@ public class PackageOrder {
         this.sender = sender;
     }
 
-    public User getDeliverer() {
-        return deliverer;
-    }
-
     public void setDeliverer(User deliverer) {
         this.deliverer = deliverer;
-    }
-
-    public DriverRoute getDriverRoute() {
-        return driverRoute;
     }
 
     public void setDriverRoute(DriverRoute driverRoute) {
@@ -119,10 +107,6 @@ public class PackageOrder {
         isStarted = started;
     }
 
-    public boolean isDelivered() {
-        return isDelivered;
-    }
-
     public void setDelivered(boolean delivered) {
         isDelivered = delivered;
     }
@@ -135,12 +119,28 @@ public class PackageOrder {
         isCanceled = canceled;
     }
 
-    public Integer getPaymentStatus() {
-        return paymentStatus;
-    }
-
     public void setPaymentStatus(Integer paymentStatus) {
         this.paymentStatus = paymentStatus;
+    }
+
+    public Package get_package() {
+        return _package;
+    }
+
+    public User getDeliverer() {
+        return deliverer;
+    }
+
+    public DriverRoute getDriverRoute() {
+        return driverRoute;
+    }
+
+    public boolean isDelivered() {
+        return isDelivered;
+    }
+
+    public Integer getPaymentStatus() {
+        return paymentStatus;
     }
 
     public LocalDateTime getCreated_at() {
