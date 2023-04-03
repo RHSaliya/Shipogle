@@ -401,3 +401,21 @@ a:hover {
   margin-top: 0px;
   margin-bottom: 0.5em;
 }
+
+.feedback-issue-box {
+  margin: 2em auto;
+  width: 60%;
+  padding: 4em;
+  box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
+  background-color: #3F0744;
+  color: white;
+  text-align: center;
+}
+
+.feedback-issue-box > a {
+  color: white;
+  text-decoration: none;
+}
+.stars{
+  height: 40px;
+}
