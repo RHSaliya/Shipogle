@@ -125,11 +125,7 @@ export default function ForgotPwd() {
           }}
         >
           <div style={{ marginTop: "-rem", marginBottom: "2rem" }}>
-            <Header
-              title="S H I P O G L E"
-              info=""
-              bgColor="transparent"
-            ></Header>
+            <Header title="S H I P O G L E" bgColor="transparent"></Header>
           </div>
 
           <h2 style={{ marginTop: "-2rem" }}>Reset Password</h2>

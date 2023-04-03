@@ -1,6 +1,8 @@
 import React from "react";
 import Header from "../components/Header";
 import shipogleLogo from "../assets/shipogleLogo.png";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import StarRating from "./StarRating";
 import customAxios from "../utils/MyAxios";
 import Constants from "../Constants";
 import CommonFunctions from "../services/CommonFunction";
@@ -11,18 +13,22 @@ import {
   CardHeader,
   TextField,
 } from "@mui/material";
-import { useLocation, useNavigate } from "react-router-dom";
 
-export default function Issue() {
-  const commFunc = new CommonFunctions();
+export default function Feedback() {
   const { state } = useLocation();
-  const [description, setDescription] = React.useState("");
   const navigate = useNavigate();
-  console.log(state);
+  const commFunc = new CommonFunctions();
+  const orderDetails = state.orderDetails;
+  const [showMsg, setShowMsg] = React.useState(0);
+  const [rating, setRating] = React.useState(0);
+  const [review, setReview] = React.useState("");
+
   const submit = (e) => {
+    setShowMsg((prevShowMsg) => 1);
     const body = {
-      package_order_id: state.orderDetails._package.id,
-      description: description,
+      driver_route_id: state.orderDetails.driverRoute.driverRouteId,
+      star: rating,
+      review: review,
     };
     customAxios.post(Constants.POSTRATING, body).then(
       (res) => {
@@ -58,17 +64,18 @@ export default function Issue() {
           ></img>
 
           <Header title="S H I P O G L E" />
-          <CardHeader title="Please provide issue details"></CardHeader>
+          <CardHeader title="We value your feedback"></CardHeader>
           <CardContent>
+            <StarRating starRating={setRating} />
             <br></br>
             <TextField
               multiline
               onChange={(event) => {
-                setDescription(event.target.value);
+                setReview(event.target.value);
               }}
               rows={3}
               sx={{ width: "100%" }}
-              label="Issue Description"
+              label="Review"
               placeholder="Please enter your comments"
             ></TextField>
 
