@@ -30,6 +30,8 @@ export default function EditProfile() {
         country: ''
     });
 
+
+
     React.useEffect(() => {
         // Get user info from token
         axios.get(Constants.API_USER_INFO_FROM_TOKEN).then((response) => {
@@ -52,6 +54,9 @@ export default function EditProfile() {
             ...prevState,
             [fieldName]: value,
         }));
+
+        window.localStorage.setItem("user_name", profileInfo.first_name +" " +profileInfo.last_name);
+
     };
 
     // Function to handle form submission
@@ -80,7 +85,7 @@ export default function EditProfile() {
                         label="First Name"
                         value={profileInfo.first_name}
                         size="small"
-                        disabled={true}
+                        
                         onChange={(event) => handleInputChange(event, 'first_name')}
                        
                     />
@@ -88,7 +93,7 @@ export default function EditProfile() {
                         label="Last Name"
                         value={profileInfo.last_name}
                         size="small"
-                        disabled={true}
+                      
                         onChange={(event) => handleInputChange(event, 'last_name')}
                         
                     />

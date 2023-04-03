@@ -38,6 +38,7 @@ const MenuProps = {
 
 function CourierForm() {
   const date = new Date();
+  const data = new Data();
   const commFunc = new CommonFunctions();
   const location = useLocation();
   const navigate = useNavigate();
@@ -62,7 +63,7 @@ function CourierForm() {
   const allowedCategoryLabels = ["Documents", "Fragile", "Liquids", "General"];
   const [pickupLocationCoords, setPickupLocationCoords] = useState([]);
   const [dropoffLocationCoords, setDropoffLocationCoords] = useState([]);
-  const [listings, setListings] = useState([]);
+  const [listings, setListings] = useState(data.listings);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {

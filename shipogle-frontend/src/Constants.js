@@ -24,6 +24,9 @@ const APIS = {
   SENDPACKAGEREQUEST: `${BASE_URL}/package/request/send`,
   CREATEPACKAGE: `${BASE_URL}/package/create`,
   GETDRIVERROUTES: `${BASE_URL}/driverRoutesByDriverId`,
+  UPDATELOCATION: `${BASE_URL}/user/location/put`,
+  GETALLORDERSFROMDRIVERROUTEID: `${BASE_URL}/package/order/getAllDelivererRouteOrders`,
+  GETUSERNOTIFICATION: `${BASE_URL}/notifications/get`,
   API_KEY: "AIzaSyBPtYm-CJPPW4yO9njM-e9YBWyp-DwIODM",
 };
 

@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import React, { useContext, useEffect } from "react";
 
-import { IconButton } from "@mui/material";
+import { IconButton, Typography } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
@@ -11,13 +11,14 @@ import styled from "@emotion/styled";
 import AddRoadIcon from "@mui/icons-material/AddRoad";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ForumIcon from "@mui/icons-material/Forum";
-import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import SearchIcon from "@mui/icons-material/Search";
 import NotificationsMenu from "./NotificationsMenu";
-import Tooltip from "@mui/material/Tooltip";
 import "./navBar.css";
 import { AuthContext } from "../utils/Auth";
 import CommonFunctions from "../services/CommonFunction";
+import customAxios from "../utils/MyAxios";
+import Constants from "../Constants";
+import shipogleLogo from "../assets/shipogleLogo.png";
 
 const ExpandButton = styled(Button)({
   minWidth: "18px",
@@ -37,6 +38,26 @@ export default function NavBar() {
   const commFunc = new CommonFunctions();
   const navigate = useNavigate();
 
+  const getCurrentLocation = (callback) => {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const userLocation = {
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+        };
+        callback(userLocation);
+      },
+      (error) => {
+        this.showAlertMessage(
+          error.message ? error.message : "Please give Location Access",
+          "error",
+          3000,
+          "bottom"
+        );
+      }
+    );
+  };
+
   const handleClickOnExpand = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -48,17 +69,58 @@ export default function NavBar() {
   const route = (url) => {
     navigate(url);
   };
+
   useEffect(() => {
-    console.log(isAuthenticated);
+    if (isAuthenticated) {
+      getCurrentLocation((userLocation) => {
+        customAxios.put(Constants.UPDATELOCATION, userLocation).then(
+          (res) => {},
+          (error) => {
+            console.error(error);
+          }
+        );
+      });
+      /*
+      customAxios
+        .get(
+          Constants.API_NOTIFICATIONS + "/" + localStorage.getItem("user_id")
+        )
+        .then(
+          (res) => {
+            console.log(res);
+          },
+          (error) => {
+            console.error(error);
+            commFunc.showAlertMessage(
+              "Error while fetching notification",
+              "error",
+              2000,
+              "bottom"
+            );
+          }
+        );*/
+    }
   }, [isAuthenticated]);
+
   return (
     <div className="navbar-container">
       <div className="navbar-logo">
         <img
-          src="../assets/shipogleLogo.png"
+          src={shipogleLogo}
           alt="Shipogle"
           className="navbar-logo-img"
         ></img>
+        <Typography
+          sx={{
+            fontSize: "24px",
+            textShadow:
+              "-1px -1px 1px rgba(255,255,255,.1), 1px 1px 1px rgba(0,0,0,.2)",
+            margin: "-4px 0px 0px 0px",
+            fontWeight: "450",
+          }}
+        >
+          SHIPOGLE
+        </Typography>
       </div>
       <div className="navbar-secondary-menu"></div>
       <div className="navbar-menu">
@@ -183,11 +245,17 @@ export default function NavBar() {
                     Current Delivery
                   </Link>
                 </MenuItem>
+                <MenuItem>
+                  <Link style={{ textDecoration: "none" }} to="/user/editprofile">
+                    Edit Profile
+                  </Link>
+                </MenuItem>
                 <MenuItem
                   onClick={() => {
                     logout();
                   }}
                 >
+                
                   <Link style={{ textDecoration: "none" }} to="/login">
                     Logout
                   </Link>
