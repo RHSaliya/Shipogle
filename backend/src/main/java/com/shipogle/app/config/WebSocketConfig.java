@@ -127,7 +127,7 @@ public class WebSocketConfig implements WebSocketConfigurer {
             super.afterConnectionClosed(session, status);
         }
 
-        private String getSendingUniqueID(WebSocketSession session) {
+        String getSendingUniqueID(WebSocketSession session) {
             String url = Objects.requireNonNull(session.getUri()).toString();
             String userId = url.substring(url.lastIndexOf("/") + 1);
             String[] ids = userId.split(ID_SPLITTER);

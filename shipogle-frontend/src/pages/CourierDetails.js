@@ -25,8 +25,8 @@ function CourierDetails() {
   const [createPackage, setCreatePackage] = React.useState(false);
   const [staticMapWidth, setMapWidth] = React.useState(0);
   const [packageID, setPackageID] = React.useState("");
-  const data = new Data().courierDetails;
   const commFunc = new CommonFunctions();
+  console.log(state);
   React.useEffect(() => {
     const el = document.getElementById("static-map-container");
     if (el) {
@@ -62,6 +62,33 @@ function CourierDetails() {
         setConfirmBooking(false);
         setCreatePackage(false);
         setRequestSent(true);
+        const body = {
+          userId: state.routeData.driverId,
+          title: "Request for delivery",
+          message: `${window.localStorage.getItem(
+            "user_name"
+          )} has requested for a delivery`,
+        };
+
+        customAxios.post(Constants.API_NOTIFICATIONS, body).then(
+          (res) => {
+            commFunc.showAlertMessage(
+              "Sent a notification to driver",
+              "success",
+              3000,
+              "bottom"
+            );
+          },
+          (error) => {
+            console.error(error);
+            commFunc.showAlertMessage(
+              "Request sent but failed to send driver a Notification!",
+              "error",
+              3000,
+              "bottom"
+            );
+          }
+        );
       },
       (error) => {
         commFunc.showAlertMessage(

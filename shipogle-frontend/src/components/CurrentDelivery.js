@@ -3,6 +3,7 @@ import {
   Card,
   CardContent,
   CardHeader,
+  CircularProgress,
   TextField,
 } from "@mui/material";
 import * as React from "react";
@@ -31,56 +32,19 @@ export default function CurrentDelivery(props) {
       }
     );
   }, []);
-  const submit = (e) => {
-    e.preventDefault();
-  };
+
   return (
-    /*<>
-      <Card sx={{ margin: "2rem auto", display: "block", maxWidth: "400px" }}>
-        <CardHeader title="Enter Delivery code"></CardHeader>
-        <CardContent>
-          <form onSubmit={submit} style={{ textAlign: "center" }}>
-            <TextField
-              sx={{ width: "100%" }}
-              label="OrderID"
-              value={order_id}
-              disabled
-              type="text"
-              className="input-field"
-            />
-
-            <TextField
-              sx={{ marginTop: "1.5rem", marginBottom: "1rem", width: "100%" }}
-              label="Delivery code"
-              className="input-field"
-              value={order_code}
-              type="text"
-              onChange={(event) => {
-                setOrderCode(event.target.value);
-              }}
-            />
-
-            <Button
-              style={{
-                margin: "auto",
-                marginTop: "0.5rem",
-                gridColumnEnd: "span 2",
-                minWidth: "180px",
-                maxWidth: "300px",
-                width: "100%",
-              }}
-              type="submit"
-              variant="contained"
-              color="primary"
-            >
-              Start
-            </Button>
-          </form>
-        </CardContent>
-      </Card>
-    </>*/
     <>
-      <div className="listing-container">
+      <div
+        className="listing-container"
+        style={{
+          marginTop: "2rem",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        {isLoading && <CircularProgress></CircularProgress>}
         {!isLoading && <Listings data={MyRides}></Listings>}
       </div>
     </>

@@ -16,11 +16,17 @@ public class UserService {
     @Autowired
     UserRepository userRepo;
 
-    public String updateUserLocation(String latitude, String longitude){
+    public User getLoggedInUser(){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String user_email = auth.getPrincipal().toString();
 
         User user = userRepo.getUserByEmail(user_email);
+
+        return user;
+    }
+
+    public String updateUserLocation(String latitude, String longitude){
+        User user = getLoggedInUser();
 
         user.setLocation(latitude,longitude);
 
@@ -31,7 +37,7 @@ public class UserService {
 
     public Map<String,String> getUserLocation(Integer id){
         User user = userRepo.getUserById(id);
-        if(!user.equals(null)){
+        if(user != null){
             String latitude = user.getLatitude();
             String longitude = user.getLongitude();
 

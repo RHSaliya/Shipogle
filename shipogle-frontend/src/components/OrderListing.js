@@ -7,14 +7,12 @@ import Data from "../pages/data";
 import "./OrderListing.css";
 import CommonFunctions from "../services/CommonFunction";
 export default function OrderListing(props) {
-  console.log(props);
   const commFunc = new CommonFunctions();
   const demoData = new Data();
   const [listings, setListing] = React.useState([]);
   const navigate = useNavigate();
   //delete later and all instances
   const paid_orders = window.localStorage.getItem("paid_orders");
-  console.log(paid_orders);
   const routeToPayment = (order) => {
     navigate(`/courier/payment/${order?.id}`, {
       state: { price: order.driverRoute.price, id: order.id },
@@ -46,9 +44,7 @@ export default function OrderListing(props) {
             <div className="order-listing-heading">
               &nbsp;
               <span style={{ flexGrow: 1 }}>
-                {order?.deliverer?.first_name +
-                  " " +
-                  order?.deliverer?.last_name}
+                {order?.driverRoute.driverName}
               </span>
               <span>
                 Created at:{" "}
@@ -63,7 +59,7 @@ export default function OrderListing(props) {
                 {`From: ${order?._package?.pickup_address} , To: ${order?._package?.drop_address}`}
               </p>
               <p style={{ margin: "8px" }}>{`Delivery Date: ${new Date(
-                order?.driverRoute.dropoffDate
+                order?.driverRoute?.dropoffDate
               ).toLocaleDateString()}`}</p>
             </div>
           </div>

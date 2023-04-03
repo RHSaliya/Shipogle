@@ -20,11 +20,17 @@ public class DriverRoute {
     @Column(name = "sourceCity")
     private String sourceCity;
 
+    @Column(name = "sourceAddress")
+    private String sourceAddress;
+
     @Column(name = "sourceCityReferenceId")
     private String sourceCityReferenceId;
 
     @Column(name = "destinationCity")
     private String destinationCity;
+
+    @Column(name = "destinationAddress")
+    private String destinationAddress;
 
     @Column(name = "destinationCityReferenceId")
     private String destinationCityReferenceId;
@@ -104,6 +110,14 @@ public class DriverRoute {
         this.sourceCity = sourceCity;
     }
 
+    public String getSourceAddress() {
+        return sourceAddress;
+    }
+
+    public void setSourceAddress(String sourceAddress) {
+        this.sourceAddress = sourceAddress;
+    }
+
     public String getSourceCityReferenceId() {
         return sourceCityReferenceId;
     }
@@ -118,6 +132,14 @@ public class DriverRoute {
 
     public void setDestinationCity(String destinationCity) {
         this.destinationCity = destinationCity;
+    }
+
+    public String getDestinationAddress() {
+        return destinationAddress;
+    }
+
+    public void setDestinationAddress(String destinationAddress) {
+        this.destinationAddress = destinationAddress;
     }
 
     public String getDestinationCityReferenceId() {

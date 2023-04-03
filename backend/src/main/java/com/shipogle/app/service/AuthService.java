@@ -36,8 +36,6 @@ public class AuthService {
     @Autowired
     ForgotPasswordTokenService forgotPasswordTokenService;
 
-//    private String secretKey = "2A462D4A614E645267556B58703273357638792F423F4528472B4B6250655368";
-
     public boolean isAlreadyExist(User user) {
         User db_user = userReop.findUserByEmail(user.getEmail());
         if (db_user == null) {
@@ -94,13 +92,6 @@ public class AuthService {
         return "Password reset link sent";
     }
 
-    // public String logout(String token){
-    // System.out.println("Flag logout service");
-    // String email = Jwts.parser().parseClaimsJws(token).getBody().getAudience();
-    // System.out.println(email);
-    // return "";
-    // }
-
     public String verifyEmail(String code, int id) {
 
         try {
@@ -129,7 +120,6 @@ public class AuthService {
     public String register(User new_user) {
         if (!isAlreadyExist(new_user)) {
             String user_password = new_user.getPassword();
-            System.out.println(new_user.getPassword());
             BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
             new_user.setPassword(encoder.encode(user_password));
             new_user.setIs_verified(false);
