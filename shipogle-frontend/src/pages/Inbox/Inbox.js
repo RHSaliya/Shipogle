@@ -90,7 +90,8 @@ const Inbox = () => {
   };
 
   const handleSendMessage = () => {
-    axios
+    if(inputValue !== ""){
+      axios
       .post(Constants.API_CHAT, {
         senderId: user.user_id,
         receiverId: selectedUser.user_id,
@@ -106,6 +107,8 @@ const Inbox = () => {
         );
         setInputValue("");
       });
+    }
+   
   };
 
   const handleClearMessages = () => {
