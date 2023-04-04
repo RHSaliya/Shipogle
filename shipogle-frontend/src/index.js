@@ -19,6 +19,8 @@ import CourierDetails from "./pages/CourierDetails";
 import ForgotPwd from "./pages/ForgotPwd";
 import PackageRequests from "./components/PackageRequests";
 import StartEndDelivery from "./pages/StartEndDelivery";
+import Feedback from "./pages/Feedback";
+import Issue from "./pages/Issues";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -70,6 +72,8 @@ root.render(
           path="/order/startend"
           element={<StartEndDelivery></StartEndDelivery>}
         ></Route>
+        <Route path="/feedback" element={<Feedback></Feedback>}></Route>
+        <Route path="/issue" element={<Issue></Issue>}></Route>
       </Route>
     </Routes>
   </BrowserRouter>

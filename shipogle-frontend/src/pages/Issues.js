@@ -1,70 +1,89 @@
-import React from 'react'
-import Header from '../../components/Header'
-import shipogleLogo from '../../assets/shipogleLogo.png'
-import { Link } from 'react-router-dom'
-import StarRating from '../../components/StarRating';
-import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
-
+import React from "react";
+import Header from "../components/Header";
+import shipogleLogo from "../assets/shipogleLogo.png";
+import customAxios from "../utils/MyAxios";
+import Constants from "../Constants";
+import CommonFunctions from "../services/CommonFunction";
+import {
+  Button,
+  Card,
+  CardContent,
+  CardHeader,
+  TextField,
+} from "@mui/material";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export default function Issue() {
-
-  const [showMsg, setShowMsg] = React.useState(0);
-
+  const commFunc = new CommonFunctions();
+  const { state } = useLocation();
+  const [description, setDescription] = React.useState("");
+  const navigate = useNavigate();
+  console.log(state);
   const submit = (e) => {
-    setShowMsg(prevShowMsg => 1);
-
+    const body = {
+      package_order_id: state.orderDetails._package.id,
+      description: description,
+    };
+    customAxios.post(Constants.POSTISSUE, body).then(
+      (res) => {
+        commFunc.showAlertMessage(
+          "Rating submitted",
+          "success",
+          3000,
+          "bottom"
+        );
+        navigate("/orders");
+      },
+      (error) => {
+        console.error(error);
+        commFunc.showAlertMessage(
+          "Rating not submitted",
+          "error",
+          3000,
+          "bottom"
+        );
+      }
+    );
   };
   return (
     <div className="feedback-issue-page">
-      <Header
-        title="S H I P O G L E"
-        info="tagline"
-      />
       <center>
-        <img alt="logo" src={shipogleLogo} width="200px" height="200px">
+        <Card style={{ maxWidth: "500px", width: "100%", marginTop: "2rem" }}>
+          <img
+            alt="logo"
+            style={{ margin: "2rem auto -5rem auto" }}
+            src={shipogleLogo}
+            width="164px"
+            height="164px"
+          ></img>
 
-        </img>
+          <Header title="S H I P O G L E" />
+          <CardHeader title="Please provide issue details"></CardHeader>
+          <CardContent>
+            <br></br>
+            <TextField
+              multiline
+              onChange={(event) => {
+                setDescription(event.target.value);
+              }}
+              rows={3}
+              sx={{ width: "100%" }}
+              label="Issue Description"
+              placeholder="Please enter your comments"
+            ></TextField>
+
+            <Button
+              sx={{ margin: "1rem auto 0rem", width: "120px" }}
+              variant="contained"
+              onClick={(event) => {
+                submit(event);
+              }}
+            >
+              Submit
+            </Button>
+          </CardContent>
+        </Card>
       </center>
-      <div className="feedback-issue-box">
-        <h4>Please enter your issue. We will get back to you shortly. Thank you for your patience.</h4>
-        <br></br>
-        <div>
-          <Box
-            component="form"
-            sx={{
-              '& .MuiTextField-root': { m: 1, width: '25ch' },
-            }}
-            noValidate
-            autoComplete="off"
-          >
-            <div>
-              <TextField
-                id="outlined-multiline-flexible"
-                label="Issue"
-                style={{backgroundColor:"white",
-                width:"100%"}}
-                multiline
-                maxRows={4}
-              />
-            </div>
-          </Box>
-        </div>
-        <br>
-        </br>
-        <br></br>
-        <div>
-          <button className="btn" type="submit" onClick={submit}>
-            Submit
-          </button>
-          {showMsg === 1 ? <p>We have registered your issue!</p> : <p></p>}
-        </div>
-
-
-      </div>
-
-
     </div>
-  )
+  );
 }
-

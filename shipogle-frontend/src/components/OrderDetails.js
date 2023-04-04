@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
@@ -21,6 +21,7 @@ export default function OrderDetails() {
   const pathname = location[3];
   const [driverLocation, setDriverLocation] = React.useState({});
   const { state } = useLocation();
+  const navigate = useNavigate();
   const statusList = {
     inprogress: "In Progress",
     canceled: "Canceled Order",
@@ -49,6 +50,15 @@ export default function OrderDetails() {
       }
     );
   };
+
+  const routeTo = (order, route) => {
+    navigate(route, {
+      state: {
+        orderDetails: order,
+      },
+    });
+  };
+
   return (
     <div className="order-details-container">
       <Card sx={{ maxWidth: "600px", margin: "2rem auto" }}>
@@ -120,15 +130,24 @@ export default function OrderDetails() {
           }}
         >
           {pathname === "completed" && (
-            <Button variant="contained">
-              <Link
-                to="/report/:3urfsqiof90"
-                style={{ textDecoration: "none", color: "white" }}
+            <>
+              <Button
+                variant="contained"
+                onClick={() => {
+                  routeTo(state.order, "/issue");
+                }}
               >
-                {" "}
                 Raise an Issue
-              </Link>
-            </Button>
+              </Button>
+              <Button
+                variant="contained"
+                onClick={() => {
+                  routeTo(state.order, "/feedback");
+                }}
+              >
+                FeedBack
+              </Button>
+            </>
           )}
           {pathname === "pending" && (
             <Button

@@ -15,7 +15,7 @@ export default function OrderListing(props) {
   const paid_orders = window.localStorage.getItem("paid_orders");
   const routeToPayment = (order) => {
     navigate(`/courier/payment/${order?.id}`, {
-      state: { price: order.driverRoute.price, id: order.id },
+      state: { price: order.driverRoute.price, order: order },
     });
   };
   const routeTo = (order) => {

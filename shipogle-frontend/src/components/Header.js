@@ -6,13 +6,16 @@ export default function Header(props) {
       <div className="title" style={{ backgroundColor: props.bgColor }}>
         {props.title}
       </div>
-      <div className="info" style={{ backgroundColor: props.bgColor }}>
-        {props.info}
-      </div>
+      {props.info && (
+        <>
+          <div className="info" style={{ backgroundColor: props.bgColor }}>
+            {props.info}
+          </div>
+        </>
+      )}
     </div>
   );
 }
 Header.defaultProps = {
   title: "Title",
-  info: "Information for the title",
 };

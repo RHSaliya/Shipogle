@@ -21,7 +21,10 @@ public class AuthController {
 
     @PostMapping("/login")
     public String login(@RequestBody Map<String, String> json) {
-        return authService.login(json.get("email"), json.get("password"));
+        long start = System.currentTimeMillis();
+        String res = authService.login(json.get("email"), json.get("password"));
+        System.out.println("Time difference: "+ (System.currentTimeMillis() - start));
+        return res;
     }
 
     @PostMapping("/changepassword")
