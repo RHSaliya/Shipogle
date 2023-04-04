@@ -17,7 +17,6 @@ export default function ForgotPwd() {
   const location = useLocation();
 
   const [email, setEmail] = useState("");
-  const [showMsg, setShowMsg] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [path, setPath] = useState(location.pathname);
   const [containerStyle, setContainerStyle] = useState({});
@@ -57,7 +56,6 @@ export default function ForgotPwd() {
   };
 
   const submit = (e) => {
-    setShowMsg((prevShowMsg) => 1);
     e.preventDefault();
     if (path === "/resetpwd") {
       axios
@@ -82,8 +80,6 @@ export default function ForgotPwd() {
           );
         });
     } else {
-      const token =
-        "eyJhbGciOiJIUzM4NCJ9.eyJlbWFpbCI6InNpbmdoc2hhaHJhakBnbWFpbC5jb20iLCJzdWIiOiJzaGFocmFqIiwiaWF0IjoxNjgwMTYyNjYyLCJleHAiOjE2ODAyNDkwNjJ9.ixuz2tX9zG4rI_k_BeHD8-qMYrMs15yyCbDYiya9P1j_JuYSiBD8VETot-3KZgpC";
       const password = newpassword;
       const body = {
         token: token,
