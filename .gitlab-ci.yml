@@ -44,7 +44,7 @@ backend-test:
         
 code-quality:
   stage: quality
-  tages:
+  tags:
     - ugrad
   image: maven:latest
   script:
@@ -54,7 +54,6 @@ code-quality:
   artifacts:
     paths:
       - codeSmells/
-      - $CI_PROJECT_DIR
 
 backend-deploy:
   stage: deploy
