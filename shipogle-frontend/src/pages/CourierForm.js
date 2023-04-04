@@ -65,6 +65,8 @@ function CourierForm() {
   const [dropoffLocationCoords, setDropoffLocationCoords] = useState([]);
   const [listings, setListings] = useState(data.listings);
   const [isLoading, setIsLoading] = useState(false);
+  const [sourceAddress, setSourceAddress] = useState("");
+  const [destinationAddress, setDestinationAddress] = useState("");
 
   useEffect(() => {
     if (!path) {
