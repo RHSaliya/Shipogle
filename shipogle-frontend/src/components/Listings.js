@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
@@ -10,118 +10,170 @@ import MapIcon from "@mui/icons-material/Map";
 
 import "./Listings.css";
 import MapView from "./MapView";
-import Data from "../pages/data";
+import { Avatar, Button, Typography } from "@mui/material";
 
-export default function Listings(props) {
+function Listings({ data }) {
+  console.log(data);
+  const location = useLocation();
   const navigate = useNavigate();
-  const [listingCards, setListingCards] = React.useState([]);
-  const [listingsLoaded, setListingsLoaded] = React.useState(false);
-  const [center, setCenter] = React.useState({ lat: 0, lng: 0 });
-  const [showMapView, setShowMapView] = React.useState(false);
-  const [showListView, setShowListView] = React.useState(true);
-  const dataComponent = new Data();
-  const listings = props.data;
-  const createlistingcards = () => {
-    let cards = [];
-    listings.forEach((listing) => {
-      console.log(listing);
-      cards.push(
-        <div
-          className="listing-card"
-          onClick={() => {
-            navigate("/courier/details/" + listing.postId);
-          }}
-        >
-          <img
-            className="listing-card-avatar"
-            src={listing?.avatar}
-            alt="avatar"
-          ></img>
-          <span
-            style={{
-              width: "1px",
-              borderLeft: "1px solid #b2b2b2a1",
-              marginLeft: "8px",
-              marginRight: "8px",
-            }}
-          ></span>
-          <div className="lisitng-card-header">
-            <p className="listing-card-heading">{listing?.name}</p>
-            <hr></hr>
-            <div className="listing-card-subheading">
-              <LocationOnIcon></LocationOnIcon> &nbsp;
-              <p style={{ margin: "0px", marginTop: "3px", color: "#191919" }}>
-                {listing?.pickupData?.description}
-              </p>{" "}
-              &nbsp;
-              <ArrowForwardIcon></ArrowForwardIcon> &nbsp;{" "}
-              <WhereToVoteIcon></WhereToVoteIcon>
-              <p style={{ margin: "0px", marginTop: "3px", color: "#191919" }}>
-                {listing?.dropoffData?.description}
-              </p>{" "}
-            </div>
+  const path = location.pathname;
+  const [listingCards, setListingCards] = useState([]);
+  const [showMapView, setShowMapView] = useState(false);
+
+  const routeTo = (routeId) => {
+    navigate("/order/startend", { state: { id: routeId } });
+  };
+  const isInDateRange = (startDate, endDate) => {
+    const currentDate = new Date();
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+
+    // Reset hours, minutes, seconds, and milliseconds to compare dates only
+    currentDate.setHours(0, 0, 0, 0);
+    start.setHours(0, 0, 0, 0);
+    end.setHours(0, 0, 0, 0);
+
+    return start <= currentDate && currentDate <= end;
+  };
+
+  const getDriverInitials = (name) => {
+    const nameArray = name.split(" ");
+    const fInitial = nameArray[0].charAt(0);
+    const sInitial = nameArray.length > 1 ? nameArray[1].charAt(0) : "";
+    return fInitial + " " + sInitial;
+  };
+
+  const nothing = () => {
+    return;
+  };
+
+  const createListingCards = () => {
+    const cards = data.map((listing) => (
+      <div
+        className="listing-card"
+        onClick={() =>
+          path !== "/deliveries"
+            ? navigate(`/courier/details/${listing?.driverRouteId}`, {
+                state: { routeData: listing },
+              })
+            : nothing()
+        }
+        key={listing?.driverRouteId}
+      >
+        {listing.avatar && (
+          <>
+            <img
+              className="listing-card-avatar"
+              src={listing?.avatar}
+              alt="avatar"
+            ></img>
+          </>
+        )}
+        {!listing.avatar && (
+          <>
+            <Avatar
+              sx={{
+                height: "56px",
+                width: "56px",
+                fontSize: "32px",
+                marginLeft: "12px",
+                marginRight: "4px",
+              }}
+            >
+              {listing.driverName ? getDriverInitials(listing.driverName) : ""}
+            </Avatar>
+          </>
+        )}
+
+        <span className="listing-card-divider"></span>
+        <div className="lisitng-card-header">
+          <p className="listing-card-heading">
+            {listing?.driverName ? listing.driverName : "Name not found"}
+          </p>
+          <hr style={{ marginBottom: "0px", flexGrow: 1 }} />
+          <div className="listing-card-subheading">
+            <LocationOnIcon /> &nbsp;
+            <p className="listing-card-location">{listing?.sourceCity}</p>&nbsp;
+            <ArrowForwardIcon />
+            &nbsp;
+            <WhereToVoteIcon />
+            &nbsp;
+            <p className="listing-card-location">{listing?.destinationCity}</p>
+            <span style={{ flexGrow: 1 }}></span>
+            <p>
+              Pickup Date:{" "}
+              {new Date(listing.pickupDate).toLocaleString().split(",")[0]}
+            </p>
           </div>
         </div>
-      );
-    });
-    setListingsLoaded(true);
-    setListingCards(cards);
-    setCenter({
-      lat: localStorage.getItem("userLocation")?.latitude,
-      lng: localStorage.getItem("userLocation")?.longitude,
-    });
-
-    console.log(listingCards, listingsLoaded, "function called");
+        {path === "/deliveries" && (
+          <>
+            <Button
+              sx={{ margin: "0px 12px", height: "74px" }}
+              disabled={!isInDateRange(listing.pickupDate, listing.dropoffDate)}
+              onClick={() => {
+                routeTo(listing.driverRouteId);
+              }}
+            >
+              <div>
+                start /<p style={{ margin: "0px" }}>end</p> order
+              </div>
+            </Button>
+          </>
+        )}
+      </div>
+    ));
+    if (path === "/deliveries") {
+      let newArr = [];
+      cards.forEach((element) => {
+        newArr.unshift(element);
+      });
+      setListingCards(newArr);
+    } else setListingCards(cards);
   };
-  React.useEffect(() => {
-    createlistingcards();
-  });
+
+  useEffect(() => {
+    createListingCards();
+  }, [data]);
+
   return (
     <>
       <div
         className="courier-listing-container"
-        style={{ marginBottom: "1rem" }}
+        style={{
+          marginBottom: "1rem",
+          width: "90%",
+        }}
       >
-        <div className="view-buttons-container">
-          <p style={{ margin: "0px", flexGrow: "1" }}>
-            Tap on a deliverer to book or know more
-          </p>
-          <IconButton
-            aria-label="list-view"
-            onClick={() => {
-              setShowListView(true);
-              setShowMapView(false);
-            }}
-          >
-            <FormatListBulletedIcon />
-          </IconButton>
-          <IconButton
-            aria-label="map-view"
-            onClick={() => {
-              setShowListView(false);
-              setShowMapView(true);
-            }}
-          >
-            <MapIcon />
-          </IconButton>
-        </div>
-        <br></br>
-        {listingsLoaded && !showMapView && showListView && <>{listingCards}</>}
-
-        {listingsLoaded && showMapView && !showMapView && (
-          <div>
-            <MapView
-              center={center}
-              placeIds={listings.map((listing) => {
-                return {
-                  id: listing.pickupData.place_id,
-                  name: listing.pickupData.description,
-                };
-              })}
-            ></MapView>
+        {path === "/deliveries" && <h3>Your posts</h3>}
+        {path !== "/deliveries" && (
+          <div className="view-buttons-container">
+            <p className="view-buttons-text">
+              <Typography>Tap on a deliverer to book or know more</Typography>
+            </p>
+            <IconButton
+              sx={{ height: "42px", width: "42px" }}
+              aria-label="list-view"
+              onClick={() => setShowMapView(false)}
+            >
+              <FormatListBulletedIcon />
+            </IconButton>
+            <IconButton
+              sx={{ height: "42px", width: "42px" }}
+              aria-label="map-view"
+              onClick={() => setShowMapView(true)}
+            >
+              <MapIcon />
+            </IconButton>
           </div>
         )}
+
+        <br />
+        {!showMapView && <>{listingCards}</>}
+        {showMapView && <MapView locations={data} />}
       </div>
     </>
   );
 }
+
+export default Listings;

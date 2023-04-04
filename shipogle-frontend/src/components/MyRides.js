@@ -10,20 +10,20 @@ import * as React from "react";
 import customAxios from "../utils/MyAxios";
 import Constants from "../Constants";
 import Data from "../pages/data";
+import CommonFunctions from "../services/CommonFunction";
 
 export default function MyRides() {
   const demoData = new Data();
   const [requests, setRequests] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
+  const commFunc = new CommonFunctions();
   const accept = (request) => {
+    console.log(request);
     const body = { package_request_id: request.package_request_id };
     customAxios.post(Constants.ACCEPTREQUEST, body).then(
-      (res) => {
-        console.log(res);
-        alert("request approved");
-      },
+      (res) => {},
       (error) => {
-        console.log(error);
+        console.error(error);
       }
     );
   };
@@ -36,7 +36,7 @@ export default function MyRides() {
         alert("request rejected");
       },
       (error) => {
-        console.log(error);
+        console.error(error);
       }
     );
   };

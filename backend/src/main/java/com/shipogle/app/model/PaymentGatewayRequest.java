@@ -67,6 +67,7 @@ public class PaymentGatewayRequest {
     }
 
     public boolean hasEmptyFields() {
-        return amount == null || currency == null || cardNumber == null || cardCvv == null || cardHolderName == null;
+        return amount == null || currency == null || cardNumber.isBlank() || cardNumber == null
+                || cardNumber.length() != 16 || cardCvv == null || cardCvv.isBlank() || cardHolderName == null || cardHolderName.isBlank();
     }
 }

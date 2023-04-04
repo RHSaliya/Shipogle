@@ -10,10 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.*;
 
 @RestController
+@Transactional
 @RequestMapping("/notifications")
 public class NotificationController {
 
@@ -22,7 +24,6 @@ public class NotificationController {
 
     @Autowired
     private NotificationRepository notificationRepository;
-
 
     @Autowired
     private WebSocketConfig webSocketConfig;
@@ -72,6 +73,7 @@ public class NotificationController {
 
         return new ArrayList<>(notificationRepository.findByUserOrderByCreatedAt(user));
     }
+
     @GetMapping("/{userId}")
     public List<Notification> getNotifications(@PathVariable int userId) {
         Optional<User> userOptional = userRepository.findById(userId);
@@ -83,7 +85,6 @@ public class NotificationController {
 
         return new ArrayList<>(notificationRepository.findByUserOrderByCreatedAt(user));
     }
-
 
     @DeleteMapping("/all/{userId}")
     public ResponseEntity<?> deleteNotifications(@PathVariable int userId) {

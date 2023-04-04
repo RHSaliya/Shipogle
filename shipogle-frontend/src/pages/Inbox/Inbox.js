@@ -4,6 +4,8 @@ import { w3cwebsocket as WebSocket } from "websocket";
 import Constants from "../../Constants";
 import "./inbox.css";
 import chatProfileImg from "../../assets/profile.png";
+import { Button, Typography } from "@mui/material";
+import SendIcon from "@mui/icons-material/Send";
 
 const getUniqueSocketAddress = (user, selectedUser) => {
   const joinUsing = "!";
@@ -18,13 +20,17 @@ const Inbox = () => {
   const [inputValue, setInputValue] = useState("");
   const ws = useRef(null);
 
-  function handleUserClick(selectedUser) {
+  function handleUserClick(selectedUser, user) {
     setSelectedUser(selectedUser);
+    setMessages([]);
 
     // get messages for the first time
     axios
       .get(`${Constants.API_CHAT}/${user.user_id}/${selectedUser.user_id}`)
       .then((response) => {
+        console.log("~~~~~~~~~~~~~~");
+        console.log(response.data);
+        console.log("~~~~~~~~~~~~~~");
         setMessages(response.data);
       });
 
@@ -68,8 +74,11 @@ const Inbox = () => {
       axios.get(`${Constants.API_CHAT}/${user.user_id}`).then((res) => {
         console.log("~~~~~~~~~~~~~~");
         console.log(res.data);
-        setChatUsers(res.data);
         console.log("~~~~~~~~~~~~~~");
+        setChatUsers(res.data);
+        if (res.data.length > 0) {
+          handleUserClick(res.data[0], user);
+        }
       });
     });
   }, []);
@@ -78,7 +87,7 @@ const Inbox = () => {
     setInputValue(event.target.value);
   };
 
-  const handleSendasMeClick = () => {
+  const handleSendMessage = () => {
     axios
       .post(Constants.API_CHAT, {
         senderId: user.user_id,
@@ -97,35 +106,28 @@ const Inbox = () => {
       });
   };
 
-  const handleSendasOtherClick = () => {
-    axios
-      .post(Constants.API_CHAT, {
-        senderId: selectedUser.user_id,
-        receiverId: user.user_id,
-        message: inputValue,
-      })
-      .then(() => {
-        ws.current.send(
-          JSON.stringify({
-            senderId: selectedUser.user_id,
-            receiverId: user.user_id,
-            message: inputValue,
-          })
-        );
-        setInputValue("");
-      });
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      handleSendMessage();
+    }
   };
 
   return (
     <div className="inboxArea">
       <div className="userArea">
-        <p className="titleSidebar">Chats</p>
+        <Typography
+          sx={{ fontSize: "24px", fontWeight: "450" }}
+          className="titleSidebar"
+        >
+          Messages
+        </Typography>
+
         <div className="userList">
-          {chatUsers.map((user, index) => (
+          {chatUsers.map((currUser, index) => (
             <div
               className="users"
               key={index}
-              onClick={() => handleUserClick(user)}
+              onClick={() => handleUserClick(currUser, user)}
             >
               <div className="user-picture">
                 {/* <img style={{ width: 15, height: 15 }} alt="pfp chat user" src={chatProfileImg}></img>  */}
@@ -136,17 +138,15 @@ const Inbox = () => {
                     src={chatProfileImg}
                   ></img>
                 ) : (
-                  user.first_name[0] + user.last_name[0]
+                  currUser.first_name[0] + currUser.last_name[0]
                 )}
               </div>
               <div className="user-name">
-                <div>
-                  {user === selectedUser ? (
-                    <b>{user.first_name + " " + user.last_name}</b>
-                  ) : (
-                    user.first_name + " " + user.last_name
-                  )}
-                </div>
+                {selectedUser && selectedUser.user_id === currUser.user_id ? (
+                  <b>{currUser.first_name + " " + currUser.last_name}</b>
+                ) : (
+                  currUser.first_name + " " + currUser.last_name
+                )}
               </div>
             </div>
           ))}
@@ -180,14 +180,24 @@ const Inbox = () => {
             className="chatInput"
             placeholder="Type your message here..."
             value={inputValue}
+            onKeyDown={handleKeyDown}
             onChange={handleInputChange}
           />
-          <button className="btnSend" onClick={handleSendasMeClick}>
-            Send
-          </button>
-          {/* <button className="btnSend" style={{
-                        marginLeft: "10px",
-                    }} onClick={handleSendasOtherClick}>Reply</button> */}
+          <Button
+            sx={{ margin: "0rem 1rem", height: "36px", borderRadius: "18px" }}
+            variant="contained"
+            className="btnSend"
+            onClick={handleSendMessage}
+          >
+            Send&nbsp;
+            <SendIcon
+              sx={{
+                transform: "rotate(-52deg)",
+                fontSize: "17px",
+                marginTop: "-4px",
+              }}
+            ></SendIcon>
+          </Button>
         </div>
       </div>
     </div>

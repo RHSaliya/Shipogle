@@ -13,11 +13,3 @@
   padding: 1rem;
   justify-items: center;
 }
-
-.input-fields {
-  flex-grow: 1;
-  margin: auto;
-  min-width: 200px !important;
-  max-width: 300px;
-  width: 100%;
-}

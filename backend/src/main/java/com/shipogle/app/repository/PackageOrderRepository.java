@@ -14,6 +14,6 @@ import java.util.List;
 public interface PackageOrderRepository extends JpaRepository<PackageOrder,Integer> {
     PackageOrder getPackageOrderById(Integer package_order_id);
     PackageOrder getBy_package_Id(Integer package_id);
-
     List<PackageOrder> getAllBySender(User user);
+    List<PackageOrder> getAllByDriverRoute_Id(Long deliver_route_id);
 }

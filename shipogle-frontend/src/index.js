@@ -9,16 +9,18 @@ import Registration from "./pages/Registration";
 import RegistrationForm from "./pages/RegistrationForm";
 import RegSuccessful from "./pages/RegSuccessful";
 import CourierForm from "./pages/CourierForm";
-import UserDashboard from "./pages/UserDashboard";
 import EditProfile from "./pages/EditProfile";
-import SendItems from "./pages/SendItems";
 import Inbox from "./pages/Inbox/Inbox";
 import OrderDetails from "./components/OrderDetails";
 import Orders from "./pages/Orders";
 import Payment from "./pages/payment";
-import MyRides from "./components/MyRides";
 import CurrentDelivery from "./components/CurrentDelivery";
 import CourierDetails from "./pages/CourierDetails";
+import ForgotPwd from "./pages/ForgotPwd";
+import PackageRequests from "./components/PackageRequests";
+import StartEndDelivery from "./pages/StartEndDelivery";
+import Feedback from "./pages/Feedback";
+import Issue from "./pages/Issues";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -32,13 +34,19 @@ root.render(
         <Route path="/courier/offer" element={<CourierForm key={2} />} />
         <Route path="/registration/form" element={<RegistrationForm />} />
         <Route path="/registration/success" element={<RegSuccessful />} />
-        <Route path="/userdash" element={<UserDashboard />} />
         <Route path="/user/editprofile" element={<EditProfile />} />
-        <Route path="/userdash/send" element={<SendItems />} />
+
         <Route path="/inbox" element={<Inbox></Inbox>}></Route>
 
         <Route path="/orders" element={<Orders></Orders>}></Route>
-
+        <Route
+          path="/forgotpwd"
+          element={<ForgotPwd path={1}></ForgotPwd>}
+        ></Route>
+        <Route
+          path="/forgotpwd/reset/:token"
+          element={<ForgotPwd path={2}></ForgotPwd>}
+        ></Route>
         <Route
           path="/orders/details/:status/:orderId"
           element={<OrderDetails></OrderDetails>}
@@ -47,7 +55,10 @@ root.render(
           path="/courier/payment/:id"
           element={<Payment></Payment>}
         ></Route>
-        <Route path="/myrides" element={<MyRides></MyRides>}></Route>
+        <Route
+          path="/myrequests"
+          element={<PackageRequests></PackageRequests>}
+        ></Route>
         <Route
           path="/deliveries"
           element={<CurrentDelivery></CurrentDelivery>}
@@ -57,6 +68,12 @@ root.render(
           path="/courier/details/:id"
           element={<CourierDetails></CourierDetails>}
         />
+        <Route
+          path="/order/startend"
+          element={<StartEndDelivery></StartEndDelivery>}
+        ></Route>
+        <Route path="/feedback" element={<Feedback></Feedback>}></Route>
+        <Route path="/issue" element={<Issue></Issue>}></Route>
       </Route>
     </Routes>
   </BrowserRouter>
