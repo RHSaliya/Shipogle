@@ -63,7 +63,7 @@ function CourierForm() {
   const allowedCategoryLabels = ["Documents", "Fragile", "Liquids", "General"];
   const [pickupLocationCoords, setPickupLocationCoords] = useState([]);
   const [dropoffLocationCoords, setDropoffLocationCoords] = useState([]);
-  const [listings, setListings] = useState(data.listings);
+  const [listings, setListings] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [sourceAddress, setSourceAddress] = useState("");
   const [destinationAddress, setDestinationAddress] = useState("");
@@ -118,19 +118,44 @@ function CourierForm() {
           }
         )
         .then(() => {
-          if (key === "sourceCity") {
-            setPickupLocationCoords(latLng);
-          } else if (key === "destinations") {
-            setDropoffLocationCoords(latLng);
-          }
+          axios
+            .get(
+              `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latLng[0]},${latLng[1]}&key=${API_KEY}`
+            )
+            .then(
+              (res) => {
+                let cityName;
+                const results = res.data.results[0].address_components;
+                for (const result of results) {
+                  if (result.types.includes("locality")) {
+                    cityName = result.long_name;
+                  }
+                }
+                if (key === "sourceCity") {
+                  setPickupLocationCoords(latLng);
+                  setSourceCityName(cityName);
+                } else if (key === "destinations") {
+                  setDropoffLocationCoords(latLng);
+                  setDestinationsCityName(cityName);
+                }
+              },
+              (error) => {
+                commFunc.showAlertMessage(
+                  "error fetching place details",
+                  "error",
+                  2000,
+                  "bottom"
+                );
+              }
+            );
         });
     }
     if (key === "sourceCity") {
-      setSourceCityName(data.place);
+      setSourceAddress(data.place);
       setSourceCityReferenceId(data.place_id);
       setPickupLocationCoords(latLng);
     } else if (key === "destinations") {
-      setDestinationsCityName(data.place);
+      setDestinationAddress(data.place);
       setDestinationsCityReferenceId(data.place_id);
       setDropoffLocationCoords(latLng);
     }
@@ -173,9 +198,9 @@ function CourierForm() {
 
     if (path !== "search") {
       data["pickupDate"] = pickupDate;
-      data["sourceCity"] = sourceCityName.split(",")[0];
+      data["sourceCity"] = sourceCityName;
       data["sourceCityReferenceId"] = sourceCityReferenceId;
-      data["destinationCity"] = destinationsCityName.split(",")[0];
+      data["destinationCity"] = destinationsCityName;
       data["destinationCityReferenceId"] = destinationsCityReferenceId;
       data["maxLength"] = maxLength.toString();
       data["maxWidth"] = maxWidth.toString();
@@ -188,6 +213,8 @@ function CourierForm() {
       data["driverId"] = localStorage.getItem("user_id");
       const driverName = window.localStorage.getItem("user_name");
       data["driverName"] = driverName ? driverName : "Name not provided";
+      data["sourceAddress"] = sourceAddress;
+      data["destinationAddress"] = destinationAddress;
       customAxios.post(Constants.DRIVERROUTE, data).then(
         (res) => {
           commFunc.showAlertMessage(
