@@ -19,7 +19,7 @@ function Payment() {
   const [CardExpiryYear, setCardExpiryYear] = useState("");
   const [CardCvv, setCardCvv] = useState("");
   const [CardHolderName, setCardHolderName] = useState("");
-
+  console.log(state);
   const handleFormSubmit = (e) => {
     e.preventDefault();
     const paymentDetails = {
@@ -35,12 +35,32 @@ function Payment() {
     customAxios.post(Constants.PAYMENT_CHARGE, paymentDetails).then(
       (res) => {
         commFunc.showAlertMessage("success", "success", 2000, "bottom");
-        const paid_orders = window.localStorage.getItem("paid_orders");
-        console.log(paid_orders);
-        paid_orders.push(state.id);
-        navigate("/orders");
+        customAxios
+          .put(Constants, {
+            package_order_id: state.order.id,
+          })
+          .then(
+            (res) => {
+              navigate("/orders");
+            },
+            (error) => {
+              console.error(error);
+              commFunc.showAlertMessage(
+                "error while processing payment",
+                "error",
+                2000,
+                "bottom"
+              );
+            }
+          );
       },
       (error) => {
+        commFunc.showAlertMessage(
+          "error while processing payment",
+          "error",
+          2000,
+          "bottom"
+        );
         console.error(error);
       }
     );

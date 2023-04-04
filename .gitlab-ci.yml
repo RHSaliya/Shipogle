@@ -7,6 +7,7 @@ variables:
 stages:
   - build
   - test
+  - quality
   - deploy
 
 backend-build:
@@ -41,6 +42,19 @@ backend-test:
   rules:
     - changes:
         - backend/**/*
+        
+code-quality:
+  stage: quality
+  tags:
+    - ugrad
+  image: maven:latest
+  script:
+    - echo "Code quality job started"
+    - mkdir code-smells/
+    - java -jar $CI_PROJECT_DIR/DesigniteJava.jar -i $CI_PROJECT_DIR/backend -o codeSmells/ -d
+  artifacts:
+    paths:
+      - codeSmells/
 
 backend-deploy:
   stage: deploy

@@ -1,5 +1,5 @@
-import React from "react";
-import { Outlet } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Outlet, useLocation } from "react-router-dom";
 
 import "./App.css";
 import AlertMessage from "./components/AlertMessage";
@@ -7,6 +7,9 @@ import CommonFunctions from "../src/services/CommonFunction";
 import NavBar from "./components/NavBar";
 import { AuthProvider } from "./utils/Auth";
 import "./Constants";
+import Header from "./components/Header";
+import { Typography } from "@mui/material";
+import shipogleLogo from "./assets/shipogleLogo.png";
 
 const API_KEY = "AIzaSyBPtYm-CJPPW4yO9njM-e9YBWyp-DwIODM";
 let userLocation = { latitude: "", longitude: "" };
@@ -16,25 +19,25 @@ window.initMap = function () {
   comfunc.fetchUrl();
   comfunc.googleObjectDefinedStatus(true);
 };
-class App extends React.Component {
-  alertSettings = {
+
+const App = (props) => {
+  const [showAlert, setShowAlert] = useState(false);
+  const [pathname, setPathname] = useState(window.location.pathname);
+
+  const alertSettings = {
     alertMessage: "",
     alertType: "",
     alertDuration: 0,
     position: "bottom",
   };
 
-  commFunc = new CommonFunctions();
-  constructor(props) {
-    super(props);
-    this.state = {
-      showAlert: false,
-    };
+  const commFunc = new CommonFunctions();
+  const location = useLocation();
+
+  useEffect(() => {
     const paid_orders = window.localStorage.getItem("paid_orders");
     if (!paid_orders) window.localStorage.setItem("paid_orders", []);
-  }
 
-  componentDidMount() {
     const head = document.querySelector("head");
     if (!document.getElementById("font-style-link")) {
       const link = document.createElement("link");
@@ -58,7 +61,7 @@ class App extends React.Component {
         userLocation.longitude = position.coords.longitude;
       },
       (error) => {
-        this.setAlert(
+        setAlert(
           error.message ? error.message : "Please give Location Access",
           "error",
           3000,
@@ -66,38 +69,64 @@ class App extends React.Component {
         );
       }
     );
-  }
+  }, []);
 
-  render() {
-    return (
-      <>
-        <AuthProvider>
-          <NavBar></NavBar>
+  useEffect(() => {
+    setPathname(location.pathname);
+    // Add any other code you want to execute on route change
+  }, [location]);
 
-          <Outlet></Outlet>
-          {this.state.showAlert && (
-            <AlertMessage
-              message={this.alertSettings.alertMessage}
-              messageType={this.alertSettings.alertType}
-              duration={this.alertSettings.alertDuration}
-              position={this.alertSettings.position}
-            ></AlertMessage>
-          )}
-        </AuthProvider>
-      </>
-    );
-  }
-
-  setAlert(message, type, duration, position) {
-    this.setState({ showAlert: true });
-    this.alertSettings.alertMessage = message;
-    this.alertSettings.alertType = type;
-    this.alertSettings.alertDuration = duration;
-    this.alertSettings.position = position ? position : "bottom";
+  const setAlert = (message, type, duration, position) => {
+    setShowAlert(true);
+    alertSettings.alertMessage = message;
+    alertSettings.alertType = type;
+    alertSettings.alertDuration = duration;
+    alertSettings.position = position ? position : "bottom";
     setTimeout(() => {
-      this.setState({ showAlert: false });
+      setShowAlert(false);
     }, duration + 50);
-  }
-}
+  };
+
+  return (
+    <>
+      <AuthProvider>
+        <NavBar></NavBar>
+        {pathname === "/" && (
+          <>
+            <div
+              style={{
+                display: "flex",
+                flexFlow: "column",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <img
+                src={shipogleLogo}
+                height={164}
+                width={164}
+                style={{ margin: "2rem auto -2rem auto" }}
+                alt="Shipogle"
+              ></img>
+              <Header
+                title="SHIPOGLE"
+                info="Your go to place for Sending a courier / Delivering a courier"
+              ></Header>
+            </div>
+          </>
+        )}
+        <Outlet></Outlet>
+        {showAlert && (
+          <AlertMessage
+            message={alertSettings.alertMessage}
+            messageType={alertSettings.alertType}
+            duration={alertSettings.alertDuration}
+            position={alertSettings.position}
+          ></AlertMessage>
+        )}
+      </AuthProvider>
+    </>
+  );
+};
 
 export default App;

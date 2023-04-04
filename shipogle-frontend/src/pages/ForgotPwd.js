@@ -4,7 +4,7 @@ import shipogleLogo from "../assets/shipogleLogo.png";
 import Constants from "../Constants";
 import axios from "axios";
 import Cookies from "js-cookie";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
 import TextField from "@mui/material/TextField";
@@ -17,7 +17,6 @@ export default function ForgotPwd() {
   const location = useLocation();
 
   const [email, setEmail] = useState("");
-  const [showMsg, setShowMsg] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [path, setPath] = useState(location.pathname);
   const [containerStyle, setContainerStyle] = useState({});
@@ -27,7 +26,6 @@ export default function ForgotPwd() {
   const { token } = useParams();
 
   React.useEffect(() => {
-    console.log(token);
     setBackgroundImage(window.localStorage.getItem("backgroundUrlLogin"));
   }, []);
   const setBackgroundImage = (url) => {
@@ -57,7 +55,6 @@ export default function ForgotPwd() {
   };
 
   const submit = (e) => {
-    setShowMsg((prevShowMsg) => 1);
     e.preventDefault();
     if (path === "/resetpwd") {
       axios
@@ -82,8 +79,6 @@ export default function ForgotPwd() {
           );
         });
     } else {
-      const token =
-        "eyJhbGciOiJIUzM4NCJ9.eyJlbWFpbCI6InNpbmdoc2hhaHJhakBnbWFpbC5jb20iLCJzdWIiOiJzaGFocmFqIiwiaWF0IjoxNjgwMTYyNjYyLCJleHAiOjE2ODAyNDkwNjJ9.ixuz2tX9zG4rI_k_BeHD8-qMYrMs15yyCbDYiya9P1j_JuYSiBD8VETot-3KZgpC";
       const password = newpassword;
       const body = {
         token: token,
@@ -125,11 +120,7 @@ export default function ForgotPwd() {
           }}
         >
           <div style={{ marginTop: "-rem", marginBottom: "2rem" }}>
-            <Header
-              title="S H I P O G L E"
-              info=""
-              bgColor="transparent"
-            ></Header>
+            <Header title="S H I P O G L E" bgColor="transparent"></Header>
           </div>
 
           <h2 style={{ marginTop: "-2rem" }}>Reset Password</h2>

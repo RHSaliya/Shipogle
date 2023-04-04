@@ -27,7 +27,34 @@ export default function PackageRequests() {
         } else {
           commFunc.showAlertMessage("Request Accepted", "success", 3000, "top");
         }
-
+        const body = {
+          userId: request.sender.user_id,
+          title: `Delivery Request ${
+            action === "REJECTREQUEST" ? "Rejected" : "Accepted"
+          }`,
+          message: `${window.localStorage.getItem("user_name")} has ${
+            action === "REJECTREQUEST" ? "Rejected" : "Accepted"
+          } request for a delivery`,
+        };
+        customAxios.post(Constants.API_NOTIFICATIONS, body).then(
+          (res) => {
+            commFunc.showAlertMessage(
+              "Sent a notification to driver",
+              "success",
+              3000,
+              "bottom"
+            );
+          },
+          (error) => {
+            console.error(error);
+            commFunc.showAlertMessage(
+              "Request sent but failed to send driver a Notification!",
+              "error",
+              3000,
+              "bottom"
+            );
+          }
+        );
         setRequests(requests.splice(requests.indexOf(request), 1));
       },
       (error) => {

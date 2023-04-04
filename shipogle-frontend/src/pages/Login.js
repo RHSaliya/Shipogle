@@ -130,11 +130,7 @@ export default function Login() {
               }}
             >
               <div style={{ marginTop: "-2rem", marginBottom: "1rem" }}>
-                <Header
-                  title="S H I P O G L E"
-                  info=""
-                  bgColor="transparent"
-                ></Header>
+                <Header title="S H I P O G L E" bgColor="transparent"></Header>
               </div>
 
               <h2 style={{ marginTop: "-2rem" }}>Login</h2>
