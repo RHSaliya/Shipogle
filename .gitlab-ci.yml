@@ -7,11 +7,22 @@ variables:
 stages:
   - build
   - test
-  - deploy
   - quality
+  - deploy
 
 backend-build:
   stage: build
+  tags:
+    - ugrad
+  image: maven:latest
+  script:
+    - echo "Started building backend application."
+    - cd backend
+    - mvn clean package
+    - echo "Backend application has been built successfully."
+  rules:
+    - changes:
+        - backend/**/*
   artifacts:
     when: on_success
     paths:
@@ -19,12 +30,21 @@ backend-build:
 
 backend-test:
   stage: test
+  tags:
+    - ugrad
+  image: maven:latest
+  script:
+    - echo "Backend application test started."
+    - cd backend
+    - mvn test
+    - echo "Backend application Tested successfully."
+  rules:
     - changes:
         - backend/**/*
         
 code-quality:
   stage: quality
-  tags:
+  tages:
     - ugrad
   image: maven:latest
   script:
@@ -34,7 +54,7 @@ code-quality:
   artifacts:
     paths:
       - codeSmells/
-
+      - $CI_PROJECT_DIR
 
 backend-deploy:
   stage: deploy
