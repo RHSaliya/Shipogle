@@ -1,53 +1,27 @@
 variables:
   # Act as a varibale to be used further in YML file.
   TARGET_FOLDER_NAME: "target"
-
-default:
-  # Providing default image as openjdk:11
-  image: openjdk:11
+  BACKEND_FOLDER_NAME: "backend"
+  FRONTEND_FOLDER_NAME: "shipogle-frontend"
 
 stages:
-  # builds shipogle application.
   - build
-
-  # tests shipogle application.
   - test
-
-  # code quality of application
+  - deploy
   - quality
 
 backend-build:
   stage: build
-  tags:
-    - ugrad
-  image: maven:latest
-  script:
-    - echo "Started building backend application."
-    - cd backend
-    - mvn clean package
-    - echo "Backend application has been built successfully."
-  rules:
-    - changes:
-        - backend/**/*
   artifacts:
     when: on_success
     paths:
-      - $TARGET_FOLDER_NAME/*.war
+      - $TARGET_FOLDER_NAME
 
 backend-test:
   stage: test
-  tags:
-    - ugrad
-  image: maven:latest
-  script:
-    - echo "Backend application test started."
-    - cd backend
-    - mvn test
-    - echo "Backend application Tested successfully."
-  rules:
     - changes:
         - backend/**/*
-
+        
 code-quality:
   stage: quality
   tags:
@@ -60,3 +34,34 @@ code-quality:
   artifacts:
     paths:
       - codeSmells/
+
+
+backend-deploy:
+  stage: deploy
+  image: maven:latest
+  tags:
+    - ugrad
+  script:
+    - cd backend
+    - mvn package
+    - chmod og-rwx ${VM_PRIVATE_KEY}
+    - scp -r -o StrictHostKeyChecking=no -i ${VM_PRIVATE_KEY} ${TARGET_FOLDER_NAME}/Shipogle.jar csci5308vm9@csci5308vm9.research.cs.dal.ca:${BACKEND_FOLDER_NAME}/Shipogle.jar
+    - ssh -i ${VM_PRIVATE_KEY} csci5308vm9@csci5308vm9.research.cs.dal.ca "./${BACKEND_FOLDER_NAME}/stop.sh; ./${BACKEND_FOLDER_NAME}/start_silent.sh"
+  only:
+    refs:
+      - master
+
+frontend-deploy:
+  stage: deploy
+  before_script:
+    - apt-get update && apt-get install -y zip
+  tags:
+    - ugrad
+  script:
+    - chmod og-rwx ${VM_PRIVATE_KEY}
+    - zip -r shipogle-frontend.zip shipogle-frontend
+    - scp -r -o StrictHostKeyChecking=no -i ${VM_PRIVATE_KEY} shipogle-frontend.zip csci5308vm9@csci5308vm9.research.cs.dal.ca:${FRONTEND_FOLDER_NAME}/shipogle-frontend.zip
+    - ssh -i ${VM_PRIVATE_KEY} csci5308vm9@csci5308vm9.research.cs.dal.ca "cd ${FRONTEND_FOLDER_NAME}; ./stop.sh; ./start_silent.sh"
+  only:
+    refs:
+      - master
