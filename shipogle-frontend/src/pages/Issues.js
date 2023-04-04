@@ -24,7 +24,7 @@ export default function Issue() {
       package_order_id: state.orderDetails._package.id,
       description: description,
     };
-    customAxios.post(Constants.POSTRATING, body).then(
+    customAxios.post(Constants.POSTISSUE, body).then(
       (res) => {
         commFunc.showAlertMessage(
           "Rating submitted",

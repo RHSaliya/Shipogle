@@ -22,7 +22,7 @@ import static com.shipogle.app.utility.Const.*;
 @Service
 public class AuthService {
     @Autowired
-    UserRepository userReop;
+    UserRepository userRepo;
     @Autowired
     JwtTokenRepository jwtTokenRepo;
     @Autowired
@@ -37,7 +37,7 @@ public class AuthService {
     ForgotPasswordTokenService forgotPasswordTokenService;
 
     public boolean isAlreadyExist(User user) {
-        User db_user = userReop.findUserByEmail(user.getEmail());
+        User db_user = userRepo.findUserByEmail(user.getEmail());
         if (db_user == null) {
             return false;
         }
@@ -51,11 +51,11 @@ public class AuthService {
                 Claims claim = Jwts.parser().setSigningKey(SECRETKEY).parseClaimsJws(token).getBody();
                 String email = (String) claim.get("email");
 
-                User user = userReop.getUserByEmail(email);
+                User user = userRepo.getUserByEmail(email);
                 BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
                 String new_password = encoder.encode(password);
                 user.setPassword(new_password);
-                userReop.save(user);
+                userRepo.save(user);
                 forgotPasswordToken.setIs_active(false);
                 forgotPasswordTokenRepo.save(forgotPasswordToken);
 
@@ -72,7 +72,7 @@ public class AuthService {
 
     public String forgotPassword(String email) {
         try {
-            User user = userReop.getUserByEmail(email);
+            User user = userRepo.getUserByEmail(email);
 
             // String forgot_password_token =
             // forgotPasswordTokenService.createForgotPasswordToken(user).getForgot_password_token();
@@ -95,13 +95,13 @@ public class AuthService {
     public String verifyEmail(String code, int id) {
 
         try {
-            User user = userReop.getById(id);
+            User user = userRepo.getById(id);
 
             if (!user.getIs_verified()) {
                 BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
                 if (encoder.matches(user.getEmail(), code)) {
                     user.setIs_verified(true);
-                    userReop.save(user);
+                    userRepo.save(user);
                     return "Email Verified";
                 } else {
 //                    return "Not valid user";
@@ -123,7 +123,7 @@ public class AuthService {
             BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
             new_user.setPassword(encoder.encode(user_password));
             new_user.setIs_verified(false);
-            userReop.save(new_user);
+            userRepo.save(new_user);
 
             String encoded_email = encoder.encode(new_user.getEmail());
 
@@ -153,7 +153,7 @@ public class AuthService {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
         }
 
-        User storedUser = userReop.getUserByEmail(email);
+        User storedUser = userRepo.getUserByEmail(email);
 
         if (storedUser.getIs_verified()) {
             JwtToken token = jwtTokenService.createJwtToken(storedUser);
@@ -167,23 +167,23 @@ public class AuthService {
     }
 
     public User getUser(int id) {
-        return userReop.getReferenceById(id);
+        return userRepo.getReferenceById(id);
     }
 
     public User getUserInfo(String token) {
         token = token.replace("Bearer", "").trim();
         Claims claim = Jwts.parser().setSigningKey(SECRETKEY).parseClaimsJws(token).getBody();
         String email = (String) claim.get("email");
-        return userReop.getUserByEmail(email);
+        return userRepo.getUserByEmail(email);
     }
 
     public String updateUser(String token, User user) {
         token = token.replace("Bearer", "").trim();
         Claims claim = Jwts.parser().setSigningKey(SECRETKEY).parseClaimsJws(token).getBody();
         String email = (String) claim.get("email");
-        User db_user = userReop.getUserByEmail(email);
+        User db_user = userRepo.getUserByEmail(email);
         db_user.update(user);
-        userReop.save(db_user);
+        userRepo.save(db_user);
         return "User updated";
     }
 }
