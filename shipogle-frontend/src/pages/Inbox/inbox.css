@@ -136,6 +136,8 @@
 
 .users {
   position: relative;
+  display: flex;
+  align-items: center;
 }
 
 .user-name {
@@ -144,5 +146,6 @@
 
 .trashIcon {
   position: absolute;
+  color: gray;
   right: 0.5em;
 }

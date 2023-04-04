@@ -90,30 +90,35 @@ const Inbox = () => {
   };
 
   const handleSendMessage = () => {
-    if(inputValue !== ""){
+    if (inputValue !== "") {
       axios
-      .post(Constants.API_CHAT, {
-        senderId: user.user_id,
-        receiverId: selectedUser.user_id,
-        message: inputValue,
-      })
-      .then(() => {
-        ws.current.send(
-          JSON.stringify({
-            senderId: user.user_id,
-            receiverId: selectedUser.user_id,
-            message: inputValue,
-          })
-        );
-        setInputValue("");
-      });
+        .post(Constants.API_CHAT, {
+          senderId: user.user_id,
+          receiverId: selectedUser.user_id,
+          message: inputValue,
+        })
+        .then(() => {
+          ws.current.send(
+            JSON.stringify({
+              senderId: user.user_id,
+              receiverId: selectedUser.user_id,
+              message: inputValue,
+            })
+          );
+          setInputValue("");
+        });
     }
-   
+
   };
 
   const handleClearMessages = () => {
-    setClearMsg(prevClearMsg => true);
-    // setClearMsgUser(prevClearMsgUser => selectedUser);
+    setClearMsg(true);
+    axios
+      .delete(`${Constants.API_CHAT}/all/${user.user_id}/${selectedUser.user_id}`)
+      .then((res) => {
+        console.log(res);
+        setMessages([]);
+      });
   };
 
 
@@ -155,10 +160,7 @@ const Inbox = () => {
                 )}
               </div>
 
-              <div>
-                <DeleteIcon className="trashIcon" onClick={handleClearMessages}></DeleteIcon>
-              </div>
-
+              <DeleteIcon className="trashIcon" onClick={handleClearMessages}></DeleteIcon>
 
             </div>
 
@@ -169,8 +171,6 @@ const Inbox = () => {
         <div className="messageContainer">
           {
             (clearMsg === true /*&& selectedUser === clearMsgUser*/) ? <div>Messages cleared</div> :
-
-
 
               messages.map((message, index) => (
                 <div key={index}>

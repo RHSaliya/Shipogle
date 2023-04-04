@@ -11,10 +11,12 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.*;
 
+import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.*;
 
 @RestController
+@Transactional
 @RequestMapping("/chat")
 public class ChatController {
 
@@ -100,6 +102,7 @@ public class ChatController {
         User sender = senderOptional.get();
 
         messageRepository.deleteMessagesByReceiverAndSender(receiver, sender);
+        messageRepository.deleteMessagesByReceiverAndSender(sender, receiver);
         return ResponseEntity.ok("Messages deleted successfully");
     }
 
