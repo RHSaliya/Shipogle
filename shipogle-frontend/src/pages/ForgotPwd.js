@@ -4,7 +4,7 @@ import shipogleLogo from "../assets/shipogleLogo.png";
 import Constants from "../Constants";
 import axios from "axios";
 import Cookies from "js-cookie";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
 import TextField from "@mui/material/TextField";
@@ -26,7 +26,6 @@ export default function ForgotPwd() {
   const { token } = useParams();
 
   React.useEffect(() => {
-    console.log(token);
     setBackgroundImage(window.localStorage.getItem("backgroundUrlLogin"));
   }, []);
   const setBackgroundImage = (url) => {
