@@ -74,7 +74,7 @@ export default function NavBar() {
     if (isAuthenticated) {
       getCurrentLocation((userLocation) => {
         customAxios.put(Constants.UPDATELOCATION, userLocation).then(
-          (res) => {},
+          (res) => { },
           (error) => {
             console.error(error);
           }
@@ -173,11 +173,13 @@ export default function NavBar() {
             marginTop: "-8px",
           }}
         >
-          <Avatar>
+          <Avatar
+            onClick={handleClickOnExpand}
+          >
             {isAuthenticated
               ? commFunc.getDriverInitials(
-                  window.localStorage.getItem("user_name")
-                )
+                window.localStorage.getItem("user_name")
+              )
               : ""}
           </Avatar>
 
@@ -255,7 +257,7 @@ export default function NavBar() {
                     logout();
                   }}
                 >
-                
+
                   <Link style={{ textDecoration: "none" }} to="/login">
                     Logout
                   </Link>
