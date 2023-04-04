@@ -15,11 +15,9 @@
 }
 
 .titleSidebar {
-  background: linear-gradient(
-    90deg,
-    rgba(245, 245, 245, 1) 0%,
-    rgba(223, 223, 223, 0.781) 100%
-  );
+  background: linear-gradient(90deg,
+      rgba(245, 245, 245, 1) 0%,
+      rgba(223, 223, 223, 0.781) 100%);
 
   padding: 0.8rem 1rem;
   margin-top: 0;
@@ -94,7 +92,7 @@
 .btnSend {
   width: 120px;
   font-size: 16px;
-  color: white;
+  background-color: #3f0744;
   border: none;
   cursor: pointer;
 }
@@ -135,17 +133,19 @@
   }
 }
 
+
 .users {
   position: relative;
+  display: flex;
+  align-items: center;
 }
 
 .user-name {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
 }
 
-.user-name > div > button {
+.trashIcon {
   position: absolute;
+  color: gray;
   right: 0.5em;
 }
