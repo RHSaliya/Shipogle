@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 @ExtendWith(MockitoExtension.class)
 public class PackageServiceTests {
     @InjectMocks
-    PackageService packageService;
+    PackageServiceImpl packageService;
     @Mock
     Package courier;
     @Mock

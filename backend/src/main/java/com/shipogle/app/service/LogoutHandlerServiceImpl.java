@@ -13,7 +13,7 @@ import com.shipogle.app.repository.JwtTokenRepository;
 import org.springframework.stereotype.Service;
 
 @Service
-public class LogoutHandlerService implements LogoutHandler {
+public class LogoutHandlerServiceImpl implements LogoutHandler {
 
     @Autowired
     JwtTokenRepository jwtTokenRepo;

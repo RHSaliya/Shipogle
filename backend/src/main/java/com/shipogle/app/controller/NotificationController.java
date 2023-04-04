@@ -5,7 +5,7 @@ import com.shipogle.app.model.Notification;
 import com.shipogle.app.model.User;
 import com.shipogle.app.repository.NotificationRepository;
 import com.shipogle.app.repository.UserRepository;
-import com.shipogle.app.service.AuthService;
+import com.shipogle.app.service.AuthServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -66,7 +66,7 @@ public class NotificationController {
 
     @PostMapping("/get")
     public List<Notification> getNotificationsByToken(@RequestHeader("Authorization") String token) {
-        User user = new AuthService().getUserInfo(token);
+        User user = new AuthServiceImpl().getUserInfo(token);
         if (user == null) {
             throw new RuntimeException("Invalid user ID");
         }
