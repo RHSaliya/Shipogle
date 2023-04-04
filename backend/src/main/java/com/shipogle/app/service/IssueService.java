@@ -23,16 +23,16 @@ public class IssueService {
     UserRepository userRepo;
 
     @Autowired
+    UserService userService;
+
+    @Autowired
     PackageOrderRepository packageOrderRepo;
 
     public String postIssue(Integer package_order_id, String description){
         try {
             Issue issue = new Issue();
 
-            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-            String user_email = auth.getPrincipal().toString();
-
-            User user = userRepo.getUserByEmail(user_email);
+            User user = userService.getLoggedInUser();
 
             Issue currentIssue = issueRepo.getIssueByUser(user);
 
