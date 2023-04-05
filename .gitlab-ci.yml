@@ -13,9 +13,6 @@ stages:
   # tests shipogle application.
   - test
 
-  # This job is used to build the backend application.
-  - deploy
-
 backend-build:
   stage: build
   tags:
@@ -47,15 +44,3 @@ backend-test:
   rules:
     - changes:
         - backend/**/*
-
-backend-publish-deploy:
-  stage: deploy
-  image: maven:latest
-  tags:
-    - ugrad
-  script:
-    - cd backend
-    - mvn package
-    - chmod og-rwx ${VM_PRIVATE_KEY}
-    - ls
-    - scp -r -o StrictHostKeyChecking=no -i ${VM_PRIVATE_KEY} ${TARGET_FOLDER_NAME}/Shipogle.jar csci5308vm9@csci5308vm9.research.cs.dal.ca:Shipogle.jar
