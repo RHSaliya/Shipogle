@@ -38,14 +38,16 @@ public class PackageOrderServiceTests {
 
     @Test
     public void createPackageOrderTestSuccess(){
-        Mockito.when(packageRequest.get_package()).thenReturn(_package);
-        Mockito.when(packageRequest.getDeliverer()).thenReturn(user);
-        Mockito.when(packageRequest.getSender()).thenReturn(user);
-        Mockito.when(packageRequest.getDriverRoute()).thenReturn(driverRoute);
+        Package package1 = new Package();
+        PackageRequest packageRequest1 = new PackageRequest();
+        packageRequest1.set_package(package1);
+        packageRequest1.setDeliverer(user);
+        packageRequest1.setSender(user);
+        packageRequest1.setDriverRoute(driverRoute);
 
         Mockito.lenient().when(packageOrderRepo.save(packageOrder)).thenReturn(packageOrder);
 
-        assertEquals("order created",packageOrderService.createPackageOrder(packageRequest));
+        assertEquals("order created",packageOrderService.createPackageOrder(packageRequest1));
     }
 
     @Test
