@@ -3,8 +3,6 @@ package com.shipogle.app.service;
 import com.shipogle.app.model.JwtToken;
 import com.shipogle.app.model.User;
 import com.shipogle.app.repository.JwtTokenRepository;
-import io.jsonwebtoken.JwtBuilder;
-import io.jsonwebtoken.Jwts;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -12,10 +10,12 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.security.Key;
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class JwtTokenServiceTests {
@@ -27,25 +27,25 @@ public class JwtTokenServiceTests {
     JwtToken token;
 
     @Mock
-    JwtBuilder jwtBuilder;
-    @Mock
     User user;
 
-//    @Test
-//    public void createJwtTokenTest(){
-//        Jwts jwts1 = Mockito.mock(Jwts.class,Mockito.RETURNS_DEEP_STUBS);
-//        Mockito.when(user.getEmail()).thenReturn("kadivarnand007@gmail.com");
-//        Mockito.when(user.getFirst_name()).thenReturn("Nand");
-//        Mockito.when(jwts1.builder().claim("email",user.getEmail()).compact()).thenReturn("token");
-//
-//        assertEquals("token",jwtTokenService.createJwtToken(user).getToken());
-//    }
+    @Test
+    public void createJwtTokenTest(){
+        User user = new User();
+        user.setId(1);
+        user.setEmail("kadivarnand007@gmail.com");
+        user.setFirst_name("Nand");
+        user.setLast_name("Kadivar");
+        user.setPassword("abc123");
+        JwtToken createdToken = jwtTokenService.createJwtToken(user);
+        assertEquals(user,createdToken.getUser());
+    }
 
     @Test
     public void deactiveUserTestSuccess(){
         List<JwtToken> tokens = new ArrayList<>();
         tokens.add(token);
-        Mockito.when(jwtTokenRepo.getAllByUser(user)).thenReturn(tokens);
+        when(jwtTokenRepo.getAllByUser(user)).thenReturn(tokens);
         jwtTokenService.deactiveUserTokens(user);
         Mockito.verify(token,Mockito.times(1)).setIs_active(false);
     }
@@ -54,22 +54,45 @@ public class JwtTokenServiceTests {
     public void deactiveUserTestStoreTokens(){
         List<JwtToken> tokens = new ArrayList<>();
         tokens.add(token);
-        Mockito.when(jwtTokenRepo.getAllByUser(user)).thenReturn(tokens);
+        when(jwtTokenRepo.getAllByUser(user)).thenReturn(tokens);
         jwtTokenService.deactiveUserTokens(user);
         Mockito.verify(jwtTokenRepo,Mockito.times(1)).saveAll(tokens);
     }
 
     @Test
     public void isJwtActiveTestPositive(){
-        Mockito.when(jwtTokenRepo.getJwtTokensByToken("jwt token")).thenReturn(token);
-        Mockito.when(token.getIs_active()).thenReturn(true);
+        when(jwtTokenRepo.getJwtTokensByToken("jwt token")).thenReturn(token);
+        when(token.getIs_active()).thenReturn(true);
         assertTrue(jwtTokenService.isJwtActive("jwt token"));
     }
 
     @Test
     public void isJwtActiveTestNegative(){
-        Mockito.when(jwtTokenRepo.getJwtTokensByToken("jwt token")).thenReturn(token);
-        Mockito.when(token.getIs_active()).thenReturn(false);
+        when(jwtTokenRepo.getJwtTokensByToken("jwt token")).thenReturn(token);
+        when(token.getIs_active()).thenReturn(false);
         assertFalse(jwtTokenService.isJwtActive("jwt token"));
+    }
+
+    @Test
+    public void generateKeyTest() {
+        Key key = jwtTokenService.generateKey();
+        assertTrue(key.getAlgorithm().equals("HmacSHA256"));
+    }
+
+    @Test
+    public void deactiveUserTokensTest(){
+        User user1 = new User();
+        user1.setEmail("kadivarnand007@gmail.com");
+        List<JwtToken> tokens = new ArrayList<>();
+        JwtToken token1 = new JwtToken();
+        token1.setUser(user1);
+        JwtToken token2 = new JwtToken();
+        token2.setUser(user1);
+        tokens.add(token1);
+        tokens.add(token2);
+
+        when(jwtTokenRepo.getAllByUser(user1)).thenReturn(tokens);
+        jwtTokenService.deactiveUserTokens(user1);
+        assertFalse(token1.getIs_active());
     }
 }

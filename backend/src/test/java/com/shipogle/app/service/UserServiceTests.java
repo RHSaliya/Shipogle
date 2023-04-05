@@ -2,11 +2,13 @@ package com.shipogle.app.service;
 
 import com.shipogle.app.model.User;
 import com.shipogle.app.repository.UserRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -44,6 +46,11 @@ public class UserServiceTests {
     @Mock
     SecurityContext securityContext;
 
+    @BeforeEach
+    public void init(){
+        MockitoAnnotations.openMocks(this);
+    }
+
     @Test
     public void getLoggedInUserTest(){
         String userEmail = "kadivarnand007@gmail.com";
@@ -62,21 +69,25 @@ public class UserServiceTests {
         assertEquals(user, result);
     }
 
-//    @Test
-//    public void updateUserLocationTest(){
-//        userService = Mockito.spy(UserServiceImpl.class);
-//
-//        User user1 = new User();
-//
-//        String latitude = "40.7128";
-//        String longitude = "-74.0060";
-//
-//        Mockito.doReturn(user1).when(userService).getLoggedInUser();
-//
-//        String result = userService.updateUserLocation(latitude, longitude);
-//
-//        assertEquals("Location updated", result);
-//    }
+    @Test
+    public void updateUserLocationTest(){
+        userService = Mockito.spy(UserServiceImpl.class);
+
+        userService.userRepo = this.userRepo;
+
+        User user1 = new User();
+        user1.setFirst_name("Nand");
+        user1.setEmail("kadivarnand007@gmail.com");
+
+        String latitude = "40.7128";
+        String longitude = "-74.0060";
+
+        Mockito.doReturn(user1).when(userService).getLoggedInUser();
+        Mockito.when(userRepo.save(any())).thenReturn(user1);
+        String result = userService.updateUserLocation(latitude, longitude);
+
+        assertEquals("Location updated", result);
+    }
 
     @Test
     public void getUserLocationTest(){

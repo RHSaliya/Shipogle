@@ -1,7 +1,9 @@
 package com.shipogle.app.service;
 
 import com.shipogle.app.model.ForgotPasswordToken;
+import com.shipogle.app.model.JwtToken;
 import com.shipogle.app.model.User;
+import com.shipogle.app.repository.ForgotPasswordTokenRepository;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import org.junit.jupiter.api.Test;
@@ -18,19 +20,18 @@ public class ForgotPasswordTokenServiceTest {
     @InjectMocks
     ForgotPasswordTokenServiceImpl forgotPasswordTokenService;
     @Mock
-    ForgotPasswordToken forgotPasswordToken;
-    @Mock
-    JwtBuilder jwtBuilder;
+    ForgotPasswordTokenRepository forgotPasswordTokenRepo;
     @Mock
     User user;
     @Test
     public void createForgotPasswordToken(){
-//        Mockito.when(user.getEmail()).thenReturn("kadivarnand007@gmail.com");
-//        Mockito.when(user.getFirst_name()).thenReturn("Nand");
-//        Mockito.when(Jwts.builder()).thenReturn(jwtBuilder);
-//        Mockito.when(jwtBuilder.claim("email","kadivarnand007@gmail.com")).thenReturn(jwtBuilder);
-//        Mockito.when(jwtBuilder.compact()).thenReturn("token");
-//
-//        assertEquals("token",forgotPasswordTokenService.createForgotPasswordToken(user).getForgot_password_token());
+        User user = new User();
+        user.setId(1);
+        user.setEmail("kadivarnand007@gmail.com");
+        user.setFirst_name("Nand");
+        user.setLast_name("Kadivar");
+        user.setPassword("abc123");
+        ForgotPasswordToken createdToken = forgotPasswordTokenService.createForgotPasswordToken(user);
+        assertEquals(user,createdToken.getUser());
     }
 }
