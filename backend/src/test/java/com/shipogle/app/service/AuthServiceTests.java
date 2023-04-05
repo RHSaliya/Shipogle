@@ -17,10 +17,15 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.server.ResponseStatusException;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class AuthServiceTests {
@@ -184,15 +189,21 @@ public class AuthServiceTests {
         assertThrows(ResponseStatusException.class,()->authService.login("kadivarnand007@gmail.com","abc123"));
     }
 
-//    @Test
-//    public void loginTestVerifiedUser(){
-//        Mockito.when(user.getEmail()).thenReturn("kadivarnand007@gmail.com");
-//        Mockito.when(user.getIs_verified()).thenReturn(true);
-//        Mockito.when(userRepo.getUserByEmail(user.getEmail())).thenReturn(user);
-//        Mockito.when(token.getToken()).thenReturn("jwt token");
-//
-//        String result = authService.login("kadivarnand007@gmail.com","abc123");
-//
-//        verify(jwtTokenService,times(1)).createJwtToken(user);
-//    }
+    @Test
+    public void loginTestVerifiedUser(){
+        User user = new User();
+        user.setEmail("kadivarnand007@gmail.com");
+        user.setIs_verified(true);
+        Authentication authentication = new UsernamePasswordAuthenticationToken(user.getEmail(), "abc123");
+        SecurityContext securityContext = Mockito.mock(SecurityContext.class);
+        Mockito.lenient().when(securityContext.getAuthentication()).thenReturn(authentication);
+        SecurityContextHolder.setContext(securityContext);
+
+        Mockito.lenient().when(userRepo.getUserByEmail(user.getEmail())).thenReturn(user);
+
+        Mockito.lenient().when(jwtTokenService.createJwtToken(user)).thenReturn(token);
+
+        authService.login("kadivarnand007@gmail.com","abc123");
+        Mockito.verify(jwtTokenService,times(1)).deactiveUserTokens(user);
+    }
 }
