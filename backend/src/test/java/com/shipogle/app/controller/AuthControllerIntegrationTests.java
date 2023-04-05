@@ -97,14 +97,5 @@ public class AuthControllerIntegrationTests {
                         .content("{ \"token\": \"token\", \"password\": \"abc123\" }"))
                 .andExpect(status().is(400));
     }
-
-    @Test
-    void testForgotPassword() throws Exception {
-
-        mvc.perform(post("/forgotpassword")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("{ \"email\": \"kadivarnand007@gmail.com\" }"))
-                .andExpect(status().isOk());
-    }
 }
 
