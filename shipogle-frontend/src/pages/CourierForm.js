@@ -93,71 +93,68 @@ function CourierForm() {
     }
     const data = { place: value.description, place_id: value.place_id };
     let latLng = [];
-    if (path !== "search") {
-      axios
-        .get(
-          `https://maps.googleapis.com/maps/api/place/details/json?place_id=${data.place_id}&fields=geometry&key=${API_KEY}`
-        )
-        .then(
-          (res) => {
-            if (res.data) {
-              latLng = [
-                res.data?.result?.geometry?.location?.lat,
-                res.data?.result?.geometry?.location?.lng,
-              ];
-            }
-          },
-          (error) => {
-            commFunc.showAlertMessage(
-              "Could not fetch entered location coordinates",
-              "error",
-              3000,
-              "bottom"
-            );
-            console.error(error);
+    axios
+      .get(
+        `https://maps.googleapis.com/maps/api/place/details/json?place_id=${data.place_id}&fields=geometry&key=${API_KEY}`
+      )
+      .then(
+        (res) => {
+          if (res.data) {
+            latLng = [
+              res.data?.result?.geometry?.location?.lat,
+              res.data?.result?.geometry?.location?.lng,
+            ];
           }
-        )
-        .then(() => {
-          axios
-            .get(
-              `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latLng[0]},${latLng[1]}&key=${API_KEY}`
-            )
-            .then(
-              (res) => {
-                let cityName;
-                const results = res.data.results[0].address_components;
-                for (const result of results) {
-                  if (result.types.includes("locality")) {
-                    cityName = result.long_name;
-                  }
+        },
+        (error) => {
+          commFunc.showAlertMessage(
+            "Could not fetch entered location coordinates",
+            "error",
+            3000,
+            "bottom"
+          );
+          console.error(error);
+        }
+      )
+      .then(() => {
+        axios
+          .get(
+            `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latLng[0]},${latLng[1]}&key=${API_KEY}`
+          )
+          .then(
+            (res) => {
+              let cityName;
+              const results = res.data.results[0].address_components;
+              for (const result of results) {
+                if (result.types.includes("locality")) {
+                  cityName = result.long_name;
                 }
-                if (key === "sourceCity") {
-                  setPickupLocationCoords(latLng);
-                  setSourceCityName(cityName);
-                } else if (key === "destinations") {
-                  setDropoffLocationCoords(latLng);
-                  setDestinationsCityName(cityName);
-                }
-              },
-              (error) => {
-                commFunc.showAlertMessage(
-                  "error fetching place details",
-                  "error",
-                  2000,
-                  "bottom"
-                );
               }
-            );
-        });
-    }
+              if (key === "sourceCity") {
+                setPickupLocationCoords(latLng);
+                setSourceCityName(cityName);
+              } else if (key === "destinations") {
+                setDropoffLocationCoords(latLng);
+                setDestinationsCityName(cityName);
+              }
+            },
+            (error) => {
+              commFunc.showAlertMessage(
+                "error fetching place details",
+                "error",
+                2000,
+                "bottom"
+              );
+            }
+          );
+      });
+
     if (key === "sourceCity") {
       setSourceAddress(data.place);
       setSourceCityReferenceId(data.place_id);
-      setPickupLocationCoords(latLng);
     } else if (key === "destinations") {
       setDestinationAddress(data.place);
       setDestinationsCityReferenceId(data.place_id);
-      setDropoffLocationCoords(latLng);
     }
   };
 

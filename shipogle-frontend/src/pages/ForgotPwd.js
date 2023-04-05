@@ -4,7 +4,7 @@ import shipogleLogo from "../assets/shipogleLogo.png";
 import Constants from "../Constants";
 import axios from "axios";
 import Cookies from "js-cookie";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
 import TextField from "@mui/material/TextField";
@@ -15,7 +15,7 @@ import customAxios from "../utils/MyAxios";
 export default function ForgotPwd() {
   //forgot password rest
   const location = useLocation();
-
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [path, setPath] = useState(location.pathname);
@@ -56,7 +56,8 @@ export default function ForgotPwd() {
 
   const submit = (e) => {
     e.preventDefault();
-    if (path === "/resetpwd") {
+    console.log(path);
+    if (path === "/forgotpwd") {
       axios
         .post(Constants.API_FORGOT_PWD, {
           email: email,
@@ -86,10 +87,22 @@ export default function ForgotPwd() {
       };
       customAxios.post(Constants.API_RESET_PWD, body).then(
         (res) => {
-          alert("password changed, please login");
+          commFunc.showAlertMessage(
+          "Password changes successfully",
+            "Success",
+            3000,
+            "top"
+          );
+          navigate("/login");
         },
         (error) => {
           console.error(error);
+          commFunc.showAlertMessage(
+            "Error while setting password or try again later!",
+            "error",
+            4000,
+            "top"
+          );
         }
       );
     }
