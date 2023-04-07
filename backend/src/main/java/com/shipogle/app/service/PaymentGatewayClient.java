@@ -33,8 +33,9 @@ public class PaymentGatewayClient {
             ObjectMapper objectMapper = new ObjectMapper();
             String jsonString = objectMapper.writeValueAsString(paymentGatewayRequest);
             HttpEntity<String> requestEntity = new HttpEntity<>(jsonString, headers);
-            ResponseEntity<PaymentResponse> responseEntity = restTemplate.exchange(paymentGatewayUrl, HttpMethod.POST, requestEntity, PaymentResponse.class);
-            return responseEntity.getBody();
+            ResponseEntity<String> responseEntity = restTemplate.exchange(paymentGatewayUrl, HttpMethod.POST, requestEntity, String.class);
+            PaymentResponse paymentResponse = objectMapper.readValue(responseEntity.getBody(), PaymentResponse.class);
+            return paymentResponse;
         } catch (Exception e) {
             throw new PaymentGatewayException("Error processing payment: " + e.getMessage());
         }
@@ -48,6 +49,7 @@ public class PaymentGatewayClient {
         paymentGatewayRequest.setCardExpiryMonth(paymentRequest.getCardExpiryMonth());
         paymentGatewayRequest.setCardExpiryYear(paymentRequest.getCardExpiryYear());
         paymentGatewayRequest.setCardCvv(paymentRequest.getCardCvv());
+        paymentGatewayRequest.setCardHolderName(paymentRequest.getCardHolderName());
         return paymentGatewayRequest;
     }
 }
