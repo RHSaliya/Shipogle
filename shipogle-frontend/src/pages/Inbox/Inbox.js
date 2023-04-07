@@ -3,6 +3,7 @@ import axios from "../../utils/MyAxios";
 import { w3cwebsocket as WebSocket } from "websocket";
 import Constants from "../../Constants";
 import "./inbox.css";
+import DeleteIcon from '@mui/icons-material/Delete';
 import chatProfileImg from "../../assets/profile.png";
 import { Button, Typography } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
@@ -18,6 +19,7 @@ const Inbox = () => {
   const [messages, setMessages] = useState([]);
   const [chatUsers, setChatUsers] = useState([]);
   const [inputValue, setInputValue] = useState("");
+  const [clearMsg, setClearMsg] = useState(false);
   const ws = useRef(null);
 
   function handleUserClick(selectedUser, user) {
@@ -88,23 +90,37 @@ const Inbox = () => {
   };
 
   const handleSendMessage = () => {
+    if (inputValue !== "") {
+      axios
+        .post(Constants.API_CHAT, {
+          senderId: user.user_id,
+          receiverId: selectedUser.user_id,
+          message: inputValue,
+        })
+        .then(() => {
+          ws.current.send(
+            JSON.stringify({
+              senderId: user.user_id,
+              receiverId: selectedUser.user_id,
+              message: inputValue,
+            })
+          );
+          setInputValue("");
+        });
+    }
+
+  };
+
+  const handleClearMessages = () => {
+    setClearMsg(true);
     axios
-      .post(Constants.API_CHAT, {
-        senderId: user.user_id,
-        receiverId: selectedUser.user_id,
-        message: inputValue,
-      })
-      .then(() => {
-        ws.current.send(
-          JSON.stringify({
-            senderId: user.user_id,
-            receiverId: selectedUser.user_id,
-            message: inputValue,
-          })
-        );
-        setInputValue("");
+      .delete(`${Constants.API_CHAT}/all/${user.user_id}/${selectedUser.user_id}`)
+      .then((res) => {
+        console.log(res);
+        setMessages([]);
       });
   };
+
 
   const handleKeyDown = (event) => {
     if (event.key === "Enter") {
@@ -131,49 +147,51 @@ const Inbox = () => {
             >
               <div className="user-picture">
                 {/* <img style={{ width: 15, height: 15 }} alt="pfp chat user" src={chatProfileImg}></img>  */}
-                {index % 2 === 0 ? (
-                  <img
-                    style={{ width: 20, height: 20 }}
-                    alt="pfp chat user"
-                    src={chatProfileImg}
-                  ></img>
-                ) : (
+                {
                   currUser.first_name[0] + currUser.last_name[0]
-                )}
+                }
+
               </div>
               <div className="user-name">
                 {selectedUser && selectedUser.user_id === currUser.user_id ? (
-                  <b>{currUser.first_name + " " + currUser.last_name}</b>
+                  <b style={{ color: "#3f0744" }}>{currUser.first_name + " " + currUser.last_name}</b>
                 ) : (
                   currUser.first_name + " " + currUser.last_name
                 )}
               </div>
+
+              <DeleteIcon className="trashIcon" onClick={handleClearMessages}></DeleteIcon>
+
             </div>
+
           ))}
         </div>
       </div>
       <div className="chatWindow">
         <div className="messageContainer">
-          {messages.map((message, index) => (
-            <div key={index}>
-              {
-                <div
-                  className={
-                    message.senderId === user.user_id
-                      ? "myMessage"
-                      : "otherMessage"
+          {
+            (clearMsg === true /*&& selectedUser === clearMsgUser*/) ? <div>Messages cleared</div> :
+
+              messages.map((message, index) => (
+                <div key={index}>
+                  {
+                    <div
+                      className={
+                        message.senderId === user.user_id
+                          ? "myMessage"
+                          : "otherMessage"
+                      }
+                    >
+                      <b>
+                        {message.senderId === user.user_id
+                          ? "You"
+                          : selectedUser.first_name}
+                      </b>
+                      : {message.message}
+                    </div>
                   }
-                >
-                  <b>
-                    {message.senderId === user.user_id
-                      ? "You"
-                      : selectedUser.first_name}
-                  </b>
-                  : {message.message}
                 </div>
-              }
-            </div>
-          ))}
+              ))}
         </div>
         <div className="inputArea">
           <input
@@ -184,7 +202,7 @@ const Inbox = () => {
             onChange={handleInputChange}
           />
           <Button
-            sx={{ margin: "0rem 1rem", height: "36px", borderRadius: "18px" }}
+            sx={{ margin: "0rem 1rem", height: "36px", borderRadius: "18px", backgroundColor: "#3f0744" }}
             variant="contained"
             className="btnSend"
             onClick={handleSendMessage}

@@ -2,6 +2,8 @@ package com.shipogle.app.config;
 
 import com.shipogle.app.model.Notification;
 import com.shipogle.app.model.User;
+import com.shipogle.app.socket_handlers.ChatSocketHandler;
+import com.shipogle.app.socket_handlers.NotificationSocketHandler;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
@@ -29,7 +31,7 @@ public class WebSocketConfigTest {
         String messagePayload = "Hello, world!";
         TextMessage message = new TextMessage(messagePayload);
 
-        WebSocketConfig.ChatSocketHandler handler = WebSocketConfig.ChatSocketHandler.getInstance();
+        ChatSocketHandler handler = ChatSocketHandler.getInstance();
         handler.handleTextMessage(session, message);
 
         Mockito.verify(session, Mockito.times(1)).sendMessage(new TextMessage(messagePayload));
@@ -52,7 +54,7 @@ public class WebSocketConfigTest {
 
         String expectedPayload = notification.toString();
 
-        WebSocketConfig.NotificationSocketHandler handler = WebSocketConfig.NotificationSocketHandler.getInstance();
+        NotificationSocketHandler handler = NotificationSocketHandler.getInstance();
         handler.afterConnectionEstablished(session);
         handler.sendNotification(notification);
 
