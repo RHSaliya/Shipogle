@@ -27,6 +27,9 @@ public class DriverRouteFilter {//implements DriverRouteRepository {
     }
 
     public List<DriverRoute> getDriverRoutesByFilters(DashboardFilter filter) {
+        if(filter == null)
+            return null;
+
         return driverRouteRepository.getDriverRoutesByFilters(filter.sourceCity, filter.destination, filter.pickupDataTime, filter.maxPackages
                 ,filter.radius, filter.price, filter.allowedCategory,  filter.category);
     }

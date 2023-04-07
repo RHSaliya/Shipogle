@@ -14,9 +14,19 @@ public class PaymentGatewayClient {
     @Value("${payment.gateway.url}")
     private String paymentGatewayUrl;
 
+    private RestTemplate restTemplate;
+
+    public void setRestTemplate(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
+    }
+
+    public void setPaymentGatewayUrl(String paymentGatewayUrl) {
+        this.paymentGatewayUrl = paymentGatewayUrl;
+    }
+
     public PaymentResponse chargeCreditCard(PaymentGatewayRequest paymentRequest) throws PaymentGatewayException {
         PaymentGatewayRequest paymentGatewayRequest = createPaymentGatewayRequest(paymentRequest);
-        RestTemplate restTemplate = new RestTemplate();
+        restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         try {
             headers.setContentType(MediaType.APPLICATION_JSON);

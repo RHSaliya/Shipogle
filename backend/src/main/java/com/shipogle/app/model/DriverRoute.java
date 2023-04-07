@@ -9,7 +9,7 @@ import javax.persistence.*;
 public class DriverRoute {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    public Long id;
 
     @Column(name = "driverId")
     private String driverId;
