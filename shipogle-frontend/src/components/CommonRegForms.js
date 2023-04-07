@@ -7,6 +7,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import axios from "axios";
 import Constants from "../Constants";
+import { Button } from "@mui/material";
 
 export default function CommonRegForms() {
   const [dobvalue, setDOBValue] = useState(null);
@@ -282,8 +283,12 @@ export default function CommonRegForms() {
           rules={{ required: "Password should match" }}
         />
       </div>
-
-      <input className="btn" type="submit" />
+      <center>
+        <Button sx={{ width: "120px" }} variant="contained" type="submit">
+          {" "}
+          Register{" "}
+        </Button>
+      </center>
     </form>
   );
 }

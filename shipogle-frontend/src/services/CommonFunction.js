@@ -7,6 +7,10 @@ class CommonFunctions extends Component {
   static googleMapObjectStatus = false;
 
   getDriverInitials(name) {
+    if (!name) {
+      return "NN";
+    }
+
     const nameArray = name.split(" ");
     const fInitial = nameArray[0].charAt(0);
     const sInitial = nameArray.length > 1 ? nameArray[1].charAt(0) : "";

@@ -31,7 +31,7 @@ const ExpandButton = styled(Button)({
   color: "black",
 });
 
-export default function NavBar() {
+export default function NavBar({ authStatus }) {
   const { isAuthenticated, login, logout } = useContext(AuthContext);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -58,6 +58,12 @@ export default function NavBar() {
     );
   };
 
+  useEffect(() => {
+    if (authStatus) {
+      login();
+    }
+  }, [authStatus, login]);
+
   const handleClickOnExpand = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -74,31 +80,12 @@ export default function NavBar() {
     if (isAuthenticated) {
       getCurrentLocation((userLocation) => {
         customAxios.put(Constants.UPDATELOCATION, userLocation).then(
-          (res) => { },
+          (res) => {},
           (error) => {
             console.error(error);
           }
         );
       });
-      /*
-      customAxios
-        .get(
-          Constants.API_NOTIFICATIONS + "/" + localStorage.getItem("user_id")
-        )
-        .then(
-          (res) => {
-            console.log(res);
-          },
-          (error) => {
-            console.error(error);
-            commFunc.showAlertMessage(
-              "Error while fetching notification",
-              "error",
-              2000,
-              "bottom"
-            );
-          }
-        );*/
     }
   }, [isAuthenticated]);
 
@@ -173,13 +160,11 @@ export default function NavBar() {
             marginTop: "-8px",
           }}
         >
-          <Avatar
-            onClick={handleClickOnExpand}
-          >
+          <Avatar onClick={handleClickOnExpand}>
             {isAuthenticated
               ? commFunc.getDriverInitials(
-                window.localStorage.getItem("user_name")
-              )
+                  window.localStorage.getItem("user_name")
+                )
               : ""}
           </Avatar>
 
@@ -248,7 +233,10 @@ export default function NavBar() {
                   </Link>
                 </MenuItem>
                 <MenuItem>
-                  <Link style={{ textDecoration: "none" }} to="/user/editprofile">
+                  <Link
+                    style={{ textDecoration: "none" }}
+                    to="/user/editprofile"
+                  >
                     Edit Profile
                   </Link>
                 </MenuItem>
@@ -257,7 +245,6 @@ export default function NavBar() {
                     logout();
                   }}
                 >
-
                   <Link style={{ textDecoration: "none" }} to="/login">
                     Logout
                   </Link>
