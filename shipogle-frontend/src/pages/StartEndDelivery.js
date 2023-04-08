@@ -33,7 +33,7 @@ const StartEndDelivery = () => {
             body["title"] = "Drop Code";
             body[
               "message"
-            ] = `Please provide pickup code ${order.drop_code} to ${order.driverRoute.driverName} to start delivery`;
+            ] = `Please provide pickup code ${order.drop_code} to ${order.driverRoute.driverName} to end delivery`;
           }
           sendNotification(body);
         });

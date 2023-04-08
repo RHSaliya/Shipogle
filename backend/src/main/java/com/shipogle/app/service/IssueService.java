@@ -25,7 +25,7 @@ public class IssueService {
     @Autowired
     PackageOrderRepository packageOrderRepo;
 
-    public String postIssue(Integer package_order_id, String description){
+    public String postIssue(Integer package_order_id, String description) {
         try {
             Issue issue = new Issue();
 
@@ -36,8 +36,10 @@ public class IssueService {
 
             Issue currentIssue = issueRepo.getIssueByUser(user);
 
-            boolean isOrderIdMatching = currentIssue.getPackageOrder().getId().equals(package_order_id);
-            if(currentIssue!=null && isOrderIdMatching)
+            boolean isOrderIdMatching = false;
+            if (currentIssue != null)
+                isOrderIdMatching = currentIssue.getPackageOrder().getId().equals(package_order_id);
+            if (currentIssue != null && isOrderIdMatching)
                 return "Issue Already registered";
 
             PackageOrder packageOrder = packageOrderRepo.getPackageOrderById(package_order_id);
@@ -48,16 +50,16 @@ public class IssueService {
 
             issueRepo.save(issue);
 
-        }catch (Exception e){
+        } catch (Exception e) {
             return e.getMessage();
         }
         return "Issue registered";
     }
 
-    public List<Issue> getAllIssues(){
+    public List<Issue> getAllIssues() {
         try {
             return issueRepo.findAll();
-        }catch (Exception e){
+        } catch (Exception e) {
             return null;
         }
     }
