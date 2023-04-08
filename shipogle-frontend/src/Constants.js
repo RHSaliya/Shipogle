@@ -1,5 +1,5 @@
-const BASE_URL = "http://localhost:8080";
-const SOCKET_BASE_URL = "ws://localhost:8080";
+const BASE_URL = "http://csci5308vm9.research.cs.dal.ca:8080";
+const SOCKET_BASE_URL = "ws://csci5308vm9.research.cs.dal.ca:8080";
 
 const APIS = {
   API_REGISTER: `${BASE_URL}/register`,
