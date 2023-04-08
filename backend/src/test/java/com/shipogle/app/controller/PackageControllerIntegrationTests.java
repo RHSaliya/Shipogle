@@ -42,29 +42,29 @@ public class PackageControllerIntegrationTests {
     @Mock
     Package _package;
 
-//    @Test
-//    public void testCreatePackage() throws Exception {
-//        mvc.perform(post("/package/create")
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .content("{ \"package_title\": \"title\", \"description\": \"Package description\" }"))
-//                .andExpect(status().is(403));
-//    }
+    @Test
+    public void testCreatePackage() throws Exception {
+        mvc.perform(post("/package/create")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{ \"package_title\": \"title\", \"description\": \"Package description\" }"))
+                .andExpect(status().is(403));
+    }
 
-//    @Test
-//    public void testGetAll() throws Exception {
-//        when(packageService.getPackages());
-//        mvc.perform(post("/package/get")
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                .header("Authorization","jwt token"))
-//                .andExpect(status().isOk());
-//    }
+    @Test
+    public void testGetAll() throws Exception {
+        when(packageService.getPackages());
+        mvc.perform(post("/package/get")
+                        .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization","jwt token"))
+                .andExpect(status().isOk());
+    }
 
-//    @Test
-//    public void testUpdatedPackage() throws Exception {
-//        when(packageService.updatePackage(any())).thenReturn("Package updated");
-//        mvc.perform(post("/package/update")
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .header("Authorization","jwt token"))
-//                .andExpect(status().isOk());
-//    }
+    @Test
+    public void testUpdatedPackage() throws Exception {
+        when(packageService.updatePackage(any())).thenReturn("Package updated");
+        mvc.perform(post("/package/update")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .header("Authorization","jwt token"))
+                .andExpect(status().isOk());
+    }
 }

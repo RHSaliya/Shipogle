@@ -37,13 +37,13 @@ public class IssueControllerIntegrationTests {
     @Mock
     IssueService issueSer;
 
-//    @Test
-//    void testPostIssue() throws Exception {
-//        mvc.perform(post("/issue/post")
-//                .contentType(MediaType.APPLICATION_JSON)
-//                .content("{ \"package_order_id\": \"449\", \"description\": \"Issue description\" }"))
-//                .andExpect(status().is(403));
-//    }
+    @Test
+    void testPostIssue() throws Exception {
+        mvc.perform(post("/issue/post")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{ \"package_order_id\": \"449\", \"description\": \"Issue description\" }"))
+                .andExpect(status().is(403));
+    }
 
 //    @Test
 //    void testPostIssueAuth() throws Exception {
@@ -56,12 +56,12 @@ public class IssueControllerIntegrationTests {
 //                .andExpect(status().isOk());
 //    }
 
-//    @Test
-//    void testgetAllIssues() throws Exception {
-//        when(issueSer.getAllIssues());
-//        mvc.perform(post("/issue/getall")
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .header("Authorization","jwt token")
-//        ).andExpect(status().isOk());
-//    }
+    @Test
+    void testgetAllIssues() throws Exception {
+        when(issueSer.getAllIssues());
+        mvc.perform(post("/issue/getall")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .header("Authorization","jwt token")
+        ).andExpect(status().isOk());
+    }
 }
