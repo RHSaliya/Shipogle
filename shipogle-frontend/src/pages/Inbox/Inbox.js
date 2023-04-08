@@ -28,6 +28,7 @@ const Inbox = () => {
     const [inputValue, setInputValue] = useState("");
     const [clearMsg, setClearMsg] = useState(false);
     const ws = useRef(null);
+    const [msgEnd, setMsgEnd] = useState(null);
 
     function handleUserClick(selectedUser, user) {
         setSelectedUser(selectedUser);
@@ -71,6 +72,12 @@ const Inbox = () => {
             ws.current.close();
         };
     }
+
+    useEffect(() => {
+        if (msgEnd) {
+            msgEnd.scrollIntoView();
+        }
+    }, [messages, msgEnd]);
 
     useEffect(() => {
         // Get user info from token
@@ -227,6 +234,9 @@ const Inbox = () => {
                                     }
                                 </div>
                             ))}
+                    <div
+                        ref={(el) => { setMsgEnd(el); }}>
+                    </div>
                 </div>
                 <div className="inputArea">
                     <input
