@@ -5,6 +5,7 @@ import com.shipogle.app.model.Rating;
 import com.shipogle.app.model.User;
 import com.shipogle.app.repository.DriverRouteRepository;
 import com.shipogle.app.repository.RatingRepository;
+import com.shipogle.app.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -33,6 +34,8 @@ public class RatingServiceTests {
     RatingRepository ratingRepo;
     @Mock
     UserService userService;
+    @Mock
+    UserRepository userRepo;
     @Mock
     User user;
     @Mock
@@ -113,5 +116,20 @@ public class RatingServiceTests {
         when(user.getUser_id()).thenReturn(1);
         when(ratingRepo.getAllByUser_Id(1)).thenReturn(ratings);
         assertEquals(ratings,ratingService.getSenderPostedRating());
+    }
+
+    @Test
+    public void getDelivererRatingByIDTestUserNotFoundException(){
+        when(userRepo.getUserById(Integer.valueOf(1))).thenThrow(UsernameNotFoundException.class);
+        assertEquals(null,ratingService.getDelivererRatingWithID(Integer.valueOf(1)));
+    }
+
+    @Test
+    public void getDelivererRatingByIDTestSuccess(){
+        List<Rating> ratings = new ArrayList<>();
+        when(userRepo.getUserById(Integer.valueOf(1))).thenReturn(user);
+        when(user.getUser_id()).thenReturn(1);
+        when(ratingRepo.getAllByDriverRoute_DriverId(1L)).thenReturn(ratings);
+        assertEquals(ratings,ratingService.getDelivererRatingWithID(Integer.valueOf(1)));
     }
 }

@@ -12,4 +12,6 @@ public interface RatingService {
     public List<Rating> getDelivererRating();
 
     public List<Rating> getSenderPostedRating();
+
+    public List<Rating> getDelivererRatingWithID(Integer id);
 }

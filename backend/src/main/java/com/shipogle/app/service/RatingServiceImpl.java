@@ -107,4 +107,20 @@ public class RatingServiceImpl implements RatingService {
             return null;
         }
     }
+
+    @Override
+    public List<Rating> getDelivererRatingWithID(Integer id){
+        try {
+
+            User deliverer = userRepo.getUserById(id);
+
+            List<Rating> ratings = ratingRepo.getAllByDriverRoute_DriverId(Long.valueOf(deliverer.getUser_id()));
+
+            return ratings;
+
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            return null;
+        }
+    }
 }
