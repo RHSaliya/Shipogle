@@ -79,37 +79,54 @@ public class ChatControllerTest {
     }
 
 
-//    @Test
-//    void testGetChatHistory() {
-//        // create two users
-//
-//        User sender = new User();
-//        sender.setId(1);
-//
-//        User receiver = new User();
-//        receiver.setId(2);
-//
-//        sender = userRepository.save(sender);
-//        receiver = userRepository.save(receiver);
-//
-//        // create some messages between the two users
-//        Message message1 = new Message();
-//        message1.setSender(sender);
-//        message1.setMessage("Hello, receiver!");
-//        messageRepository.save(message1);
-//
-//        Message message2 = new Message();
-//        message2.setReceiver(sender);
-//        message2.setMessage("Hi, sender!");
-//        messageRepository.save(message2);
-//
-//        // call the method and verify the result
-//        List<Message> messages = chatController.getChatHistory(sender.getUser_id(), receiver.getUser_id());
-//
-//        assertEquals(2, messages.size());
-//        assertEquals(message1.getMessage(), messages.get(0).getMessage());
-//        assertEquals(message2.getMessage(), messages.get(1).getMessage());
-//    }
+    @Test
+    void testGetChatHistory() {
+        // create userOne
+        User userOne = new User();
+        userOne.setId(1);
+        userRepository.save(userOne);
+        when(userRepository.findById(userOne.getUser_id())).thenReturn(Optional.of(userOne));
+
+        // create userTwo
+        User userTwo = new User();
+        userTwo.setId(2);
+        userRepository.save(userTwo);
+        when(userRepository.findById(userTwo.getUser_id())).thenReturn(Optional.of(userTwo));
+
+        // Prepare message from userOne to userTwo
+        Message message1 = new Message();
+        message1.setSender(userOne);
+        message1.setReceiver(userTwo);
+        message1.setMessage("Hello, userTwo!");
+        message1.setCreatedAt(LocalDateTime.now());
+        messageRepository.save(message1);
+
+        List<Message> messagesOneToTwo = new ArrayList<>();
+        messagesOneToTwo.add(message1);
+
+        when(messageRepository.findBySenderAndReceiverOrderByCreatedAtDesc(userOne, userTwo)).thenReturn(messagesOneToTwo);
+
+        // Prepare message from userTwo to userOne
+        Message message2 = new Message();
+        message2.setSender(userTwo);
+        message2.setReceiver(userOne);
+        message2.setMessage("Hi, userOne!");
+        message2.setCreatedAt(LocalDateTime.now());
+        messageRepository.save(message2);
+
+        List<Message> messagesTwoToOne = new ArrayList<>();
+        messagesTwoToOne.add(message2);
+
+        when(messageRepository.findByReceiverAndSenderOrderByCreatedAtDesc(userOne, userTwo)).thenReturn(messagesTwoToOne);
+
+        // get messages between userOne and userTwo
+        List<Message> messages = chatController.getChatHistory(userOne.getUser_id(), userTwo.getUser_id());
+
+        // check if messages are correct
+        assertEquals(2, messages.size());
+        assertEquals(message1.getMessage(), messages.get(0).getMessage());
+        assertEquals(message2.getMessage(), messages.get(1).getMessage());
+    }
 
 
 
