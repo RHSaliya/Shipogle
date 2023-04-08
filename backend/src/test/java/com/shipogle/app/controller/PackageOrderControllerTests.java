@@ -28,7 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-@TestPropertySource(locations="classpath:application-test.properties")
+//@TestPropertySource(locations="classpath:application-test.properties")
 public class PackageOrderControllerTests {
     @Autowired
     MockMvc mvc;
@@ -63,7 +63,8 @@ public class PackageOrderControllerTests {
         mvc.perform(post("/package/order/start")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{ \"pickup_code\": \"1234\", \"order_id\": \"1\" }")
-                .header("Authorization","jwt token"));
+                .header("Authorization","jwt token"))
+                .andExpect(status().isOk());
 
     }
 
@@ -73,7 +74,8 @@ public class PackageOrderControllerTests {
         mvc.perform(post("/package/order/end")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{ \"drop_code\": \"1234\", \"order_id\": \"1\" }")
-                .header("Authorization","jwt token"));
+                .header("Authorization","jwt token"))
+                .andExpect(status().isOk());
     }
 
     @Test
@@ -82,7 +84,8 @@ public class PackageOrderControllerTests {
         mvc.perform(put("/package/order/recordPayment")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{ \"order_id\": \"1\" }")
-                .header("Authorization","jwt token"));
+                .header("Authorization","jwt token"))
+                .andExpect(status().isOk());
     }
 
 }
