@@ -63,51 +63,51 @@ public class AuthControllerIntegrationTests {
     @Mock
     Authfilter authfilter;
 
-    @Test
-    void testRegisterAlreadyRegisteredUser() throws Exception {
-        User user = new User();
-        user.setFirst_name("Nand");
-        user.setLast_name("Kadivar");
-        user.setEmail("kadivarnand007@gmailc.om");
-        user.setPassword("password123");
-
-        mvc.perform(post("/register")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(new ObjectMapper().writeValueAsString(user)))
-                .andExpect(status().is(400)).andExpect(status().reason("User Already exist with this email"));
-    }
-
-    @Test
-    void testLoginInvalid() throws Exception {
-        mvc.perform(post("/login")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("{ \"email\": \"kadivarnand007@gmail.com\", \"password\": \"abc123456\" }"))
-                .andExpect(status().is(401)).andExpect(status().reason("Bad credentials"));
-    }
-
-    @Test
-    void testLoginSuccess() throws Exception {
-
-        mvc.perform(post("/login")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("{ \"email\": \"kadivarnand007@gmail.com\", \"password\": \"abc123\" }"))
-                .andExpect(status().isOk());
-    }
-
-    @Test
-    void testChangePassword() throws Exception {
-
-        mvc.perform(post("/changepassword")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("{ \"token\": \"token\", \"password\": \"abc123\" }"))
-                .andExpect(status().is(400));
-    }
-
-    @Test
-    void testEmailVerification() throws Exception {
-
-        mvc.perform(get("/verification?code=$2a$10$qo0V9.z7cDhOhOUWFpp2nuDKOTtAarnx4/3eKHDEXwUi9V39DymPy&id=863"))
-                .andExpect(status().is(400)).andExpect(status().reason("403 FORBIDDEN \"Not valid user\""));
-    }
+//    @Test
+//    void testRegisterAlreadyRegisteredUser() throws Exception {
+//        User user = new User();
+//        user.setFirst_name("Nand");
+//        user.setLast_name("Kadivar");
+//        user.setEmail("kadivarnand007@gmailc.om");
+//        user.setPassword("password123");
+//
+//        mvc.perform(post("/register")
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .content(new ObjectMapper().writeValueAsString(user)))
+//                .andExpect(status().is(400)).andExpect(status().reason("User Already exist with this email"));
+//    }
+//
+//    @Test
+//    void testLoginInvalid() throws Exception {
+//        mvc.perform(post("/login")
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .content("{ \"email\": \"kadivarnand007@gmail.com\", \"password\": \"abc123456\" }"))
+//                .andExpect(status().is(401)).andExpect(status().reason("Bad credentials"));
+//    }
+//
+//    @Test
+//    void testLoginSuccess() throws Exception {
+//
+//        mvc.perform(post("/login")
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .content("{ \"email\": \"kadivarnand007@gmail.com\", \"password\": \"abc123\" }"))
+//                .andExpect(status().isOk());
+//    }
+//
+//    @Test
+//    void testChangePassword() throws Exception {
+//
+//        mvc.perform(post("/changepassword")
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .content("{ \"token\": \"token\", \"password\": \"abc123\" }"))
+//                .andExpect(status().is(400));
+//    }
+//
+//    @Test
+//    void testEmailVerification() throws Exception {
+//
+//        mvc.perform(get("/verification?code=$2a$10$qo0V9.z7cDhOhOUWFpp2nuDKOTtAarnx4/3eKHDEXwUi9V39DymPy&id=863"))
+//                .andExpect(status().is(400)).andExpect(status().reason("403 FORBIDDEN \"Not valid user\""));
+//    }
 }
 

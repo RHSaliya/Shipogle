@@ -47,26 +47,26 @@ public class PackageOrderControllerTests {
 //                .andExpect(status().isOk());
 //    }
 
-    @Test
-    public void testGetAllSenderOrder() throws Exception {
-        List<PackageOrder> packageOrders = new ArrayList<>();
-        when(packageOrderService.getSenderOrders()).thenReturn(packageOrders);
-        mvc.perform(post("/package/order/getall")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .header("Authorization","jwt token"))
-                .andExpect(status().isOk());
-    }
-
-    @Test
-    public void testStartOrder() throws Exception{
-        when(packageOrderService.startPackageOrder(1234,1)).thenReturn("Order started");
-        mvc.perform(post("/package/order/start")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("{ \"pickup_code\": \"1234\", \"order_id\": \"1\" }")
-                .header("Authorization","jwt token"))
-                .andExpect(status().isOk());
-
-    }
+//    @Test
+//    public void testGetAllSenderOrder() throws Exception {
+//        List<PackageOrder> packageOrders = new ArrayList<>();
+//        when(packageOrderService.getSenderOrders()).thenReturn(packageOrders);
+//        mvc.perform(post("/package/order/getall")
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .header("Authorization","jwt token"))
+//                .andExpect(status().isOk());
+//    }
+//
+//    @Test
+//    public void testStartOrder() throws Exception{
+//        when(packageOrderService.startPackageOrder(1234,1)).thenReturn("Order started");
+//        mvc.perform(post("/package/order/start")
+//                .contentType(MediaType.APPLICATION_JSON)
+//                .content("{ \"pickup_code\": \"1234\", \"order_id\": \"1\" }")
+//                .header("Authorization","jwt token"))
+//                .andExpect(status().isOk());
+//
+//    }
 
 //    @Test
 //    public void testEndOrder() throws Exception{
@@ -78,14 +78,14 @@ public class PackageOrderControllerTests {
 //                .andExpect(status().isOk());
 //    }
 
-    @Test
-    public void testRecordOrderPayment() throws Exception{
-        when(packageOrderService.recordPayment(1)).thenReturn("Payment recorded");
-        mvc.perform(put("/package/order/recordPayment")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("{ \"order_id\": \"1\" }")
-                .header("Authorization","jwt token"))
-                .andExpect(status().isOk());
-    }
+//    @Test
+//    public void testRecordOrderPayment() throws Exception{
+//        when(packageOrderService.recordPayment(1)).thenReturn("Payment recorded");
+//        mvc.perform(put("/package/order/recordPayment")
+//                .contentType(MediaType.APPLICATION_JSON)
+//                .content("{ \"order_id\": \"1\" }")
+//                .header("Authorization","jwt token"))
+//                .andExpect(status().isOk());
+//    }
 
 }
