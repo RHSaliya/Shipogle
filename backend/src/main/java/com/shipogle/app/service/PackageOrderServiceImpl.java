@@ -13,6 +13,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 import java.util.Random;
 
+import static com.shipogle.app.utility.Const.RANDOM_LOWER_BOUND;
 import static com.shipogle.app.utility.Const.RANDOM_UPPER_BOUND;
 
 @Service
@@ -35,9 +36,9 @@ public class PackageOrderServiceImpl implements PackageOrderService {
         packageOrder.setDeliverer(packageRequest.getDeliverer());
         packageOrder.setSender(packageRequest.getSender());
         packageOrder.setDriverRoute(packageRequest.getDriverRoute());
-        String pickup_code = String.format("%4d",random.nextInt(RANDOM_UPPER_BOUND));
-        String dop_code = String.format("%4d",random.nextInt(RANDOM_UPPER_BOUND));
-        packageOrder.setPaymentStatus(Integer.valueOf(0)); //Set payment status 0 indicates payment is not done
+        String pickup_code = String.valueOf(random.nextInt(RANDOM_UPPER_BOUND - RANDOM_LOWER_BOUND) + RANDOM_LOWER_BOUND);
+        String dop_code = String.valueOf(random.nextInt(RANDOM_UPPER_BOUND - RANDOM_LOWER_BOUND) + RANDOM_LOWER_BOUND);
+        packageOrder.setPaymentStatus(0); //Set payment status 0 indicates payment is not done
         packageOrder.setPickup_code(Integer.valueOf(pickup_code));
         packageOrder.setDrop_code(Integer.valueOf(dop_code));
 
@@ -49,9 +50,7 @@ public class PackageOrderServiceImpl implements PackageOrderService {
     @Override
     public boolean isPackageOrderExist(Integer package_id){
         PackageOrder order = packageOrderRepo.getBy_package_Id(package_id);
-        if(order!=null && order.isCanceled()==false)
-            return true;
-        return false;
+        return order != null && !order.isCanceled();
     }
 
     @Override
@@ -64,7 +63,7 @@ public class PackageOrderServiceImpl implements PackageOrderService {
         if(order.isStarted())
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cannot cancel order");
         order.setCanceled(true);
-        order.setPaymentStatus(Integer.valueOf(-1));
+        order.setPaymentStatus(-1);
         packageOrderRepo.save(order);
 
         return "order is canceled";
@@ -87,8 +86,7 @@ public class PackageOrderServiceImpl implements PackageOrderService {
     @Override
     public List<PackageOrder> getDelivererRouteOrders(Long driver_route_id){
         try {
-            List<PackageOrder> orders = packageOrderRepo.getAllByDriverRoute_Id(driver_route_id);
-            return orders;
+            return packageOrderRepo.getAllByDriverRoute_Id(driver_route_id);
         }catch (Exception e){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
@@ -97,8 +95,8 @@ public class PackageOrderServiceImpl implements PackageOrderService {
     @Override
     public String recordPayment(Integer package_order_id){
         try {
-            PackageOrder order = packageOrderRepo.getById(package_order_id);
-            order.setPaymentStatus(Integer.valueOf(1));
+            PackageOrder order = packageOrderRepo.getReferenceById(package_order_id);
+            order.setPaymentStatus(1);
             packageOrderRepo.save(order);
             return "Payment is recorded";
         }catch (Exception e){
@@ -108,9 +106,9 @@ public class PackageOrderServiceImpl implements PackageOrderService {
 
     @Override
     public String startPackageOrder(int pickup_code,int order_id){
-        PackageOrder order = packageOrderRepo.getById(order_id);
+        PackageOrder order = packageOrderRepo.getReferenceById(order_id);
 
-        if(!order.isCanceled() && Integer.valueOf(order.getPickup_code()) == pickup_code){
+        if(!order.isCanceled() && order.getPickup_code() == pickup_code){
             order.setStarted(true);
             packageOrderRepo.save(order);
             return "Order started";
@@ -121,7 +119,7 @@ public class PackageOrderServiceImpl implements PackageOrderService {
 
     @Override
     public String endPackageOrder(int drop_code,int order_id){
-        PackageOrder order = packageOrderRepo.getById(order_id);
+        PackageOrder order = packageOrderRepo.getReferenceById(order_id);
 
         if(isAbleToEndOrder(order,drop_code)){
             order.setDelivered(true);
@@ -134,6 +132,6 @@ public class PackageOrderServiceImpl implements PackageOrderService {
 
     private boolean isAbleToEndOrder(PackageOrder order, int drop_code){
         boolean active_order = !order.isCanceled() && order.isStarted();
-        return active_order && Integer.valueOf(order.getDrop_code()) == drop_code;
+        return active_order && order.getDrop_code() == drop_code;
     }
 }
