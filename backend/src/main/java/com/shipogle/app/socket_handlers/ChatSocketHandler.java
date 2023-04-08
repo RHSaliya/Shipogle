@@ -20,7 +20,7 @@ public class ChatSocketHandler extends TextWebSocketHandler {
     }
 
     private static final HashMap<String, WebSocketSession> sessions = new HashMap<>();
-    private static final String ID_SPLITTER = "!";
+    public static final String ID_SPLITTER = "!";
 
     @Override
     public void handleTextMessage(WebSocketSession session, TextMessage message) throws IOException {
@@ -52,5 +52,9 @@ public class ChatSocketHandler extends TextWebSocketHandler {
         String userId = url.substring(url.lastIndexOf("/") + 1);
         String[] ids = userId.split(ID_SPLITTER);
         return ids[1] + ID_SPLITTER + ids[0];
+    }
+
+    public HashMap<String, WebSocketSession> getSessions() {
+        return sessions;
     }
 }
