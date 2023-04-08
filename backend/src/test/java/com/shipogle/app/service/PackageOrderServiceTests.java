@@ -37,6 +37,12 @@ public class PackageOrderServiceTests {
     @Mock
     UserService userService;
 
+    private final int TEST_PACKAGE_ORDER_ID=10;
+
+    private final int PICKUP_CODE = 1254;
+
+    private final int INVALID_PICKUP_CODE = 1226;
+
     @Test
     public void createPackageOrderTestSuccess(){
         Package package1 = new Package();
@@ -53,31 +59,31 @@ public class PackageOrderServiceTests {
 
     @Test
     public void cancelOrderTestOrderNotFound(){
-        when(packageOrderRepo.getPackageOrderById(10)).thenReturn(null);
-        assertThrows(ResponseStatusException.class,()->packageOrderService.cancelOrder(10));
+        when(packageOrderRepo.getPackageOrderById(TEST_PACKAGE_ORDER_ID)).thenReturn(null);
+        assertThrows(ResponseStatusException.class,()->packageOrderService.cancelOrder(TEST_PACKAGE_ORDER_ID));
     }
 
     @Test
     public void cancelOrderTestAlreadyCanceled(){
-        when(packageOrderRepo.getPackageOrderById(10)).thenReturn(packageOrder);
+        when(packageOrderRepo.getPackageOrderById(TEST_PACKAGE_ORDER_ID)).thenReturn(packageOrder);
         when(packageOrder.isCanceled()).thenReturn(true);
-        assertThrows(ResponseStatusException.class,()->packageOrderService.cancelOrder(10));
+        assertThrows(ResponseStatusException.class,()->packageOrderService.cancelOrder(TEST_PACKAGE_ORDER_ID));
     }
 
     @Test
     public void cancelOrderTestAlreadyStarted(){
-        when(packageOrderRepo.getPackageOrderById(10)).thenReturn(packageOrder);
+        when(packageOrderRepo.getPackageOrderById(TEST_PACKAGE_ORDER_ID)).thenReturn(packageOrder);
         when(packageOrder.isStarted()).thenReturn(true);
-        assertThrows(ResponseStatusException.class,()->packageOrderService.cancelOrder(10));
+        assertThrows(ResponseStatusException.class,()->packageOrderService.cancelOrder(TEST_PACKAGE_ORDER_ID));
     }
 
     @Test
     public void cancelOrderTestSuccess(){
-        when(packageOrderRepo.getPackageOrderById(10)).thenReturn(packageOrder);
+        when(packageOrderRepo.getPackageOrderById(TEST_PACKAGE_ORDER_ID)).thenReturn(packageOrder);
         when(packageOrder.isStarted()).thenReturn(false);
         when(packageOrder.isStarted()).thenReturn(false);
         Mockito.lenient().when(packageOrderRepo.save(packageOrder)).thenReturn(packageOrder);
-        assertEquals("order is canceled",packageOrderService.cancelOrder(10));
+        assertEquals("order is canceled",packageOrderService.cancelOrder(TEST_PACKAGE_ORDER_ID));
     }
 
     @Test
@@ -125,30 +131,30 @@ public class PackageOrderServiceTests {
     public void startPackageOrderTestCanceledOrder(){
         when(packageOrderRepo.getById(1)).thenReturn(packageOrder);
         when(packageOrder.isCanceled()).thenReturn(true);
-        assertThrows(ResponseStatusException.class,()->packageOrderService.startPackageOrder(1254,1));
+        assertThrows(ResponseStatusException.class,()->packageOrderService.startPackageOrder(PICKUP_CODE,1));
     }
 
     @Test
     public void startPackageOrderTestSuccess(){
         when(packageOrderRepo.getById(1)).thenReturn(packageOrder);
         when(packageOrder.isCanceled()).thenReturn(false);
-        when(packageOrder.getPickup_code()).thenReturn(1234);
-        assertEquals("Order started",packageOrderService.startPackageOrder(1234,1));
+        when(packageOrder.getPickup_code()).thenReturn(PICKUP_CODE);
+        assertEquals("Order started",packageOrderService.startPackageOrder(PICKUP_CODE,1));
     }
 
     @Test
     public void startPackageOrderTestInvalidCode(){
         when(packageOrderRepo.getById(1)).thenReturn(packageOrder);
         when(packageOrder.isCanceled()).thenReturn(false);
-        when(packageOrder.getPickup_code()).thenReturn(1226);
-        assertThrows(ResponseStatusException.class,()->packageOrderService.startPackageOrder(1254,1));
+        when(packageOrder.getPickup_code()).thenReturn(INVALID_PICKUP_CODE);
+        assertThrows(ResponseStatusException.class,()->packageOrderService.startPackageOrder(PICKUP_CODE,1));
     }
 
     @Test
     public void endPackageOrderTestOrderNotStarted(){
         when(packageOrderRepo.getById(1)).thenReturn(packageOrder);
         when(packageOrder.isStarted()).thenReturn(false);
-        assertThrows(ResponseStatusException.class,()->packageOrderService.endPackageOrder(1254,1));
+        assertThrows(ResponseStatusException.class,()->packageOrderService.endPackageOrder(PICKUP_CODE,1));
     }
 
     @Test
@@ -156,8 +162,8 @@ public class PackageOrderServiceTests {
         when(packageOrderRepo.getById(1)).thenReturn(packageOrder);
         when(packageOrder.isCanceled()).thenReturn(false);
         when(packageOrder.isStarted()).thenReturn(true);
-        when(packageOrder.getDrop_code()).thenReturn(1234);
-        assertEquals("Order ended",packageOrderService.endPackageOrder(1234,1));
+        when(packageOrder.getDrop_code()).thenReturn(PICKUP_CODE);
+        assertEquals("Order ended",packageOrderService.endPackageOrder(PICKUP_CODE,1));
     }
 
     @Test
@@ -165,8 +171,8 @@ public class PackageOrderServiceTests {
         when(packageOrderRepo.getById(1)).thenReturn(packageOrder);
         when(packageOrder.isCanceled()).thenReturn(false);
         when(packageOrder.isStarted()).thenReturn(true);
-        when(packageOrder.getDrop_code()).thenReturn(1226);
-        assertThrows(ResponseStatusException.class,()->packageOrderService.endPackageOrder(1254,1));
+        when(packageOrder.getDrop_code()).thenReturn(INVALID_PICKUP_CODE);
+        assertThrows(ResponseStatusException.class,()->packageOrderService.endPackageOrder(PICKUP_CODE,1));
     }
 
     @Test
