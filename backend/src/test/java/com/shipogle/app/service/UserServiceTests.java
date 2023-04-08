@@ -45,6 +45,7 @@ public class UserServiceTests {
 
     @Mock
     SecurityContext securityContext;
+    private final int TEST_USER_ID = 40;
 
     @BeforeEach
     public void init(){
@@ -91,7 +92,7 @@ public class UserServiceTests {
 
     @Test
     public void getUserLocationTest(){
-        Mockito.when(userRepo.getUserById(40)).thenReturn(user);
+        Mockito.when(userRepo.getUserById(TEST_USER_ID)).thenReturn(user);
         Mockito.when(user.getLatitude()).thenReturn("44.8857° N");
         Mockito.when(user.getLongitude()).thenReturn("63.1005° W");
 
@@ -99,13 +100,13 @@ public class UserServiceTests {
         coordinates.put("latitude","44.8857° N");
         coordinates.put("longitude", "63.1005° W");
 
-        assertEquals(coordinates,userService.getUserLocation(40));
+        assertEquals(coordinates,userService.getUserLocation(TEST_USER_ID));
     }
 
     @Test
     public void getUserLocationTestNullUser(){
-        Mockito.when(userRepo.getUserById(40)).thenReturn(null);
+        Mockito.when(userRepo.getUserById(TEST_USER_ID)).thenReturn(null);
 
-        assertEquals(null,userService.getUserLocation(40));
+        assertEquals(null,userService.getUserLocation(TEST_USER_ID));
     }
 }

@@ -37,13 +37,14 @@ public class RatingServiceTests {
     User user;
     @Mock
     Rating rating;
+    private final float TEST_RATING = 4.5f;
 
     @Test
     public void storeRatingTestInvalidDriverRoute(){
         when(driverRouteRepo.getDriverRouteById(1L)).thenReturn(null);
         when(userService.getLoggedInUser()).thenReturn(user);
 
-        assertEquals("Not able to post rating",ratingService.storeRating(1L,4.5f,"review"));
+        assertEquals("Not able to post rating",ratingService.storeRating(1L,TEST_RATING,"review"));
     }
 
     @Test
@@ -51,7 +52,7 @@ public class RatingServiceTests {
         when(driverRouteRepo.getDriverRouteById(1L)).thenReturn(driverRoute);
         when(userService.getLoggedInUser()).thenReturn(null);
 
-        assertEquals("Not able to post rating",ratingService.storeRating(1L,4.5f,"review"));
+        assertEquals("Not able to post rating",ratingService.storeRating(1L,TEST_RATING,"review"));
     }
 
     @Test
@@ -60,7 +61,7 @@ public class RatingServiceTests {
         when(driverRouteRepo.getDriverRouteById(1L)).thenReturn(driverRoute);
         when(userService.getLoggedInUser()).thenReturn(user);
 
-        assertEquals("Rating is posted",ratingService.storeRating(1L,4.5f,"review"));
+        assertEquals("Rating is posted",ratingService.storeRating(1L,TEST_RATING,"review"));
     }
 
     @Test
@@ -69,7 +70,7 @@ public class RatingServiceTests {
         when(driverRouteRepo.getDriverRouteById(1L)).thenReturn(driverRoute);
         when(userService.getLoggedInUser()).thenThrow(UsernameNotFoundException.class);
 
-        assertEquals(null,ratingService.storeRating(1L,4.5f,"review"));
+        assertEquals(null,ratingService.storeRating(1L,TEST_RATING,"review"));
     }
 
     @Test

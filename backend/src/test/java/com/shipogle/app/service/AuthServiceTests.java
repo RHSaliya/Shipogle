@@ -71,6 +71,8 @@ public class AuthServiceTests {
 
     @Mock
     JwtToken token;
+    private final int TEST_USER_ID = 40;
+    private final String TEST_TOKEN = "eyJhbGciOiJIUzM4NCJ9.eyJlbWFpbCI6ImthZGl2YXJuYW5kMDA3QGdtYWlsLmNvbSIsInN1YiI6Ik5hbmQiLCJpYXQiOjE2ODA4ODE1NTUsImV4cCI6MTgzNjQwMTU1NX0.EjKLqlrUT2zhuTjh_it8-APBTObClIZVpPbxCKtbw1wUB3iseec1jChxlLco8TU2";
 
     @BeforeEach
     public void init(){
@@ -104,7 +106,7 @@ public class AuthServiceTests {
 
         Mockito.lenient().when(user.getEmail()).thenReturn("kadivarnand007@gmail.com");
         Mockito.lenient().when(user.getIs_verified()).thenReturn(true);
-        Mockito.lenient().when(user.getUser_id()).thenReturn(40);
+        Mockito.lenient().when(user.getUser_id()).thenReturn(TEST_USER_ID);
         Mockito.lenient().when(userRepo.getById(user.getUser_id())).thenReturn(user);
 
         assertThrows(ResponseStatusException.class,() -> authService.verifyEmail(code, user.getUser_id()));
@@ -134,7 +136,7 @@ public class AuthServiceTests {
 
         Mockito.lenient().when(user.getEmail()).thenReturn("kadivarnand007@gmail.com");
         Mockito.lenient().when(user.getIs_verified()).thenReturn(false);
-        Mockito.lenient().when(user.getUser_id()).thenReturn(40);
+        Mockito.lenient().when(user.getUser_id()).thenReturn(TEST_USER_ID);
         Mockito.lenient().when(userRepo.getById(user.getUser_id())).thenReturn(null);
 
         assertThrows(ResponseStatusException.class,() -> authService.verifyEmail(code, user.getUser_id()));
@@ -173,7 +175,7 @@ public class AuthServiceTests {
 
     @Test
     public void resetPasswordTest(){
-        String token = "eyJhbGciOiJIUzM4NCJ9.eyJlbWFpbCI6ImthZGl2YXJuYW5kMDA3QGdtYWlsLmNvbSIsInN1YiI6Ik5hbmQiLCJpYXQiOjE2ODA4ODE1NTUsImV4cCI6MTgzNjQwMTU1NX0.EjKLqlrUT2zhuTjh_it8-APBTObClIZVpPbxCKtbw1wUB3iseec1jChxlLco8TU2";
+        String token = TEST_TOKEN;
         String password = "abc213";
         ForgotPasswordToken forgotPasswordToken = new ForgotPasswordToken();
         forgotPasswordToken.setIs_active(true);

@@ -49,14 +49,15 @@ public class PackageRequestServiceTests {
     Package _package;
     @Mock
     PackageRepository packageRepo;
+    private final int TEST_PACKAGE_ID = 20;
 
     @Test
     public void sendRequestTestOrderAlreadyExist(){
         Map<String,String> req = new HashMap<>();
         req.put("package_id","20");
         req.put("driver_route_id","1");
-        Mockito.when(packageRequestRepo.countAllBy_package_IdAndDriverRoute_Id(20, 1L)).thenReturn(0);
-        Mockito.when(packageOrderService.isPackageOrderExist(20)).thenReturn(true);
+        Mockito.when(packageRequestRepo.countAllBy_package_IdAndDriverRoute_Id(TEST_PACKAGE_ID, 1L)).thenReturn(0);
+        Mockito.when(packageOrderService.isPackageOrderExist(TEST_PACKAGE_ID)).thenReturn(true);
 
         assertThrows(ResponseStatusException.class,()->packageRequestService.sendRequest(req));
     }
@@ -66,8 +67,8 @@ public class PackageRequestServiceTests {
         Map<String,String> req = new HashMap<>();
         req.put("package_id","20");
         req.put("driver_route_id","1");
-        Mockito.when(packageRequestRepo.countAllBy_package_IdAndDriverRoute_Id(20, 1L)).thenReturn(1);
-        Mockito.when(packageOrderService.isPackageOrderExist(20)).thenReturn(false);
+        Mockito.when(packageRequestRepo.countAllBy_package_IdAndDriverRoute_Id(TEST_PACKAGE_ID, 1L)).thenReturn(1);
+        Mockito.when(packageOrderService.isPackageOrderExist(TEST_PACKAGE_ID)).thenReturn(false);
 
         assertThrows(ResponseStatusException.class,()->packageRequestService.sendRequest(req));
     }
@@ -77,8 +78,8 @@ public class PackageRequestServiceTests {
         Map<String,String> req = new HashMap<>();
         req.put("package_id","20");
         req.put("driver_route_id","1");
-        Mockito.when(packageRequestRepo.countAllBy_package_IdAndDriverRoute_Id(20, 1L)).thenReturn(0);
-        Mockito.when(packageOrderService.isPackageOrderExist(20)).thenReturn(false);
+        Mockito.when(packageRequestRepo.countAllBy_package_IdAndDriverRoute_Id(TEST_PACKAGE_ID, 1L)).thenReturn(0);
+        Mockito.when(packageOrderService.isPackageOrderExist(TEST_PACKAGE_ID)).thenReturn(false);
 
         Mockito.when(driverRouteRepo.getDriverRouteById(Long.valueOf(1))).thenReturn(null);
 
@@ -125,8 +126,8 @@ public class PackageRequestServiceTests {
         Mockito.when(packageRequestRepo.getPackageRequestById(1)).thenReturn(packageRequest);
         Mockito.when(packageRequest.getStatus()).thenReturn("pending");
         Mockito.when(packageRequest.get_package()).thenReturn(_package);
-        Mockito.when(_package.getId()).thenReturn(10);
-        Mockito.when(packageRequestRepo.getAllBy_package_Id(10)).thenReturn(requests);
+        Mockito.when(_package.getId()).thenReturn(TEST_PACKAGE_ID);
+        Mockito.when(packageRequestRepo.getAllBy_package_Id(TEST_PACKAGE_ID)).thenReturn(requests);
 
         Mockito.when(packageOrderService.createPackageOrder(packageRequest)).thenReturn("order created");
 
@@ -141,8 +142,8 @@ public class PackageRequestServiceTests {
         Mockito.when(packageRequestRepo.getPackageRequestById(1)).thenReturn(packageRequest);
         Mockito.when(packageRequest.getStatus()).thenReturn("pending");
         Mockito.when(packageRequest.get_package()).thenReturn(_package);
-        Mockito.when(_package.getId()).thenReturn(10);
-        Mockito.when(packageRequestRepo.getAllBy_package_Id(10)).thenReturn(requests);
+        Mockito.when(_package.getId()).thenReturn(TEST_PACKAGE_ID);
+        Mockito.when(packageRequestRepo.getAllBy_package_Id(TEST_PACKAGE_ID)).thenReturn(requests);
 
         Mockito.when(packageOrderService.createPackageOrder(packageRequest)).thenReturn("order not created");
 

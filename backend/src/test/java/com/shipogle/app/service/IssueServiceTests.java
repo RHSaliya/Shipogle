@@ -39,6 +39,7 @@ public class IssueServiceTests {
     PackageOrder packageOrder;
     @Mock
     PackageOrderRepository packageOrderRepo;
+    private final int TEST_ORDER_ID = 2;
 
     @Test
     public void postIssueTestAlreadyRaisedIssue(){
@@ -54,7 +55,7 @@ public class IssueServiceTests {
         when(userService.getLoggedInUser()).thenReturn(user);
         when(issueRepo.getIssueByUser(user)).thenReturn(issue);
         when(issue.getPackageOrder()).thenReturn(packageOrder);
-        when(packageOrder.getId()).thenReturn(2);
+        when(packageOrder.getId()).thenReturn(TEST_ORDER_ID);
         assertEquals("Issue registered",issueService.postIssue(1,"issue description"));
     }
 
