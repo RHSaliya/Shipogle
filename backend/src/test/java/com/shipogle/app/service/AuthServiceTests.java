@@ -112,20 +112,20 @@ public class AuthServiceTests {
         assertThrows(ResponseStatusException.class,() -> authService.verifyEmail(code, user.getUser_id()));
     }
 
-//    @Test
-//    public void verifyEmailTestVerifyUser() {
-//
-//        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-//
-//        String code = encoder.encode("kadivarnand007@gmail.com");
-//
-//        Mockito.lenient().when(user.getEmail()).thenReturn("kadivarnand007@gmail.com");
-//        Mockito.lenient().when(user.getIs_verified()).thenReturn(false);
-//        Mockito.lenient().when(user.getUser_id()).thenReturn(40);
-//        Mockito.lenient().when(userRepo.getById(user.getUser_id())).thenReturn(user);
-//
-//        assertEquals("Email Verified",authService.verifyEmail(code, user.getUser_id()));
-//    }
+    @Test
+    public void verifyEmailTestVerifyUser() {
+
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
+        String code = encoder.encode("kadivarnand007@gmail.com");
+
+        Mockito.lenient().when(user.getEmail()).thenReturn("kadivarnand007@gmail.com");
+        Mockito.lenient().when(user.getIs_verified()).thenReturn(false);
+        Mockito.lenient().when(user.getUser_id()).thenReturn(TEST_USER_ID);
+        Mockito.lenient().when(userRepo.getById(user.getUser_id())).thenReturn(user);
+
+        assertEquals("Email Verified",authService.verifyEmail(code, user.getUser_id()));
+    }
 
     @Test
     public void verifyEmailTestVerifyNotValidUser() {

@@ -98,6 +98,5 @@ public class AuthControllerTests {
         authController.updateUser("token",user);
         verify(authService,times(1)).updateUser("token",user);
     }
-
 }
 
