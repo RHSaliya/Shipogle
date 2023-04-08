@@ -36,7 +36,7 @@ function Payment() {
       (res) => {
         commFunc.showAlertMessage("success", "success", 2000, "bottom");
         customAxios
-          .put(Constants, {
+          .put(Constants.UPDATEPAYMENTSTAT, {
             package_order_id: state.order.id,
           })
           .then(

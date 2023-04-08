@@ -26,6 +26,31 @@ export default function PackageRequests() {
           commFunc.showAlertMessage("Request Rejected", "warning", 3000, "top");
         } else {
           commFunc.showAlertMessage("Request Accepted", "success", 3000, "top");
+          const body = {
+            senderId: request.driverRoute.driverId,
+
+            receiverId: request.sender.user_id,
+
+            message: "Hi, I have accepted your request",
+          };
+          customAxios.post(Constants.API_CHAT, body).then(
+            (res) => {
+              commFunc.showAlertMessage(
+                "chat message sent to the sender",
+                "success",
+                2000,
+                "bottom"
+              );
+            },
+            (error) => {
+              commFunc.showAlertMessage(
+                "failed to send chat message",
+                "error",
+                3000,
+                "bottom"
+              );
+            }
+          );
         }
         const body = {
           userId: request.sender.user_id,

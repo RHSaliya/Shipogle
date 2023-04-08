@@ -26,18 +26,13 @@ export default function Issue() {
     };
     customAxios.post(Constants.POSTISSUE, body).then(
       (res) => {
-        commFunc.showAlertMessage(
-          "Rating submitted",
-          "success",
-          3000,
-          "bottom"
-        );
+        commFunc.showAlertMessage("Issue submitted", "success", 3000, "bottom");
         navigate("/orders");
       },
       (error) => {
         console.error(error);
         commFunc.showAlertMessage(
-          "Rating not submitted",
+          "Issue not submitted",
           "error",
           3000,
           "bottom"
