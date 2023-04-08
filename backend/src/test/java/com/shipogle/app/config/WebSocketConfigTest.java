@@ -28,7 +28,7 @@ public class WebSocketConfigTest {
     @Test
     public void testNotificationSocketHandler() throws Exception {
         WebSocketSession session = Mockito.mock(WebSocketSession.class);
-        Mockito.when(session.getUri()).thenReturn(new URI("ws://localhost:8080/notification/60"));
+        Mockito.when(session.getUri()).thenReturn(URI.create("ws://localhost:8080/notification/60"));
 
         Notification notification = new Notification();
         notification.setMessage("Hello, world!");

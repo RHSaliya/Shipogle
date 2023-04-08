@@ -55,12 +55,7 @@ public class ChatSocketHandlerTests {
     public void testAfterConnectionClosed() throws Exception {
         WebSocketSession sessionToRemove = Mockito.mock(WebSocketSession.class);
 
-        MockHttpServletRequest request = new MockHttpServletRequest();
-        String requestURI = "/chatSocket/" + mockUniqueId();
-        request.setRequestURI(requestURI);
-        request.setServerPort(8080);
-
-        Mockito.when(sessionToRemove.getUri()).thenReturn(URI.create(requestURI));
+        Mockito.when(sessionToRemove.getUri()).thenReturn(URI.create("/chatSocket/" + mockUniqueId()));
 
         CloseStatus closeStatus = new CloseStatus(1000, "closed");
         chatSocketHandler.afterConnectionEstablished(sessionToRemove);

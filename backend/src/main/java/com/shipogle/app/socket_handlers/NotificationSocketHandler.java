@@ -14,6 +14,7 @@ import java.util.HashMap;
 public class NotificationSocketHandler extends TextWebSocketHandler {
 
     private static NotificationSocketHandler instance;
+
     public static NotificationSocketHandler getInstance() {
         if (instance == null)
             instance = new NotificationSocketHandler();
@@ -22,14 +23,13 @@ public class NotificationSocketHandler extends TextWebSocketHandler {
 
     private static final HashMap<String, WebSocketSession> sessions = new HashMap<>();
 
-    public void sendNotification(Notification notification){
+    public void sendNotification(Notification notification) {
         WebSocketSession receiverSession = sessions.get(String.valueOf(notification.getUserId()));
-        if (receiverSession != null)
-            try {
-                receiverSession.sendMessage(new TextMessage(notification.toString()));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        try {
+            receiverSession.sendMessage(new TextMessage(notification.toString()));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -52,5 +52,9 @@ public class NotificationSocketHandler extends TextWebSocketHandler {
         if (sessionOld != null)
             sessionOld.close();
         super.afterConnectionClosed(session, status);
+    }
+
+    public HashMap<String, WebSocketSession> getSessions() {
+        return sessions;
     }
 }
