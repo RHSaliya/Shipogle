@@ -31,7 +31,7 @@ const ExpandButton = styled(Button)({
   color: "black",
 });
 
-export default function NavBar({ authStatus }) {
+export default function NavBar({ authStatus, authStatusUpdater }) {
   const { isAuthenticated, login, logout } = useContext(AuthContext);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -59,10 +59,14 @@ export default function NavBar({ authStatus }) {
   };
 
   useEffect(() => {
-    if (authStatus) {
+    if (authStatus && isAuthenticated) {
       login();
+    } else if (!authStatus && isAuthenticated) {
+      login();
+    } else if (!authStatus && !isAuthenticated) {
+      logout();
     }
-  }, [authStatus, login]);
+  }, [authStatus, login, logout, isAuthenticated]);
 
   const handleClickOnExpand = (event) => {
     setAnchorEl(event.currentTarget);
@@ -86,8 +90,10 @@ export default function NavBar({ authStatus }) {
           }
         );
       });
+    } else {
+      authStatusUpdater(false);
     }
-  }, [isAuthenticated]);
+  }, [authStatusUpdater, isAuthenticated]);
 
   return (
     <div className="navbar-container">

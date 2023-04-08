@@ -24,7 +24,7 @@ window.initMap = function () {
 const App = (props) => {
   const location = useLocation();
   const navigate = useNavigate();
-  const commFunc = new CommonFunctions();
+
   const [showAlert, setShowAlert] = useState(false);
   const [pathname, setPathname] = useState(location.pathname);
   const [tokenChecked, setTokenChecked] = useState(false);
@@ -74,6 +74,7 @@ const App = (props) => {
   }, []);
 
   useEffect(() => {
+    const commFunc = new CommonFunctions();
     setPathname(location.pathname);
     const token = window.localStorage.getItem("authToken");
     const excludedPaths = [
@@ -118,7 +119,7 @@ const App = (props) => {
         setTokenChecked(true);
       }
     }
-  }, [commFunc, location, navigate, pathname, tokenChecked]);
+  }, [location, navigate, pathname, tokenChecked]);
 
   const setAlert = (message, type, duration, position) => {
     setShowAlert(true);
@@ -134,7 +135,10 @@ const App = (props) => {
   return (
     <>
       <AuthProvider>
-        <NavBar authStatus={tokenChecked}></NavBar>
+        <NavBar
+          authStatus={tokenChecked}
+          authStatusUpdater={setTokenChecked}
+        ></NavBar>
         {pathname === "/" && (
           <>
             <div
