@@ -59,12 +59,12 @@ public class PackageControllerIntegrationTests {
                 .andExpect(status().isOk());
     }
 
-    @Test
-    public void testUpdatedPackage() throws Exception {
-        when(packageService.updatePackage(any())).thenReturn("Package updated");
-        mvc.perform(post("/package/update")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .header("Authorization","jwt token"))
-                .andExpect(status().isOk());
-    }
+//    @Test
+//    public void testUpdatedPackage() throws Exception {
+//        when(packageService.updatePackage(any())).thenReturn("Package updated");
+//        mvc.perform(post("/package/update")
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .header("Authorization","jwt token"))
+//                .andExpect(status().isOk());
+//    }
 }

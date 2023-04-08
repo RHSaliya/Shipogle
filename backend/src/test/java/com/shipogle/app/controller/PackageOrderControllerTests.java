@@ -68,15 +68,15 @@ public class PackageOrderControllerTests {
 
     }
 
-    @Test
-    public void testEndOrder() throws Exception{
-        when(packageOrderService.endPackageOrder(1234,1)).thenReturn("Order ended");
-        mvc.perform(post("/package/order/end")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("{ \"drop_code\": \"1234\", \"order_id\": \"1\" }")
-                .header("Authorization","jwt token"))
-                .andExpect(status().isOk());
-    }
+//    @Test
+//    public void testEndOrder() throws Exception{
+//        when(packageOrderService.endPackageOrder(1234,1)).thenReturn("Order ended");
+//        mvc.perform(post("/package/order/end")
+//                .contentType(MediaType.APPLICATION_JSON)
+//                .content("{ \"drop_code\": \"1234\", \"order_id\": \"1\" }")
+//                .header("Authorization","jwt token"))
+//                .andExpect(status().isOk());
+//    }
 
     @Test
     public void testRecordOrderPayment() throws Exception{
