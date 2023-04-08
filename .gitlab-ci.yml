@@ -12,6 +12,17 @@ stages:
 
 backend-build:
   stage: build
+  tags:
+    - ugrad
+  image: maven:latest
+  script:
+    - echo "Started building backend application."
+    - cd backend
+    - mvn clean package
+    - echo "Backend application has been built successfully."
+  rules:
+    - changes:
+        - backend/**/*
   artifacts:
     when: on_success
     paths:
@@ -19,6 +30,9 @@ backend-build:
 
 backend-test:
   stage: test
+  tags:
+    - ugrad
+  image: maven:latest
   script:
     - echo "Backend application test started."
     - cd backend
