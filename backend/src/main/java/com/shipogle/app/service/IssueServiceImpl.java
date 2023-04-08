@@ -54,10 +54,6 @@ public class IssueServiceImpl implements IssueService {
 
     @Override
     public List<Issue> getAllIssues(){
-        try {
             return issueRepo.findAll();
-        }catch (Exception e){
-            return null;
-        }
     }
 }

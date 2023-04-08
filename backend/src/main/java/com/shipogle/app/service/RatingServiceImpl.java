@@ -23,6 +23,8 @@ public class RatingServiceImpl implements RatingService {
 
     @Autowired
     DriverRouteRepository driverRouteRepo;
+    @Autowired
+    UserService userService;
 
     @Override
     public String storeRating(Long driver_route_id, float star, String review){
@@ -30,10 +32,12 @@ public class RatingServiceImpl implements RatingService {
             Rating rating = new Rating();
             DriverRoute driverRoute = driverRouteRepo.getDriverRouteById(driver_route_id);
 
-            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-            String user_email = auth.getPrincipal().toString();
+//            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//            String user_email = auth.getPrincipal().toString();
+//
+//            User sender = userRepo.getUserByEmail(user_email);
 
-            User sender = userRepo.getUserByEmail(user_email);
+            User sender = userService.getLoggedInUser();
 
             if(driverRoute==null || sender==null)
                 return "Not able to post rating";
@@ -67,10 +71,12 @@ public class RatingServiceImpl implements RatingService {
     @Override
     public List<Rating> getDelivererRating(){
         try {
-            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-            String user_email = auth.getPrincipal().toString();
+//            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//            String user_email = auth.getPrincipal().toString();
+//
+//            User deliverer = userRepo.getUserByEmail(user_email);
 
-            User deliverer = userRepo.getUserByEmail(user_email);
+            User deliverer = userService.getLoggedInUser();
 
             List<Rating> ratings = ratingRepo.getAllByDriverRoute_DriverId(Long.valueOf(deliverer.getUser_id()));
 
@@ -85,10 +91,12 @@ public class RatingServiceImpl implements RatingService {
     @Override
     public List<Rating> getSenderPostedRating(){
         try {
-            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-            String user_email = auth.getPrincipal().toString();
+//            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//            String user_email = auth.getPrincipal().toString();
+//
+//            User sender = userRepo.getUserByEmail(user_email);
 
-            User sender = userRepo.getUserByEmail(user_email);
+            User sender = userService.getLoggedInUser();
 
             List<Rating> ratings = ratingRepo.getAllByUser_Id(sender.getUser_id());
 

@@ -7,14 +7,21 @@ import com.shipogle.app.repository.IssueRepository;
 import com.shipogle.app.repository.PackageOrderRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.rules.ExpectedException;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+
+import javax.management.InvalidAttributeValueException;
+import java.util.InvalidPropertiesFormatException;
+import java.util.concurrent.ExecutionException;
 
 import static net.bytebuddy.matcher.ElementMatchers.any;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class IssueServiceTests {
@@ -35,19 +42,31 @@ public class IssueServiceTests {
 
     @Test
     public void postIssueTestAlreadyRaisedIssue(){
-        Mockito.when(userService.getLoggedInUser()).thenReturn(user);
-        Mockito.when(issueRepo.getIssueByUser(user)).thenReturn(issue);
-        Mockito.when(issue.getPackageOrder()).thenReturn(packageOrder);
-        Mockito.when(packageOrder.getId()).thenReturn(1);
+        when(userService.getLoggedInUser()).thenReturn(user);
+        when(issueRepo.getIssueByUser(user)).thenReturn(issue);
+        when(issue.getPackageOrder()).thenReturn(packageOrder);
+        when(packageOrder.getId()).thenReturn(1);
         assertEquals("Issue Already registered",issueService.postIssue(1,"issue description"));
     }
 
     @Test
     public void postIssueTestSuccess(){
-        Mockito.when(userService.getLoggedInUser()).thenReturn(user);
-        Mockito.when(issueRepo.getIssueByUser(user)).thenReturn(issue);
-        Mockito.when(issue.getPackageOrder()).thenReturn(packageOrder);
-        Mockito.when(packageOrder.getId()).thenReturn(2);
+        when(userService.getLoggedInUser()).thenReturn(user);
+        when(issueRepo.getIssueByUser(user)).thenReturn(issue);
+        when(issue.getPackageOrder()).thenReturn(packageOrder);
+        when(packageOrder.getId()).thenReturn(2);
         assertEquals("Issue registered",issueService.postIssue(1,"issue description"));
+    }
+
+    @Test
+    public void postIssueTestException(){
+        when(userService.getLoggedInUser()).thenThrow(UsernameNotFoundException.class);
+        assertEquals(null,issueService.postIssue(1,"issue description"));
+    }
+
+    @Test
+    public void getAllIssuesTestSuccess(){
+        issueService.getAllIssues();
+        Mockito.verify(issueRepo,Mockito.times(1)).findAll();
     }
 }

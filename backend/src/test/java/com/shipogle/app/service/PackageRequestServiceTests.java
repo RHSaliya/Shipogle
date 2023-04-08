@@ -14,6 +14,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
@@ -134,6 +135,22 @@ public class PackageRequestServiceTests {
     }
 
     @Test
+    public void acceptRequestTestUnableToCreateOrder(){
+        List<PackageRequest> requests = new ArrayList<>();
+
+        Mockito.when(packageRequestRepo.getPackageRequestById(1)).thenReturn(packageRequest);
+        Mockito.when(packageRequest.getStatus()).thenReturn("pending");
+        Mockito.when(packageRequest.get_package()).thenReturn(_package);
+        Mockito.when(_package.getId()).thenReturn(10);
+        Mockito.when(packageRequestRepo.getAllBy_package_Id(10)).thenReturn(requests);
+
+        Mockito.when(packageOrderService.createPackageOrder(packageRequest)).thenReturn("order not created");
+
+        assertThrows(ResponseStatusException.class,()->packageRequestService.acceptRequest(1));
+
+    }
+
+    @Test
     public void rejectRequestTestAlreadyRejected(){
         Mockito.when(packageRequestRepo.getPackageRequestById(1)).thenReturn(packageRequest);
         Mockito.when(packageRequest.getStatus()).thenReturn("rejected");
@@ -174,6 +191,12 @@ public class PackageRequestServiceTests {
     @Test
     public void getRequestTestUserNotFound(){
         Mockito.when(userService.getLoggedInUser()).thenReturn(null);
+        assertEquals(null,packageRequestService.getRequest());
+    }
+
+    @Test
+    public void getRequestTestUserNotFoundEception(){
+        Mockito.when(userService.getLoggedInUser()).thenThrow(UsernameNotFoundException.class);
         assertEquals(null,packageRequestService.getRequest());
     }
 
