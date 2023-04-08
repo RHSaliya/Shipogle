@@ -1,23 +1,14 @@
 package com.shipogle.app.config;
 
-import com.shipogle.app.model.Notification;
 import com.shipogle.app.socket_handlers.ChatSocketHandler;
 import com.shipogle.app.socket_handlers.NotificationSocketHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.socket.CloseStatus;
-import org.springframework.web.socket.TextMessage;
-import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.config.annotation.EnableWebSocket;
 import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
 import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
-import org.springframework.web.socket.handler.TextWebSocketHandler;
 import org.springframework.web.socket.server.support.DefaultHandshakeHandler;
 import org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor;
-
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Objects;
 
 @Configuration
 @EnableWebSocket
