@@ -36,6 +36,10 @@ const Inbox = () => {
         setMessages(response.data);
       });
 
+    if (ws.current) {
+      ws.current.close();
+    }
+
     ws.current = new WebSocket(
       `${Constants.SOCKET_CHAT}/${getUniqueSocketAddress(user, selectedUser)}`
     );
