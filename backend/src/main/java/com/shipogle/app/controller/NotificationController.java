@@ -1,18 +1,21 @@
 package com.shipogle.app.controller;
 
-import com.shipogle.app.config.WebSocketConfig;
 import com.shipogle.app.model.Notification;
 import com.shipogle.app.model.User;
 import com.shipogle.app.repository.NotificationRepository;
 import com.shipogle.app.repository.UserRepository;
 import com.shipogle.app.service.AuthService;
+import com.shipogle.app.socket_handlers.NotificationSocketHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @Transactional
@@ -26,7 +29,7 @@ public class NotificationController {
     private NotificationRepository notificationRepository;
 
     @Autowired
-    private WebSocketConfig webSocketConfig;
+    private AuthService authService;
 
     @PostMapping
     public ResponseEntity<?> sendNotification(@RequestBody Map<String, String> json) {
@@ -55,7 +58,7 @@ public class NotificationController {
 
             notificationRepository.save(notification);
             System.out.println("notification = " + notification);
-            webSocketConfig.notificationHandler().sendNotification(notification);
+            NotificationSocketHandler.getInstance().sendNotification(user.getUser_id(),notification);
 
             return ResponseEntity.ok().build();
         } catch (Exception e) {
@@ -66,7 +69,7 @@ public class NotificationController {
 
     @PostMapping("/get")
     public List<Notification> getNotificationsByToken(@RequestHeader("Authorization") String token) {
-        User user = new AuthService().getUserInfo(token);
+        User user = authService.getUserInfo(token);
         if (user == null) {
             throw new RuntimeException("Invalid user ID");
         }
@@ -100,18 +103,7 @@ public class NotificationController {
         return ResponseEntity.ok("Deleted notifications for user with id: " + userId);
     }
 
-    @DeleteMapping("/{notificationId}")
-    public ResponseEntity<?> deleteNotification(@PathVariable long notificationId) {
-        Optional<Notification> notificationOptional = notificationRepository.findById(notificationId);
-        if (notificationOptional.isEmpty()) {
-            throw new RuntimeException("Invalid notification ID");
-        }
-
-        Notification notification = notificationOptional.get();
-
-        notificationRepository.delete(notification);
-
-        return ResponseEntity.ok("Deleted notification with id: " + notificationId);
+    public AuthService getAuthService() {
+        return authService;
     }
-
 }

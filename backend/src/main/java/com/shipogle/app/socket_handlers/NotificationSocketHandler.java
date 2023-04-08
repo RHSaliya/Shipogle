@@ -23,10 +23,11 @@ public class NotificationSocketHandler extends TextWebSocketHandler {
 
     private static final HashMap<String, WebSocketSession> sessions = new HashMap<>();
 
-    public void sendNotification(Notification notification) {
-        WebSocketSession receiverSession = sessions.get(String.valueOf(notification.getUserId()));
+    public void sendNotification(int userId, Notification notification) {
+        WebSocketSession receiverSession = sessions.get(String.valueOf(userId));
         try {
-            receiverSession.sendMessage(new TextMessage(notification.toString()));
+            if (receiverSession != null)
+                receiverSession.sendMessage(new TextMessage(notification.toString()));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

@@ -5,7 +5,6 @@ import com.shipogle.app.model.User;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.function.Executable;
 import org.mockito.Mockito;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
@@ -41,7 +40,7 @@ public class NotificationSocketHandlerTests {
 
         NotificationSocketHandler handler = NotificationSocketHandler.getInstance();
         handler.afterConnectionEstablished(session);
-        handler.sendNotification(notification);
+        handler.sendNotification(notification.getUserId(), notification);
 
         handler.handleTextMessage(session, new TextMessage(expectedPayload));
 
@@ -68,7 +67,7 @@ public class NotificationSocketHandlerTests {
     void testSendNotificationWithException(){
         Notification notification = getMockNotification();
         notification.setUser(new User());
-        assertThrows(RuntimeException.class, () -> notificationSocketHandler.sendNotification(notification));
+        assertThrows(RuntimeException.class, () -> notificationSocketHandler.sendNotification(notification.getUserId(), null));
     }
 
     public Notification getMockNotification(){
