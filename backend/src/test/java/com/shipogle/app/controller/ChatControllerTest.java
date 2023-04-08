@@ -79,4 +79,38 @@ public class ChatControllerTest {
     }
 
 
+//    @Test
+//    void testGetChatHistory() {
+//        // create two users
+//
+//        User sender = new User();
+//        sender.setId(1);
+//
+//        User receiver = new User();
+//        receiver.setId(2);
+//
+//        sender = userRepository.save(sender);
+//        receiver = userRepository.save(receiver);
+//
+//        // create some messages between the two users
+//        Message message1 = new Message();
+//        message1.setSender(sender);
+//        message1.setMessage("Hello, receiver!");
+//        messageRepository.save(message1);
+//
+//        Message message2 = new Message();
+//        message2.setReceiver(sender);
+//        message2.setMessage("Hi, sender!");
+//        messageRepository.save(message2);
+//
+//        // call the method and verify the result
+//        List<Message> messages = chatController.getChatHistory(sender.getUser_id(), receiver.getUser_id());
+//
+//        assertEquals(2, messages.size());
+//        assertEquals(message1.getMessage(), messages.get(0).getMessage());
+//        assertEquals(message2.getMessage(), messages.get(1).getMessage());
+//    }
+
+
+
 }
