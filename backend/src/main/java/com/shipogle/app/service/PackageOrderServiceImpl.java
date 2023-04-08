@@ -95,7 +95,7 @@ public class PackageOrderServiceImpl implements PackageOrderService {
     @Override
     public String recordPayment(Integer package_order_id){
         try {
-            PackageOrder order = packageOrderRepo.getReferenceById(package_order_id);
+            PackageOrder order = packageOrderRepo.getById(package_order_id);
             order.setPaymentStatus(1);
             packageOrderRepo.save(order);
             return "Payment is recorded";
@@ -106,7 +106,7 @@ public class PackageOrderServiceImpl implements PackageOrderService {
 
     @Override
     public String startPackageOrder(int pickup_code,int order_id){
-        PackageOrder order = packageOrderRepo.getReferenceById(order_id);
+        PackageOrder order = packageOrderRepo.getById(order_id);
 
         if(!order.isCanceled() && order.getPickup_code() == pickup_code){
             order.setStarted(true);
@@ -119,7 +119,7 @@ public class PackageOrderServiceImpl implements PackageOrderService {
 
     @Override
     public String endPackageOrder(int drop_code,int order_id){
-        PackageOrder order = packageOrderRepo.getReferenceById(order_id);
+        PackageOrder order = packageOrderRepo.getById(order_id);
 
         if(isAbleToEndOrder(order,drop_code)){
             order.setDelivered(true);
