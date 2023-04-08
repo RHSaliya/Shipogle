@@ -9,6 +9,7 @@ import com.shipogle.app.service.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,8 @@ import java.util.Map;
 import static net.bytebuddy.matcher.ElementMatchers.is;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.springframework.security.config.http.MatcherType.mvc;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.content;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.jsonPath;
@@ -47,6 +50,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 //@TestPropertySource(locations="classpath:application-test.properties")
 public class AuthControllerIntegrationTests {
+    @InjectMocks
+    AuthController authController;
     @Autowired
     private MockMvc mockMvc;
 
@@ -56,12 +61,23 @@ public class AuthControllerIntegrationTests {
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired
+    @Mock
     AuthServiceImpl authService;
     @Autowired
     MockMvc mvc;
     @Mock
     Authfilter authfilter;
+
+    @Test
+    public void loginTest() throws Exception {
+        Map<String, String> req = new HashMap<>();
+        req.put("email","kadivarnand007@gmail.com");
+        req.put("password","abc123");
+
+        authController.login(req);
+
+        verify(authService,times(1)).login("kadivarnand007@gmail.com","abc123");
+    }
 
 //    @Test
 //    void testRegisterAlreadyRegisteredUser() throws Exception {

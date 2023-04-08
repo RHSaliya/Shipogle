@@ -33,8 +33,9 @@ public class IssueServiceImpl implements IssueService {
             User user = userService.getLoggedInUser();
 
             Issue currentIssue = issueRepo.getIssueByUser(user);
-
-            boolean isOrderIdMatching = currentIssue.getPackageOrder().getId().equals(package_order_id);
+            boolean isOrderIdMatching = false;
+            if(currentIssue!=null)
+                isOrderIdMatching = currentIssue.getPackageOrder().getId().equals(package_order_id);
             if(currentIssue!=null && isOrderIdMatching)
                 return "Issue Already registered";
 
