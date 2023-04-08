@@ -13,13 +13,12 @@ function Payment() {
   const { state } = useLocation();
   const commFunc = new CommonFunctions();
   const [amount, setAmount] = useState(state.price);
-  const [Currency, setCurrency] = useState("");
+  const [Currency, setCurrency] = useState("CAD");
   const [CardNumber, setCardNumber] = useState("");
   const [CardExpiryMonth, setCardExpiryMonth] = useState("");
   const [CardExpiryYear, setCardExpiryYear] = useState("");
   const [CardCvv, setCardCvv] = useState("");
   const [CardHolderName, setCardHolderName] = useState("");
-  console.log(state);
   const handleFormSubmit = (e) => {
     e.preventDefault();
     const paymentDetails = {
@@ -36,7 +35,7 @@ function Payment() {
       (res) => {
         commFunc.showAlertMessage("success", "success", 2000, "bottom");
         customAxios
-          .put(Constants, {
+          .put(Constants.UPDATEPAYMENTSTAT, {
             package_order_id: state.order.id,
           })
           .then(
@@ -93,16 +92,23 @@ function Payment() {
         className="input-field"
         type="text"
         required
+        disabled
         value={Currency}
         onChange={(e) => setCurrency(e.target.value)}
       />
 
       <TextField
         sx={{ minWidth: 200, maxWidth: 350, width: "100%" }}
-        label="Card Number"
+        label="Card Number (16 digit)"
         className="input-field"
-        type="number"
+        type="text"
         required
+        placeholder="16 digit (1234567890123456)"
+        inputProps={{
+          maxLength: 16,
+          minLength: 16,
+          pattern: "\\d{16}",
+        }}
         value={CardNumber}
         onChange={(e) => setCardNumber(e.target.value)}
       />
@@ -114,6 +120,7 @@ function Payment() {
         type="number"
         required
         value={CardExpiryMonth}
+        inputProps={{ max: 12, min: 1 }}
         onChange={(e) => setCardExpiryMonth(e.target.value)}
       />
 
@@ -124,16 +131,23 @@ function Payment() {
         type="number"
         required
         value={CardExpiryYear}
+        inputProps={{ min: new Date().getFullYear() }}
         onChange={(e) => setCardExpiryYear(e.target.value)}
       />
 
       <TextField
         sx={{ minWidth: 200, maxWidth: 350, width: "100%" }}
-        label="Card CVV"
+        label="Card CVV (3 Digit)"
         className="input-field"
         type="text"
         required
+        placeholder="e.g 123"
         value={CardCvv}
+        inputProps={{
+          maxLength: 3,
+          minLength: 3,
+          pattern: "\\d{3}",
+        }}
         onChange={(e) => setCardCvv(e.target.value)}
       />
 

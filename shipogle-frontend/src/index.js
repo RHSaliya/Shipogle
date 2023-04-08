@@ -21,6 +21,7 @@ import PackageRequests from "./components/PackageRequests";
 import StartEndDelivery from "./pages/StartEndDelivery";
 import Feedback from "./pages/Feedback";
 import Issue from "./pages/Issues";
+import IssueLisitng from "./pages/IssueListing";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -74,6 +75,7 @@ root.render(
         ></Route>
         <Route path="/feedback" element={<Feedback></Feedback>}></Route>
         <Route path="/issue" element={<Issue></Issue>}></Route>
+        <Route path="/issues" element={<IssueLisitng></IssueLisitng>}></Route>
       </Route>
     </Routes>
   </BrowserRouter>

@@ -31,7 +31,7 @@ const ExpandButton = styled(Button)({
   color: "black",
 });
 
-export default function NavBar({ authStatus }) {
+export default function NavBar({ authStatus, authStatusUpdater }) {
   const { isAuthenticated, login, logout } = useContext(AuthContext);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -59,10 +59,19 @@ export default function NavBar({ authStatus }) {
   };
 
   useEffect(() => {
-    if (authStatus) {
+    console.log(authStatus, isAuthenticated, "status of auth");
+    if (authStatus && isAuthenticated) {
       login();
+    } else if (!authStatus && isAuthenticated) {
+      login();
+    } else if (authStatus && !isAuthenticated) {
+      login();
+    } else if (!authStatus && !isAuthenticated) {
+      logout();
+    } else {
+      logout();
     }
-  }, [authStatus, login]);
+  }, [authStatus, login, logout, isAuthenticated]);
 
   const handleClickOnExpand = (event) => {
     setAnchorEl(event.currentTarget);
@@ -86,8 +95,10 @@ export default function NavBar({ authStatus }) {
           }
         );
       });
+    } else {
+      authStatusUpdater(false);
     }
-  }, [isAuthenticated]);
+  }, [authStatusUpdater, isAuthenticated]);
 
   return (
     <div className="navbar-container">
@@ -238,6 +249,11 @@ export default function NavBar({ authStatus }) {
                     to="/user/editprofile"
                   >
                     Edit Profile
+                  </Link>
+                </MenuItem>
+                <MenuItem>
+                  <Link style={{ textDecoration: "none" }} to="/issues">
+                    Reported Issues
                   </Link>
                 </MenuItem>
                 <MenuItem
