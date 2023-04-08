@@ -22,8 +22,6 @@ export default function CurrentDelivery(props) {
     const driverId = window.localStorage.getItem("user_id");
     customAxios.get(Constants.GETDRIVERROUTES + "?driverId=" + driverId).then(
       (res) => {
-        console.log(res);
-
         setMyRides(res.data);
         setIsLoading(false);
       },

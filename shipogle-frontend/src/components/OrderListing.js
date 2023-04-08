@@ -75,6 +75,9 @@ export default function OrderListing(props) {
                   Pay
                 </Button>
               )}
+            {props.status === "canceled" &&
+              order.paymentStatus === -1 &&
+              !paid_orders.includes(order.id) && <Button>Refunded</Button>}
             <Button
               color={props.color}
               onClick={() => {

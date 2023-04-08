@@ -29,6 +29,9 @@ const APIS = {
   GETUSERNOTIFICATION: `${BASE_URL}/notifications/get`,
   POSTRATING: `${BASE_URL}/rating/post`,
   POSTISSUE: `${BASE_URL}/issue/post`,
+  GETDELIVERERRATINGS: `${BASE_URL}/rating/deliverer/getall`,
+  GETRATINGS: `${BASE_URL}/rating/posted/getall`,
+  GETISSUES: `${BASE_URL}/issue/getall`,
   UPDATEPAYMENTSTAT: `${BASE_URL}/package/order/recordPayment`,
   API_KEY: "AIzaSyBPtYm-CJPPW4yO9njM-e9YBWyp-DwIODM",
 };

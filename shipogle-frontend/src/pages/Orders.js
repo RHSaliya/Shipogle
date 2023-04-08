@@ -15,9 +15,11 @@ import Data from "./data";
 import OrderListing from "../components/OrderListing";
 import Constants from "../Constants";
 import customAxios from "../utils/MyAxios";
+import CommonFunctions from "../services/CommonFunction";
 
 export default function Orders() {
   const data = new Data();
+  const commFunc = new CommonFunctions();
   const [pending, setPending] = React.useState([]);
   const [inProgress, setInProgress] = React.useState([]);
   const [completed, setCompleted] = React.useState([]);
@@ -27,16 +29,27 @@ export default function Orders() {
   const expand = () => {
     setExpand(!expanded);
   };
-  React.useEffect(() => {
-    setIsLoading(true);
+
+  const getOrders = () => {
     customAxios.get(Constants.ORDERS).then(
       (res) => {
         setOrders(res);
       },
       (error) => {
-        console.error(error);
+        commFunc.showAlertMessage(
+          "Error while fetching orders",
+          "error",
+          3000,
+          "bottom"
+        );
       }
     );
+  };
+
+  React.useEffect(() => {
+    setIsLoading(true);
+    getOrders();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const setOrders = (res) => {

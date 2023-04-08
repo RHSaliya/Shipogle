@@ -3,17 +3,10 @@ import { useLocation } from "react-router-dom";
 import Constants from "../Constants";
 import customAxios from "../utils/MyAxios";
 import Data from "./data";
-import {
-  Button,
-  Card,
-  CardHeader,
-  CircularProgress,
-  TextField,
-} from "@mui/material";
+import { Button, Card, CircularProgress, TextField } from "@mui/material";
 import CommonFunctions from "../services/CommonFunction";
 
 const StartEndDelivery = () => {
-  const data = new Data();
   const commFunc = new CommonFunctions();
   const [isLoading, setIsLoading] = useState(true);
   const { state } = useLocation();
@@ -21,16 +14,41 @@ const StartEndDelivery = () => {
   const [codes, setCodes] = useState("");
   const routeId = state.id;
 
-  const fetchOrders = async () => {
-    try {
-      const res = await customAxios(
-        Constants.GETALLORDERSFROMDRIVERROUTEID + "?driver_route_id=" + routeId
-      );
-      setOrders(res.data);
-      setIsLoading(false);
-    } catch (error) {
-      console.error(error);
-    }
+  const fetchOrders = () => {
+    customAxios(
+      Constants.GETALLORDERSFROMDRIVERROUTEID + "?driver_route_id=" + routeId
+    ).then(
+      (res) => {
+        setOrders(res.data);
+        res.data.forEach((order) => {
+          let body = {
+            userId: order.sender.user_id,
+          };
+          if (!order.started && !order.canceled) {
+            body["title"] = "Pickup Code";
+            body[
+              "message"
+            ] = `Please provide pickup code ${order.pickup_code} to ${order.driverRoute.driverName} to start delivery`;
+          } else if (order.started && !order.delivered && !order.canceled) {
+            body["title"] = "Drop Code";
+            body[
+              "message"
+            ] = `Please provide pickup code ${order.drop_code} to ${order.driverRoute.driverName} to start delivery`;
+          }
+          sendNotification(body);
+        });
+        setIsLoading(false);
+      },
+      (error) => {
+        commFunc.showAlertMessage(
+          "error while fetching details",
+          "error",
+          3000,
+          "bottom"
+        );
+        console.error(error);
+      }
+    );
   };
 
   const submit = (e) => {
@@ -41,7 +59,6 @@ const StartEndDelivery = () => {
       orders[0].started && !orders[0].canceled
         ? Constants.ENDORDER
         : Constants.STARTORDER;
-    console.log(api);
     for (let a = 0; a < code.length; a++) {
       let body = {
         order_id: orders[a].id,
@@ -52,6 +69,18 @@ const StartEndDelivery = () => {
       customAxios.put(api, body).then(
         (res) => {
           commFunc.showAlertMessage("code success", "success", 1000, "bottom");
+          const body = {
+            userId: orders[a].sender.user_id,
+            title:
+              codeString === "drop_code"
+                ? "delivery ended"
+                : "delivery started",
+            message:
+              codeString === "drop_code"
+                ? `${orders[a].driverRoute.driverName} has delivered your courier`
+                : `${orders[a].driverRoute.driverName} has picked up your courier`,
+          };
+          sendNotification(body);
         },
         (error) => {
           console.error(error);
@@ -65,6 +94,22 @@ const StartEndDelivery = () => {
       );
     }
   };
+
+  const sendNotification = (body) => {
+    customAxios.post(Constants.API_NOTIFICATIONS, body).then(
+      (res) => {},
+      (error) => {
+        console.error(error);
+        commFunc.showAlertMessage(
+          "Request sent but failed to send driver a Notification!",
+          "error",
+          3000,
+          "bottom"
+        );
+      }
+    );
+  };
+
   useEffect(() => {
     fetchOrders();
   }, []);

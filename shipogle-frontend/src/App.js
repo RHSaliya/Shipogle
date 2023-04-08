@@ -86,10 +86,7 @@ const App = (props) => {
     ];
     if (!token) {
       if (excludedPaths.includes(pathname)) {
-        if (
-          pathname !== "/registration" ||
-          pathname !== "/registration/success"
-        ) {
+        if (pathname === "/courier/search" || pathname === "/") {
           commFunc.showAlertMessage(
             "Session Expired, Please Login in for better exprience",
             "info",
@@ -107,7 +104,7 @@ const App = (props) => {
         navigate("/login");
       }
     } else {
-      if (!tokenChecked)
+      if (!tokenChecked && !excludedPaths.includes(pathname)) {
         customAxios.get(Constants.API_USER_INFO_FROM_TOKEN).then((res) => {
           const user_id = res.data.user_id;
           const user_name = res.data.first_name + " " + res.data.last_name;
@@ -115,7 +112,7 @@ const App = (props) => {
           window.localStorage.setItem("user_name", user_name);
           setTokenChecked(true);
         });
-      else {
+      } else {
         setTokenChecked(true);
       }
     }

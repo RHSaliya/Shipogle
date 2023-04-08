@@ -18,7 +18,6 @@ export default function Issue() {
   const { state } = useLocation();
   const [description, setDescription] = React.useState("");
   const navigate = useNavigate();
-  console.log(state);
   const submit = (e) => {
     const body = {
       package_order_id: state.orderDetails._package.id,

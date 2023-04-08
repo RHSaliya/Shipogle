@@ -59,11 +59,16 @@ export default function NavBar({ authStatus, authStatusUpdater }) {
   };
 
   useEffect(() => {
+    console.log(authStatus, isAuthenticated, "status of auth");
     if (authStatus && isAuthenticated) {
       login();
     } else if (!authStatus && isAuthenticated) {
       login();
+    } else if (authStatus && !isAuthenticated) {
+      login();
     } else if (!authStatus && !isAuthenticated) {
+      logout();
+    } else {
       logout();
     }
   }, [authStatus, login, logout, isAuthenticated]);
@@ -244,6 +249,11 @@ export default function NavBar({ authStatus, authStatusUpdater }) {
                     to="/user/editprofile"
                   >
                     Edit Profile
+                  </Link>
+                </MenuItem>
+                <MenuItem>
+                  <Link style={{ textDecoration: "none" }} to="/issues">
+                    Reported Issues
                   </Link>
                 </MenuItem>
                 <MenuItem

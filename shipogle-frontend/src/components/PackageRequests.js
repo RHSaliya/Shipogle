@@ -80,7 +80,7 @@ export default function PackageRequests() {
             );
           }
         );
-        setRequests(requests.splice(requests.indexOf(request), 1));
+        getOrders();
       },
       (error) => {
         console.error(error);
@@ -154,7 +154,8 @@ export default function PackageRequests() {
     </div>
   );
 
-  React.useEffect(() => {
+  const getOrders = () => {
+    setIsLoading(true);
     customAxios.get(Constants.GETREQUESTS).then(
       (res) => {
         const requestCards = res.data.map((request) => {
@@ -162,12 +163,28 @@ export default function PackageRequests() {
           else return <></>;
         });
         setRequests(requestCards);
+        if (requests.length <= 0) {
+          setNoRequest(true);
+        } else {
+          setNoRequest(false);
+        }
         setIsLoading(false);
       },
       (error) => {
+        commFunc.showAlertMessage(
+          "error while fetching requests",
+          "error",
+          3000,
+          "bottom"
+        );
         console.error(error);
       }
     );
+  };
+
+  React.useEffect(() => {
+    getOrders();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -195,6 +212,13 @@ export default function PackageRequests() {
             <h4 style={{ textAlign: "center", marginTop: "2rem" }}>
               No new Requests
             </h4>
+          )}
+          {noRequest && requests.length === 0 && (
+            <>
+              <center style={{ marginTop: "3rem" }}>
+                <h4>No new Requests</h4>
+              </center>
+            </>
           )}
         </>
       )}

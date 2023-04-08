@@ -13,9 +13,11 @@ import Data from "../pages/data";
 import customAxios from "../utils/MyAxios";
 import Constants from "../Constants";
 import StaticMap from "./StaticMap";
+import CommonFunctions from "../services/CommonFunction";
 
 export default function OrderDetails() {
   const data = new Data();
+  const commFunc = new CommonFunctions();
   const location = useLocation().pathname.split("/");
   const orderId = location[4];
   const pathname = location[3];
@@ -44,8 +46,21 @@ export default function OrderDetails() {
     customAxios.put(Constants.CANCELORDER, body).then(
       (res) => {
         alert("Order canceled");
+        commFunc.showAlertMessage(
+          "Order Canceled! Initiating a refund if paid.",
+          "info",
+          3000,
+          "bottom"
+        );
+        //customAxios.put(Constants.UPDATEPAYMENTSTAT);
       },
       (error) => {
+        commFunc.showAlertMessage(
+          "Error while canceling order",
+          "error",
+          3000,
+          "bottom"
+        );
         console.error(error);
       }
     );
