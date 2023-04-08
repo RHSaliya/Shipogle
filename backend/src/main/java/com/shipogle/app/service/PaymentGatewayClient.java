@@ -11,26 +11,32 @@ import org.springframework.web.client.RestTemplate;
 
 @Component
 public class PaymentGatewayClient {
-
     @Value("${payment.gateway.url}")
     private String paymentGatewayUrl;
+    private ResponseEntity<String> responseEntity;
+    private RestTemplate restTemplate;
+
+    public void setRestTemplate(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
+    }
+
+    public void setPaymentGatewayUrl(String paymentGatewayUrl) {
+        this.paymentGatewayUrl = paymentGatewayUrl;
+    }
 
     public PaymentResponse chargeCreditCard(PaymentGatewayRequest paymentRequest) throws PaymentGatewayException {
+        PaymentGatewayRequest paymentGatewayRequest = createPaymentGatewayRequest(paymentRequest);
+        restTemplate = new RestTemplate();
+        HttpHeaders headers = new HttpHeaders();
         try {
-            PaymentGatewayRequest paymentGatewayRequest = createPaymentGatewayRequest(paymentRequest);
-
-            RestTemplate restTemplate = new RestTemplate();
-            HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
             ObjectMapper objectMapper = new ObjectMapper();
-            String jsonString = objectMapper.writeValueAsString(paymentRequest);
-
+            String jsonString = objectMapper.writeValueAsString(paymentGatewayRequest);
             HttpEntity<String> requestEntity = new HttpEntity<>(jsonString, headers);
-
-            ResponseEntity<PaymentResponse> responseEntity = restTemplate.exchange(paymentGatewayUrl, HttpMethod.POST, requestEntity, PaymentResponse.class);
-
-            PaymentResponse responseBody = responseEntity.getBody();
-            return responseBody;
+            HttpMethod httpMethod = HttpMethod.POST;
+            responseEntity = restTemplate.exchange(paymentGatewayUrl, httpMethod, requestEntity, String.class);
+            PaymentResponse paymentResponse = objectMapper.readValue(responseEntity.getBody(), PaymentResponse.class);
+            return paymentResponse;
         } catch (Exception e) {
             throw new PaymentGatewayException("Error processing payment: " + e.getMessage());
         }
@@ -44,9 +50,7 @@ public class PaymentGatewayClient {
         paymentGatewayRequest.setCardExpiryMonth(paymentRequest.getCardExpiryMonth());
         paymentGatewayRequest.setCardExpiryYear(paymentRequest.getCardExpiryYear());
         paymentGatewayRequest.setCardCvv(paymentRequest.getCardCvv());
-
+        paymentGatewayRequest.setCardHolderName(paymentRequest.getCardHolderName());
         return paymentGatewayRequest;
     }
 }
-
-
