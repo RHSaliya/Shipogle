@@ -15,7 +15,7 @@ import org.springframework.http.ResponseEntity;
 import java.time.LocalDateTime;
 import java.util.*;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -31,7 +31,7 @@ public class ChatControllerTest {
     private ChatController chatController;
 
     @Test
-    public void sendMessageTest() {
+    public void testSendMessage() {
         User sender = new User();
         sender.setId(1);
 
@@ -51,8 +51,21 @@ public class ChatControllerTest {
         assertEquals(200, responseEntity.getStatusCodeValue());
         verify(messageRepository, times(1)).save(any(Message.class));
     }
+
     @Test
-    public void getChatUsersTest() {
+    public void testSendMessageWhenNoUser() {
+        ChatMessageRequest request = new ChatMessageRequest();
+        request.setSenderId(1);
+        request.setReceiverId(2);
+        request.setMessage("Hello");
+
+        ResponseEntity<?> responseEntity = chatController.sendMessage(request);
+        assertEquals(400, responseEntity.getStatusCodeValue());
+        assertTrue(responseEntity.getBody() instanceof String);
+    }
+
+    @Test
+    public void testGetChatUsers() {
         User user = new User();
         user.setId(1);
 
@@ -70,7 +83,15 @@ public class ChatControllerTest {
     }
 
     @Test
-    public void removeMessageTest() {
+    public void testGetChatUsersWhenNoUser() {
+        User user = new User();
+        user.setId(1);
+
+        assertThrows(RuntimeException.class, () -> chatController.getChatUsers(user.getUser_id()));
+    }
+
+    @Test
+    public void testRemoveMessage() {
         long messageId = 1L;
 
         chatController.removeMessage(messageId);
@@ -128,6 +149,93 @@ public class ChatControllerTest {
         assertEquals(message2.getMessage(), messages.get(1).getMessage());
     }
 
+
+    @Test
+    public void testGetChatHistoryWhenNoUser() {
+
+        // create userOne
+        User userOne = new User();
+        userOne.setId(1);
+
+        // create userTwo
+        User userTwo = new User();
+        userTwo.setId(2);
+
+        assertThrows(RuntimeException.class, () -> chatController.getChatHistory(userOne.getUser_id(), userTwo.getUser_id()));
+    }
+
+    @Test
+    void testRemoveAllMessages() {
+        // create userOne
+        User userOne = new User();
+        userOne.setId(1);
+        userRepository.save(userOne);
+        when(userRepository.findById(userOne.getUser_id())).thenReturn(Optional.of(userOne));
+
+        // create userTwo
+        User userTwo = new User();
+        userTwo.setId(2);
+        userRepository.save(userTwo);
+        when(userRepository.findById(userTwo.getUser_id())).thenReturn(Optional.of(userTwo));
+
+        // Prepare message from userOne to userTwo
+        Message message1 = new Message();
+        message1.setSender(userOne);
+        message1.setReceiver(userTwo);
+        message1.setMessage("Hello, userTwo!");
+        message1.setCreatedAt(LocalDateTime.now());
+        messageRepository.save(message1);
+
+        List<Message> messagesOneToTwo = new ArrayList<>();
+        messagesOneToTwo.add(message1);
+
+        when(messageRepository.findBySenderAndReceiverOrderByCreatedAtDesc(userOne, userTwo)).thenReturn(messagesOneToTwo);
+
+        // Prepare message from userTwo to userOne
+        Message message2 = new Message();
+        message2.setSender(userTwo);
+        message2.setReceiver(userOne);
+        message2.setMessage("Hi, userOne!");
+        message2.setCreatedAt(LocalDateTime.now());
+        messageRepository.save(message2);
+
+        List<Message> messagesTwoToOne = new ArrayList<>();
+        messagesTwoToOne.add(message2);
+
+        when(messageRepository.findByReceiverAndSenderOrderByCreatedAtDesc(userOne, userTwo)).thenReturn(messagesTwoToOne);
+
+        // get messages between userOne and userTwo
+        List<Message> messages = chatController.getChatHistory(userOne.getUser_id(), userTwo.getUser_id());
+
+        // check if messages are correct
+        assertEquals(2, messages.size());
+        assertEquals(message1.getMessage(), messages.get(0).getMessage());
+        assertEquals(message2.getMessage(), messages.get(1).getMessage());
+
+
+        // remove all messages
+        chatController.removeAllMessages(userOne.getUser_id(), userTwo.getUser_id());
+
+        when(messageRepository.findBySenderAndReceiverOrderByCreatedAtDesc(userOne, userTwo)).thenReturn(new ArrayList<>());
+        when(messageRepository.findByReceiverAndSenderOrderByCreatedAtDesc(userOne, userTwo)).thenReturn(new ArrayList<>());
+
+
+        // check if messages are removed
+        messages = chatController.getChatHistory(userOne.getUser_id(), userTwo.getUser_id());
+        assertEquals(0, messages.size());
+    }
+    @Test
+    void testRemoveAllMessagesWhenNoUsers() {
+        // create userOne
+        User userOne = new User();
+        userOne.setId(1);
+
+        // create userTwo
+        User userTwo = new User();
+        userTwo.setId(2);
+
+        assertThrows(RuntimeException.class, () -> chatController.removeAllMessages(userOne.getUser_id(), userTwo.getUser_id()));
+    }
 
 
 }
