@@ -18,9 +18,9 @@ public class PaymentService {
 
     public PaymentResponse chargeCreditCard(PaymentGatewayRequest paymentRequest) throws PaymentGatewayException {
         try {
-            if(paymentRequest == null || !validatePaymentRequest(paymentRequest))
+            if(paymentRequest == null || !validatePaymentRequest(paymentRequest)) {
                 throw new PaymentGatewayException("Unable to fetch card details.");
-
+            }
             PaymentResponse paymentGatewayResponse = paymentGatewayClient.chargeCreditCard(paymentRequest);
 
             return mapPaymentGatewayResponse(paymentGatewayResponse);

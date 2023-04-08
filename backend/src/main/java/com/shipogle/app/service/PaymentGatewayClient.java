@@ -13,7 +13,7 @@ import org.springframework.web.client.RestTemplate;
 public class PaymentGatewayClient {
     @Value("${payment.gateway.url}")
     private String paymentGatewayUrl;
-
+    private ResponseEntity<String> responseEntity;
     private RestTemplate restTemplate;
 
     public void setRestTemplate(RestTemplate restTemplate) {
@@ -33,7 +33,8 @@ public class PaymentGatewayClient {
             ObjectMapper objectMapper = new ObjectMapper();
             String jsonString = objectMapper.writeValueAsString(paymentGatewayRequest);
             HttpEntity<String> requestEntity = new HttpEntity<>(jsonString, headers);
-            ResponseEntity<String> responseEntity = restTemplate.exchange(paymentGatewayUrl, HttpMethod.POST, requestEntity, String.class);
+            HttpMethod httpMethod = HttpMethod.POST;
+            responseEntity = restTemplate.exchange(paymentGatewayUrl, httpMethod, requestEntity, String.class);
             PaymentResponse paymentResponse = objectMapper.readValue(responseEntity.getBody(), PaymentResponse.class);
             return paymentResponse;
         } catch (Exception e) {

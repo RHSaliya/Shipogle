@@ -13,17 +13,19 @@ import com.shipogle.app.service.DriverRouteFilter;
 
 @RestController
 public class DriverRouteController {
-    @Autowired
-    private DriverRouteRepository driverRouteRepository;
-    @Autowired
     private DriverRouteFilter driverRouteFilter;
+
+    @Autowired
+    public void setDriverRouteFilter(DriverRouteFilter driverRouteFilter) {
+        this.driverRouteFilter = driverRouteFilter;
+    }
 
     @PostMapping("/driverRoutes")
     public ResponseEntity<?> createDriverRoute(@RequestBody String jsonString) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         DriverRoute driverRoute = objectMapper.readValue(jsonString, DriverRoute.class);
 
-        DriverRoute savedDriverRoute = driverRouteRepository.save(driverRoute);
+        DriverRoute savedDriverRoute = driverRouteFilter.save(driverRoute);
         return new ResponseEntity<>("Driver Details saved : \n" +  savedDriverRoute, HttpStatus.CREATED);
     }
 
@@ -39,14 +41,14 @@ public class DriverRouteController {
             @RequestParam(required = false) String category
     ) {
         DashboardFilter dashboardFilters = new DashboardFilter();
-        dashboardFilters.sourceCity = sourceCity;
-        dashboardFilters.destination = destination;
-        dashboardFilters.pickupDataTime = pickupDataTime;
-        dashboardFilters.maxPackages = maxPackages;
-        dashboardFilters.allowedCategory = allowedCategory;
-        dashboardFilters.radius = radius;
-        dashboardFilters.price = price;
-        dashboardFilters.category = category;
+        dashboardFilters.setSourceCity(sourceCity);
+        dashboardFilters.setDestination(destination);
+        dashboardFilters.setPickupDataTime(pickupDataTime);
+        dashboardFilters.setMaxPackages(maxPackages);
+        dashboardFilters.setAllowedCategory(allowedCategory);
+        dashboardFilters.setRadius(radius);
+        dashboardFilters.setPrice(price);
+        dashboardFilters.setCategory(category);
 
         return driverRouteFilter.getDriverRoutesByFilters(dashboardFilters);
     }

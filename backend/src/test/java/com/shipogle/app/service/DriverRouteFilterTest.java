@@ -5,7 +5,6 @@ import static org.mockito.Mockito.when;
 
 import java.util.*;
 
-import com.shipogle.app.service.DriverRouteFilter;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -53,33 +52,6 @@ public class DriverRouteFilterTest {
         assertThat(filteredRoutes).isEqualTo(driverRoutes);
     }
 
-//    @Test
-//    public void testFilterWithFailingData() {
-//        // given
-//        List<DriverRoute> driverRoutes = new ArrayList<>();
-//        DriverRoute driverRoute1 = new DriverRoute();
-//        driverRoute1.id = 1L;
-//        driverRoute1.setSourceCity("New York");
-//        driverRoute1.setDestinationCity("Los Angeles");
-//        driverRoutes.add(driverRoute1);
-//        DriverRoute driverRoute2 = new DriverRoute();
-//        driverRoute2.id = 2L;
-//        driverRoute2.setSourceCity("Los Angeles");
-//        driverRoute2.setDestinationCity("San Francisco");
-//        driverRoutes.add(driverRoute2);
-//        DriverRoute driverRoute3 = new DriverRoute();
-//        driverRoute3.id = 3L;
-//        driverRoute3.setSourceCity("Chicago");
-//        driverRoute3.setDestinationCity("Seattle");
-//        driverRoutes.add(driverRoute3);
-//
-//        // when
-//        List<DriverRoute> filteredRoutes = driverRouteFilter.filter(driverRoutes);
-//
-//        // then
-//        assertThat(filteredRoutes).isNotEqualTo(driverRoutes);
-//    }
-
     @Test
     public void testGetDriverRoutesByFilters() {
         // given
@@ -88,12 +60,12 @@ public class DriverRouteFilterTest {
         filter.setDestination("Los Angeles");
 
         DriverRoute driverRoute1 = new DriverRoute();
-        driverRoute1.id = 1L;
+        driverRoute1.setDriverRouteId(1L);
         driverRoute1.setSourceCity("New York");
         driverRoute1.setDestinationCity("Los Angeles");
 
         DriverRoute driverRoute2 = new DriverRoute();
-        driverRoute2.id = 2L;
+        driverRoute2.setDriverRouteId(2L);
         driverRoute2.setSourceCity("Chicago");
         driverRoute2.setDestinationCity("Dallas");
 

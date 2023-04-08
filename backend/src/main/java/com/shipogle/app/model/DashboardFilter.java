@@ -1,17 +1,15 @@
 package com.shipogle.app.model;
 
 public class DashboardFilter {
-    public String sourceCity;
-    public String destination;
-    public String pickupDataTime;
-    public String maxPackages;
-    public String allowedCategory;
-    public String radius;
-    public String price;
-    public String category;
-    public String getSourceCity() {
-        return sourceCity;
-    }
+    private String sourceCity;
+    private String destination;
+    private String pickupDataTime;
+    private String maxPackages;
+    private String allowedCategory;
+    private String radius;
+    private String price;
+    private String category;
+    public String getSourceCity() { return sourceCity; }
 
     public void setSourceCity(String sourceCity) {
         this.sourceCity = sourceCity;
