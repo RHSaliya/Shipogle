@@ -4,11 +4,13 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.shipogle.app.model.ChatMessageRequest;
 import com.shipogle.app.model.Message;
+import com.shipogle.app.model.User;
 import com.shipogle.app.repository.MessageRepository;
 import com.shipogle.app.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -20,6 +22,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -35,15 +38,6 @@ public class ChatControllerIntegrationTest {
 
 
     ObjectMapper objectMapper = new ObjectMapper();
-    ChatMessageRequest request = new ChatMessageRequest();
-    String requestBody = objectMapper.writeValueAsString(request);
-
-    @Mock
-    private UserRepository userRepository;
-
-    @Mock
-    private MessageRepository messageRepository;
-
 
     public ChatControllerIntegrationTest() throws JsonProcessingException {
     }
