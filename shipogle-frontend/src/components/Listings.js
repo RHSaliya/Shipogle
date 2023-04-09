@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
@@ -13,16 +13,19 @@ import MapView from "./MapView";
 import { Avatar, Button, Typography } from "@mui/material";
 
 function Listings({ data }) {
-  console.log(data);
   const location = useLocation();
   const navigate = useNavigate();
   const path = location.pathname;
   const [listingCards, setListingCards] = useState([]);
   const [showMapView, setShowMapView] = useState(false);
 
-  const routeTo = (routeId) => {
-    navigate("/order/startend", { state: { id: routeId } });
-  };
+  const routeTo = useCallback(
+    (routeId, listing) => {
+      navigate("/order/startend", { state: { id: routeId, order: listing } });
+    },
+    [navigate]
+  );
+
   const isInDateRange = (startDate, endDate) => {
     const currentDate = new Date();
     const start = new Date(startDate);
@@ -32,6 +35,7 @@ function Listings({ data }) {
     currentDate.setHours(0, 0, 0, 0);
     start.setHours(0, 0, 0, 0);
     end.setHours(0, 0, 0, 0);
+    console.log(start, end, currentDate);
 
     return start <= currentDate && currentDate <= end;
   };
@@ -47,7 +51,7 @@ function Listings({ data }) {
     return;
   };
 
-  const createListingCards = () => {
+  const createListingCards = useCallback(() => {
     const cards = data.map((listing) => (
       <div
         className="listing-card"
@@ -112,7 +116,7 @@ function Listings({ data }) {
               sx={{ margin: "0px 12px", height: "74px" }}
               disabled={!isInDateRange(listing.pickupDate, listing.dropoffDate)}
               onClick={() => {
-                routeTo(listing.driverRouteId);
+                routeTo(listing.driverRouteId, listing);
               }}
             >
               <div>
@@ -130,11 +134,11 @@ function Listings({ data }) {
       });
       setListingCards(newArr);
     } else setListingCards(cards);
-  };
+  }, [data, navigate, path, routeTo]);
 
   useEffect(() => {
     createListingCards();
-  }, [data]);
+  }, [createListingCards, data]);
 
   return (
     <>
@@ -172,6 +176,9 @@ function Listings({ data }) {
         {!showMapView && <>{listingCards}</>}
         {showMapView && <MapView locations={data} />}
       </div>
+      {listingCards.length <= 0 && (
+        <h4 style={{ marginTop: "3rem" }}>No Listings</h4>
+      )}
     </>
   );
 }

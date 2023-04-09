@@ -25,13 +25,29 @@ function CourierDetails() {
   const [createPackage, setCreatePackage] = React.useState(false);
   const [staticMapWidth, setMapWidth] = React.useState(0);
   const [packageID, setPackageID] = React.useState("");
+  const [rating, setRating] = React.useState(3.5);
   const commFunc = new CommonFunctions();
-  console.log(state);
+  console.log(state, "details");
   React.useEffect(() => {
     const el = document.getElementById("static-map-container");
     if (el) {
       setMapWidth(el.offsetWidth * 0.9);
     }
+    customAxios.get(Constants.GETDELIVERERRATINGS).then(
+      (res) => {
+        console.log(res.data);
+      },
+      (error) => {
+        console.error(error);
+        commFunc.showAlertMessage(
+          "Error while fetching ratings",
+          "error",
+          3000,
+          "bottom"
+        );
+      }
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const packageCreated = (package_id) => {
@@ -132,7 +148,7 @@ function CourierDetails() {
                 )
               }
               title={routeDetails.driverName}
-              subheader="rating"
+              subheader={`Rating: ${rating}`}
             />
             <div
               id="static-map-container"

@@ -4,6 +4,7 @@ import Header from "../components/Header";
 import RegRoleBox from "../components/RegRoleBox";
 import senderImg from "../assets/sender.png";
 import delivererImg from "../assets/deliverer.png";
+import RegistrationSender from "./RegistrationForm";
 export default function Registration() {
   //remove options, set single form;
   //dob verification
@@ -19,13 +20,11 @@ export default function Registration() {
 
   return (
     <div className="regPage">
-      <Header
-        title="Registration"
-        info="Register as a deliverer or sender with us!"
-      />
+      <Header title="Registration" info="Register with us!" />
 
       <div className="regRole">
-        <div className="one">
+        {/*
+          <div className="one">
           <RegRoleBox
             role="Sender"
             roleimg={senderImg}
@@ -37,18 +36,8 @@ export default function Registration() {
             </button>
           </center>
         </div>
-        <div className="two">
-          <RegRoleBox
-            role="Deliverer"
-            roleimg={delivererImg}
-            roleinfo="I am travelling and accepting packages from A to B!"
-          />
-          <center>
-            <button className="btn reg" onClick={() => navUser("deliverer")}>
-              Register
-            </button>
-          </center>
-        </div>
+          */}
+        <RegistrationSender></RegistrationSender>
       </div>
     </div>
   );

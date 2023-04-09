@@ -18,7 +18,6 @@ export default function Issue() {
   const { state } = useLocation();
   const [description, setDescription] = React.useState("");
   const navigate = useNavigate();
-  console.log(state);
   const submit = (e) => {
     const body = {
       package_order_id: state.orderDetails._package.id,
@@ -26,18 +25,13 @@ export default function Issue() {
     };
     customAxios.post(Constants.POSTISSUE, body).then(
       (res) => {
-        commFunc.showAlertMessage(
-          "Rating submitted",
-          "success",
-          3000,
-          "bottom"
-        );
+        commFunc.showAlertMessage("Issue submitted", "success", 3000, "bottom");
         navigate("/orders");
       },
       (error) => {
         console.error(error);
         commFunc.showAlertMessage(
-          "Rating not submitted",
+          "Issue not submitted",
           "error",
           3000,
           "bottom"

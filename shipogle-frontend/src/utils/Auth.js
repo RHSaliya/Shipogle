@@ -10,6 +10,9 @@ export function AuthProvider({ children }) {
   };
 
   const logout = () => {
+    window.localStorage.removeItem("user_id");
+    window.localStorage.removeItem("user_name");
+    window.localStorage.removeItem("authToken");
     setIsAuthenticated(false);
   };
 

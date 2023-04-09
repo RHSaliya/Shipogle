@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Outlet, useLocation } from "react-router-dom";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 
 import "./App.css";
 import AlertMessage from "./components/AlertMessage";
@@ -8,8 +8,9 @@ import NavBar from "./components/NavBar";
 import { AuthProvider } from "./utils/Auth";
 import "./Constants";
 import Header from "./components/Header";
-import { Typography } from "@mui/material";
 import shipogleLogo from "./assets/shipogleLogo.png";
+import Constants from "./Constants";
+import customAxios from "./utils/MyAxios";
 
 const API_KEY = "AIzaSyBPtYm-CJPPW4yO9njM-e9YBWyp-DwIODM";
 let userLocation = { latitude: "", longitude: "" };
@@ -21,8 +22,12 @@ window.initMap = function () {
 };
 
 const App = (props) => {
+  const location = useLocation();
+  const navigate = useNavigate();
+
   const [showAlert, setShowAlert] = useState(false);
-  const [pathname, setPathname] = useState(window.location.pathname);
+  const [pathname, setPathname] = useState(location.pathname);
+  const [tokenChecked, setTokenChecked] = useState(false);
 
   const alertSettings = {
     alertMessage: "",
@@ -30,9 +35,6 @@ const App = (props) => {
     alertDuration: 0,
     position: "bottom",
   };
-
-  const commFunc = new CommonFunctions();
-  const location = useLocation();
 
   useEffect(() => {
     const paid_orders = window.localStorage.getItem("paid_orders");
@@ -72,9 +74,49 @@ const App = (props) => {
   }, []);
 
   useEffect(() => {
+    const commFunc = new CommonFunctions();
     setPathname(location.pathname);
-    // Add any other code you want to execute on route change
-  }, [location]);
+    const token = window.localStorage.getItem("authToken");
+    const excludedPaths = [
+      "/",
+      "/courier/search",
+      "/login",
+      "/registration",
+      "/registration/success",
+    ];
+    if (!token) {
+      if (excludedPaths.includes(pathname)) {
+        if (pathname === "/courier/search" || pathname === "/") {
+          commFunc.showAlertMessage(
+            "Session Expired, Please Login in for better exprience",
+            "info",
+            3000,
+            "bottom"
+          );
+        }
+      } else {
+        commFunc.showAlertMessage(
+          "Please Login in before continuing",
+          "info",
+          3000,
+          "bottom"
+        );
+        navigate("/login");
+      }
+    } else {
+      if (!tokenChecked && !excludedPaths.includes(pathname)) {
+        customAxios.get(Constants.API_USER_INFO_FROM_TOKEN).then((res) => {
+          const user_id = res.data.user_id;
+          const user_name = res.data.first_name + " " + res.data.last_name;
+          window.localStorage.setItem("user_id", user_id);
+          window.localStorage.setItem("user_name", user_name);
+          setTokenChecked(true);
+        });
+      } else {
+        setTokenChecked(true);
+      }
+    }
+  }, [location, navigate, pathname, tokenChecked]);
 
   const setAlert = (message, type, duration, position) => {
     setShowAlert(true);
@@ -90,7 +132,10 @@ const App = (props) => {
   return (
     <>
       <AuthProvider>
-        <NavBar></NavBar>
+        <NavBar
+          authStatus={tokenChecked}
+          authStatusUpdater={setTokenChecked}
+        ></NavBar>
         {pathname === "/" && (
           <>
             <div

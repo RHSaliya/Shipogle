@@ -31,7 +31,7 @@ const ExpandButton = styled(Button)({
   color: "black",
 });
 
-export default function NavBar() {
+export default function NavBar({ authStatus, authStatusUpdater }) {
   const { isAuthenticated, login, logout } = useContext(AuthContext);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -58,6 +58,21 @@ export default function NavBar() {
     );
   };
 
+  useEffect(() => {
+    console.log(authStatus, isAuthenticated, "status of auth");
+    if (authStatus && isAuthenticated) {
+      login();
+    } else if (!authStatus && isAuthenticated) {
+      login();
+    } else if (authStatus && !isAuthenticated) {
+      login();
+    } else if (!authStatus && !isAuthenticated) {
+      logout();
+    } else {
+      logout();
+    }
+  }, [authStatus, login, logout, isAuthenticated]);
+
   const handleClickOnExpand = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -74,33 +89,16 @@ export default function NavBar() {
     if (isAuthenticated) {
       getCurrentLocation((userLocation) => {
         customAxios.put(Constants.UPDATELOCATION, userLocation).then(
-          (res) => { },
+          (res) => {},
           (error) => {
             console.error(error);
           }
         );
       });
-      /*
-      customAxios
-        .get(
-          Constants.API_NOTIFICATIONS + "/" + localStorage.getItem("user_id")
-        )
-        .then(
-          (res) => {
-            console.log(res);
-          },
-          (error) => {
-            console.error(error);
-            commFunc.showAlertMessage(
-              "Error while fetching notification",
-              "error",
-              2000,
-              "bottom"
-            );
-          }
-        );*/
+    } else {
+      authStatusUpdater(false);
     }
-  }, [isAuthenticated]);
+  }, [authStatusUpdater, isAuthenticated]);
 
   return (
     <div className="navbar-container">
@@ -173,13 +171,11 @@ export default function NavBar() {
             marginTop: "-8px",
           }}
         >
-          <Avatar
-            onClick={handleClickOnExpand}
-          >
+          <Avatar onClick={handleClickOnExpand}>
             {isAuthenticated
               ? commFunc.getDriverInitials(
-                window.localStorage.getItem("user_name")
-              )
+                  window.localStorage.getItem("user_name")
+                )
               : ""}
           </Avatar>
 
@@ -248,8 +244,16 @@ export default function NavBar() {
                   </Link>
                 </MenuItem>
                 <MenuItem>
-                  <Link style={{ textDecoration: "none" }} to="/user/editprofile">
+                  <Link
+                    style={{ textDecoration: "none" }}
+                    to="/user/editprofile"
+                  >
                     Edit Profile
+                  </Link>
+                </MenuItem>
+                <MenuItem>
+                  <Link style={{ textDecoration: "none" }} to="/issues">
+                    Reported Issues
                   </Link>
                 </MenuItem>
                 <MenuItem
@@ -257,7 +261,6 @@ export default function NavBar() {
                     logout();
                   }}
                 >
-
                   <Link style={{ textDecoration: "none" }} to="/login">
                     Logout
                   </Link>

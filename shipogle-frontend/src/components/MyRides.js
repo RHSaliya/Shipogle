@@ -18,7 +18,6 @@ export default function MyRides() {
   const [isLoading, setIsLoading] = React.useState(true);
   const commFunc = new CommonFunctions();
   const accept = (request) => {
-    console.log(request);
     const body = { package_request_id: request.package_request_id };
     customAxios.post(Constants.ACCEPTREQUEST, body).then(
       (res) => {},
@@ -32,7 +31,7 @@ export default function MyRides() {
     const body = { package_request_id: request.package_request_id };
     customAxios.post(Constants.REJECTREQUEST, body).then(
       (res) => {
-        console.log(res);
+        commFunc.showAlertMessage("Request rejected", "info", 3000, "bottom");
         alert("request rejected");
       },
       (error) => {
@@ -44,8 +43,6 @@ export default function MyRides() {
   React.useEffect(() => {
     customAxios.get(Constants.GETREQUESTS).then(
       (res) => {
-        console.log(res);
-
         const requests = [];
         demoData.requests.forEach((request) => {
           requests.push(

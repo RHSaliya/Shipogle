@@ -1,12 +1,12 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import CommonFunctions from "../services/CommonFunction.js";
 import { CircularProgress } from "@mui/material";
 
-const apiKey = "AIzaSyBPtYm-CJPPW4yO9njM-e9YBWyp-DwIODM";
+//const apiKey = "AIzaSyBPtYm-CJPPW4yO9njM-e9YBWyp-DwIODM";
 
 const MapView = ({ locations }) => {
   console.log(locations);
-  const commFunc = new CommonFunctions();
+  const commFunc = useCallback(() => new CommonFunctions(), []);
   const mapRef = useRef(null);
   const [googleMaps, setGoogleMaps] = useState(null);
   const [map, setMap] = useState(null);
@@ -45,14 +45,14 @@ const MapView = ({ locations }) => {
         ("there was an error loading maps", "error", 3000, "bottom")
       );
     }
-  }, []);
+  }, [commFunc]);
 
   useEffect(() => {
     if (googleMaps && center) {
       console.log("now showing map");
       const mapOptions = {
         zoom: 18,
-        center: new googleMaps.LatLng(center.lat, center.lng),
+        center: new googleMaps.LatLng(center?.lat, center?.lng),
       };
 
       const newMap = new googleMaps.Map(mapRef.current, mapOptions);
@@ -65,9 +65,12 @@ const MapView = ({ locations }) => {
 
       // Add a new marker for the current location
       const newCurrentLocationMarker = new googleMaps.Marker({
-        position: new googleMaps.LatLng(center.lat, center.lng),
+        position: new googleMaps.LatLng(
+          center?.lat ? center?.lat : 44.637073,
+          center?.lng ? center?.lng : -63.589928
+        ),
         map: newMap,
-        label: "You",
+        label: "You location",
         icon: {
           url: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png",
         },
@@ -75,16 +78,9 @@ const MapView = ({ locations }) => {
 
       setCurrentLocationMarker(newCurrentLocationMarker);
     }
-  }, [googleMaps, center]);
+  }, [googleMaps, center, currentLocationMarker]);
 
-  useEffect(() => {
-    if (map) {
-      updateMarkers();
-      setIsLoading(false);
-    }
-  }, [map, locations]);
-
-  const updateMarkers = () => {
+  const updateMarkers = useCallback(() => {
     markers.forEach((marker) => marker.setMap(null));
 
     const newMarkers = locations.map((location) => {
@@ -101,7 +97,14 @@ const MapView = ({ locations }) => {
     });
 
     setMarkers(newMarkers);
-  };
+  }, [googleMaps.LatLng, googleMaps.Marker, locations, map, markers]);
+
+  useEffect(() => {
+    if (map) {
+      updateMarkers();
+      setIsLoading(false);
+    }
+  }, [map, locations, updateMarkers]);
 
   return (
     <>
