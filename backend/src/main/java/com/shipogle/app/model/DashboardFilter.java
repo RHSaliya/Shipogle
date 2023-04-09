@@ -1,5 +1,8 @@
 package com.shipogle.app.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class DashboardFilter {
     private String sourceCity;
     private String destination;
@@ -70,4 +73,12 @@ public class DashboardFilter {
     public void setCategory(String category) {
         this.category = category;
     }
+
+//    public List<DriverRoute> getDriverRoutesByFilters(DashboardFilter filters) {
+//        List<DriverRoute> routes = new ArrayList<>();
+//
+//        // Perform filtering logic and add matching routes to the list
+//
+//        return routes;
+//    }
 }

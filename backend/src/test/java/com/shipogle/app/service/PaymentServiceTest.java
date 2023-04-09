@@ -20,6 +20,11 @@ class PaymentServiceTest {
 
     private PaymentService paymentService;
 
+    private final int TEST_AMOUNT = 1223;
+
+    final private int TEST_CARD_EXPIRY_MONTH=10;
+    final private int TEST_CARD_EXPIRY_YEAR=2028;
+
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
@@ -34,9 +39,9 @@ class PaymentServiceTest {
         paymentRequest.setCardNumber("4111111111221111");
         paymentRequest.setCardCvv("457");
         paymentRequest.setCurrency("100.0");
-        paymentRequest.setAmount(new BigDecimal(1223));
-        paymentRequest.setCardExpiryMonth(10);
-        paymentRequest.setCardExpiryYear(2028);
+        paymentRequest.setAmount(new BigDecimal(TEST_AMOUNT));
+        paymentRequest.setCardExpiryMonth(TEST_CARD_EXPIRY_MONTH);
+        paymentRequest.setCardExpiryYear(TEST_CARD_EXPIRY_YEAR);
         PaymentResponse paymentGatewayResponse = new PaymentResponse();
         paymentGatewayResponse.setStatus("success");
         paymentGatewayResponse.setMessage("Payment processed successfully");
@@ -98,9 +103,9 @@ class PaymentServiceTest {
         paymentRequest.setCardNumber("4111111111221111");
         paymentRequest.setCardCvv("457");
         paymentRequest.setCurrency("100.0");
-        paymentRequest.setAmount(new BigDecimal(1223));
-        paymentRequest.setCardExpiryMonth(10);
-        paymentRequest.setCardExpiryYear(2028);
+        paymentRequest.setAmount(new BigDecimal(TEST_AMOUNT));
+        paymentRequest.setCardExpiryMonth(TEST_CARD_EXPIRY_MONTH);
+        paymentRequest.setCardExpiryYear(TEST_CARD_EXPIRY_YEAR);
 
         when(paymentGatewayClient.chargeCreditCard(paymentRequest)).thenThrow(new PaymentGatewayException("Something went wrong"));
 

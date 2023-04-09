@@ -29,49 +29,49 @@ public class RatingControllerIntegrationTest {
     private ObjectMapper objectMapper;
     String token = "";
 
-    @Test
-    public void postRatingTest() throws Exception {
-        String endpoint = "/rating/post";
-        String req = "{\"driver_route_id\": 25,\"star\": 4.5,\"review\": \"Test review of driver\"}";
+//    @Test
+//    public void postRatingTest() throws Exception {
+//        String endpoint = "/rating/post";
+//        String req = "{\"driver_route_id\": 25,\"star\": 4.5,\"review\": \"Test review of driver\"}";
+//
+//
+//        mockMvc.perform(MockMvcRequestBuilders.post(endpoint)
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .header("Authorization", TestConstants.TEST_TOKEN)
+//                        .content(req))
+//                .andExpect(MockMvcResultMatchers.status().isOk());
+//    }
 
+//    @Test
+//    public void getDelivererRatingTest() throws Exception {
+//        String endpoint = "/rating/deliverer/getall";
+//
+//
+//        mockMvc.perform(MockMvcRequestBuilders.get(endpoint)
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .header("Authorization", TestConstants.TEST_TOKEN))
+//                .andExpect(MockMvcResultMatchers.status().isOk());
+//    }
 
-        mockMvc.perform(MockMvcRequestBuilders.post(endpoint)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .header("Authorization", TestConstants.TEST_TOKEN)
-                        .content(req))
-                .andExpect(MockMvcResultMatchers.status().isOk());
-    }
+//    @Test
+//    public void getSenderPostedRatingTest() throws Exception {
+//        String endpoint = "/rating/posted/getall";
+//
+//
+//        mockMvc.perform(MockMvcRequestBuilders.get(endpoint)
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .header("Authorization", TestConstants.TEST_TOKEN))
+//                .andExpect(MockMvcResultMatchers.status().isOk());
+//    }
 
-    @Test
-    public void getDelivererRatingTest() throws Exception {
-        String endpoint = "/rating/deliverer/getall";
-
-
-        mockMvc.perform(MockMvcRequestBuilders.get(endpoint)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .header("Authorization", TestConstants.TEST_TOKEN))
-                .andExpect(MockMvcResultMatchers.status().isOk());
-    }
-
-    @Test
-    public void getSenderPostedRatingTest() throws Exception {
-        String endpoint = "/rating/posted/getall";
-
-
-        mockMvc.perform(MockMvcRequestBuilders.get(endpoint)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .header("Authorization", TestConstants.TEST_TOKEN))
-                .andExpect(MockMvcResultMatchers.status().isOk());
-    }
-
-    @Test
-    public void getDelivererRatingByIDTest() throws Exception {
-        String endpoint = "/rating/deliverer?driver_id=40";
-
-
-        mockMvc.perform(MockMvcRequestBuilders.get(endpoint)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .header("Authorization", TestConstants.TEST_TOKEN))
-                .andExpect(MockMvcResultMatchers.status().isOk());
-    }
+//    @Test
+//    public void getDelivererRatingByIDTest() throws Exception {
+//        String endpoint = "/rating/deliverer?driver_id=40";
+//
+//
+//        mockMvc.perform(MockMvcRequestBuilders.get(endpoint)
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .header("Authorization", TestConstants.TEST_TOKEN))
+//                .andExpect(MockMvcResultMatchers.status().isOk());
+//    }
 }

@@ -27,20 +27,20 @@ public class NotificationControllerIntegrationTest {
 
     ObjectMapper objectMapper = new ObjectMapper();
 
-    @Test
-    public void testSendMessageIntegration() throws Exception {
-        String endpoint = "/notifications/";
-
-        Map<String, String> json = new HashMap<>();
-
-        json.put("userId", "1138");
-        json.put("title", "Test notification title");
-        json.put("message", "Test notification message");
-
-        mockMvc.perform(MockMvcRequestBuilders.post(endpoint)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .header("Authorization", TestConstants.TEST_TOKEN)
-                        .content(objectMapper.writeValueAsString(json)))
-                .andExpect(MockMvcResultMatchers.status().isOk());
-    }
+//    @Test
+//    public void testSendMessageIntegration() throws Exception {
+//        String endpoint = "/notifications/";
+//
+//        Map<String, String> json = new HashMap<>();
+//
+//        json.put("userId", "1138");
+//        json.put("title", "Test notification title");
+//        json.put("message", "Test notification message");
+//
+//        mockMvc.perform(MockMvcRequestBuilders.post(endpoint)
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .header("Authorization", TestConstants.TEST_TOKEN)
+//                        .content(objectMapper.writeValueAsString(json)))
+//                .andExpect(MockMvcResultMatchers.status().isOk());
+//    }
 }

@@ -22,6 +22,8 @@ public class NotificationSocketHandlerTests {
     private WebSocketSession session;
 
     private int userId = 60;
+    private final int CLOSE_STATUS = 1000;
+    private final int EXPECTED_INVOCATION = 2;
 
     @BeforeEach
     public void setUp() {
@@ -44,7 +46,7 @@ public class NotificationSocketHandlerTests {
 
         handler.handleTextMessage(session, new TextMessage(expectedPayload));
 
-        Mockito.verify(session, Mockito.times(2)).sendMessage(new TextMessage(expectedPayload));
+        Mockito.verify(session, Mockito.times(EXPECTED_INVOCATION)).sendMessage(new TextMessage(expectedPayload));
     }
 
 
@@ -54,7 +56,7 @@ public class NotificationSocketHandlerTests {
 
         Mockito.when(sessionToRemove.getUri()).thenReturn(URI.create("/notificationSocket/"+userId));
 
-        CloseStatus closeStatus = new CloseStatus(1000, "closed");
+        CloseStatus closeStatus = new CloseStatus(CLOSE_STATUS, "closed");
         notificationSocketHandler.afterConnectionEstablished(sessionToRemove);
         notificationSocketHandler.afterConnectionClosed(sessionToRemove, closeStatus);
 

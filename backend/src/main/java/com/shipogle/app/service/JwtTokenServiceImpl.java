@@ -26,6 +26,12 @@ public class JwtTokenServiceImpl implements JwtTokenService{
     @Autowired
     JwtTokenRepository jwtTokenRepo;
 
+    /**
+     * @author Nandkumar Kadivar
+     * Create jwt token for user and set status of token
+     * @param user user.
+     * @return String jwt token for that user.
+     */
     public JwtToken createJwtToken(User user) {
         JwtToken token = new JwtToken();
 
@@ -36,17 +42,26 @@ public class JwtTokenServiceImpl implements JwtTokenService{
         jwtBuilder.signWith(generateKey());
         String jwt_token = jwtBuilder.compact();
 
-        // System.out.println("JWT Token is "+jwt_token);
         token.setToken(jwt_token);
         token.setIs_active(true);
         token.setUser(user);
         return token;
     }
 
+    /**
+     * @author Nandkumar Kadivar
+     * Generate key for token
+     * @return String secret key.
+     */
     public Key generateKey() {
         return new SecretKeySpec(Base64.getDecoder().decode(SECRET_KEY), SignatureAlgorithm.HS256.getJcaName());
     }
 
+    /**
+     * @author Nandkumar Kadivar
+     * Generate key for token
+     * @return String secret key.
+     */
     public void deactiveUserTokens(User user) {
         List<JwtToken> activeTokens = jwtTokenRepo.getAllByUser(user);
         for (JwtToken t : activeTokens) {
@@ -55,6 +70,11 @@ public class JwtTokenServiceImpl implements JwtTokenService{
         jwtTokenRepo.saveAll(activeTokens);
     }
 
+    /**
+     * @author Nandkumar Kadivar
+     * Resturn activation status of jwt
+     * @return boolean status.
+     */
     public boolean isJwtActive(String token) {
         JwtToken jwt_token = jwtTokenRepo.getJwtTokensByToken(token);
 
