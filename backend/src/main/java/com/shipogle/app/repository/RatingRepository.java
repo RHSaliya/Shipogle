@@ -10,7 +10,7 @@ import java.util.List;
 @Repository
 public interface RatingRepository extends JpaRepository<Rating,Integer> {
     Rating getRatingById(Integer rating_id);
-    List<Rating> getAllByDriverRoute_DriverId(Long driver_id);
+    List<Rating> getAllByDriverRoute_DriverId(String driver_id);
 
     List<Rating> getAllByUser_Id(Integer sender_id);
 }
