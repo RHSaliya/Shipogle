@@ -17,7 +17,6 @@ a {
 a:hover {
   color: #211522;
   text-decoration: underline;
-
 }
 
 .App-logo {
@@ -56,7 +55,6 @@ a:hover {
   }
 }
 
-
 /* Header css */
 .Header {
   margin: 0px auto;
@@ -64,8 +62,7 @@ a:hover {
   background-color: white;
   text-align: center;
   padding: 30px;
-  color: #3F0744;
-
+  color: #3f0744;
 }
 
 .Header .title {
@@ -76,7 +73,6 @@ a:hover {
 
 .Header .info {
   font-size: 30px;
-
 }
 
 /* Section css for Home Page */
@@ -84,7 +80,8 @@ a:hover {
   padding: 4em;
   margin: 2em auto;
   width: 60%;
-  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+    rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
 }
 
 .section-title {
@@ -93,7 +90,6 @@ a:hover {
   padding: 1em 0;
 }
 
-
 /*login area*/
 .navbar {
   display: flex;
@@ -101,13 +97,13 @@ a:hover {
   padding: 10px 30px;
 }
 
-.navbar>a {
+.navbar > a {
   padding: 10px;
-  color: #3F0744;
+  color: #3f0744;
   text-decoration: none;
 }
 
-.navbar>a:hover {
+.navbar > a:hover {
   font-size: 1.2em;
 }
 
@@ -120,7 +116,6 @@ a:hover {
   padding: 2%;
   width: 70%;
   text-align: center;
-
 }
 
 .login-box input {
@@ -129,13 +124,13 @@ a:hover {
   margin: 20px auto;
   width: 40%;
   min-width: 10em;
-  border: 1px solid #3F0744;
+  border: 1px solid #3f0744;
   border-radius: 10px;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
 .btn {
-  background-color: #3F0744;
+  background-color: #3f0744;
   color: white;
   padding: 0.5rem 1rem;
   border-radius: 5px;
@@ -143,7 +138,7 @@ a:hover {
 
 .btn:hover {
   background-color: white;
-  color: #3F0744;
+  color: #3f0744;
   padding: 0.5rem 1rem;
   border-radius: 5px;
   cursor: pointer;
@@ -155,7 +150,7 @@ a:hover {
   padding: 4em 0;
   color: white;
   width: 100%;
-  background-color: #3F0744;
+  background-color: #3f0744;
 }
 
 .regPageForm .Header,
@@ -165,12 +160,12 @@ a:hover {
   padding: 4em 0;
   color: white;
   width: 100%;
-  background-color: #3F0744;
+  background-color: #3f0744;
 }
 
 /*role box*/
 .reg-roll-box {
-  border: 2px solid #3F0744;
+  border: 2px solid #3f0744;
   margin: 2em;
   display: flex;
   flex: 1 1 0px;
@@ -178,7 +173,7 @@ a:hover {
   flex-direction: column;
 }
 
-@media (max-width:540px) {
+@media (max-width: 540px) {
   .regRole {
     flex-direction: column;
   }
@@ -198,7 +193,6 @@ a:hover {
 }
 
 .reg-roll-box .role-info {
-
   padding: 10px;
 }
 
@@ -210,8 +204,6 @@ a:hover {
 
 .btn.reg {
   border-radius: 0px;
-
-
 }
 
 .one {
@@ -250,32 +242,27 @@ a:hover {
 }
 
 .subheading {
-  color: #3F0744;
+  color: #3f0744;
   font-size: 1.7em;
 }
 
-@media (max-width:936px) {
-
+@media (max-width: 936px) {
   .form .address,
   .form .name,
   .form .contact {
     flex-direction: column;
   }
-
-
 }
 
-@media (max-width:400px) {
+@media (max-width: 400px) {
   .form {
     margin: 1em;
     border: 2px solid black;
     padding: 1em;
   }
-
 }
 
-@media (max-width:800px) {
-
+@media (max-width: 800px) {
   .form .contact input,
   .form .name {
     width: 100%;
@@ -288,12 +275,12 @@ a:hover {
   width: 60%;
   padding: 4em;
   box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
-  background-color: #3F0744;
+  background-color: #3f0744;
   color: white;
   text-align: center;
 }
 
-.regSuccessBox>a {
+.regSuccessBox > a {
   color: white;
   text-decoration: none;
 }
@@ -311,18 +298,18 @@ a:hover {
 .btn.checkVeri {
   height: 20px;
   background-color: white;
-  color: #3F0744;
+  color: #3f0744;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
 }
 
 .btn.checkVeri:hover {
   color: white;
-  background-color: #3F0744;
+  background-color: #3f0744;
 }
 
 .btn.checkVeri:clicked {
   color: white;
-  background-color: #3F0744;
+  background-color: #3f0744;
 }
 
 .validationForm {
@@ -331,7 +318,7 @@ a:hover {
 }
 
 .dashboardToolbar {
-  background-color: #3F0744;
+  background-color: #3f0744;
 }
 
 /* Send form */
@@ -339,7 +326,7 @@ a:hover {
   width: 65%;
   margin: 3em auto;
   padding: 2em;
-  border: 2px solid #3F0744;
+  border: 2px solid #3f0744;
   border-radius: 10px;
 }
 
@@ -356,14 +343,12 @@ a:hover {
   justify-content: space-between;
 }
 
-
 .routeinfo {
   margin: 0em 0 2em 0;
   display: flex;
   flex-wrap: wrap;
   gap: 1em;
   justify-content: flex-start;
-
 }
 
 .matchRes {
@@ -385,16 +370,18 @@ a:hover {
   align-items: center;
 }
 
-.notification-header>button {
-  margin-right: 1.5em;
+.notification-header > button {
+  margin-right: 1em;
+  padding-bottom: 20px;
+  height: 30px;
 }
 
-.notif>h4 {
-  margin-top: 0.5em;
+.notif > h4 {
+  margin-top: 0px;
   margin-bottom: 0px;
 }
 
-.notif>a>p {
+.notif > a > p {
   margin-top: 0px;
   margin-bottom: 0.5em;
 }
@@ -404,16 +391,15 @@ a:hover {
   width: 60%;
   padding: 4em;
   box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
-  background-color: #3F0744;
+  background-color: #3f0744;
   color: white;
   text-align: center;
 }
 
-.feedback-issue-box>a {
+.feedback-issue-box > a {
   color: white;
   text-decoration: none;
 }
-
 .stars {
   height: 40px;
 }
