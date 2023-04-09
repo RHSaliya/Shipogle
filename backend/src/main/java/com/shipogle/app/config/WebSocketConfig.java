@@ -10,6 +10,12 @@ import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry
 import org.springframework.web.socket.server.support.DefaultHandshakeHandler;
 import org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor;
 
+/*
+ * Reference: https://spring.io/guides/gs/messaging-stomp-websocket/
+ * Reference: https://www.baeldung.com/spring-websockets-send-message-to-user
+ * Reference: https://blog.logrocket.com/websocket-tutorial-real-time-node-react/
+ */
+
 @Configuration
 @EnableWebSocket
 public class WebSocketConfig implements WebSocketConfigurer {

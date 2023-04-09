@@ -16,7 +16,7 @@ public class RatingController {
     @PostMapping("rating/post")
     public String postRating(@RequestBody Map<String,String> req){
         Long driver_route_id = Long.valueOf(req.get("driver_route_id"));
-        Float start = Float.valueOf(req.get("star"));
+        float start = Float.parseFloat(req.get("star"));
         String review = req.get("review");
         return ratingService.storeRating(driver_route_id,start,review);
     }
@@ -38,6 +38,6 @@ public class RatingController {
 
     @GetMapping("rating/deliverer")
     public List<Rating> getDelivererRatingById(@RequestParam int driver_id){
-        return ratingService.getDelivererRatingWithID(Integer.valueOf(driver_id));
+        return ratingService.getDelivererRatingWithID(driver_id);
     }
 }
