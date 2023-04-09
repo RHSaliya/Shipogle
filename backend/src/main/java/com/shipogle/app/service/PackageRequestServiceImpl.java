@@ -35,15 +35,19 @@ public class PackageRequestServiceImpl implements PackageRequestService {
     @Autowired
     UserServiceImpl userService;
 
+    /**
+     * @author Nandkumar Kadivar
+     * Send package request to deliverer route
+     * @param req request
+     * @return string response.
+     */
     @Override
     public String sendRequest(Map<String,String> req){
         try{
-//            int request_count = packageRequestRepo.countAllBy_package_IdAndDeliverer_Id(Integer.valueOf(req.get("package_id")),Integer.valueOf(req.get("deliverer_id")));
             Integer package_id = Integer.valueOf(req.get("package_id"));
             Long driver_route_id = Long.valueOf(req.get("driver_route_id"));
             int request_count = packageRequestRepo.countAllBy_package_IdAndDriverRoute_Id(package_id,driver_route_id);
             if(packageOrderService.isPackageOrderExist(Integer.valueOf(req.get("package_id")))){
-//                return "Cannot send request after order creation";
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cannot send request after order creation");
             }
 
@@ -68,29 +72,37 @@ public class PackageRequestServiceImpl implements PackageRequestService {
                 boolean isInvalidPackageOrRoute = p==null || driverRoute==null;
 
                 if(isInvalidSenderOrDeliverer || isInvalidPackageOrRoute){
-//                    return "Invalid request";
                     throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid request");
                 }
 
                 packageRequestRepo.save(packageRequest);
             }else {
-//                return "Already requested";
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Already requested");
             }
 
             return "Request sent";
         }catch (Exception e){
-//            return e.getMessage();
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
 
+    /**
+     * @author Nandkumar Kadivar
+     * Change status of package request
+     * @param package_request_id package request id
+     * @param new_status new status that needs to be updated
+     */
     private void changeRequestStatus(Integer package_request_id,String new_status){
         PackageRequest packageRequest = packageRequestRepo.getPackageRequestById(package_request_id);
         packageRequest.setStatus(new_status);
         packageRequestRepo.save(packageRequest);
     }
 
+    /**
+     * @author Nandkumar Kadivar
+     * Reject all the request
+     * @param package_id package id
+     */
     private void rejectOtherPackageRequests(Integer package_id){
         List<PackageRequest> requests = packageRequestRepo.getAllBy_package_Id(package_id);
         for (PackageRequest req: requests) {
@@ -99,13 +111,18 @@ public class PackageRequestServiceImpl implements PackageRequestService {
         }
     }
 
+    /**
+     * @author Nandkumar Kadivar
+     * Accept the request
+     * @param package_request_id package request id
+     * @return string response message
+     */
     @Override
     public String acceptRequest(Integer package_request_id){
         try{
             PackageRequest packageRequest = packageRequestRepo.getPackageRequestById(package_request_id);
 
             if (isAbleToAcceptRequest(packageRequest)){
-//                return "Cannot accept request";
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cannot accept request");
             }
 
@@ -120,11 +137,16 @@ public class PackageRequestServiceImpl implements PackageRequestService {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Fail to create order");
 
         }catch (Exception e){
-//            return e.getMessage();
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
 
+    /**
+     * @author Nandkumar Kadivar
+     * Check if request is aligible to accept
+     * @param packageRequest package request
+     * @return boolean response
+     */
     private boolean isAbleToAcceptRequest(PackageRequest packageRequest){
         boolean isRequestRejected = packageRequest.getStatus().equals("rejected");
         boolean isRequestAccepted = packageRequest.getStatus().equals("accepted");
@@ -132,13 +154,18 @@ public class PackageRequestServiceImpl implements PackageRequestService {
         return packageRequest == null || isRequestRejected || isRequestAccepted;
     }
 
+    /**
+     * @author Nandkumar Kadivar
+     * Reject the request
+     * @param package_request_id package request id
+     * @return string response
+     */
     @Override
     public String rejectRequest(Integer package_request_id){
         try{
             PackageRequest packageRequest = packageRequestRepo.getPackageRequestById(package_request_id);
 
             if (packageRequest == null || packageRequest.getStatus().equals("rejected")){
-//                return "Already rejected";
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Already rejected");
             }
 
@@ -146,11 +173,16 @@ public class PackageRequestServiceImpl implements PackageRequestService {
 
             return "Request rejected";
         }catch (Exception e){
-//            return e.getMessage();
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
 
+    /**
+     * @author Nandkumar Kadivar
+     * Delete the package request
+     * @param package_request_id package request id
+     * @return string response
+     */
     @Override
     public String unsendRequest(Integer package_request_id){
         try{
@@ -158,12 +190,10 @@ public class PackageRequestServiceImpl implements PackageRequestService {
             PackageRequest packageRequest = packageRequestRepo.getPackageRequestById(package_request_id);
 
             if (packageRequest == null){
-//                return "No request found";
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "No request found");
             }
 
             if(packageRequest.getStatus().equals("accepted")){
-//                return "Cannot delete accepted request";
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cannot delete accepted request");
             }
 
@@ -171,19 +201,18 @@ public class PackageRequestServiceImpl implements PackageRequestService {
 
             return "Request deleted";
         }catch (Exception e){
-//            return e.getMessage();
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
 
+    /**
+     * @author Nandkumar Kadivar
+     * Fetch all requests for deliverer
+     * @return list of package requests
+     */
     @Override
     public List<PackageRequest> getRequest(){
         try {
-//            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//            String user_email = auth.getPrincipal().toString();
-//
-//            User deliverer = userRepo.getUserByEmail(user_email);
-
             User deliverer = userService.getLoggedInUser();
 
             if (deliverer == null)

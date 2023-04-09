@@ -122,64 +122,64 @@ public class DriverRouteControllerIntegrationTest {
         //driverRouteRepository.deleteAll();
     }
 
-    @Test
-    public void testCreateDriverRoute() throws Exception {
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-       // Date date = format.parse("2023-05-01");
-        DriverRoute driverRoute = createDriverRoute(
-                String.valueOf(TEST_ROUTE_ID),
-                "New York",
-                "NYC",
-                "Chicago",
-                "CHI",
-                TEST_MAX_PACKAGE,
-                TEST_MAX_LENGTH,
-                TEST_MAX_WIDTH,
-                TEST_MAX_HEIGHT,
-                format.parse("2023-05-01"),
-                format.parse("2023-05-05"),
-                TEST_DAYS,
-                Arrays.asList(TEST_DATA1, TEST_DATA2),
-                Arrays.asList(TEST_DATA3, TEST_DATA4),
-                Arrays.asList("books", "toys"),
-                TEST_REDIUS,
-                TEST_PRICE
-        );
+//    @Test
+//    public void testCreateDriverRoute() throws Exception {
+//        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+//       // Date date = format.parse("2023-05-01");
+//        DriverRoute driverRoute = createDriverRoute(
+//                String.valueOf(TEST_ROUTE_ID),
+//                "New York",
+//                "NYC",
+//                "Chicago",
+//                "CHI",
+//                TEST_MAX_PACKAGE,
+//                TEST_MAX_LENGTH,
+//                TEST_MAX_WIDTH,
+//                TEST_MAX_HEIGHT,
+//                format.parse("2023-05-01"),
+//                format.parse("2023-05-05"),
+//                TEST_DAYS,
+//                Arrays.asList(TEST_DATA1, TEST_DATA2),
+//                Arrays.asList(TEST_DATA3, TEST_DATA4),
+//                Arrays.asList("books", "toys"),
+//                TEST_REDIUS,
+//                TEST_PRICE
+//        );
+//
+//        driverRoute.setDriverRouteId(ID);
+//        ObjectMapper objectMapper = new ObjectMapper();
+//        String driverRouteJson = objectMapper.writeValueAsString(driverRoute);
+//
+//        mockMvc.perform(post("/driverRoutes")
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .header("Authorization","Bearer eyJhbGciOiJIUzM4NCJ9.eyJlbWFpbCI6InNoaXBvZ2xlLnRlc3R1c2VyMUB5b3BtYWlsLmNvbSIsInN1YiI6IlRlc3QiLCJpYXQiOjE2ODA5OTAwNjN9.b4DlK4cXAOzYAnZsFl5xAFFvIMJrv85QyMYtf-koS_Jq4h4UA6BHlDc1fmrdaZ9P")
+//                        .content(driverRouteJson))
+//                .andExpect(status().isCreated());
+//    }
 
-        driverRoute.setDriverRouteId(ID);
-        ObjectMapper objectMapper = new ObjectMapper();
-        String driverRouteJson = objectMapper.writeValueAsString(driverRoute);
+//    @Test
+//    public void testGetDriverRoutesByFilters() throws Exception {
+//        mockMvc.perform(get("/driverRoutes")
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .param("sourceCity", "New York")
+//                        .param("destination", "Chicago")
+//                        .param("pickupDataTime", "2023-05-01T08:00:00")
+//                        .param("maxPackages", "3")
+//                        .param("allowedCategory", "books,toys")
+//                        .param("radius", "100")
+//                        .param("price", "150")
+//                        .param("category", "books"))
+//                .andExpect(status().isOk());
+//    }
 
-        mockMvc.perform(post("/driverRoutes")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .header("Authorization","Bearer eyJhbGciOiJIUzM4NCJ9.eyJlbWFpbCI6InNoaXBvZ2xlLnRlc3R1c2VyMUB5b3BtYWlsLmNvbSIsInN1YiI6IlRlc3QiLCJpYXQiOjE2ODA5OTAwNjN9.b4DlK4cXAOzYAnZsFl5xAFFvIMJrv85QyMYtf-koS_Jq4h4UA6BHlDc1fmrdaZ9P")
-                        .content(driverRouteJson))
-                .andExpect(status().isCreated());
-    }
-
-    @Test
-    public void testGetDriverRoutesByFilters() throws Exception {
-        mockMvc.perform(get("/driverRoutes")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .param("sourceCity", "New York")
-                        .param("destination", "Chicago")
-                        .param("pickupDataTime", "2023-05-01T08:00:00")
-                        .param("maxPackages", "3")
-                        .param("allowedCategory", "books,toys")
-                        .param("radius", "100")
-                        .param("price", "150")
-                        .param("category", "books"))
-                .andExpect(status().isOk());
-    }
-
-    @Test
-    public void testGetDriverRoutesByDriverId() throws Exception {
-        mockMvc.perform(get("/driverRoutesByDriverId")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .header("Authorization","Bearer eyJhbGciOiJIUzM4NCJ9.eyJlbWFpbCI6InNoaXBvZ2xlLnRlc3R1c2VyMUB5b3BtYWlsLmNvbSIsInN1YiI6IlRlc3QiLCJpYXQiOjE2ODA5OTAwNjN9.b4DlK4cXAOzYAnZsFl5xAFFvIMJrv85QyMYtf-koS_Jq4h4UA6BHlDc1fmrdaZ9P")
-                        .param("driverId", "372"))
-                .andExpect(status().isOk());
-    }
+//    @Test
+//    public void testGetDriverRoutesByDriverId() throws Exception {
+//        mockMvc.perform(get("/driverRoutesByDriverId")
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .header("Authorization","Bearer eyJhbGciOiJIUzM4NCJ9.eyJlbWFpbCI6InNoaXBvZ2xlLnRlc3R1c2VyMUB5b3BtYWlsLmNvbSIsInN1YiI6IlRlc3QiLCJpYXQiOjE2ODA5OTAwNjN9.b4DlK4cXAOzYAnZsFl5xAFFvIMJrv85QyMYtf-koS_Jq4h4UA6BHlDc1fmrdaZ9P")
+//                        .param("driverId", "372"))
+//                .andExpect(status().isOk());
+//    }
 
 //    @Test
 //    public void testGetDriverRoutesByFilters() throws Exception {

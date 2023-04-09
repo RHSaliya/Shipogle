@@ -23,11 +23,14 @@ public class PackageServiceImpl implements PackageService{
     @Autowired
     UserService userService;
 
+    /**
+     * @author Nandkumar Kadivar
+     * Store package details
+     * @param courier package
+     * @return integer stored package id
+     */
     public Integer storePackage(Package courier){
         try {
-//            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//            String user_email = auth.getPrincipal().toString();
-//            User user = userRepo.getUserByEmail(user_email);
             User user = userService.getLoggedInUser();
 
             courier.setSender(user);
@@ -35,32 +38,33 @@ public class PackageServiceImpl implements PackageService{
 
             return package_id;
         }catch (Exception e){
-//            System.out.println(e.getMessage());
-//            return null;
-//            return "Failed to save package";
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Failed to save package");
         }
     }
 
+    /**
+     * @author Nandkumar Kadivar
+     * Fetch all the packages of user
+     * @return list of packages
+     */
     public List<Package> getPackages(){
         try {
-//            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//            String user_email = auth.getPrincipal().toString();
-//            User user = userRepo.getUserByEmail(user_email);
             User user = userService.getLoggedInUser();
 
             List<Package> packages = packageRepo.getAllBySender(user);
-//            for (Package i:packages) {
-//                System.out.println(i);
-//            }
 
             return packages;
         }catch (Exception e){
-//            return null;
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
 
+    /**
+     * @author Nandkumar Kadivar
+     * Fetch all the packages of user
+     * @param courier package
+     * @return list of packages
+     */
     public String updatePackage(Package courier){
         try{
             Package p = packageRepo.getPackageById((Integer) courier.getId());
@@ -77,7 +81,6 @@ public class PackageServiceImpl implements PackageService{
 
             return "Package updated";
         }catch (Exception e){
-//            return e.getMessage();
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }

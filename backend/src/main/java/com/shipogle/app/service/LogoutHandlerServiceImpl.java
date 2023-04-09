@@ -18,6 +18,10 @@ public class LogoutHandlerServiceImpl implements LogoutHandler {
     @Autowired
     JwtTokenRepository jwtTokenRepo;
 
+    /**
+     * @author Nandkumar Kadivar
+     * Deactivate jwt toke and logout user
+     */
     @Override
     public void logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
         if(request.getHeader("Authorization") == null){

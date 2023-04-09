@@ -11,6 +11,14 @@ public class MailServiceImpl extends SimpleMailMessage {
     @Autowired
     JavaMailSender sender;
 
+    /**
+     * @author Nandkumar Kadivar
+     * Send email to user
+     * @param email user email
+     * @param subject email subject
+     * @param body email body
+     * @param link link that needs to be shared in email
+     */
     public void sendMail(String email, String subject, String body ,String link){
         SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
 

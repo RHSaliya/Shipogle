@@ -36,6 +36,12 @@ public class AuthServiceImpl implements AuthService{
     @Autowired
     ForgotPasswordTokenService forgotPasswordTokenService;
 
+    /**
+     * @author Nandkumar Kadivar
+     * Check that user is already registered on not
+     * @param user user.
+     * @return boolean value.
+     */
     @Override
     public boolean isAlreadyExist(User user) {
         User db_user = userRepo.findUserByEmail(user.getEmail());
@@ -45,6 +51,13 @@ public class AuthServiceImpl implements AuthService{
         return true;
     }
 
+    /**
+     * @author Nandkumar Kadivar
+     * Reset password for user
+     * @param token reset password token.
+     * @param password new password string.
+     * @return String message.
+     */
     @Override
     public String resetPassword(String token, String password) {
         try {
@@ -70,6 +83,12 @@ public class AuthServiceImpl implements AuthService{
         }
     }
 
+    /**
+     * @author Nandkumar Kadivar
+     * Send reset password email to user
+     * @param email email string.
+     * @return String response message.
+     */
     @Override
     public String forgotPassword(String email) {
         try {
@@ -90,6 +109,13 @@ public class AuthServiceImpl implements AuthService{
         return "Password reset link sent";
     }
 
+    /**
+     * @author Nandkumar Kadivar
+     * Verify user email
+     * @param code verification code.
+     * @param id user id.
+     * @return String response message.
+     */
     @Override
     public String verifyEmail(String code, int id) {
 
@@ -113,6 +139,12 @@ public class AuthServiceImpl implements AuthService{
         }
     }
 
+    /**
+     * @author Nandkumar Kadivar
+     * Register user and send verification email
+     * @param new_user user.
+     * @return String response message.
+     */
     @Override
     public String register(User new_user) {
         if (!isAlreadyExist(new_user)) {
@@ -138,6 +170,13 @@ public class AuthServiceImpl implements AuthService{
         }
     }
 
+    /**
+     * @author Nandkumar Kadivar
+     * User login
+     * @param email user email.
+     * @param password user password.
+     * @return String jwt token for that user.
+     */
     @Override
     public String login(String email, String password) {
 

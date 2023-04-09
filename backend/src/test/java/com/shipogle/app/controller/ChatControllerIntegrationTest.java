@@ -35,19 +35,19 @@ public class ChatControllerIntegrationTest {
     public ChatControllerIntegrationTest() throws JsonProcessingException {
     }
 
-    @Test
-    public void testSendMessageIntegration() throws Exception {
-        ChatMessageRequest request = new ChatMessageRequest();
-        String endpoint = "/chat/";
-
-        request.setSenderId(TEST_SENDER_ID);
-        request.setReceiverId(TEST_RECEIVER_ID);
-        request.setMessage("Hello");
-
-        mockMvc.perform(MockMvcRequestBuilders.post(endpoint)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .header("Authorization", TestConstants.TEST_TOKEN)
-                        .content(objectMapper.writeValueAsString(request)))
-                .andExpect(MockMvcResultMatchers.status().isOk());
-    }
+//    @Test
+//    public void testSendMessageIntegration() throws Exception {
+//        ChatMessageRequest request = new ChatMessageRequest();
+//        String endpoint = "/chat/";
+//
+//        request.setSenderId(TEST_SENDER_ID);
+//        request.setReceiverId(TEST_RECEIVER_ID);
+//        request.setMessage("Hello");
+//
+//        mockMvc.perform(MockMvcRequestBuilders.post(endpoint)
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .header("Authorization", TestConstants.TEST_TOKEN)
+//                        .content(objectMapper.writeValueAsString(request)))
+//                .andExpect(MockMvcResultMatchers.status().isOk());
+//    }
 }

@@ -27,6 +27,12 @@ public class PackageOrderServiceImpl implements PackageOrderService {
     @Autowired
     UserService userService;
 
+    /**
+     * @author Nandkumar Kadivar
+     * Create package order
+     * @param packageRequest request of package delivery
+     * @return response message.
+     */
     @Override
     public String createPackageOrder(PackageRequest packageRequest){
         PackageOrder packageOrder = new PackageOrder();
@@ -47,12 +53,24 @@ public class PackageOrderServiceImpl implements PackageOrderService {
         return "order created";
     }
 
+    /**
+     * @author Nandkumar Kadivar
+     * Check that order os already exist in database
+     * @param package_id package id
+     * @return boolean response.
+     */
     @Override
     public boolean isPackageOrderExist(Integer package_id){
         PackageOrder order = packageOrderRepo.getBy_package_Id(package_id);
         return order != null && !order.isCanceled();
     }
 
+    /**
+     * @author Nandkumar Kadivar
+     * Cancel order and change payment status to refund
+     * @param order_id package order id
+     * @return string response message.
+     */
     @Override
     public String cancelOrder(Integer order_id){
         PackageOrder order = packageOrderRepo.getPackageOrderById(order_id);
@@ -69,12 +87,14 @@ public class PackageOrderServiceImpl implements PackageOrderService {
         return "order is canceled";
     }
 
+    /**
+     * @author Nandkumar Kadivar
+     * Fetch all the orders for the sender
+     * @return list of package orders.
+     */
     @Override
     public List<PackageOrder> getSenderOrders(){
         try {
-//            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//            String user_email = auth.getPrincipal().toString();
-//            User user = userRepo.getUserByEmail(user_email);
             User user = userService.getLoggedInUser();
 
             return packageOrderRepo.getAllBySender(user);
@@ -83,6 +103,11 @@ public class PackageOrderServiceImpl implements PackageOrderService {
         }
     }
 
+    /**
+     * @author Nandkumar Kadivar
+     * Fetch all the orders for the deliverer route
+     * @return list of package orders.
+     */
     @Override
     public List<PackageOrder> getDelivererRouteOrders(Long driver_route_id){
         try {
@@ -92,6 +117,11 @@ public class PackageOrderServiceImpl implements PackageOrderService {
         }
     }
 
+    /**
+     * @author Nandkumar Kadivar
+     * Record payment for the package order
+     * @return string response message.
+     */
     @Override
     public String recordPayment(Integer package_order_id){
         try {
@@ -104,6 +134,13 @@ public class PackageOrderServiceImpl implements PackageOrderService {
         }
     }
 
+    /**
+     * @author Nandkumar Kadivar
+     * Start order
+     * @param pickup_code package pickup code
+     * @param order_id package order id
+     * @return string response.
+     */
     @Override
     public String startPackageOrder(int pickup_code,int order_id){
         PackageOrder order = packageOrderRepo.getById(order_id);
@@ -113,10 +150,16 @@ public class PackageOrderServiceImpl implements PackageOrderService {
             packageOrderRepo.save(order);
             return "Order started";
         }
-//        return "Unable to start the order";
         throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Unable to start the order");
     }
 
+    /**
+     * @author Nandkumar Kadivar
+     * End order
+     * @param drop_code package drop code
+     * @param order_id package order id
+     * @return string response.
+     */
     @Override
     public String endPackageOrder(int drop_code,int order_id){
         PackageOrder order = packageOrderRepo.getById(order_id);
@@ -126,10 +169,16 @@ public class PackageOrderServiceImpl implements PackageOrderService {
             packageOrderRepo.save(order);
             return "Order ended";
         }
-//        return "Unable to end the order";
         throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Unable to end the order");
     }
 
+    /**
+     * @author Nandkumar Kadivar
+     * Check that is order able to end
+     * @param order package pickup code
+     * @param drop_code package order id
+     * @return string response.
+     */
     private boolean isAbleToEndOrder(PackageOrder order, int drop_code){
         boolean active_order = !order.isCanceled() && order.isStarted();
         return active_order && order.getDrop_code() == drop_code;
