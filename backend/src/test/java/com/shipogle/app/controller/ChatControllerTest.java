@@ -1,6 +1,5 @@
 package com.shipogle.app.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.shipogle.app.model.ChatMessageRequest;
 import com.shipogle.app.model.Message;
 import com.shipogle.app.model.User;
@@ -8,33 +7,17 @@ import com.shipogle.app.repository.MessageRepository;
 import com.shipogle.app.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 
 import java.time.LocalDateTime;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
-import static org.springframework.mock.http.server.reactive.MockServerHttpRequest.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest
-@AutoConfigureMockMvc
 @ExtendWith(MockitoExtension.class)
 public class ChatControllerTest {
 
@@ -47,11 +30,8 @@ public class ChatControllerTest {
     @InjectMocks
     private ChatController chatController;
 
-    public ChatControllerTest() throws JsonProcessingException {
-    }
-
     @Test
-    public void testSendMessage() throws Exception {
+    public void testSendMessage() {
         User sender = new User();
         sender.setId(1);
 
@@ -70,8 +50,6 @@ public class ChatControllerTest {
 
         assertEquals(200, responseEntity.getStatusCodeValue());
         verify(messageRepository, times(1)).save(any(Message.class));
-
-
     }
 
     @Test
@@ -258,5 +236,6 @@ public class ChatControllerTest {
 
         assertThrows(RuntimeException.class, () -> chatController.removeAllMessages(userOne.getUser_id(), userTwo.getUser_id()));
     }
+
 
 }
