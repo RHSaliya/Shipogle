@@ -5,7 +5,6 @@ import { CircularProgress } from "@mui/material";
 //const apiKey = "AIzaSyBPtYm-CJPPW4yO9njM-e9YBWyp-DwIODM";
 
 const MapView = ({ locations }) => {
-  console.log(locations);
   const commFunc = useCallback(() => new CommonFunctions(), []);
   const mapRef = useRef(null);
   const [googleMaps, setGoogleMaps] = useState(null);
@@ -21,7 +20,6 @@ const MapView = ({ locations }) => {
           lat: position.coords.latitude,
           lng: position.coords.longitude,
         };
-        console.log("Current location:", userLocation.lat);
         setCenter(userLocation);
       },
       (error) => {
@@ -38,7 +36,6 @@ const MapView = ({ locations }) => {
   useEffect(() => {
     getCurrentLocation();
     if (window.google.maps) {
-      console.log("loaded maps");
       setGoogleMaps(window.google.maps);
     } else {
       commFunc.showAlertMessage(
@@ -49,7 +46,6 @@ const MapView = ({ locations }) => {
 
   useEffect(() => {
     if (googleMaps && center) {
-      console.log("now showing map");
       const mapOptions = {
         zoom: 18,
         center: new googleMaps.LatLng(center?.lat, center?.lng),

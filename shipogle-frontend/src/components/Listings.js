@@ -35,7 +35,6 @@ function Listings({ data }) {
     currentDate.setHours(0, 0, 0, 0);
     start.setHours(0, 0, 0, 0);
     end.setHours(0, 0, 0, 0);
-    console.log(start, end, currentDate);
 
     return start <= currentDate && currentDate <= end;
   };

@@ -39,11 +39,9 @@ export default function CommonRegForms() {
         password: data.setpwd,
         is_verified: 1,
       })
-      .then((response) => {
-        console.log(response);
-      })
+      .then((response) => {})
       .catch((error) => {
-        console.log(error);
+        console.error(error);
       });
 
     navigate(path);

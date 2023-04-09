@@ -59,7 +59,6 @@ export default function NavBar({ authStatus, authStatusUpdater }) {
   };
 
   useEffect(() => {
-    console.log(authStatus, isAuthenticated, "status of auth");
     if (authStatus && isAuthenticated) {
       login();
     } else if (!authStatus && isAuthenticated) {

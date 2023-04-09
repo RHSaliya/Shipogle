@@ -53,7 +53,6 @@ export default function NotificationsMenu() {
         `${Constants.API_NOTIFICATIONS}/all/${localStorage.getItem("user_id")}`
       )
       .then((response) => {
-        console.log(response);
         setEmptyNotifications(true);
       });
   };
@@ -63,13 +62,10 @@ export default function NotificationsMenu() {
     axios
       .get(`${Constants.API_NOTIFICATIONS}/${localStorage.getItem("user_id")}`)
       .then((res) => {
-        console.log("~~~~~~~~~~~~~~");
-        console.log(res.data);
         setNotifications(res.data);
         if (res.data.length === 0) {
           setEmptyNotifications(true);
         }
-        console.log("~~~~~~~~~~~~~~");
       });
 
     ws.current = new WebSocket(
@@ -77,20 +73,15 @@ export default function NotificationsMenu() {
     );
 
     ws.current.onmessage = (message) => {
-      console.log(message);
       const value = JSON.parse(message.data);
       setEmptyNotifications(false);
       setNotifications((prevNotifications) => [...prevNotifications, value]);
       setHasNotification(true && !open);
     };
 
-    ws.current.onopen = () => {
-      console.log("Notification WebSocket Client Connected");
-    };
+    ws.current.onopen = () => {};
 
-    ws.current.onclose = () => {
-      console.log("Notification WebSocket Client Disconnected");
-    };
+    ws.current.onclose = () => {};
 
     return () => {
       ws.current.close();
