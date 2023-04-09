@@ -8,7 +8,6 @@ import Avatar from "@mui/material/Avatar";
 import CardHeader from "@mui/material/CardHeader";
 import CardActions from "@mui/material/CardActions";
 
-import Data from "./data";
 import Constants from "../Constants";
 import { useLocation } from "react-router-dom";
 import customAxios from "../utils/MyAxios";
@@ -27,16 +26,13 @@ function CourierDetails() {
   const [packageID, setPackageID] = React.useState("");
   const [rating, setRating] = React.useState(3.5);
   const commFunc = new CommonFunctions();
-  console.log(state, "details");
   React.useEffect(() => {
     const el = document.getElementById("static-map-container");
     if (el) {
       setMapWidth(el.offsetWidth * 0.9);
     }
     customAxios.get(Constants.GETDELIVERERRATINGS).then(
-      (res) => {
-        console.log(res.data);
-      },
+      (res) => {},
       (error) => {
         console.error(error);
         commFunc.showAlertMessage(

@@ -19,7 +19,6 @@ import DialogTitle from "@mui/material/DialogTitle";
 
 export default function NotificationsMenu() {
   const [dialogOpen, setDialogOpen] = React.useState(false);
-  const [user, setUser] = useState({});
   const [anchorEl, setAnchorEl] = useState(null);
   const [hasNotfication, setHasNotification] = useState(false);
   const [notifications, setNotifications] = useState([]);
@@ -30,20 +29,21 @@ export default function NotificationsMenu() {
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
+    setHasNotification(false);
   };
+
   const handleClose = () => {
     setAnchorEl(null);
+    setDialogOpen(false);
   };
 
   const handleCloseDialog = () => {
     setDialogOpen(false);
   };
 
-  const handleNotif = () => {
-    setHasNotification(false);
-  };
   const handleClearNotif = () => {
-    setDialogOpen(true);
+    if (notifications.length > 0)
+      setDialogOpen(true);
   };
 
   const handleClear = () => {
@@ -53,7 +53,6 @@ export default function NotificationsMenu() {
         `${Constants.API_NOTIFICATIONS}/all/${localStorage.getItem("user_id")}`
       )
       .then((response) => {
-        console.log(response);
         setEmptyNotifications(true);
       });
   };
@@ -63,13 +62,10 @@ export default function NotificationsMenu() {
     axios
       .get(`${Constants.API_NOTIFICATIONS}/${localStorage.getItem("user_id")}`)
       .then((res) => {
-        console.log("~~~~~~~~~~~~~~");
-        console.log(res.data);
-        setNotifications(res.data);
+        setNotifications(res.data.reverse());
         if (res.data.length === 0) {
           setEmptyNotifications(true);
         }
-        console.log("~~~~~~~~~~~~~~");
       });
 
     ws.current = new WebSocket(
@@ -77,20 +73,15 @@ export default function NotificationsMenu() {
     );
 
     ws.current.onmessage = (message) => {
-      console.log(message);
       const value = JSON.parse(message.data);
       setEmptyNotifications(false);
-      setNotifications((prevNotifications) => [...prevNotifications, value]);
+      setNotifications((prevNotifications) => [value, ...prevNotifications]);
       setHasNotification(true && !open);
     };
 
-    ws.current.onopen = () => {
-      console.log("Notification WebSocket Client Connected");
-    };
+    ws.current.onopen = () => { };
 
-    ws.current.onclose = () => {
-      console.log("Notification WebSocket Client Disconnected");
-    };
+    ws.current.onclose = () => { };
 
     return () => {
       ws.current.close();
@@ -121,14 +112,14 @@ export default function NotificationsMenu() {
 
       <IconButton
         className="icon-buttons"
-        id="demo-positioned-button"
-        aria-controls={open ? "demo-positioned-menu" : undefined}
+        id="positioned-button"
+        aria-controls={open ? "positioned-menu" : undefined}
         aria-haspopup="true"
         aria-expanded={open ? "true" : undefined}
         onClick={handleClick}
       >
         {hasNotfication ? (
-          <NotificationsActiveIcon sx={{ color: "red" }} />
+          <NotificationsActiveIcon sx={{ color: "#3676cb" }} />
         ) : (
           <NotificationsIcon sx={{ color: "grey" }} />
         )}
@@ -136,8 +127,8 @@ export default function NotificationsMenu() {
 
       <Menu
         className="notifMenu"
-        id="demo-positioned-menu"
-        aria-labelledby="demo-positioned-button"
+        id="positioned-menu"
+        aria-labelledby="positioned-button"
         anchorEl={anchorEl}
         open={open}
         onClose={handleClose}
@@ -149,6 +140,7 @@ export default function NotificationsMenu() {
           vertical: "top",
           horizontal: "left",
         }}
+        MenuListProps={{ sx: { py: 0 } }}
       >
         <div className="notification-header">
           <p
@@ -161,19 +153,22 @@ export default function NotificationsMenu() {
           >
             Notifications
           </p>
-          <button className="btn" onClick={handleClearNotif}>
+          <Button
+            type="submit"
+            variant="contained"
+            onClick={handleClearNotif}>
             Clear
-          </button>
+          </Button>
         </div>
 
         {emptyNotifications === true ? (
-          <p style={{ padding: "0 1em 0 1em", textAlign: "center" }}>
+          <p style={{ padding: "1em 0 1em 0", textAlign: "center", width: "500px" }}>
             Empty Notifications
           </p>
         ) : (
           notifications.map((notification, index) => (
             <MenuItem
-              style={{ borderBottom: "1px solid black" }}
+              style={{ borderBottom: index !== notifications.length - 1 ? "1px solid #bbb" : "" }}
               sx={{ width: "500px" }}
               onClick={handleClose}
             >

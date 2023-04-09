@@ -21,7 +21,7 @@ public class ShipogleApplication {
 	}
 
 	@GetMapping("/")
-	String home(){
-		return "Application running";
+	String home() {
+		return "Application running last updated on 9 April 2023";
 	}
 }

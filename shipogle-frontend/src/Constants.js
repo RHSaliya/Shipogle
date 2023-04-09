@@ -33,7 +33,7 @@ const APIS = {
   GETRATINGS: `${BASE_URL}/rating/posted/getall`,
   GETISSUES: `${BASE_URL}/issue/getall`,
   UPDATEPAYMENTSTAT: `${BASE_URL}/package/order/recordPayment`,
-  API_KEY: "AIzaSyBPtYm-CJPPW4yO9njM-e9YBWyp-DwIODM",
+  API_KEY: "AIzaSyDOeSvsNto_ch6nczKaNY9Rxo9pJHNcB9s",
 };
 
 export default APIS;

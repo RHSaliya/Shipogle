@@ -58,20 +58,19 @@ export default function NavBar({ authStatus, authStatusUpdater }) {
     );
   };
 
-  useEffect(() => {
-    console.log(authStatus, isAuthenticated, "status of auth");
-    if (authStatus && isAuthenticated) {
-      login();
-    } else if (!authStatus && isAuthenticated) {
-      login();
-    } else if (authStatus && !isAuthenticated) {
-      login();
-    } else if (!authStatus && !isAuthenticated) {
-      logout();
-    } else {
-      logout();
-    }
-  }, [authStatus, login, logout, isAuthenticated]);
+  // useEffect(() => {
+  //   if (authStatus && isAuthenticated) {
+  //     login();
+  //   } else if (!authStatus && isAuthenticated) {
+  //     login();
+  //   } else if (authStatus && !isAuthenticated) {
+  //     login();
+  //   } else if (!authStatus && !isAuthenticated) {
+  //     logout();
+  //   } else {
+  //     logout();
+  //   }
+  // }, [authStatus, login, logout, isAuthenticated]);
 
   const handleClickOnExpand = (event) => {
     setAnchorEl(event.currentTarget);
@@ -89,7 +88,7 @@ export default function NavBar({ authStatus, authStatusUpdater }) {
     if (isAuthenticated) {
       getCurrentLocation((userLocation) => {
         customAxios.put(Constants.UPDATELOCATION, userLocation).then(
-          (res) => {},
+          (res) => { },
           (error) => {
             console.error(error);
           }
@@ -174,8 +173,8 @@ export default function NavBar({ authStatus, authStatusUpdater }) {
           <Avatar onClick={handleClickOnExpand}>
             {isAuthenticated
               ? commFunc.getDriverInitials(
-                  window.localStorage.getItem("user_name")
-                )
+                window.localStorage.getItem("user_name")
+              )
               : ""}
           </Avatar>
 

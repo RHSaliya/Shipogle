@@ -24,7 +24,6 @@ function Payment() {
   const [isLoading, setIsLoading] = useState(false);
 
   const generateInvoice = (data) => {
-    console.log(data);
     const receiptElement = document.createElement("div");
     ReactDOM.render(<Reciept RecieptData={data} />, receiptElement);
 

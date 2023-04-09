@@ -56,42 +56,43 @@ export default function ForgotPwd() {
 
   const submit = (e) => {
     e.preventDefault();
-    console.log(path);
     if (path === "/forgotpwd") {
       axios
         .post(Constants.API_FORGOT_PWD, {
           email: email,
         })
-        .then((response) => {
-          commFunc(
-            "Reset Link sent successfully to your email id. Please use it to reset password",
-            "success",
-            4000,
-            "top"
-          );
-        })
-        .catch((err) => {
-          console.error(err);
-          commFunc.showAlertMessage(
-            "Error while sending link, please check email or try again later!",
-            "error",
-            4000,
-            "top"
-          );
-        });
+        .then(
+          (response) => {
+            commFunc.showAlertMessage(
+              "Reset Link sent successfully to your email id. Please use it to reset password",
+              "success",
+              4000,
+              "top"
+            );
+          },
+          (error) => {
+            console.error(error);
+            commFunc.showAlertMessage(
+              "Error while sending link, please check email or try again later!",
+              "error",
+              4000,
+              "top"
+            );
+          }
+        );
     } else {
       const password = newpassword;
       const body = {
         token: token,
         password: password,
       };
-      customAxios.post(Constants.API_RESET_PWD, body).then(
+      axios.post(Constants.API_RESET_PWD, body).then(
         (res) => {
           commFunc.showAlertMessage(
-          "Password changes successfully",
-            "Success",
+            "Password changes successfully",
+            "success",
             3000,
-            "top"
+            "bottom"
           );
           navigate("/login");
         },
@@ -107,6 +108,7 @@ export default function ForgotPwd() {
       );
     }
   };
+
   return (
     <div style={containerStyle} className="container">
       <div
