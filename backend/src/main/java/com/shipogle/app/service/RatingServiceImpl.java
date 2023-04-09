@@ -78,7 +78,7 @@ public class RatingServiceImpl implements RatingService {
 
             User deliverer = userService.getLoggedInUser();
 
-            List<Rating> ratings = ratingRepo.getAllByDriverRoute_DriverId(Long.valueOf(deliverer.getUser_id()));
+            List<Rating> ratings = ratingRepo.getAllByDriverRoute_DriverId(String.valueOf(deliverer.getUser_id()));
 
             return ratings;
 
@@ -114,7 +114,7 @@ public class RatingServiceImpl implements RatingService {
 
             User deliverer = userRepo.getUserById(id);
 
-            List<Rating> ratings = ratingRepo.getAllByDriverRoute_DriverId(Long.valueOf(deliverer.getUser_id()));
+            List<Rating> ratings = ratingRepo.getAllByDriverRoute_DriverId(String.valueOf(deliverer.getUser_id()));
 
             return ratings;
 

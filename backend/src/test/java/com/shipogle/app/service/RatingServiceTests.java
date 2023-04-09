@@ -99,7 +99,7 @@ public class RatingServiceTests {
         List<Rating> ratings = new ArrayList<>();
         when(userService.getLoggedInUser()).thenReturn(user);
         when(user.getUser_id()).thenReturn(1);
-        when(ratingRepo.getAllByDriverRoute_DriverId(1L)).thenReturn(ratings);
+        when(ratingRepo.getAllByDriverRoute_DriverId("1")).thenReturn(ratings);
         assertEquals(ratings,ratingService.getDelivererRating());
     }
 
@@ -129,7 +129,7 @@ public class RatingServiceTests {
         List<Rating> ratings = new ArrayList<>();
         when(userRepo.getUserById(Integer.valueOf(1))).thenReturn(user);
         when(user.getUser_id()).thenReturn(1);
-        when(ratingRepo.getAllByDriverRoute_DriverId(1L)).thenReturn(ratings);
+        when(ratingRepo.getAllByDriverRoute_DriverId("1")).thenReturn(ratings);
         assertEquals(ratings,ratingService.getDelivererRatingWithID(Integer.valueOf(1)));
     }
 }
