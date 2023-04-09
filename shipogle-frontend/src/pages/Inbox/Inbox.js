@@ -4,9 +4,15 @@ import { w3cwebsocket as WebSocket } from "websocket";
 import Constants from "../../Constants";
 import "./inbox.css";
 import DeleteIcon from "@mui/icons-material/Delete";
-import chatProfileImg from "../../assets/profile.png";
 import { Button, Typography } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
+
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+
 
 const getUniqueSocketAddress = (user, selectedUser) => {
   const joinUsing = "!";
@@ -14,12 +20,14 @@ const getUniqueSocketAddress = (user, selectedUser) => {
 };
 
 const Inbox = () => {
+  const [dialogOpen, setDialogOpen] = React.useState(false);
   const [user, setUser] = useState({});
   const [selectedUser, setSelectedUser] = useState({});
   const [messages, setMessages] = useState([]);
   const [chatUsers, setChatUsers] = useState([]);
   const [inputValue, setInputValue] = useState("");
   const [clearMsg, setClearMsg] = useState(false);
+  const [msgEnd, setMsgEnd] = useState(null);
   const ws = useRef(null);
 
   function handleUserClick(selectedUser, user) {
@@ -41,7 +49,7 @@ const Inbox = () => {
       `${Constants.SOCKET_CHAT}/${getUniqueSocketAddress(user, selectedUser)}`
     );
 
-    ws.current.onopen = () => {};
+    ws.current.onopen = () => { };
 
     ws.current.onmessage = (message) => {
       const value = JSON.parse(message.data);
@@ -53,12 +61,19 @@ const Inbox = () => {
       setMessages((prevMessages) => [...prevMessages, msg]);
     };
 
-    ws.current.onclose = () => {};
+    ws.current.onclose = () => { };
 
     return () => {
       ws.current.close();
     };
   }
+
+  useEffect(() => {
+    if (msgEnd) {
+      msgEnd.scrollIntoView();
+    }
+  }, [messages, msgEnd]);
+
 
   useEffect(() => {
     // Get user info from token
@@ -101,25 +116,53 @@ const Inbox = () => {
     }
   };
 
-  const handleClearMessages = () => {
-    setClearMsg(true);
-    axios
-      .delete(
-        `${Constants.API_CHAT}/all/${user.user_id}/${selectedUser.user_id}`
-      )
-      .then((res) => {
-        setMessages([]);
-      });
-  };
-
   const handleKeyDown = (event) => {
     if (event.key === "Enter") {
       handleSendMessage();
     }
   };
 
+  const handleClose = () => {
+    setDialogOpen(false);
+  };
+
+  const handleClearMessages = () => {
+    setDialogOpen(true);
+  };
+
+  const handleClear = () => {
+    setDialogOpen(false);
+    setClearMsg(true);
+    axios.delete(`${Constants.API_CHAT}/all/${user.user_id}/${selectedUser.user_id}`)
+      .then((response) => {
+        console.log(response);
+        setMessages([]);
+      });
+  };
+
   return (
     <div className="inboxArea">
+      <Dialog
+        open={dialogOpen}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          Please confirm
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Are you sure you want to clear all messages with <b>{selectedUser.first_name} {selectedUser.last_name}</b>?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Cancel</Button>
+          <Button onClick={handleClear} autoFocus>
+            Clear
+          </Button>
+        </DialogActions>
+      </Dialog>
       <div className="userArea">
         <Typography
           sx={{ fontSize: "24px", fontWeight: "450" }}
@@ -183,6 +226,9 @@ const Inbox = () => {
               </div>
             ))
           )}
+          <div
+            ref={(el) => { setMsgEnd(el); }}>
+          </div>
         </div>
         <div className="inputArea">
           <input

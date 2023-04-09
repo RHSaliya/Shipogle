@@ -97,13 +97,13 @@ a:hover {
   padding: 10px 30px;
 }
 
-.navbar > a {
+.navbar>a {
   padding: 10px;
   color: #3f0744;
   text-decoration: none;
 }
 
-.navbar > a:hover {
+.navbar>a:hover {
   font-size: 1.2em;
 }
 
@@ -247,6 +247,7 @@ a:hover {
 }
 
 @media (max-width: 936px) {
+
   .form .address,
   .form .name,
   .form .contact {
@@ -263,6 +264,7 @@ a:hover {
 }
 
 @media (max-width: 800px) {
+
   .form .contact input,
   .form .name {
     width: 100%;
@@ -280,7 +282,7 @@ a:hover {
   text-align: center;
 }
 
-.regSuccessBox > a {
+.regSuccessBox>a {
   color: white;
   text-decoration: none;
 }
@@ -370,18 +372,16 @@ a:hover {
   align-items: center;
 }
 
-.notification-header > button {
+.notification-header>button {
   margin-right: 1em;
-  padding-bottom: 20px;
-  height: 30px;
 }
 
-.notif > h4 {
-  margin-top: 0px;
+.notif>h4 {
+  margin-top: 0.5em;
   margin-bottom: 0px;
 }
 
-.notif > a > p {
+.notif>a>p {
   margin-top: 0px;
   margin-bottom: 0.5em;
 }
@@ -396,10 +396,11 @@ a:hover {
   text-align: center;
 }
 
-.feedback-issue-box > a {
+.feedback-issue-box>a {
   color: white;
   text-decoration: none;
 }
+
 .stars {
   height: 40px;
 }

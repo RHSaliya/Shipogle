@@ -43,7 +43,7 @@ function Listings({ data }) {
     const nameArray = name.split(" ");
     const fInitial = nameArray[0].charAt(0);
     const sInitial = nameArray.length > 1 ? nameArray[1].charAt(0) : "";
-    return fInitial + " " + sInitial;
+    return fInitial + sInitial;
   };
 
   const nothing = () => {
@@ -57,8 +57,8 @@ function Listings({ data }) {
         onClick={() =>
           path !== "/deliveries"
             ? navigate(`/courier/details/${listing?.driverRouteId}`, {
-                state: { routeData: listing },
-              })
+              state: { routeData: listing },
+            })
             : nothing()
         }
         key={listing?.driverRouteId}
