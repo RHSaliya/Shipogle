@@ -81,7 +81,7 @@ public class AuthServiceTests {
 
     @Test
     public void isAlreadyExistTestPositive() {
-        // User user = Mockito.mock(User.class);
+        
         Mockito.when(user.getEmail()).thenReturn("kadivarnand007@gmail.com");
 
         Mockito.when(userRepo.findUserByEmail(user.getEmail())).thenReturn(user);
