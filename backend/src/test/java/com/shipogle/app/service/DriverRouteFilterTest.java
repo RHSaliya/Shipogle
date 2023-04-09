@@ -28,6 +28,10 @@ public class DriverRouteFilterTest {
     @InjectMocks
     private DriverRouteFilter driverRouteFilter;
 
+    final private Long TEST_DRIVER_ROUTE = 2L;
+
+    final private int EXPECTED_FILTER_SIZE = 2;
+
     @Test
     public void testFilterWithNullRoutes() {
         // given
@@ -65,7 +69,7 @@ public class DriverRouteFilterTest {
         driverRoute1.setDestinationCity("Los Angeles");
 
         DriverRoute driverRoute2 = new DriverRoute();
-        driverRoute2.setDriverRouteId(2L);
+        driverRoute2.setDriverRouteId(TEST_DRIVER_ROUTE);
         driverRoute2.setSourceCity("Chicago");
         driverRoute2.setDestinationCity("Dallas");
 
@@ -78,7 +82,7 @@ public class DriverRouteFilterTest {
         List<DriverRoute> filteredRoutes = driverRouteFilter.getDriverRoutesByFilters(filter);
 
         // then
-        assertThat(filteredRoutes).hasSize(2);
+        assertThat(filteredRoutes).hasSize(EXPECTED_FILTER_SIZE);
         assertThat(filteredRoutes).containsExactlyInAnyOrderElementsOf(expectedRoutes);
     }
 

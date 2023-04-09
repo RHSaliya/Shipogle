@@ -50,6 +50,11 @@ public class NotificationControllerTest {
         MockitoAnnotations.openMocks(this);
     }
 
+    final private int TEST_USER_ID = 2;
+    final private int NOTIFICATION_USER_ID = 12345;
+    final private int EXPECTED_RESPONSE_SUCCESS = 200;
+    final private int BAD_REQUEST = 400;
+
     @Test
     public void testSendNotification_Success() {
         // Given
@@ -102,7 +107,7 @@ public class NotificationControllerTest {
         json.put("payload", "{\"key\": \"value\"}");
         json.put("type", "test");
 
-        when(userRepository.findById(2)).thenReturn(Optional.empty());
+        when(userRepository.findById(TEST_USER_ID)).thenReturn(Optional.empty());
 
         // When
         ResponseEntity<?> responseEntity = notificationController.sendNotification(json);
@@ -123,10 +128,10 @@ public class NotificationControllerTest {
         json.put("type", "test");
 
         User user = new User();
-        user.setId(3);
+        user.setId(TEST_USER_ID);
         user.setEmail("test@test.com");
 
-        when(userRepository.findById(3)).thenReturn(Optional.of(user));
+        when(userRepository.findById(TEST_USER_ID)).thenReturn(Optional.of(user));
         when(authService.getUserInfo(anyString())).thenReturn(null);
 
         // When
@@ -182,7 +187,7 @@ public class NotificationControllerTest {
     public void testGetNotificationsByUserId() {
         // Create a mock user and add it to the repository
         User user = new User();
-        user.setUser_Id(1);
+        user.setUser_Id(TEST_USER_ID);
         userRepository.save(user);
 
         // Create a mock notification and add it to the repository
@@ -190,7 +195,7 @@ public class NotificationControllerTest {
         notification.setUser(user);
         notificationRepository.save(notification);
 
-        when(userRepository.findById(1)).thenReturn(Optional.of(user));
+        when(userRepository.findById(TEST_USER_ID)).thenReturn(Optional.of(user));
         when(notificationController.getNotifications(user.getUser_id())).thenReturn(Collections.singletonList(notification));
 
         // Get the notifications using the user ID and check the response
@@ -203,7 +208,7 @@ public class NotificationControllerTest {
     public void testDeleteNotificationsByUserId() {
         // Create a mock user and add it to the repository
         User user = new User();
-        user.setUser_Id(1);
+        user.setUser_Id(TEST_USER_ID);
         userRepository.save(user);
 
         // Create a mock notification and add it to the repository
@@ -211,7 +216,7 @@ public class NotificationControllerTest {
         notification.setUser(user);
         notificationRepository.save(notification);
 
-        when(userRepository.findById(1)).thenReturn(Optional.of(user));
+        when(userRepository.findById(TEST_USER_ID)).thenReturn(Optional.of(user));
         when(notificationController.getNotifications(user.getUser_id())).thenReturn(Collections.singletonList(notification));
 
         // Get the notifications using the user ID and check the response
@@ -229,14 +234,14 @@ public class NotificationControllerTest {
 
     @Test
     public void testDeleteNotificationsByInvalidUserId() {
-        when(userRepository.findById(1)).thenReturn(Optional.empty());
-        assertThrows(RuntimeException.class, () -> notificationController.deleteNotifications(12345));
+        when(userRepository.findById(TEST_USER_ID)).thenReturn(Optional.empty());
+        assertThrows(RuntimeException.class, () -> notificationController.deleteNotifications(NOTIFICATION_USER_ID));
     }
 
     @Test
     public void testGetNotificationsByInvalidUserId() {
         // Try to get the notifications using an invalid user ID and check the response
-        assertThrows(RuntimeException.class, () -> notificationController.getNotifications(12345));
+        assertThrows(RuntimeException.class, () -> notificationController.getNotifications(NOTIFICATION_USER_ID));
     }
 
     @Test
@@ -249,7 +254,7 @@ public class NotificationControllerTest {
         Map<String, String> json = new HashMap<>();
         json.put("userId", String.valueOf(userId));
         ResponseEntity<?> responseEntity = notificationController.sendNotification(json);
-        assertEquals(200, responseEntity.getStatusCodeValue());
+        assertEquals(EXPECTED_RESPONSE_SUCCESS, responseEntity.getStatusCodeValue());
     }
 
     @Test
@@ -260,7 +265,7 @@ public class NotificationControllerTest {
         Map<String, String> json = new HashMap<>();
         json.put("userId", String.valueOf(userId));
         ResponseEntity<?> responseEntity = notificationController.sendNotification(json);
-        assertEquals(400, responseEntity.getStatusCodeValue());
+        assertEquals(BAD_REQUEST, responseEntity.getStatusCodeValue());
     }
 
 }

@@ -32,6 +32,9 @@ public class PaymentGatewayClientTest {
     private HttpEntity<String> requestEntity;
     private PaymentGatewayRequest paymentRequest;
 
+    final private int TEST_CARD_EXPIRY_MONTH=12;
+    final private int TEST_CARD_EXPIRY_YEAR=2022;
+
     @BeforeEach
     public void setUp() throws JsonProcessingException {
         MockitoAnnotations.openMocks(this);
@@ -72,8 +75,8 @@ public class PaymentGatewayClientTest {
         paymentRequest.setCardNumber("4111111111111111");
         paymentRequest.setCardCvv("123");
         paymentRequest.setAmount(new BigDecimal("10.0"));
-        paymentRequest.setCardExpiryMonth(12);
-        paymentRequest.setCardExpiryYear(2022);
+        paymentRequest.setCardExpiryMonth(TEST_CARD_EXPIRY_MONTH);
+        paymentRequest.setCardExpiryYear(TEST_CARD_EXPIRY_YEAR);
         paymentRequest.setCurrency("USD");
         return paymentRequest;
     }

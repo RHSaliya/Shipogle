@@ -19,6 +19,8 @@ public class ChatSocketHandlerTests {
     private WebSocketSession session;
     private final int userOneId = 1234;
     private final int userTwoId = 5678;
+    private final int port=8080;
+    private final int CLOSE_STATUS = 1000;
 
     @Before
     public void setUp() {
@@ -27,7 +29,7 @@ public class ChatSocketHandlerTests {
         String requestURI = "/chatSocket/" + mockUniqueId();
         MockHttpServletRequest request = new MockHttpServletRequest();
         request.setRequestURI(requestURI);
-        request.setServerPort(8080);
+        request.setServerPort(port);
         Mockito.when(session.getUri()).thenReturn(URI.create(requestURI));
     }
 
@@ -45,8 +47,8 @@ public class ChatSocketHandlerTests {
 
         chatSocketHandler.handleTextMessage(chatSession, message);
 
-        chatSocketHandler.afterConnectionClosed(chatSession, new CloseStatus(1000, "closed"));
-        chatSocketHandler.afterConnectionClosed(session, new CloseStatus(1000, "closed"));
+        chatSocketHandler.afterConnectionClosed(chatSession, new CloseStatus(CLOSE_STATUS, "closed"));
+        chatSocketHandler.afterConnectionClosed(session, new CloseStatus(CLOSE_STATUS, "closed"));
 
         Mockito.verify(chatSession).sendMessage(message);
     }

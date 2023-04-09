@@ -30,17 +30,20 @@ public class ChatControllerTest {
     @InjectMocks
     private ChatController chatController;
 
+    private final int TEST_USER1_ID = 1;
+    private final int TEST_USER2_ID = 2;
+
     @Test
     public void testSendMessage() {
         User sender = new User();
-        sender.setId(1);
+        sender.setId(TEST_USER1_ID);
 
         User receiver = new User();
-        receiver.setId(2);
+        receiver.setId(TEST_USER2_ID);
 
         ChatMessageRequest request = new ChatMessageRequest();
-        request.setSenderId(1);
-        request.setReceiverId(2);
+        request.setSenderId(TEST_USER1_ID);
+        request.setReceiverId(TEST_USER2_ID);
         request.setMessage("Hello");
 
         when(userRepository.findById(request.getSenderId())).thenReturn(Optional.of(sender));
@@ -55,8 +58,8 @@ public class ChatControllerTest {
     @Test
     public void testSendMessageWhenNoUser() {
         ChatMessageRequest request = new ChatMessageRequest();
-        request.setSenderId(1);
-        request.setReceiverId(2);
+        request.setSenderId(TEST_USER1_ID);
+        request.setReceiverId(TEST_USER2_ID);
         request.setMessage("Hello");
 
         ResponseEntity<?> responseEntity = chatController.sendMessage(request);
@@ -67,7 +70,7 @@ public class ChatControllerTest {
     @Test
     public void testGetChatUsers() {
         User user = new User();
-        user.setId(1);
+        user.setId(TEST_USER1_ID);
 
         List<Integer> userIds = Arrays.asList(2, 3, 4);
 
@@ -85,7 +88,7 @@ public class ChatControllerTest {
     @Test
     public void testGetChatUsersWhenNoUser() {
         User user = new User();
-        user.setId(1);
+        user.setId(TEST_USER1_ID);
 
         assertThrows(RuntimeException.class, () -> chatController.getChatUsers(user.getUser_id()));
     }
@@ -110,7 +113,7 @@ public class ChatControllerTest {
 
         // create userTwo
         User userTwo = new User();
-        userTwo.setId(2);
+        userTwo.setId(TEST_USER2_ID);
         userRepository.save(userTwo);
         when(userRepository.findById(userTwo.getUser_id())).thenReturn(Optional.of(userTwo));
 
@@ -144,7 +147,7 @@ public class ChatControllerTest {
         List<Message> messages = chatController.getChatHistory(userOne.getUser_id(), userTwo.getUser_id());
 
         // check if messages are correct
-        assertEquals(2, messages.size());
+        assertEquals(TEST_USER2_ID, messages.size());
         assertEquals(message1.getMessage(), messages.get(0).getMessage());
         assertEquals(message2.getMessage(), messages.get(1).getMessage());
     }
@@ -155,11 +158,11 @@ public class ChatControllerTest {
 
         // create userOne
         User userOne = new User();
-        userOne.setId(1);
+        userOne.setId(TEST_USER1_ID);
 
         // create userTwo
         User userTwo = new User();
-        userTwo.setId(2);
+        userTwo.setId(TEST_USER2_ID);
 
         assertThrows(RuntimeException.class, () -> chatController.getChatHistory(userOne.getUser_id(), userTwo.getUser_id()));
     }
@@ -168,13 +171,13 @@ public class ChatControllerTest {
     void testRemoveAllMessages() {
         // create userOne
         User userOne = new User();
-        userOne.setId(1);
+        userOne.setId(TEST_USER1_ID);
         userRepository.save(userOne);
         when(userRepository.findById(userOne.getUser_id())).thenReturn(Optional.of(userOne));
 
         // create userTwo
         User userTwo = new User();
-        userTwo.setId(2);
+        userTwo.setId(TEST_USER2_ID);
         userRepository.save(userTwo);
         when(userRepository.findById(userTwo.getUser_id())).thenReturn(Optional.of(userTwo));
 
@@ -228,11 +231,11 @@ public class ChatControllerTest {
     void testRemoveAllMessagesWhenNoUsers() {
         // create userOne
         User userOne = new User();
-        userOne.setId(1);
+        userOne.setId(TEST_USER1_ID);
 
         // create userTwo
         User userTwo = new User();
-        userTwo.setId(2);
+        userTwo.setId(TEST_USER2_ID);
 
         assertThrows(RuntimeException.class, () -> chatController.removeAllMessages(userOne.getUser_id(), userTwo.getUser_id()));
     }

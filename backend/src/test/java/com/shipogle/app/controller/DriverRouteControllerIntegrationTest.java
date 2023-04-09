@@ -58,6 +58,20 @@ public class DriverRouteControllerIntegrationTest {
 
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
 
+    final private int TEST_ROUTE_ID= 5678;
+    final private Long ID = 1234L;
+    final private int TEST_MAX_PACKAGE= 3;
+    final private int TEST_MAX_WIDTH= 10;
+    final private int TEST_MAX_HEIGHT= 8;
+    final private int TEST_MAX_LENGTH= 12;
+    final private int TEST_DAYS=3;
+    final private double TEST_DATA1= 40.7128;
+    final private double TEST_DATA2= -74.006;
+    final private double TEST_DATA3= 41.8781;
+    final private double TEST_DATA4= -87.6298;
+    final private int TEST_REDIUS= 100;
+    final private int TEST_PRICE= 150;
+
     private DriverRoute createDriverRoute(String driverId, String sourceCity, String sourceCityReferenceId,
                                           String destination, String destinationCityReferenceId, int maxPackages,
                                           int maxLength, int maxWidth, int maxHeight, Date pickupDate,
@@ -113,26 +127,26 @@ public class DriverRouteControllerIntegrationTest {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
        // Date date = format.parse("2023-05-01");
         DriverRoute driverRoute = createDriverRoute(
-                String.valueOf(5678),
+                String.valueOf(TEST_ROUTE_ID),
                 "New York",
                 "NYC",
                 "Chicago",
                 "CHI",
-                3,
-                12,
-                10,
-                8,
+                TEST_MAX_PACKAGE,
+                TEST_MAX_LENGTH,
+                TEST_MAX_WIDTH,
+                TEST_MAX_HEIGHT,
                 format.parse("2023-05-01"),
                 format.parse("2023-05-05"),
-                3,
-                Arrays.asList(40.7128, -74.006),
-                Arrays.asList(41.8781, -87.6298),
+                TEST_DAYS,
+                Arrays.asList(TEST_DATA1, TEST_DATA2),
+                Arrays.asList(TEST_DATA3, TEST_DATA4),
                 Arrays.asList("books", "toys"),
-                100,
-                150
+                TEST_REDIUS,
+                TEST_PRICE
         );
 
-        driverRoute.setDriverRouteId(1234L);
+        driverRoute.setDriverRouteId(ID);
         ObjectMapper objectMapper = new ObjectMapper();
         String driverRouteJson = objectMapper.writeValueAsString(driverRoute);
 

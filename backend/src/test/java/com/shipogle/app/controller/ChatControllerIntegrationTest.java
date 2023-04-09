@@ -38,6 +38,8 @@ public class ChatControllerIntegrationTest {
 
 
     ObjectMapper objectMapper = new ObjectMapper();
+    private final int TEST_SENDER_ID = 1138;
+    private final int TEST_RECEIVER_ID = 1140;
 
     public ChatControllerIntegrationTest() throws JsonProcessingException {
     }
@@ -47,8 +49,8 @@ public class ChatControllerIntegrationTest {
         ChatMessageRequest request = new ChatMessageRequest();
         String endpoint = "/chat/";
 
-        request.setSenderId(1138);
-        request.setReceiverId(1140);
+        request.setSenderId(TEST_SENDER_ID);
+        request.setReceiverId(TEST_RECEIVER_ID);
         request.setMessage("Hello");
 
         mockMvc.perform(MockMvcRequestBuilders.post(endpoint)

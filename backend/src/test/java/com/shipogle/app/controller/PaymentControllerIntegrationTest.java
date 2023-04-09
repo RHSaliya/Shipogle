@@ -25,6 +25,9 @@ public class PaymentControllerIntegrationTest {
 
     ObjectMapper objectMapper = new ObjectMapper();
 
+    final private int TEST_CARD_EXPIRY_MONTH=12;
+    final private int TEST_CARD_EXPIRY_YEAR=2025;
+
     @Test
     public void testChargeCreditCard() throws Exception {
         String endpoint = "/payment/charge";
@@ -32,8 +35,8 @@ public class PaymentControllerIntegrationTest {
         paymentRequest.setAmount(new BigDecimal("189.00"));
         paymentRequest.setCurrency("USD");
         paymentRequest.setCardNumber("4112323111111111");
-        paymentRequest.setCardExpiryMonth(12);
-        paymentRequest.setCardExpiryYear(2025);
+        paymentRequest.setCardExpiryMonth(TEST_CARD_EXPIRY_MONTH);
+        paymentRequest.setCardExpiryYear(TEST_CARD_EXPIRY_YEAR);
         paymentRequest.setCardCvv("567");
         paymentRequest.setCardHolderName("Stuart Clark");
         System.out.println(objectMapper.writeValueAsString(paymentRequest));
