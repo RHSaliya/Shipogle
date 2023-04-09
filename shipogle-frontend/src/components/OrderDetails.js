@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
@@ -9,14 +9,12 @@ import CardActions from "@mui/material/CardActions";
 import { Button } from "@mui/material";
 import Typography from "@mui/material/Typography";
 
-import Data from "../pages/data";
 import customAxios from "../utils/MyAxios";
 import Constants from "../Constants";
 import StaticMap from "./StaticMap";
 import CommonFunctions from "../services/CommonFunction";
 
 export default function OrderDetails() {
-  const data = new Data();
   const commFunc = new CommonFunctions();
   const location = useLocation().pathname.split("/");
   const orderId = location[4];
@@ -37,7 +35,11 @@ export default function OrderDetails() {
         lng: state.order.deliverer.longitude,
       });
     }
-  }, []);
+  }, [
+    pathname,
+    state.order.deliverer.latitude,
+    state.order.deliverer.longitude,
+  ]);
 
   const cancelOrder = () => {
     const body = {

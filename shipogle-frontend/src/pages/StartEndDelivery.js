@@ -100,6 +100,7 @@ const StartEndDelivery = () => {
         (res) => {
           commFunc.showAlertMessage("code success", "success", 1000, "bottom");
           createBodyNotificationBodyForActionOnOrder(orders[a]);
+          createNotificationBodyForNonCancelledOrders(orders[a]);
           sendNotification(body);
         },
         (error) => {
