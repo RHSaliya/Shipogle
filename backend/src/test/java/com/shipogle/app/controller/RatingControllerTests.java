@@ -22,7 +22,7 @@ public class RatingControllerTests {
 
     private final float TEST_START_RATING = 4.5f;
     @Test
-    public void postRatingTest() throws Exception {
+    public void postRatingTest() {
         Map<String, String> req = new HashMap<>();
         req.put("driver_route_id","1");
         req.put("star","4.5");
@@ -33,21 +33,21 @@ public class RatingControllerTests {
     }
 
     @Test
-    public void getDelivererRatingTest() throws Exception {
+    public void getDelivererRatingTest() {
         ratingController.getDelivererRating();
 
         verify(ratingService,times(1)).getDelivererRating();
     }
 
     @Test
-    public void getPostedTest() throws Exception {
+    public void getPostedTest() {
         ratingController.getSenderPostedRating();
 
         verify(ratingService,times(1)).getSenderPostedRating();
     }
 
     @Test
-    public void deletePackageRequestTest() throws Exception {
+    public void deletePackageRequestTest() {
         Map<String, String> req = new HashMap<>();
         req.put("rating_id","1");
         ratingController.deleteRating(req);
@@ -56,7 +56,7 @@ public class RatingControllerTests {
     }
 
     @Test
-    public void getDelivererRatingByIDTest() throws Exception {
+    public void getDelivererRatingByIDTest() {
         ratingController.getDelivererRatingById(1);
 
         verify(ratingService,times(1)).getDelivererRatingWithID(1);

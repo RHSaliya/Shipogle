@@ -19,7 +19,7 @@ public class IssueControllerTests {
     IssueService issueService;
 
     @Test
-    public void postIssueTest() throws Exception {
+    public void postIssueTest() {
         Map<String, String> req = new HashMap<>();
         req.put("package_order_id","1");
         req.put("description","description");
@@ -30,7 +30,7 @@ public class IssueControllerTests {
     }
 
     @Test
-    public void getAllIssuesTest() throws Exception {
+    public void getAllIssuesTest() {
         issueController.getAllIssues();
         verify(issueService,times(1)).getAllIssues();
     }

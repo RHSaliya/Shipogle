@@ -21,7 +21,7 @@ public class UserControllerTests {
     UserServiceImpl userService;
 
     @Test
-    public void updateLocationTest() throws Exception {
+    public void updateLocationTest() {
         Map<String, String> req = new HashMap<>();
         req.put("latitude","113151");
         req.put("longitude","016554");
@@ -31,7 +31,7 @@ public class UserControllerTests {
     }
 
     @Test
-    public void getLocationTest() throws Exception {
+    public void getLocationTest() {
         Map<String, String> req = new HashMap<>();
         req.put("user_id","1");
         userController.getUserLocation(req);

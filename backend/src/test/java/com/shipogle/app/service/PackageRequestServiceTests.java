@@ -170,20 +170,20 @@ public class PackageRequestServiceTests {
     }
 
     @Test
-    public void unsendRequestTestRequestNotFound(){
+    public void unSendRequestTestRequestNotFound(){
         Mockito.when(packageRequestRepo.getPackageRequestById(1)).thenReturn(null);
         assertThrows(ResponseStatusException.class,()->packageRequestService.unsendRequest(1));
     }
 
     @Test
-    public void unsendRequestTestAcceptedRequest(){
+    public void unSendRequestTestAcceptedRequest(){
         Mockito.when(packageRequestRepo.getPackageRequestById(1)).thenReturn(packageRequest);
         Mockito.when(packageRequest.getStatus()).thenReturn("accepted");
         assertThrows(ResponseStatusException.class,()->packageRequestService.unsendRequest(1));
     }
 
     @Test
-    public void unsendRequestTestSuccess(){
+    public void unSendRequestTestSuccess(){
         Mockito.when(packageRequestRepo.getPackageRequestById(1)).thenReturn(packageRequest);
         Mockito.when(packageRequest.getStatus()).thenReturn("pending");
         assertEquals("Request deleted",packageRequestService.unsendRequest(1));
@@ -196,7 +196,7 @@ public class PackageRequestServiceTests {
     }
 
     @Test
-    public void getRequestTestUserNotFoundEception(){
+    public void getRequestTestUserNotFoundException(){
         Mockito.when(userService.getLoggedInUser()).thenThrow(UsernameNotFoundException.class);
         assertEquals(null,packageRequestService.getRequest());
     }

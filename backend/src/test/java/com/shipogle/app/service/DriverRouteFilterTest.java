@@ -22,9 +22,6 @@ public class DriverRouteFilterTest {
     @Mock
     private DriverRouteRepository driverRouteRepository;
 
-    @Mock
-    private UserRepository userRepository;
-
     @InjectMocks
     private DriverRouteFilter driverRouteFilter;
 

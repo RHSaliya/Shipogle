@@ -22,8 +22,8 @@ class PaymentServiceTest {
 
     private final int TEST_AMOUNT = 1223;
 
-    final private int TEST_CARD_EXPIRY_MONTH=10;
-    final private int TEST_CARD_EXPIRY_YEAR=2028;
+    final private int TEST_CARD_EXPIRY_MONTH = 10;
+    final private int TEST_CARD_EXPIRY_YEAR = 2028;
 
     @BeforeEach
     void setUp() {

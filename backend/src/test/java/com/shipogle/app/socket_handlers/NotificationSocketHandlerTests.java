@@ -1,5 +1,6 @@
 package com.shipogle.app.socket_handlers;
 
+import com.shipogle.app.TestConstants;
 import com.shipogle.app.model.Notification;
 import com.shipogle.app.model.User;
 import org.junit.jupiter.api.Assertions;
@@ -21,15 +22,13 @@ public class NotificationSocketHandlerTests {
     private NotificationSocketHandler notificationSocketHandler;
     private WebSocketSession session;
 
-    private int userId = 60;
-    private final int CLOSE_STATUS = 1000;
     private final int EXPECTED_INVOCATION = 2;
 
     @BeforeEach
     public void setUp() {
         notificationSocketHandler = NotificationSocketHandler.getInstance();
         session = mock(WebSocketSession.class);
-        Mockito.when(session.getUri()).thenReturn(URI.create("ws://localhost:8080/notification/"+userId));
+        Mockito.when(session.getUri()).thenReturn(URI.create("ws://localhost:8080/notification/"+TestConstants.USER_ONE_ID));
         notificationSocketHandler.afterConnectionEstablished(session);
     }
 
@@ -54,15 +53,14 @@ public class NotificationSocketHandlerTests {
     void testAfterConnectionClosed() throws Exception {
         WebSocketSession sessionToRemove = Mockito.mock(WebSocketSession.class);
 
-        Mockito.when(sessionToRemove.getUri()).thenReturn(URI.create("/notificationSocket/"+userId));
+        Mockito.when(sessionToRemove.getUri()).thenReturn(URI.create("/notificationSocket/"+TestConstants.USER_ONE_ID));
 
-        CloseStatus closeStatus = new CloseStatus(CLOSE_STATUS, "closed");
         notificationSocketHandler.afterConnectionEstablished(sessionToRemove);
-        notificationSocketHandler.afterConnectionClosed(sessionToRemove, closeStatus);
+        notificationSocketHandler.afterConnectionClosed(sessionToRemove, CloseStatus.NORMAL);
 
         Mockito.verify(sessionToRemove).close();
 
-        Assertions.assertNull(notificationSocketHandler.getSessions().get(String.valueOf(userId)));
+        Assertions.assertNull(notificationSocketHandler.getSessions().get(String.valueOf(TestConstants.USER_ONE_ID)));
     }
 
     @Test
@@ -81,7 +79,7 @@ public class NotificationSocketHandlerTests {
         notification.setCreatedAt(LocalDateTime.now());
 
         User user = new User();
-        user.setUser_Id(userId);
+        user.setUser_Id(TestConstants.USER_ONE_ID);
         notification.setUser(user);
 
         return notification;

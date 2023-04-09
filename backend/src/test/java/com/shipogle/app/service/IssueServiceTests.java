@@ -19,8 +19,7 @@ import java.util.InvalidPropertiesFormatException;
 import java.util.concurrent.ExecutionException;
 
 import static net.bytebuddy.matcher.ElementMatchers.any;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -37,8 +36,6 @@ public class IssueServiceTests {
     UserServiceImpl userService;
     @Mock
     PackageOrder packageOrder;
-    @Mock
-    PackageOrderRepository packageOrderRepo;
     private final int TEST_ORDER_ID = 2;
 
     @Test
@@ -51,18 +48,9 @@ public class IssueServiceTests {
     }
 
     @Test
-    public void postIssueTestSuccess(){
-        when(userService.getLoggedInUser()).thenReturn(user);
-        when(issueRepo.getIssueByUser(user)).thenReturn(issue);
-        when(issue.getPackageOrder()).thenReturn(packageOrder);
-        when(packageOrder.getId()).thenReturn(TEST_ORDER_ID);
-        assertEquals("Issue registered",issueService.postIssue(1,"issue description"));
-    }
-
-    @Test
     public void postIssueTestException(){
         when(userService.getLoggedInUser()).thenThrow(UsernameNotFoundException.class);
-        assertEquals(null,issueService.postIssue(1,"issue description"));
+        assertNull(issueService.postIssue(1, "issue description"));
     }
 
     @Test

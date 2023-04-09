@@ -74,11 +74,11 @@ public class DashboardFilter {
         this.category = category;
     }
 
-//    public List<DriverRoute> getDriverRoutesByFilters(DashboardFilter filters) {
-//        List<DriverRoute> routes = new ArrayList<>();
-//
-//        // Perform filtering logic and add matching routes to the list
-//
-//        return routes;
-//    }
+    public List<DriverRoute> getDriverRoutesByFilters(DashboardFilter filters) {
+        List<DriverRoute> routes = new ArrayList<>();
+
+        // Perform filtering logic and add matching routes to the list
+
+        return routes;
+    }
 }
