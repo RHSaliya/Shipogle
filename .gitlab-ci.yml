@@ -8,6 +8,7 @@ stages:
   - build
   - test
   - quality
+  - deploy
 
 backend-build:
   stage: build
