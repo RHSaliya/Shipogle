@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 @ExtendWith(MockitoExtension.class)
 public class LogoutHandlerServiceTest {
     @InjectMocks
-    LogoutHandlerService logoutHandlerService;
+    LogoutHandlerServiceImpl logoutHandlerService;
 
     @Mock
     HttpServletRequest request;

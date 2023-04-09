@@ -43,10 +43,10 @@ public class AuthController {
         return authService.verifyEmail(code, id);
     }
 
-    @GetMapping("/test")
-    public String test() {
-        return "Test page ...";
-    }
+//    @GetMapping("/test")
+//    public String test() {
+//        return "Test page ...";
+//    }
 
     @GetMapping("/user")
     public String getUser(@RequestParam("id") int id) {

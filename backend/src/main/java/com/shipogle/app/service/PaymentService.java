@@ -9,14 +9,18 @@ import org.springframework.stereotype.Service;
 @Service
 public class PaymentService {
 
+    private final PaymentGatewayClient paymentGatewayClient;
+
     @Autowired
-    private PaymentGatewayClient paymentGatewayClient;
+    public PaymentService(PaymentGatewayClient paymentGatewayClient) {
+        this.paymentGatewayClient = paymentGatewayClient;
+    }
 
     public PaymentResponse chargeCreditCard(PaymentGatewayRequest paymentRequest) throws PaymentGatewayException {
         try {
-            if(!validatePaymentRequest(paymentRequest))
-                return null;
-
+            if(paymentRequest == null || !validatePaymentRequest(paymentRequest)) {
+                throw new PaymentGatewayException("Unable to fetch card details.");
+            }
             PaymentResponse paymentGatewayResponse = paymentGatewayClient.chargeCreditCard(paymentRequest);
 
             return mapPaymentGatewayResponse(paymentGatewayResponse);

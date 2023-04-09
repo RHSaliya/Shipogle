@@ -27,11 +27,18 @@ public class DriverRouteFilter {//implements DriverRouteRepository {
     }
 
     public List<DriverRoute> getDriverRoutesByFilters(DashboardFilter filter) {
-        return driverRouteRepository.getDriverRoutesByFilters(filter.sourceCity, filter.destination, filter.pickupDataTime, filter.maxPackages
-                ,filter.radius, filter.price, filter.allowedCategory,  filter.category);
+        if(filter == null)
+            return null;
+
+        return driverRouteRepository.getDriverRoutesByFilters(filter.getSourceCity(), filter.getDestination(), filter.getPickupDataTime(), filter.getMaxPackages()
+                ,filter.getRadius(), filter.getPrice(), filter.getAllowedCategory(),  filter.getCategory());
     }
 
     public List<DriverRoute> getDriverRouteById(String driverId) {
         return driverRouteRepository.getDriverRoutes(driverId);
+    }
+
+    public DriverRoute save(DriverRoute driverRoute) {
+        return driverRouteRepository.save(driverRoute);
     }
 }

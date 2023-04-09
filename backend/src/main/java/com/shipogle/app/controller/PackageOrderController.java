@@ -3,7 +3,6 @@ package com.shipogle.app.controller;
 import com.shipogle.app.model.PackageOrder;
 import com.shipogle.app.service.PackageOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
