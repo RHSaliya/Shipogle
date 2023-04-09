@@ -19,6 +19,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 
 export default function NotificationsMenu() {
   const [dialogOpen, setDialogOpen] = React.useState(false);
+  const [user, setUser] = useState({});
   const [anchorEl, setAnchorEl] = useState(null);
   const [hasNotfication, setHasNotification] = useState(false);
   const [notifications, setNotifications] = useState([]);
@@ -29,7 +30,6 @@ export default function NotificationsMenu() {
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
-    setHasNotification(false);
   };
   const handleClose = () => {
     setAnchorEl(null);
@@ -39,6 +39,9 @@ export default function NotificationsMenu() {
     setDialogOpen(false);
   };
 
+  const handleNotif = () => {
+    setHasNotification(false);
+  };
   const handleClearNotif = () => {
     setDialogOpen(true);
   };
@@ -56,12 +59,13 @@ export default function NotificationsMenu() {
   };
 
   useEffect(() => {
+    // Get user info from token
     axios
       .get(`${Constants.API_NOTIFICATIONS}/${localStorage.getItem("user_id")}`)
       .then((res) => {
         console.log("~~~~~~~~~~~~~~");
         console.log(res.data);
-        setNotifications(res.data.reverse());
+        setNotifications(res.data);
         if (res.data.length === 0) {
           setEmptyNotifications(true);
         }
@@ -76,7 +80,7 @@ export default function NotificationsMenu() {
       console.log(message);
       const value = JSON.parse(message.data);
       setEmptyNotifications(false);
-      setNotifications((prevNotifications) => [value, ...prevNotifications]);
+      setNotifications((prevNotifications) => [...prevNotifications, value]);
       setHasNotification(true && !open);
     };
 
@@ -118,7 +122,7 @@ export default function NotificationsMenu() {
       <IconButton
         className="icon-buttons"
         id="demo-positioned-button"
-        aria-controls={open ? "positioned-menu" : undefined}
+        aria-controls={open ? "demo-positioned-menu" : undefined}
         aria-haspopup="true"
         aria-expanded={open ? "true" : undefined}
         onClick={handleClick}
@@ -132,7 +136,7 @@ export default function NotificationsMenu() {
 
       <Menu
         className="notifMenu"
-        id="positioned-menu"
+        id="demo-positioned-menu"
         aria-labelledby="demo-positioned-button"
         anchorEl={anchorEl}
         open={open}
@@ -145,7 +149,6 @@ export default function NotificationsMenu() {
           vertical: "top",
           horizontal: "left",
         }}
-        MenuListProps={{ sx: { py: 0 } }}
       >
         <div className="notification-header">
           <p
@@ -158,22 +161,19 @@ export default function NotificationsMenu() {
           >
             Notifications
           </p>
-          <Button
-            type="submit"
-            variant="contained"
-            onClick={handleClearNotif}>
+          <button className="btn" onClick={handleClearNotif}>
             Clear
-          </Button>
+          </button>
         </div>
 
         {emptyNotifications === true ? (
-          <p style={{ padding: "1em 0 1em 0", textAlign: "center", width: "500px" }}>
+          <p style={{ padding: "0 1em 0 1em", textAlign: "center" }}>
             Empty Notifications
           </p>
         ) : (
           notifications.map((notification, index) => (
             <MenuItem
-              style={{ borderBottom: index !== notifications.length - 1 ? "1px solid #bbb" : "" }}
+              style={{ borderBottom: "1px solid black" }}
               sx={{ width: "500px" }}
               onClick={handleClose}
             >
