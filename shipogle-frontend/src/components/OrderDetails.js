@@ -45,14 +45,13 @@ export default function OrderDetails() {
     };
     customAxios.put(Constants.CANCELORDER, body).then(
       (res) => {
-        alert("Order canceled");
         commFunc.showAlertMessage(
           "Order Canceled! Initiating a refund if paid.",
           "info",
           3000,
           "bottom"
         );
-        //customAxios.put(Constants.UPDATEPAYMENTSTAT);
+        navigate("/orders");
       },
       (error) => {
         commFunc.showAlertMessage(

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
@@ -19,9 +19,13 @@ function Listings({ data }) {
   const [listingCards, setListingCards] = useState([]);
   const [showMapView, setShowMapView] = useState(false);
 
-  const routeTo = (routeId, listing) => {
-    navigate("/order/startend", { state: { id: routeId, order: listing } });
-  };
+  const routeTo = useCallback(
+    (routeId, listing) => {
+      navigate("/order/startend", { state: { id: routeId, order: listing } });
+    },
+    [navigate]
+  );
+
   const isInDateRange = (startDate, endDate) => {
     const currentDate = new Date();
     const start = new Date(startDate);
@@ -31,6 +35,7 @@ function Listings({ data }) {
     currentDate.setHours(0, 0, 0, 0);
     start.setHours(0, 0, 0, 0);
     end.setHours(0, 0, 0, 0);
+    console.log(start, end, currentDate);
 
     return start <= currentDate && currentDate <= end;
   };
@@ -46,7 +51,7 @@ function Listings({ data }) {
     return;
   };
 
-  const createListingCards = () => {
+  const createListingCards = useCallback(() => {
     const cards = data.map((listing) => (
       <div
         className="listing-card"
@@ -129,11 +134,11 @@ function Listings({ data }) {
       });
       setListingCards(newArr);
     } else setListingCards(cards);
-  };
+  }, [data, navigate, path, routeTo]);
 
   useEffect(() => {
     createListingCards();
-  }, [data]);
+  }, [createListingCards, data]);
 
   return (
     <>

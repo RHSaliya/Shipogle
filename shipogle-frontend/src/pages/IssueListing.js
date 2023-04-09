@@ -17,7 +17,7 @@ export default function IssueListing() {
     <Card key={index} sx={{ minWidth: 275, marginBottom: 2 }}>
       <CardContent>
         <Typography variant="h6" component="div">
-          Issue ID: {issue.id}
+          Issue Reference ID: {issue.id}
         </Typography>
         <hr></hr>
         <Typography variant="body1" color="text.secondary">
