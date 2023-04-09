@@ -2,8 +2,7 @@ package com.shipogle.app.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.shipogle.app.socket_handlers.NotificationSocketHandler;
-import com.shipogle.app.socket_handlers.NotificationSocketHandlerTests;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
@@ -31,30 +30,10 @@ import java.util.Map;
 @ExtendWith(MockitoExtension.class)
 public class NotificationControllerIntegrationTest {
 
-
     @Autowired
     private MockMvc mockMvc;
 
-
     ObjectMapper objectMapper = new ObjectMapper();
-
-    @Before
-    public void setUp() throws SQLException {
-        NotificationSocketHandler notificationSocketHandler = Mockito.mock(NotificationSocketHandler.class);
-        // Create a mock object of the database connection class
-        DataSource dataSource = Mockito.mock(DataSource.class);
-
-// Set up the mock object behavior
-        Connection connection = Mockito.mock(Connection.class);
-        PreparedStatement statement = Mockito.mock(PreparedStatement.class);
-        ResultSet resultSet = Mockito.mock(ResultSet.class);
-        Mockito.when(dataSource.getConnection()).thenReturn(connection);
-        Mockito.when(connection.prepareStatement(Mockito.any(String.class))).thenReturn(statement);
-        Mockito.when(statement.executeQuery()).thenReturn(resultSet);
-
-// Configure the MockMvc instance to use the mock object
-        MockMvc mockMvc = MockMvcBuilders.standaloneSetup(new NotificationController()).build();
-    }
 
     @Test
     public void testSendMessageIntegration() throws Exception {
