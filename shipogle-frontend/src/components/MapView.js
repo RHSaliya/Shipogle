@@ -21,7 +21,7 @@ const MapView = ({ locations }) => {
           lat: position.coords.latitude,
           lng: position.coords.longitude,
         };
-        console.log("Current location:", userLocation.lat); // Log the userLocation to check if it's valid
+        console.log("Current location:", userLocation.lat);
         setCenter(userLocation);
       },
       (error) => {
@@ -58,12 +58,10 @@ const MapView = ({ locations }) => {
       const newMap = new googleMaps.Map(mapRef.current, mapOptions);
       setMap(newMap);
 
-      // Remove existing current location marker
       if (currentLocationMarker) {
         currentLocationMarker.setMap(null);
       }
 
-      // Add a new marker for the current location
       const newCurrentLocationMarker = new googleMaps.Marker({
         position: new googleMaps.LatLng(
           center?.lat ? center?.lat : 44.637073,
@@ -97,7 +95,7 @@ const MapView = ({ locations }) => {
     });
 
     setMarkers(newMarkers);
-  }, [googleMaps.LatLng, googleMaps.Marker, locations, map, markers]);
+  }, [googleMaps?.LatLng, googleMaps?.Marker, locations, map, markers]);
 
   useEffect(() => {
     if (map) {
