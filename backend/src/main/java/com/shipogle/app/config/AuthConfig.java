@@ -25,6 +25,12 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import static com.shipogle.app.utility.Const.AUTH_EXCEPT_PATHS;
 
+/*
+* Reference: https://www.marcobehler.com/guides/spring-security
+* Reference: https://spring.io/guides/gs/securing-web/
+* Reference: https://www.toptal.com/spring/spring-security-tutorial
+*/
+
 @EnableWebSecurity
 @Configuration
 public class AuthConfig extends WebSecurityConfigurerAdapter {
@@ -37,27 +43,13 @@ public class AuthConfig extends WebSecurityConfigurerAdapter {
      @Autowired
      LogoutHandlerServiceImpl logoutService;
 
+     /**
+      * @author Nandkumar Kadivar
+      * Configurate the http security
+      * @param http HttpConfig.
+      */
      @Override
      protected void configure(HttpSecurity http) throws Exception {
-          // super.configure(auth);
-//          http.cors()
-//                    .and()
-//                    .csrf().disable()
-//                    .httpBasic().disable()
-//                    .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-//                    .and()
-//                    .authorizeRequests()
-//                    .antMatchers("/register", "/verification", "/changepassword", "/forgotpassword", "/login",
-//                              "/driverRoutes", "/ShipoglePay", "/chatSocket/*", "notificationSocket/*")
-//                    .permitAll()
-//                    .anyRequest().authenticated()
-//                    .and()
-//                    .logout().logoutUrl("/logout").addLogoutHandler(logoutService)
-//                    .logoutSuccessHandler((request, response, authentication) -> SecurityContextHolder.clearContext())
-//                    .and()
-//                    .authenticationProvider(authProvider())
-//                    .addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class);
-
          CorsConfigurer<HttpSecurity> buildConfig  = http.cors();
          HttpSecurity config = buildConfig.and().csrf().disable();
          config.httpBasic().disable();
@@ -67,6 +59,11 @@ public class AuthConfig extends WebSecurityConfigurerAdapter {
          config.authenticationProvider(authProvider()).addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class);
      }
 
+     /**
+      * @author Rahul Saliya
+      * Configurate the web security
+      * @param web WebSecurity.
+      */
      @Override
      public void configure(WebSecurity web) throws Exception {
           web.ignoring().antMatchers("/chatSocket/**");
@@ -74,11 +71,20 @@ public class AuthConfig extends WebSecurityConfigurerAdapter {
           super.configure(web);
      }
 
+     /**
+      * @author Nandkumar Kadivar
+      * Configure Authentication manager
+      * @param configuration auth configuration.
+      */
      @Bean
      public AuthenticationManager authManager(AuthenticationConfiguration configuration) throws Exception {
           return configuration.getAuthenticationManager();
      }
 
+     /**
+      * @author Nandkumar Kadivar
+      * User detail service
+      */
      @Bean
      public UserDetailsService userDetails() {
           return new UserDetailsService() {
@@ -89,10 +95,13 @@ public class AuthConfig extends WebSecurityConfigurerAdapter {
           };
      }
 
+     /**
+      * @author Nandkumar Kadivar
+      * Authentication provider
+      */
      @Bean
      public AuthenticationProvider authProvider() {
           DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-          // System.out.println("Flag from authProvider Method");
           provider.setUserDetailsService(userDetails());
           provider.setPasswordEncoder(new BCryptPasswordEncoder());
           System.out.println(provider.getClass());

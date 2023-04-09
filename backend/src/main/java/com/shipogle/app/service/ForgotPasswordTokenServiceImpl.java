@@ -25,6 +25,12 @@ public class ForgotPasswordTokenServiceImpl implements ForgotPasswordTokenServic
     @Autowired
     ForgotPasswordTokenRepository forgotPasswordTokenRepo;
 
+    /**
+     * @author Nandkumar Kadivar
+     * Create forgot password jwt token for user
+     * @param user user.
+     * @return String jwt token for that user.
+     */
     @Override
     public ForgotPasswordToken createForgotPasswordToken(User user){
         ForgotPasswordToken forgotPasswordToken = new ForgotPasswordToken();
@@ -43,6 +49,11 @@ public class ForgotPasswordTokenServiceImpl implements ForgotPasswordTokenServic
         return forgotPasswordToken;
     }
 
+    /**
+     * @author Nandkumar Kadivar
+     * Generate key for token
+     * @return String secret key.
+     */
     @Override
     public Key generateKey(){
         return new SecretKeySpec(Base64.getDecoder().decode(SECRET_KEY), SignatureAlgorithm.HS256.getJcaName());

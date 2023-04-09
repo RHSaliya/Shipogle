@@ -16,6 +16,11 @@ public class UserServiceImpl implements UserService {
     @Autowired
     UserRepository userRepo;
 
+    /**
+     * @author Nandkumar Kadivar
+     * Get logged in user
+     * @return user who is logged in
+     */
     @Override
     public User getLoggedInUser(){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -26,6 +31,11 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 
+    /**
+     * @author Nandkumar Kadivar
+     * Update the user coordinates in database
+     * @return string response
+     */
     @Override
     public String updateUserLocation(String latitude, String longitude){
         User user = getLoggedInUser();
@@ -37,6 +47,11 @@ public class UserServiceImpl implements UserService {
         return "Location updated";
     }
 
+    /**
+     * @author Nandkumar Kadivar
+     * Get the user coordinates
+     * @return map coordinatess
+     */
     @Override
     public Map<String,String> getUserLocation(Integer id){
         User user = userRepo.getUserById(id);

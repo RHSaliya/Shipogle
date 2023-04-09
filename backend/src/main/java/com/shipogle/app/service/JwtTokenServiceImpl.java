@@ -20,6 +20,10 @@ import java.util.List;
 import static com.shipogle.app.utility.Const.SECRET_KEY;
 import static com.shipogle.app.utility.Const.TOKEN_EXPIRATION_TIME;
 
+/*
+* Reference:https://www.viralpatel.net/java-create-validate-jwt-token/
+* Reference: https://jwt.io/introduction
+*/
 @Service
 public class JwtTokenServiceImpl implements JwtTokenService{
 

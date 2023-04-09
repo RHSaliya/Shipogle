@@ -11,7 +11,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.shipogle.app.repository.JwtTokenRepository;
 import org.springframework.stereotype.Service;
-
+/*
+* Reference: https://www.baeldung.com/spring-security-custom-logout-handler
+*/
 @Service
 public class LogoutHandlerServiceImpl implements LogoutHandler {
 

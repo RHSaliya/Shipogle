@@ -4,6 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Component;
 import org.springframework.mail.SimpleMailMessage;
+/*
+* Reference: https://www.baeldung.com/spring-email
+* Reference: https://stackoverflow.com/questions/33015900/no-mimemessage-content-exception-when-sending-simplemailmessage
+*/
 
 @Component
 public class MailServiceImpl extends SimpleMailMessage {
