@@ -26,7 +26,7 @@ backend-build:
   artifacts:
     when: on_success
     paths:
-      - $TARGET_FOLDER_NAME
+      - $BACKEND_FOLDER_NAME/$TARGET_FOLDER_NAME
 
 backend-test:
   stage: test
