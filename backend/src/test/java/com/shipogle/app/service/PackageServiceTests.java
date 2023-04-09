@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 @ExtendWith(MockitoExtension.class)
 public class PackageServiceTests {
     @InjectMocks
-    PackageService packageService;
+    PackageServiceImpl packageService;
     @Mock
     Package courier;
     @Mock
@@ -31,6 +31,7 @@ public class PackageServiceTests {
 
     @Mock
     UserService userService;
+    private final int TEST_COURIER_ID = 40;
 
     @Test
     public void storePackageTestSuccess(){
@@ -38,9 +39,9 @@ public class PackageServiceTests {
         Mockito.doNothing().when(courier).setSender(user);
 
         Mockito.when(packageRepo.save(courier)).thenReturn(courier);
-        Mockito.when(courier.getId()).thenReturn(40);
+        Mockito.when(courier.getId()).thenReturn(TEST_COURIER_ID);
 
-        assertEquals(40,packageService.storePackage(courier));
+        assertEquals(TEST_COURIER_ID,packageService.storePackage(courier));
     }
 
     @Test
@@ -75,7 +76,7 @@ public class PackageServiceTests {
 
     @Test
     public void updatePackageTestSuccess(){
-        Mockito.when(courier.getId()).thenReturn(10);
+        Mockito.when(courier.getId()).thenReturn(TEST_COURIER_ID);
         Mockito.when(packageRepo.getPackageById(courier.getId())).thenReturn(courier);
         Mockito.when(packageRepo.save(courier)).thenReturn(courier);
 
@@ -84,7 +85,7 @@ public class PackageServiceTests {
 
     @Test
     public void updatePackageTestException(){
-        Mockito.when(courier.getId()).thenReturn(10);
+        Mockito.when(courier.getId()).thenReturn(TEST_COURIER_ID);
         Mockito.when(packageRepo.getPackageById(courier.getId())).thenThrow(IllegalArgumentException.class);
 
         assertThrows(ResponseStatusException.class,()->packageService.updatePackage(courier));

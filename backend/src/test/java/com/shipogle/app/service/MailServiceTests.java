@@ -9,13 +9,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.isA;
-
 @ExtendWith(MockitoExtension.class)
 public class MailServiceTests {
     @InjectMocks
-    MailService mailService;
+    MailServiceImpl mailService;
 
     @Mock
     JavaMailSender sender;

@@ -35,4 +35,9 @@ public class RatingController {
     public String deleteRating(@RequestBody Map<String,String> req){
         return ratingService.deleteRating(Integer.valueOf(req.get("rating_id")));
     }
+
+    @GetMapping("rating/deliverer")
+    public List<Rating> getDelivererRatingById(@RequestParam int driver_id){
+        return ratingService.getDelivererRatingWithID(Integer.valueOf(driver_id));
+    }
 }
