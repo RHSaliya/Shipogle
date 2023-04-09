@@ -386,14 +386,11 @@ a:hover {
 }
 
 .notification-header>button {
-  margin-right: 1em;
-  padding-bottom: 20px;
-  height: 30px;
-
+  margin-right: 1.5em;
 }
 
 .notif>h4 {
-  margin-top: 0px;
+  margin-top: 0.5em;
   margin-bottom: 0px;
 }
 
@@ -412,10 +409,11 @@ a:hover {
   text-align: center;
 }
 
-.feedback-issue-box > a {
+.feedback-issue-box>a {
   color: white;
   text-decoration: none;
 }
-.stars{
+
+.stars {
   height: 40px;
 }

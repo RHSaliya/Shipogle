@@ -50,7 +50,7 @@ public class AuthServiceImpl implements AuthService{
         try {
             ForgotPasswordToken forgotPasswordToken = forgotPasswordTokenRepo.findByForgetPasswordToken(token);
             if (forgotPasswordToken.getIs_active()) {
-                Claims claim = Jwts.parser().setSigningKey(SECRETKEY).parseClaimsJws(token).getBody();
+                Claims claim = Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody();
                 String email = (String) claim.get("email");
 
                 User user = userRepo.getUserByEmail(email);
@@ -169,7 +169,7 @@ public class AuthServiceImpl implements AuthService{
     @Override
     public User getUserInfo(String token) {
         token = token.replace("Bearer", "").trim();
-        Claims claim = Jwts.parser().setSigningKey(SECRETKEY).parseClaimsJws(token).getBody();
+        Claims claim = Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody();
         String email = (String) claim.get("email");
         return userRepo.getUserByEmail(email);
     }
@@ -177,7 +177,7 @@ public class AuthServiceImpl implements AuthService{
     @Override
     public String updateUser(String token, User user) {
         token = token.replace("Bearer", "").trim();
-        Claims claim = Jwts.parser().setSigningKey(SECRETKEY).parseClaimsJws(token).getBody();
+        Claims claim = Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody();
         String email = (String) claim.get("email");
         User db_user = userRepo.getUserByEmail(email);
         db_user.update(user);

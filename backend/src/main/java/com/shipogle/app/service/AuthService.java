@@ -9,7 +9,6 @@ public interface AuthService {
     public String resetPassword(String token, String password);
 
     public String forgotPassword(String email);
-
     public String verifyEmail(String code, int id);
 
     public String register(User new_user);
@@ -19,6 +18,5 @@ public interface AuthService {
     public User getUser(int id);
 
     public User getUserInfo(String token);
-
     public String updateUser(String token, User user);
 }

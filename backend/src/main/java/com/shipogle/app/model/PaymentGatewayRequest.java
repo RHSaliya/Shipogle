@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 
 public class PaymentGatewayRequest {
 
+    private short maxLengthForCardNumber = 16;
     private BigDecimal amount;
     private String currency;
     private String cardNumber;
@@ -67,7 +68,11 @@ public class PaymentGatewayRequest {
     }
 
     public boolean hasEmptyFields() {
-        return amount == null || currency == null || cardNumber.isBlank() || cardNumber == null
-                || cardNumber.length() != 16 || cardCvv == null || cardCvv.isBlank() || cardHolderName == null || cardHolderName.isBlank();
+        boolean isInvalidAmount = amount == null || currency == null;
+        boolean isInvalidCardNumber = cardNumber == null || cardNumber.isBlank() || cardNumber.length() != maxLengthForCardNumber;
+        boolean isInvalidCvv = cardCvv == null || cardCvv.isBlank();
+        boolean isInvalidCardHolderName = cardHolderName == null || cardHolderName.isBlank();
+
+        return isInvalidAmount || isInvalidCardNumber || isInvalidCvv || isInvalidCardHolderName;
     }
 }

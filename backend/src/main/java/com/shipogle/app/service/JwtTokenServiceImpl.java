@@ -17,7 +17,7 @@ import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 
-import static com.shipogle.app.utility.Const.SECRETKEY;
+import static com.shipogle.app.utility.Const.SECRET_KEY;
 import static com.shipogle.app.utility.Const.TOKEN_EXPIRATION_TIME;
 
 @Service
@@ -44,7 +44,7 @@ public class JwtTokenServiceImpl implements JwtTokenService{
     }
 
     public Key generateKey() {
-        return new SecretKeySpec(Base64.getDecoder().decode(SECRETKEY), SignatureAlgorithm.HS256.getJcaName());
+        return new SecretKeySpec(Base64.getDecoder().decode(SECRET_KEY), SignatureAlgorithm.HS256.getJcaName());
     }
 
     public void deactiveUserTokens(User user) {

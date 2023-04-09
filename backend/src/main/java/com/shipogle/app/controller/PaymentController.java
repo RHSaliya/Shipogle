@@ -15,12 +15,20 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/payment")
 public class PaymentController {
 
-    @Autowired
+
     private PaymentService paymentService;
+
+    @Autowired
+    public void setPaymentService(PaymentService paymentService){
+        this.paymentService = paymentService;
+    }
 
     @PostMapping("/charge")
     public ResponseEntity<?> chargeCreditCard(@RequestBody String jsonString) {
         try {
+            if(jsonString.equals(""))
+                throw new PaymentGatewayException("Invalid Card Details");
+
             ObjectMapper objectMapper = new ObjectMapper();
             PaymentGatewayRequest paymentRequest = objectMapper.readValue(jsonString, PaymentGatewayRequest.class);
 

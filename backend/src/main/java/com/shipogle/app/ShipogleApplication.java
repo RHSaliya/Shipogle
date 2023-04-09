@@ -20,8 +20,8 @@ public class ShipogleApplication {
 		SpringApplication.run(ShipogleApplication.class, args);
 	}
 
-	@GetMapping("/hello")
-	String helloworld(){
+	@GetMapping("/")
+	String home(){
 		return "Application running";
 	}
 }
