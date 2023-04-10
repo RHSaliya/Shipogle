@@ -37,23 +37,22 @@ public class AuthServiceImpl implements AuthService{
     ForgotPasswordTokenService forgotPasswordTokenService;
 
     /**
-     * @author Nandkumar Kadivar
      * Check that user is already registered on not
+     *
+     * @author Nandkumar Kadivar
      * @param user user.
      * @return boolean value.
      */
     @Override
     public boolean isAlreadyExist(User user) {
         User db_user = userRepo.findUserByEmail(user.getEmail());
-        if (db_user == null) {
-            return false;
-        }
-        return true;
+        return db_user != null;
     }
 
     /**
-     * @author Nandkumar Kadivar
      * Reset password for user
+     *
+     * @author Nandkumar Kadivar
      * @param token reset password token.
      * @param password new password string.
      * @return String message.
@@ -84,8 +83,9 @@ public class AuthServiceImpl implements AuthService{
     }
 
     /**
-     * @author Nandkumar Kadivar
      * Send reset password email to user
+     *
+     * @author Nandkumar Kadivar
      * @param email email string.
      * @return String response message.
      */
@@ -110,8 +110,9 @@ public class AuthServiceImpl implements AuthService{
     }
 
     /**
-     * @author Nandkumar Kadivar
      * Verify user email
+     *
+     * @author Nandkumar Kadivar
      * @param code verification code.
      * @param id user id.
      * @return String response message.
@@ -140,8 +141,9 @@ public class AuthServiceImpl implements AuthService{
     }
 
     /**
-     * @author Nandkumar Kadivar
      * Register user and send verification email
+     *
+     * @author Nandkumar Kadivar
      * @param new_user user.
      * @return String response message.
      */
@@ -171,8 +173,9 @@ public class AuthServiceImpl implements AuthService{
     }
 
     /**
-     * @author Nandkumar Kadivar
      * User login
+     *
+     * @author Nandkumar Kadivar
      * @param email user email.
      * @param password user password.
      * @return String jwt token for that user.
@@ -200,11 +203,25 @@ public class AuthServiceImpl implements AuthService{
         }
     }
 
+    /**
+     * get user by id
+     *
+     * @author Rahul Saliya
+     * @param id user id.
+     * @return boolean true if user already exist.
+     */
     @Override
     public User getUser(int id) {
         return userRepo.getReferenceById(id);
     }
 
+    /**
+     * get user by token
+     *
+     * @author Rahul Saliya
+     * @param token jwt token.
+     * @return boolean true if user already exist.
+     */
     @Override
     public User getUserInfo(String token) {
         token = token.replace("Bearer", "").trim();
@@ -213,6 +230,13 @@ public class AuthServiceImpl implements AuthService{
         return userRepo.getUserByEmail(email);
     }
 
+    /**
+     * update user by token
+     *
+     * @author Rahul Saliya
+     * @param user user object.
+     * @return boolean true if user already exist.
+     */
     @Override
     public String updateUser(String token, User user) {
         token = token.replace("Bearer", "").trim();

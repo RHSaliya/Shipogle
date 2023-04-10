@@ -13,6 +13,14 @@ import java.util.UUID;
 
 @RestController
 public class ShipoglePaymentController{
+
+    /**
+     * Charge credit card.
+     *
+     * @author Shivam Lakhanpal
+     * @param jsonString json string.
+     * @return response entity.
+     */
     @PostMapping("/ShipoglePay")
     public ResponseEntity<PaymentResponse> chargeCreditCard(@RequestBody String jsonString) {
         try {

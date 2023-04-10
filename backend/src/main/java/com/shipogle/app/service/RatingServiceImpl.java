@@ -26,16 +26,20 @@ public class RatingServiceImpl implements RatingService {
     @Autowired
     UserService userService;
 
+    /**
+     * Store rating
+     *
+     * @author Nandkumar Kadivar
+     * @param driver_route_id driver route id
+     * @param star star
+     * @param review review
+     * @return String rating is posted
+     */
     @Override
     public String storeRating(Long driver_route_id, float star, String review){
         try {
             Rating rating = new Rating();
             DriverRoute driverRoute = driverRouteRepo.getDriverRouteById(driver_route_id);
-
-//            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//            String user_email = auth.getPrincipal().toString();
-//
-//            User sender = userRepo.getUserByEmail(user_email);
 
             User sender = userService.getLoggedInUser();
 
@@ -55,6 +59,13 @@ public class RatingServiceImpl implements RatingService {
         return "Rating is posted";
     }
 
+    /**
+     * Get rating
+     *
+     * @author Nandkumar Kadivar
+     * @param rating_id rating id
+     * @return List<Rating>
+     */
     @Override
     public String deleteRating(Integer rating_id){
         try {
@@ -68,13 +79,15 @@ public class RatingServiceImpl implements RatingService {
         return "Rating deleted";
     }
 
+    /**
+     * Get deliverer rating
+     *
+     * @author Nandkumar Kadivar
+     * @return List<Rating>
+     */
     @Override
     public List<Rating> getDelivererRating(){
         try {
-//            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//            String user_email = auth.getPrincipal().toString();
-//
-//            User deliverer = userRepo.getUserByEmail(user_email);
 
             User deliverer = userService.getLoggedInUser();
 
@@ -88,14 +101,15 @@ public class RatingServiceImpl implements RatingService {
         }
     }
 
+    /**
+     * Get sender posted rating
+     *
+     * @author Nandkumar Kadivar
+     * @return List<Rating>
+     */
     @Override
     public List<Rating> getSenderPostedRating(){
         try {
-//            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//            String user_email = auth.getPrincipal().toString();
-//
-//            User sender = userRepo.getUserByEmail(user_email);
-
             User sender = userService.getLoggedInUser();
 
             List<Rating> ratings = ratingRepo.getAllByUser_Id(sender.getUser_id());
@@ -108,6 +122,13 @@ public class RatingServiceImpl implements RatingService {
         }
     }
 
+    /**
+     * Get deliverer rating with id
+     *
+     * @author Nandkumar Kadivar
+     * @param id deliverer id
+     * @return List<Rating>
+     */
     @Override
     public List<Rating> getDelivererRatingWithID(Integer id){
         try {

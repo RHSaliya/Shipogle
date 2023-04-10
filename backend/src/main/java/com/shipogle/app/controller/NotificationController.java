@@ -32,6 +32,13 @@ public class NotificationController {
     @Autowired
     private AuthService authService;
 
+    /**
+     * Get all notifications
+     *
+     * @author Rahul Saliya
+     * @param json json data
+     * @return list of notifications
+     */
     @PostMapping
     public ResponseEntity<?> sendNotification(@RequestBody Map<String, String> json) {
         System.out.println("json = " + json);
@@ -68,6 +75,13 @@ public class NotificationController {
         }
     }
 
+    /**
+     * Get all notifications by token
+     *
+     * @author Rahul Saliya
+     * @param token token
+     * @return list of notifications
+     */
     @PostMapping("/get")
     public List<Notification> getNotificationsByToken(@RequestHeader("Authorization") String token) {
         User user = new AuthServiceImpl().getUserInfo(token);
@@ -78,6 +92,13 @@ public class NotificationController {
         return new ArrayList<>(notificationRepository.findByUserOrderByCreatedAt(user));
     }
 
+    /**
+     * Get all notifications by user id
+     *
+     * @author Rahul Saliya
+     * @param userId user id
+     * @return list of notifications
+     */
     @GetMapping("/{userId}")
     public List<Notification> getNotifications(@PathVariable int userId) {
         Optional<User> userOptional = userRepository.findById(userId);
@@ -90,6 +111,13 @@ public class NotificationController {
         return new ArrayList<>(notificationRepository.findByUserOrderByCreatedAt(user));
     }
 
+    /**
+     * Delete all notifications by user id
+     *
+     * @author Rahul Saliya
+     * @param userId user id
+     * @return response entity
+     */
     @DeleteMapping("/all/{userId}")
     public ResponseEntity<?> deleteNotifications(@PathVariable int userId) {
         Optional<User> userOptional = userRepository.findById(userId);
@@ -104,7 +132,4 @@ public class NotificationController {
         return ResponseEntity.ok("Deleted notifications for user with id: " + userId);
     }
 
-    public AuthService getAuthService() {
-        return authService;
-    }
 }

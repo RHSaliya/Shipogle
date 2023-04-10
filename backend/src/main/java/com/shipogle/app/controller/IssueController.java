@@ -16,11 +16,24 @@ public class IssueController {
     @Autowired
     IssueService issueService;
 
+    /**
+     * Post issue
+     *
+     * @author Almasfiza Anwar Hussain Shaikh
+     * @param req request
+     * @return response
+     */
     @PostMapping("/issue/post")
     public String postIssue(@RequestBody Map<String,String> req){
         return issueService.postIssue(Integer.valueOf(req.get("package_order_id")),req.get("description"));
     }
 
+    /**
+     * Get all issues
+     *
+     * @author Almasfiza Anwar Hussain Shaikh
+     * @return list of issues
+     */
     @GetMapping("issue/getall")
     public List<Issue> getAllIssues(){
         return issueService.getAllIssues();

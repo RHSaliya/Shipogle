@@ -26,8 +26,9 @@ public class ForgotPasswordTokenServiceImpl implements ForgotPasswordTokenServic
     ForgotPasswordTokenRepository forgotPasswordTokenRepo;
 
     /**
-     * @author Nandkumar Kadivar
      * Create forgot password jwt token for user
+     *
+     * @author Nandkumar Kadivar
      * @param user user.
      * @return String jwt token for that user.
      */
@@ -50,8 +51,9 @@ public class ForgotPasswordTokenServiceImpl implements ForgotPasswordTokenServic
     }
 
     /**
-     * @author Nandkumar Kadivar
      * Generate key for token
+     *
+     * @author Nandkumar Kadivar
      * @return String secret key.
      */
     @Override

@@ -17,8 +17,9 @@ public class UserServiceImpl implements UserService {
     UserRepository userRepo;
 
     /**
-     * @author Nandkumar Kadivar
      * Get logged in user
+     *
+     * @author Nandkumar Kadivar
      * @return user who is logged in
      */
     @Override
@@ -32,8 +33,9 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * @author Nandkumar Kadivar
      * Update the user coordinates in database
+     *
+     * @author Nandkumar Kadivar
      * @return string response
      */
     @Override
@@ -48,8 +50,9 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * @author Nandkumar Kadivar
      * Get the user coordinates
+     *
+     * @author Nandkumar Kadivar
      * @return map coordinatess
      */
     @Override

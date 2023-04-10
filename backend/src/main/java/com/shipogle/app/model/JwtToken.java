@@ -2,6 +2,11 @@ package com.shipogle.app.model;
 
 import javax.persistence.*;
 
+/**
+ * Jwt token model.
+ *
+ * @author Nandkumar Kadivar
+ */
 @Entity
 @Table(name="jwtToken")
 public class JwtToken {

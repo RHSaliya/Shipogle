@@ -16,8 +16,9 @@ public class MailServiceImpl extends SimpleMailMessage {
     JavaMailSender sender;
 
     /**
-     * @author Nandkumar Kadivar
      * Send email to user
+     *
+     * @author Nandkumar Kadivar
      * @param email user email
      * @param subject email subject
      * @param body email body

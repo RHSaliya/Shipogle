@@ -44,8 +44,9 @@ public class AuthConfig extends WebSecurityConfigurerAdapter {
      LogoutHandlerServiceImpl logoutService;
 
      /**
+      * Configure the http security
+      *
       * @author Nandkumar Kadivar
-      * Configurate the http security
       * @param http HttpConfig.
       */
      @Override
@@ -60,8 +61,9 @@ public class AuthConfig extends WebSecurityConfigurerAdapter {
      }
 
      /**
+      * Configure the web security
+      *
       * @author Rahul Saliya
-      * Configurate the web security
       * @param web WebSecurity.
       */
      @Override
@@ -72,8 +74,9 @@ public class AuthConfig extends WebSecurityConfigurerAdapter {
      }
 
      /**
-      * @author Nandkumar Kadivar
       * Configure Authentication manager
+      *
+      * @author Nandkumar Kadivar
       * @param configuration auth configuration.
       */
      @Bean
@@ -82,8 +85,9 @@ public class AuthConfig extends WebSecurityConfigurerAdapter {
      }
 
      /**
-      * @author Nandkumar Kadivar
       * User detail service
+      *
+      * @author Nandkumar Kadivar
       */
      @Bean
      public UserDetailsService userDetails() {
@@ -96,8 +100,9 @@ public class AuthConfig extends WebSecurityConfigurerAdapter {
      }
 
      /**
-      * @author Nandkumar Kadivar
       * Authentication provider
+      *
+      * @author Nandkumar Kadivar
       */
      @Bean
      public AuthenticationProvider authProvider() {

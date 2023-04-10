@@ -3,6 +3,11 @@ package com.shipogle.app.model;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Dashboard filter model.
+ *
+ * @author Shivam Lakhanpal
+ */
 public class DashboardFilter {
     private String sourceCity;
     private String destination;

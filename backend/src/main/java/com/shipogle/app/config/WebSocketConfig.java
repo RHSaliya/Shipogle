@@ -20,6 +20,12 @@ import org.springframework.web.socket.server.support.HttpSessionHandshakeInterce
 @EnableWebSocket
 public class WebSocketConfig implements WebSocketConfigurer {
 
+    /**
+     * To configure the web socket handlers.
+     *
+     * @author Rahul Saliya
+     * @param registry WebSocketHandlerRegistry
+     */
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
         registry.addHandler(ChatSocketHandler.getInstance(), "/chatSocket/{userId}")
@@ -29,11 +35,23 @@ public class WebSocketConfig implements WebSocketConfigurer {
                 .setHandshakeHandler(new DefaultHandshakeHandler());
     }
 
+    /**
+     * To create a bean of ChatSocketHandler.
+     *
+     * @author Rahul Saliya
+     * @return ChatSocketHandler
+     */
     @Bean
     public ChatSocketHandler chatHandler() {
         return ChatSocketHandler.getInstance();
     }
 
+    /**
+     * To create a bean of NotificationSocketHandler.
+     *
+     * @author Rahul Saliya
+     * @return NotificationSocketHandler
+     */
     @Bean
     public NotificationSocketHandler notificationHandler() {
         return NotificationSocketHandler.getInstance();

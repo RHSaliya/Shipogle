@@ -14,8 +14,9 @@ public class PackageRequestController {
     PackageRequestService packageRequestService;
 
     /**
-     * @author Nandkumar Kadivar
      * Send package request
+     *
+     * @author Nandkumar Kadivar
      * @param req request
      * @return string response message.
      */
@@ -25,8 +26,9 @@ public class PackageRequestController {
     }
 
     /**
-     * @author Nandkumar Kadivar
      * Get all package request
+     *
+     * @author Nandkumar Kadivar
      * @return List package request.
      */
     @GetMapping("package/request/getall")
@@ -35,8 +37,9 @@ public class PackageRequestController {
     }
 
     /**
-     * @author Nandkumar Kadivar
      * Accept package request
+     *
+     * @author Nandkumar Kadivar
      * @param req request
      * @return string response message.
      */
@@ -46,8 +49,9 @@ public class PackageRequestController {
     }
 
     /**
-     * @author Nandkumar Kadivar
      * Send package request
+     *
+     * @author Nandkumar Kadivar
      * @param req request
      * @return string response message.
      */
@@ -57,8 +61,9 @@ public class PackageRequestController {
     }
 
     /**
-     * @author Nandkumar Kadivar
      * Delete package request
+     *
+     * @author Nandkumar Kadivar
      * @param req request
      * @return string response message.
      */

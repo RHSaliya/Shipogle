@@ -1,5 +1,10 @@
 package com.shipogle.app.model;
 
+/**
+ * Chat message request model.
+ *
+ * @author Rahul Saliya
+ */
 public class ChatMessageRequest {
 
     private int senderId;

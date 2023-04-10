@@ -36,8 +36,9 @@ public class PackageRequestServiceImpl implements PackageRequestService {
     UserServiceImpl userService;
 
     /**
-     * @author Nandkumar Kadivar
      * Send package request to deliverer route
+     *
+     * @author Nandkumar Kadivar
      * @param req request
      * @return string response.
      */
@@ -87,8 +88,9 @@ public class PackageRequestServiceImpl implements PackageRequestService {
     }
 
     /**
-     * @author Nandkumar Kadivar
      * Change status of package request
+     *
+     * @author Nandkumar Kadivar
      * @param package_request_id package request id
      * @param new_status new status that needs to be updated
      */
@@ -99,8 +101,9 @@ public class PackageRequestServiceImpl implements PackageRequestService {
     }
 
     /**
-     * @author Nandkumar Kadivar
      * Reject all the request
+     *
+     * @author Nandkumar Kadivar
      * @param package_id package id
      */
     private void rejectOtherPackageRequests(Integer package_id){
@@ -112,8 +115,9 @@ public class PackageRequestServiceImpl implements PackageRequestService {
     }
 
     /**
-     * @author Nandkumar Kadivar
      * Accept the request
+     *
+     * @author Nandkumar Kadivar
      * @param package_request_id package request id
      * @return string response message
      */
@@ -142,8 +146,9 @@ public class PackageRequestServiceImpl implements PackageRequestService {
     }
 
     /**
-     * @author Nandkumar Kadivar
      * Check if request is aligible to accept
+     *
+     * @author Nandkumar Kadivar
      * @param packageRequest package request
      * @return boolean response
      */
@@ -151,12 +156,13 @@ public class PackageRequestServiceImpl implements PackageRequestService {
         boolean isRequestRejected = packageRequest.getStatus().equals("rejected");
         boolean isRequestAccepted = packageRequest.getStatus().equals("accepted");
 
-        return packageRequest == null || isRequestRejected || isRequestAccepted;
+        return isRequestRejected || isRequestAccepted;
     }
 
     /**
-     * @author Nandkumar Kadivar
      * Reject the request
+     *
+     * @author Nandkumar Kadivar
      * @param package_request_id package request id
      * @return string response
      */
@@ -178,8 +184,9 @@ public class PackageRequestServiceImpl implements PackageRequestService {
     }
 
     /**
-     * @author Nandkumar Kadivar
      * Delete the package request
+     *
+     * @author Nandkumar Kadivar
      * @param package_request_id package request id
      * @return string response
      */
@@ -206,8 +213,9 @@ public class PackageRequestServiceImpl implements PackageRequestService {
     }
 
     /**
-     * @author Nandkumar Kadivar
      * Fetch all requests for deliverer
+     *
+     * @author Nandkumar Kadivar
      * @return list of package requests
      */
     @Override

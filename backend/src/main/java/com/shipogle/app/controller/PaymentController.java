@@ -18,11 +18,24 @@ public class PaymentController {
 
     private PaymentService paymentService;
 
+    /**
+     * Set payment service.
+     *
+     * @author Shivam Lakhanpal
+     * @param paymentService payment service.
+     */
     @Autowired
     public void setPaymentService(PaymentService paymentService){
         this.paymentService = paymentService;
     }
 
+    /**
+     * Charge credit card.
+     *
+     * @author Shivam Lakhanpal
+     * @param jsonString json string.
+     * @return response entity.
+     */
     @PostMapping("/charge")
     public ResponseEntity<?> chargeCreditCard(@RequestBody String jsonString) {
         try {

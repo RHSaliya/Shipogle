@@ -15,8 +15,9 @@ public class AuthController {
     AuthService authService;
 
     /**
-     * @author Nandkumar Kadivar
      * Register user
+     *
+     * @author Nandkumar Kadivar
      * @param user user.
      * @return String response message.
      */
@@ -26,8 +27,9 @@ public class AuthController {
     }
 
     /**
-     * @author Nandkumar Kadivar
      * User login
+     *
+     * @author Nandkumar Kadivar
      * @param json json request.
      * @return String jwt token.
      */
@@ -40,8 +42,9 @@ public class AuthController {
     }
 
     /**
-     * @author Nandkumar Kadivar
      * Change password
+     *
+     * @author Nandkumar Kadivar
      * @param json json request.
      * @return String response message.
      */
@@ -51,8 +54,9 @@ public class AuthController {
     }
 
     /**
-     * @author Nandkumar Kadivar
      * Forgot password
+     *
+     * @author Nandkumar Kadivar
      * @param json json request.
      * @return String response message.
      */
@@ -63,8 +67,9 @@ public class AuthController {
     }
 
     /**
-     * @author Nandkumar Kadivar
      * Email verification
+     *
+     * @author Nandkumar Kadivar
      * @param code string verification code.
      * @param id int user id.
      * @return String response message.
@@ -75,8 +80,9 @@ public class AuthController {
     }
 
     /**
-     * @author Rahul Saliya
      * Email verification
+     *
+     * @author Rahul Saliya
      * @param id int user id.
      * @return String response message.
      */
@@ -87,8 +93,9 @@ public class AuthController {
     }
 
     /**
-     * @author Rahul Saliya
      * User information
+     *
+     * @author Rahul Saliya
      * @param token string jwt token.
      * @return User user object.
      */
@@ -98,8 +105,9 @@ public class AuthController {
     }
 
     /**
-     * @author Rahul Saliya
      * Email verification
+     *
+     * @author Rahul Saliya
      * @param token string jwt token.
      * @param user user object
      * @return String response message.

@@ -11,9 +11,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.shipogle.app.repository.JwtTokenRepository;
 import org.springframework.stereotype.Service;
+
 /*
-* Reference: https://www.baeldung.com/spring-security-custom-logout-handler
-*/
+ * Reference: https://www.baeldung.com/spring-security-custom-logout-handler
+ */
 @Service
 public class LogoutHandlerServiceImpl implements LogoutHandler {
 
@@ -21,29 +22,28 @@ public class LogoutHandlerServiceImpl implements LogoutHandler {
     JwtTokenRepository jwtTokenRepo;
 
     /**
-     * @author Nandkumar Kadivar
      * Deactivate jwt toke and logout user
+     *
+     * @param request        http request.
+     * @param response       http response.
+     * @param authentication authentication.
+     * @author Nandkumar Kadivar
      */
     @Override
     public void logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
-        if(request.getHeader("Authorization") == null){
-            return;
-        }else {
+        if (request.getHeader("Authorization") != null) {
             String auth_details[] = request.getHeader("Authorization").split(" ");
             String token_type = auth_details[0];
             String jwt_token = auth_details[1];
 
-            if(token_type.equals("Bearer")){
-                try{
+            if (token_type.equals("Bearer")) {
+                try {
                     JwtToken token = jwtTokenRepo.getJwtTokensByToken(jwt_token);
                     token.setIs_active(false);
                     jwtTokenRepo.save(token);
-                }catch (ExpiredJwtException e){
-                    return;
+                } catch (ExpiredJwtException e) {
+                    e.printStackTrace();
                 }
-            }
-            else {
-                return;
             }
         }
     }

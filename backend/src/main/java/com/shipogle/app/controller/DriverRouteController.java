@@ -15,11 +15,25 @@ import com.shipogle.app.service.DriverRouteFilter;
 public class DriverRouteController {
     private DriverRouteFilter driverRouteFilter;
 
+    /**
+     * Set driver route filter.
+     *
+     * @author Shivam Lakhanpal
+     * @param driverRouteFilter driver route filter.
+     */
     @Autowired
     public void setDriverRouteFilter(DriverRouteFilter driverRouteFilter) {
         this.driverRouteFilter = driverRouteFilter;
     }
 
+    /**
+     * Create driver route.
+     *
+     * @author Shivam Lakhanpal
+     * @param jsonString json string.
+     * @return response entity.
+     * @throws JsonProcessingException json processing exception.
+     */
     @PostMapping("/driverRoutes")
     public ResponseEntity<?> createDriverRoute(@RequestBody String jsonString) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
@@ -29,6 +43,20 @@ public class DriverRouteController {
         return new ResponseEntity<>("Driver Details saved : \n" +  savedDriverRoute, HttpStatus.CREATED);
     }
 
+    /**
+     * Get driver routes by filters.
+     *
+     * @author Shivam Lakhanpal
+     * @param sourceCity source city.
+     * @param destination destination.
+     * @param pickupDataTime pickup date time.
+     * @param maxPackages max packages.
+     * @param allowedCategory allowed category.
+     * @param radius radius.
+     * @param price price.
+     * @param category category.
+     * @return list of driver routes.
+     */
     @GetMapping("/driverRoutes")
     public List<DriverRoute> getDriverRoutesByFilters(
             @RequestParam(required = false) String sourceCity,
@@ -53,6 +81,13 @@ public class DriverRouteController {
         return driverRouteFilter.getDriverRoutesByFilters(dashboardFilters);
     }
 
+    /**
+     * Get driver routes by driver id.
+     *
+     * @author Shivam Lakhanpal
+     * @param driverId driver id.
+     * @return list of driver routes.
+     */
     @GetMapping("/driverRoutesByDriverId")
     public List<DriverRoute> getDriverRoutes(@RequestParam(required = true) String driverId) {
         return driverRouteFilter.getDriverRouteById(driverId);

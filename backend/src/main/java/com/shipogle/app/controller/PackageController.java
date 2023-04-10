@@ -13,8 +13,9 @@ public class PackageController {
     PackageService packageService;
 
     /**
-     * @author Nandkumar Kadivar
      * Create package
+     *
+     * @author Nandkumar Kadivar
      * @param _package Package object.
      * @return integer package id.
      */
@@ -24,8 +25,9 @@ public class PackageController {
     }
 
     /**
+     * Get all packages
+     *
      * @author Nandkumar Kadivar
-     * Create package
      * @return List packages.
      */
     @GetMapping("/package/getall")
@@ -34,8 +36,9 @@ public class PackageController {
     }
 
     /**
-     * @author Nandkumar Kadivar
      * Update package
+     *
+     * @author Nandkumar Kadivar
      * @param _package package object
      * @return string response.
      */

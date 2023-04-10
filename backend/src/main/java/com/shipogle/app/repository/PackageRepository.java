@@ -9,9 +9,22 @@ import java.util.Optional;
 
 public interface PackageRepository extends JpaRepository<Package,Integer> {
 
+    /**
+     * getAllBySender is a method to get all packages by sender
+     *
+     * @author Nandkumar Kadivar
+     * @param sender sender object
+     * @return List<Package>
+     */
     List<Package> getAllBySender(User sender);
 
-//    Package getPackageByPackage_id(Integer id);
+    /**
+     * getAllByReceiver is a method to get all packages by receiver
+     *
+     * @author Nandkumar Kadivar
+     * @param id receiver id
+     * @return List<Package>
+     */
     Package getPackageById(Integer id);
 
 }

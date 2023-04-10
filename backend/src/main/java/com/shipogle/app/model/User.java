@@ -10,6 +10,11 @@ import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Date;
 
+/**
+ * User model.
+ *
+ * @author Nandkumar Kadivar
+ */
 @Entity
 @Table(name = "user")
 public class User implements UserDetails {

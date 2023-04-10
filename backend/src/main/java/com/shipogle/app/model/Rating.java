@@ -6,6 +6,11 @@ import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+/**
+ * Rating model.
+ *
+ * @author Shahraj Singh
+ */
 @Entity
 public class Rating {
     @Id

@@ -14,8 +14,9 @@ public class PackageOrderController {
     PackageOrderService packageOrderService;
 
     /**
-     * @author Nandkumar Kadivar
      * Get all package order for user
+     *
+     * @author Nandkumar Kadivar
      * @return List package orders.
      */
     @GetMapping("/package/order/getall")
@@ -24,8 +25,9 @@ public class PackageOrderController {
     }
 
     /**
-     * @author Nandkumar Kadivar
      * Get all package order for user
+     *
+     * @author Nandkumar Kadivar
      * @return List packages.
      */
     @GetMapping("package/order/getAllDelivererRouteOrders")
@@ -34,8 +36,9 @@ public class PackageOrderController {
     }
 
     /**
-     * @author Nandkumar Kadivar
      * Cancel order
+     *
+     * @author Nandkumar Kadivar
      * @param req request
      * @return string response message.
      */
@@ -45,8 +48,9 @@ public class PackageOrderController {
     }
 
     /**
-     * @author Nandkumar Kadivar
      * Start order
+     *
+     * @author Nandkumar Kadivar
      * @param req request
      * @return string response message.
      */
@@ -58,8 +62,9 @@ public class PackageOrderController {
     }
 
     /**
-     * @author Nandkumar Kadivar
      * End order
+     *
+     * @author Nandkumar Kadivar
      * @param req request
      * @return string response message.
      */
@@ -69,8 +74,9 @@ public class PackageOrderController {
     }
 
     /**
-     * @author Nandkumar Kadivar
      * Record payament of order
+     *
+     * @author Nandkumar Kadivar
      * @param req request
      * @return string response message.
      */
