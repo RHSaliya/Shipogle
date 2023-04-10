@@ -1,5 +1,6 @@
 package com.shipogle.app.controller;
 
+import com.shipogle.app.TestConstants;
 import com.shipogle.app.model.Notification;
 import com.shipogle.app.model.User;
 import com.shipogle.app.repository.NotificationRepository;
@@ -11,11 +12,15 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import javax.crypto.spec.SecretKeySpec;
 import java.time.Instant;
@@ -39,6 +44,9 @@ public class NotificationControllerTest {
     private NotificationRepository notificationRepository;
 
     @Mock
+    private UserRepository userRepo;
+
+    @Mock
     private AuthService authService;
 
     @InjectMocks
@@ -50,10 +58,7 @@ public class NotificationControllerTest {
         MockitoAnnotations.openMocks(this);
     }
 
-    final private int TEST_USER_ID = 2;
     final private int NOTIFICATION_USER_ID = 12345;
-    final private int EXPECTED_RESPONSE_SUCCESS = 200;
-    final private int BAD_REQUEST = 400;
 
     @Test
     public void testSendNotification_Success() {
@@ -107,7 +112,7 @@ public class NotificationControllerTest {
         json.put("payload", "{\"key\": \"value\"}");
         json.put("type", "test");
 
-        when(userRepository.findById(TEST_USER_ID)).thenReturn(Optional.empty());
+        when(userRepository.findById(TestConstants.USER_ONE_ID)).thenReturn(Optional.empty());
 
         // When
         ResponseEntity<?> responseEntity = notificationController.sendNotification(json);
@@ -128,10 +133,10 @@ public class NotificationControllerTest {
         json.put("type", "test");
 
         User user = new User();
-        user.setId(TEST_USER_ID);
+        user.setId(TestConstants.USER_ONE_ID);
         user.setEmail("test@test.com");
 
-        when(userRepository.findById(TEST_USER_ID)).thenReturn(Optional.of(user));
+        when(userRepository.findById(TestConstants.USER_ONE_ID)).thenReturn(Optional.of(user));
         when(authService.getUserInfo(anyString())).thenReturn(null);
 
         // When
@@ -141,38 +146,6 @@ public class NotificationControllerTest {
         assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
         assertEquals("Invalid user ID", responseEntity.getBody());
     }
-
-//    @Test
-//    public void testGetNotificationsByToken() {
-//        // Create a mock user and add it to the repository
-//        User user = new User();
-//        user.setEmail("test@test.com");
-//        user.setFirst_name("Test");
-//        userRepository.save(user);
-//
-//        // Create a mock notification and add it to the repository
-//        Notification notification = new Notification();
-//        notification.setUser(user);
-//        notificationRepository.save(notification);
-//
-//
-//        // Create a mock authorization token for the user
-//        JwtBuilder jwtBuilder = Jwts.builder().claim("email", user.getEmail());
-//        jwtBuilder.setSubject(user.getFirst_name());
-//        jwtBuilder.setIssuedAt(new Date(System.currentTimeMillis()));
-//        jwtBuilder.setExpiration(Date.from(Instant.now().plus(TOKEN_EXPIRATION_TIME, ChronoUnit.MINUTES)));
-//        jwtBuilder.signWith(new SecretKeySpec(Base64.getDecoder().decode(SECRET_KEY), SignatureAlgorithm.HS256.getJcaName()));
-//        String jwt_token = jwtBuilder.compact();
-//        String token = "Bearer " + jwt_token;
-//
-//        when(notificationController.getAuthService().getUserInfo(token)).thenReturn(user);
-//        when(notificationController.getNotificationsByToken(token)).thenReturn(Collections.singletonList(notification));
-//
-//        // Get the notifications using the token and check the response
-//        List<Notification> notifications = notificationController.getNotificationsByToken(token);
-//        assertEquals(1, notifications.size());
-//        assertEquals(notification, notifications.get(0));
-//    }
 
     @Test
     public void testGetNotificationsByInvalidToken() {
@@ -187,7 +160,7 @@ public class NotificationControllerTest {
     public void testGetNotificationsByUserId() {
         // Create a mock user and add it to the repository
         User user = new User();
-        user.setUser_Id(TEST_USER_ID);
+        user.setUser_Id(TestConstants.USER_ONE_ID);
         userRepository.save(user);
 
         // Create a mock notification and add it to the repository
@@ -195,7 +168,7 @@ public class NotificationControllerTest {
         notification.setUser(user);
         notificationRepository.save(notification);
 
-        when(userRepository.findById(TEST_USER_ID)).thenReturn(Optional.of(user));
+        when(userRepository.findById(TestConstants.USER_ONE_ID)).thenReturn(Optional.of(user));
         when(notificationController.getNotifications(user.getUser_id())).thenReturn(Collections.singletonList(notification));
 
         // Get the notifications using the user ID and check the response
@@ -208,7 +181,7 @@ public class NotificationControllerTest {
     public void testDeleteNotificationsByUserId() {
         // Create a mock user and add it to the repository
         User user = new User();
-        user.setUser_Id(TEST_USER_ID);
+        user.setUser_Id(TestConstants.USER_ONE_ID);
         userRepository.save(user);
 
         // Create a mock notification and add it to the repository
@@ -216,7 +189,7 @@ public class NotificationControllerTest {
         notification.setUser(user);
         notificationRepository.save(notification);
 
-        when(userRepository.findById(TEST_USER_ID)).thenReturn(Optional.of(user));
+        when(userRepository.findById(TestConstants.USER_ONE_ID)).thenReturn(Optional.of(user));
         when(notificationController.getNotifications(user.getUser_id())).thenReturn(Collections.singletonList(notification));
 
         // Get the notifications using the user ID and check the response
@@ -234,7 +207,7 @@ public class NotificationControllerTest {
 
     @Test
     public void testDeleteNotificationsByInvalidUserId() {
-        when(userRepository.findById(TEST_USER_ID)).thenReturn(Optional.empty());
+        when(userRepository.findById(TestConstants.USER_ONE_ID)).thenReturn(Optional.empty());
         assertThrows(RuntimeException.class, () -> notificationController.deleteNotifications(NOTIFICATION_USER_ID));
     }
 
@@ -254,7 +227,7 @@ public class NotificationControllerTest {
         Map<String, String> json = new HashMap<>();
         json.put("userId", String.valueOf(userId));
         ResponseEntity<?> responseEntity = notificationController.sendNotification(json);
-        assertEquals(EXPECTED_RESPONSE_SUCCESS, responseEntity.getStatusCodeValue());
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
     }
 
     @Test
@@ -265,7 +238,7 @@ public class NotificationControllerTest {
         Map<String, String> json = new HashMap<>();
         json.put("userId", String.valueOf(userId));
         ResponseEntity<?> responseEntity = notificationController.sendNotification(json);
-        assertEquals(BAD_REQUEST, responseEntity.getStatusCodeValue());
+        assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
     }
 
 }

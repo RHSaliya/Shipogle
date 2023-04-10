@@ -3,6 +3,11 @@ package com.shipogle.app.model;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+/**
+ * Message model.
+ *
+ * @author Rahul Saliya
+ */
 @Entity
 @Table(name = "messages")
 public class Message {

@@ -27,7 +27,7 @@ public class AuthControllerTests {
     User user;
 
     @Test
-    public void loginTest() throws Exception {
+    public void loginTest() {
         Map<String, String> req = new HashMap<>();
         req.put("email","kadivarnand007@gmail.com");
         req.put("password","abc123");
@@ -38,7 +38,7 @@ public class AuthControllerTests {
     }
 
     @Test
-    public void registerTest() throws Exception {
+    public void registerTest() {
         User user = new User();
         user.setFirst_name("Nand");
         user.setLast_name("Kadivar");
@@ -51,7 +51,7 @@ public class AuthControllerTests {
     }
 
     @Test
-    public void changePasswordTest() throws Exception {
+    public void changePasswordTest() {
         Map<String, String> req = new HashMap<>();
         req.put("token","forgot password token");
         req.put("password","abc123");
@@ -62,7 +62,7 @@ public class AuthControllerTests {
     }
 
     @Test
-    public void forgotPasswordTest() throws Exception {
+    public void forgotPasswordTest() {
         Map<String, String> req = new HashMap<>();
         req.put("email","kadivarnand007@gmail.com");
         when(request.getHeader(any())).thenReturn("");
@@ -72,29 +72,20 @@ public class AuthControllerTests {
     }
 
     @Test
-    public void emailVerificationTest() throws Exception {
-
+    public void emailVerificationTest() {
         authController.emailVerification("code",1);
 
         verify(authService,times(1)).verifyEmail("code",1);
     }
 
-//    @Test
-//    public void getUserTest() throws Exception {
-//        authController.getUser(1);
-//        when(authService.getUser(1)).thenReturn(user);
-//        when(user.toString()).thenReturn("");
-//        verify(authService,times(1)).getUser(1).toString();
-//    }
-
     @Test
-    public void getUserInfoTest() throws Exception {
+    public void getUserInfoTest() {
         authController.getUserInfo("token");
         verify(authService,times(1)).getUserInfo("token");
     }
 
     @Test
-    public void updateUserTest() throws Exception {
+    public void updateUserTest() {
         authController.updateUser("token",user);
         verify(authService,times(1)).updateUser("token",user);
     }

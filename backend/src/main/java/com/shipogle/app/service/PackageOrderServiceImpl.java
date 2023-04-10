@@ -28,8 +28,9 @@ public class PackageOrderServiceImpl implements PackageOrderService {
     UserService userService;
 
     /**
-     * @author Nandkumar Kadivar
      * Create package order
+     *
+     * @author Nandkumar Kadivar
      * @param packageRequest request of package delivery
      * @return response message.
      */
@@ -54,8 +55,9 @@ public class PackageOrderServiceImpl implements PackageOrderService {
     }
 
     /**
-     * @author Nandkumar Kadivar
      * Check that order os already exist in database
+     *
+     * @author Nandkumar Kadivar
      * @param package_id package id
      * @return boolean response.
      */
@@ -66,8 +68,9 @@ public class PackageOrderServiceImpl implements PackageOrderService {
     }
 
     /**
-     * @author Nandkumar Kadivar
      * Cancel order and change payment status to refund
+     *
+     * @author Nandkumar Kadivar
      * @param order_id package order id
      * @return string response message.
      */
@@ -88,8 +91,9 @@ public class PackageOrderServiceImpl implements PackageOrderService {
     }
 
     /**
-     * @author Nandkumar Kadivar
      * Fetch all the orders for the sender
+     *
+     * @author Nandkumar Kadivar
      * @return list of package orders.
      */
     @Override
@@ -104,8 +108,9 @@ public class PackageOrderServiceImpl implements PackageOrderService {
     }
 
     /**
-     * @author Nandkumar Kadivar
      * Fetch all the orders for the deliverer route
+     *
+     * @author Nandkumar Kadivar
      * @return list of package orders.
      */
     @Override
@@ -118,8 +123,9 @@ public class PackageOrderServiceImpl implements PackageOrderService {
     }
 
     /**
-     * @author Nandkumar Kadivar
      * Record payment for the package order
+     *
+     * @author Nandkumar Kadivar
      * @return string response message.
      */
     @Override
@@ -135,8 +141,9 @@ public class PackageOrderServiceImpl implements PackageOrderService {
     }
 
     /**
-     * @author Nandkumar Kadivar
      * Start order
+     *
+     * @author Nandkumar Kadivar
      * @param pickup_code package pickup code
      * @param order_id package order id
      * @return string response.
@@ -154,8 +161,9 @@ public class PackageOrderServiceImpl implements PackageOrderService {
     }
 
     /**
-     * @author Nandkumar Kadivar
      * End order
+     *
+     * @author Nandkumar Kadivar
      * @param drop_code package drop code
      * @param order_id package order id
      * @return string response.
@@ -173,8 +181,9 @@ public class PackageOrderServiceImpl implements PackageOrderService {
     }
 
     /**
-     * @author Nandkumar Kadivar
      * Check that is order able to end
+     *
+     * @author Nandkumar Kadivar
      * @param order package pickup code
      * @param drop_code package order id
      * @return string response.

@@ -22,7 +22,7 @@ public class PackageControllerTests {
     Package _package;
 
     @Test
-    public void createPackageTest() throws Exception {
+    public void createPackageTest() {
 
         packageController.createPackage(_package);
 
@@ -30,7 +30,7 @@ public class PackageControllerTests {
     }
 
     @Test
-    public void getAllPackageTest() throws Exception {
+    public void getAllPackageTest() {
 
         packageController.getAllPackages();
 
@@ -38,7 +38,7 @@ public class PackageControllerTests {
     }
 
     @Test
-    public void updatePackageTest() throws Exception {
+    public void updatePackageTest() {
 
         packageController.updatePackage(_package);
 

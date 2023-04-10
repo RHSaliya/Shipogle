@@ -3,6 +3,11 @@ package com.shipogle.app.model;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Dashboard filter model.
+ *
+ * @author Shivam Lakhanpal
+ */
 public class DashboardFilter {
     private String sourceCity;
     private String destination;
@@ -74,11 +79,11 @@ public class DashboardFilter {
         this.category = category;
     }
 
-//    public List<DriverRoute> getDriverRoutesByFilters(DashboardFilter filters) {
-//        List<DriverRoute> routes = new ArrayList<>();
-//
-//        // Perform filtering logic and add matching routes to the list
-//
-//        return routes;
-//    }
+    public List<DriverRoute> getDriverRoutesByFilters(DashboardFilter filters) {
+        List<DriverRoute> routes = new ArrayList<>();
+
+        // Perform filtering logic and add matching routes to the list
+
+        return routes;
+    }
 }

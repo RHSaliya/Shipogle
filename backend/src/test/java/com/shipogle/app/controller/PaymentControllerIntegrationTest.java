@@ -1,6 +1,7 @@
 package com.shipogle.app.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.shipogle.app.TestConstants;
 import com.shipogle.app.model.PaymentGatewayRequest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -28,23 +29,23 @@ public class PaymentControllerIntegrationTest {
     final private int TEST_CARD_EXPIRY_MONTH=12;
     final private int TEST_CARD_EXPIRY_YEAR=2025;
 
-//    @Test
-//    public void testChargeCreditCard() throws Exception {
-//        String endpoint = "/payment/charge";
-//        PaymentGatewayRequest paymentRequest = new PaymentGatewayRequest();
-//        paymentRequest.setAmount(new BigDecimal("189.00"));
-//        paymentRequest.setCurrency("USD");
-//        paymentRequest.setCardNumber("4112323111111111");
-//        paymentRequest.setCardExpiryMonth(TEST_CARD_EXPIRY_MONTH);
-//        paymentRequest.setCardExpiryYear(TEST_CARD_EXPIRY_YEAR);
-//        paymentRequest.setCardCvv("567");
-//        paymentRequest.setCardHolderName("Stuart Clark");
-//        System.out.println(objectMapper.writeValueAsString(paymentRequest));
-//
-//        mockMvc.perform(MockMvcRequestBuilders.post(endpoint)
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .header("Authorization","Bearer eyJhbGciOiJIUzM4NCJ9.eyJlbWFpbCI6InNoaXBvZ2xlLnRlc3R1c2VyMUB5b3BtYWlsLmNvbSIsInN1YiI6IlRlc3QiLCJpYXQiOjE2ODA5OTAwNjN9.b4DlK4cXAOzYAnZsFl5xAFFvIMJrv85QyMYtf-koS_Jq4h4UA6BHlDc1fmrdaZ9P")
-//                        .content(objectMapper.writeValueAsString(paymentRequest)))
-//                .andExpect(MockMvcResultMatchers.status().isOk());
-//    }
+    @Test
+    public void testChargeCreditCard() throws Exception {
+        String endpoint = "/payment/charge";
+        PaymentGatewayRequest paymentRequest = new PaymentGatewayRequest();
+        paymentRequest.setAmount(new BigDecimal("189.00"));
+        paymentRequest.setCurrency("USD");
+        paymentRequest.setCardNumber("4112323111111111");
+        paymentRequest.setCardExpiryMonth(TEST_CARD_EXPIRY_MONTH);
+        paymentRequest.setCardExpiryYear(TEST_CARD_EXPIRY_YEAR);
+        paymentRequest.setCardCvv("567");
+        paymentRequest.setCardHolderName("Stuart Clark");
+        System.out.println(objectMapper.writeValueAsString(paymentRequest));
+
+        mockMvc.perform(MockMvcRequestBuilders.post(endpoint)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .header("Authorization", TestConstants.TEST_TOKEN)
+                        .content(objectMapper.writeValueAsString(paymentRequest)))
+                .andExpect(MockMvcResultMatchers.status().isOk());
+    }
 }

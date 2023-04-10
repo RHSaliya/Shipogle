@@ -27,10 +27,6 @@ public class PackageOrderServiceTests {
     @Mock
     PackageOrderRepository packageOrderRepo;
     @Mock
-    PackageRequest packageRequest;
-    @Mock
-    Package _package;
-    @Mock
     User user;
     @Mock
     DriverRoute driverRoute;
@@ -51,8 +47,6 @@ public class PackageOrderServiceTests {
         packageRequest1.setDeliverer(user);
         packageRequest1.setSender(user);
         packageRequest1.setDriverRoute(driverRoute);
-
-//        Mockito.lenient().when(packageOrderRepo.save(packageOrder)).thenReturn(packageOrder);
 
         assertEquals("order created",packageOrderService.createPackageOrder(packageRequest1));
     }

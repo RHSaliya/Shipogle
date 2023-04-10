@@ -1,6 +1,12 @@
 package com.shipogle.app.model;
 
 import javax.persistence.*;
+
+/**
+ * Forgot password token model.
+ *
+ * @author Nandkumar Kadivar
+ */
 @Entity
 @Table(name="forgot_password_token")
 public class ForgotPasswordToken {

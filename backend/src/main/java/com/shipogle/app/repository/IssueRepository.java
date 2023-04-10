@@ -9,6 +9,13 @@ import java.util.List;
 
 @Repository
 public interface IssueRepository extends JpaRepository<Issue, Integer> {
+
+    /**
+     * getIssueByUser is a method to get issue by user
+     *
+     * @author Almasfiza Anwaer Hussain Shaikh
+     * @param user user object
+     * @return Issue object
+     */
     Issue getIssueByUser(User user);
-//    List<Issue> getAll();
 }

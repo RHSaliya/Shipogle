@@ -24,8 +24,9 @@ public class PackageServiceImpl implements PackageService{
     UserService userService;
 
     /**
-     * @author Nandkumar Kadivar
      * Store package details
+     *
+     * @author Nandkumar Kadivar
      * @param courier package
      * @return integer stored package id
      */
@@ -43,8 +44,9 @@ public class PackageServiceImpl implements PackageService{
     }
 
     /**
-     * @author Nandkumar Kadivar
      * Fetch all the packages of user
+     *
+     * @author Nandkumar Kadivar
      * @return list of packages
      */
     public List<Package> getPackages(){
@@ -60,14 +62,15 @@ public class PackageServiceImpl implements PackageService{
     }
 
     /**
-     * @author Nandkumar Kadivar
      * Fetch all the packages of user
+     *
+     * @author Nandkumar Kadivar
      * @param courier package
      * @return list of packages
      */
     public String updatePackage(Package courier){
         try{
-            Package p = packageRepo.getPackageById((Integer) courier.getId());
+            Package p = packageRepo.getPackageById(courier.getId());
             float length = courier.getLength();
             float width = courier.getWidth();
             float height = courier.getHeigth();

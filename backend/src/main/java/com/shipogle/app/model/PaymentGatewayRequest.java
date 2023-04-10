@@ -2,6 +2,11 @@ package com.shipogle.app.model;
 
 import java.math.BigDecimal;
 
+/**
+ * PaymentGatewayRequest model.
+ *
+ * @author Shivam Lakhanpal
+ */
 public class PaymentGatewayRequest {
 
     private short maxLengthForCardNumber = 16;

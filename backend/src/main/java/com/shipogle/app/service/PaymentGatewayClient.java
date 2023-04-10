@@ -16,14 +16,34 @@ public class PaymentGatewayClient {
     private ResponseEntity<String> responseEntity;
     private RestTemplate restTemplate;
 
+    /**
+     * setRestTemplate method is used to set the restTemplate
+     *
+     * @author Shivam Lakhanpal
+     * @param restTemplate RestTemplate
+     */
     public void setRestTemplate(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
 
+    /**
+     * setPaymentGatewayUrl method is used to set the payment gateway url
+     *
+     * @author Shivam Lakhanpal
+     * @param paymentGatewayUrl payment gateway url
+     */
     public void setPaymentGatewayUrl(String paymentGatewayUrl) {
         this.paymentGatewayUrl = paymentGatewayUrl;
     }
 
+    /**
+     * chargeCreditCard method is used to charge the credit card
+     *
+     * @author Shivam Lakhanpal
+     * @param paymentRequest payment request
+     * @return PaymentResponse
+     * @throws PaymentGatewayException payment gateway exception
+     */
     public PaymentResponse chargeCreditCard(PaymentGatewayRequest paymentRequest) throws PaymentGatewayException {
         PaymentGatewayRequest paymentGatewayRequest = createPaymentGatewayRequest(paymentRequest);
         restTemplate = new RestTemplate();
@@ -42,6 +62,13 @@ public class PaymentGatewayClient {
         }
     }
 
+    /**
+     * createPaymentGatewayRequest method is used to create the payment gateway request
+     *
+     * @author Shivam Lakhanpal
+     * @param paymentRequest payment request
+     * @return PaymentGatewayRequest
+     */
     private PaymentGatewayRequest createPaymentGatewayRequest(PaymentGatewayRequest paymentRequest) {
         PaymentGatewayRequest paymentGatewayRequest = new PaymentGatewayRequest();
         paymentGatewayRequest.setAmount(paymentRequest.getAmount());

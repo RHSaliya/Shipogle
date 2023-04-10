@@ -25,6 +25,14 @@ public class IssueServiceImpl implements IssueService {
     @Autowired
     PackageOrderRepository packageOrderRepo;
 
+    /**
+     * Post issue
+     *
+     * @author Nandkumar Kadivar
+     * @param package_order_id package order id
+     * @param description description
+     * @return String
+     */
     @Override
     public String postIssue(Integer package_order_id, String description){
         try {
@@ -53,6 +61,12 @@ public class IssueServiceImpl implements IssueService {
         return "Issue registered";
     }
 
+    /**
+     * Get all issues
+     *
+     * @author Nandkumar Kadivar
+     * @return List<Issue>
+     */
     @Override
     public List<Issue> getAllIssues(){
             return issueRepo.findAll();

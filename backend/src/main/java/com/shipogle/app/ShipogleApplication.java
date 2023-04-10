@@ -16,10 +16,20 @@ import static com.shipogle.app.utility.Const.RANDOM_UPPER_BOUND;
 @EnableWebSocket
 public class ShipogleApplication {
 
+	/**
+	 * Main method to run application
+	 *
+	 * @param args arguments
+	 */
 	public static void main(String[] args) {
 		SpringApplication.run(ShipogleApplication.class, args);
 	}
 
+	/**
+	 * Home page message
+	 *
+	 * @return message to display on home page
+	 */
 	@GetMapping("/")
 	String home() {
 		return "Application running last updated on 9 April 2023";

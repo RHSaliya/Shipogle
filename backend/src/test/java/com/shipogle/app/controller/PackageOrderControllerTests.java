@@ -22,7 +22,7 @@ public class PackageOrderControllerTests {
     private final int TEST_PICKUP_CODE = 1234;
     private final int TEST_DROP_CODE = 1254;
     @Test
-    public void createPackageTest() throws Exception {
+    public void createPackageTest() {
 
         packageOrderController.getSenderOrders();
 
@@ -30,7 +30,7 @@ public class PackageOrderControllerTests {
     }
 
     @Test
-    public void delivererOrderTest() throws Exception {
+    public void delivererOrderTest() {
 
         packageOrderController.getDelivererRouteOrders(1);
 
@@ -38,7 +38,7 @@ public class PackageOrderControllerTests {
     }
 
     @Test
-    public void cancelOrderTest() throws Exception {
+    public void cancelOrderTest() {
         Map<String, String> req = new HashMap<>();
         req.put("package_order_id","1");
         packageOrderController.cancelOrder(req);
@@ -47,7 +47,7 @@ public class PackageOrderControllerTests {
     }
 
     @Test
-    public void startOrderTest() throws Exception {
+    public void startOrderTest() {
         Map<String, String> req = new HashMap<>();
         req.put("pickup_code","1234");
         req.put("order_id","1");
@@ -57,7 +57,7 @@ public class PackageOrderControllerTests {
     }
 
     @Test
-    public void endOrderTest() throws Exception {
+    public void endOrderTest() {
         Map<String, String> req = new HashMap<>();
         req.put("drop_code","1254");
         req.put("order_id","1");
@@ -67,7 +67,7 @@ public class PackageOrderControllerTests {
     }
 
     @Test
-    public void paymentRecordTest() throws Exception {
+    public void paymentRecordTest() {
         Map<String, String> req = new HashMap<>();
         req.put("package_order_id","1");
         packageOrderController.recordPayment(req);

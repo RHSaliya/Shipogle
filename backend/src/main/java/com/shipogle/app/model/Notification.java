@@ -3,6 +3,11 @@ package com.shipogle.app.model;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+/**
+ * Notification model.
+ *
+ * @author Rahul Saliya
+ */
 @Entity
 @Table(name = "notifications")
 public class Notification {

@@ -21,7 +21,7 @@ public class PackageRequestControllerTests {
     PackageRequestServiceImpl packageRequestService;
 
     @Test
-    public void sendRequestTest() throws Exception {
+    public void sendRequestTest() {
         Map<String, String> req = new HashMap<>();
         req.put("driver_route_id","1");
         packageRequestController.sendPackageRequest(req);
@@ -30,14 +30,14 @@ public class PackageRequestControllerTests {
     }
 
     @Test
-    public void getAllPackageRequestTest() throws Exception {
+    public void getAllPackageRequestTest() {
         packageRequestController.getPackageRequest();
 
         verify(packageRequestService,times(1)).getRequest();
     }
 
     @Test
-    public void acceptPackageRequestTest() throws Exception {
+    public void acceptPackageRequestTest() {
         Map<String, String> req = new HashMap<>();
         req.put("package_request_id","1");
         packageRequestController.acceptPackageRequest(req);
@@ -46,7 +46,7 @@ public class PackageRequestControllerTests {
     }
 
     @Test
-    public void rejectPackageRequestTest() throws Exception {
+    public void rejectPackageRequestTest() {
         Map<String, String> req = new HashMap<>();
         req.put("package_request_id","1");
         packageRequestController.rejectPackageRequest(req);
@@ -55,7 +55,7 @@ public class PackageRequestControllerTests {
     }
 
     @Test
-    public void deletePackageRequestTest() throws Exception {
+    public void deletePackageRequestTest() {
         Map<String, String> req = new HashMap<>();
         req.put("package_request_id","1");
         packageRequestController.unsendPackageRequest(req);

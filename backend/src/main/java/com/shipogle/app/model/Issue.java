@@ -6,6 +6,11 @@ import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+/**
+ * Issue model.
+ *
+ * @author Almasfiza Anwar Hussain Shaikh
+ */
 @Entity
 public class Issue {
     @Id

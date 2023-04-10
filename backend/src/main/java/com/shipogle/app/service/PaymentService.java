@@ -11,11 +11,25 @@ public class PaymentService {
 
     private final PaymentGatewayClient paymentGatewayClient;
 
+    /**
+     * PaymentService constructor
+     *
+     * @author Shivam Lakhanpal
+     * @param paymentGatewayClient PaymentGatewayClient
+     */
     @Autowired
     public PaymentService(PaymentGatewayClient paymentGatewayClient) {
         this.paymentGatewayClient = paymentGatewayClient;
     }
 
+    /**
+     * chargeCreditCard method is used to charge the credit card
+     *
+     * @author Shivam Lakhanpal
+     * @param paymentRequest payment request
+     * @return PaymentResponse
+     * @throws PaymentGatewayException payment gateway exception
+     */
     public PaymentResponse chargeCreditCard(PaymentGatewayRequest paymentRequest) throws PaymentGatewayException {
         try {
             if(paymentRequest == null || !validatePaymentRequest(paymentRequest)) {
@@ -29,10 +43,24 @@ public class PaymentService {
         }
     }
 
+    /**
+     * validatePaymentRequest method is used to validate the payment request
+     *
+     * @author Shivam Lakhanpal
+     * @param paymentRequest payment request
+     * @return PaymentGatewayRequest
+     */
     private Boolean validatePaymentRequest(PaymentGatewayRequest paymentRequest) {
         return !paymentRequest.hasEmptyFields();
     }
 
+    /**
+     * createPaymentGatewayRequest method is used to create the payment gateway request
+     *
+     * @author Shivam Lakhanpal
+     * @param paymentGatewayResponse payment gateway response
+     * @return PaymentGatewayRequest
+     */
     private PaymentResponse mapPaymentGatewayResponse(PaymentResponse paymentGatewayResponse) {
         PaymentResponse paymentResponse = new PaymentResponse();
         paymentResponse.setStatus(paymentGatewayResponse.getStatus());

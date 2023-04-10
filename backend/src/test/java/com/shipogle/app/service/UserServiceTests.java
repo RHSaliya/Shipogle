@@ -32,19 +32,7 @@ public class UserServiceTests {
     UserRepository userRepo;
 
     @Mock
-    Authentication auth;
-
-    @Mock
     User user;
-
-    @Mock
-    Object principal;
-
-    @Mock
-    SecurityContextHolder securityContextHolder;
-
-    @Mock
-    SecurityContext securityContext;
     private final int TEST_USER_ID = 40;
 
     @BeforeEach

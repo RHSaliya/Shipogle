@@ -1,5 +1,6 @@
 package com.shipogle.app.controller;
 
+import com.shipogle.app.TestConstants;
 import com.shipogle.app.model.ChatMessageRequest;
 import com.shipogle.app.model.Message;
 import com.shipogle.app.model.User;
@@ -30,20 +31,18 @@ public class ChatControllerTest {
     @InjectMocks
     private ChatController chatController;
 
-    private final int TEST_USER1_ID = 1;
-    private final int TEST_USER2_ID = 2;
 
     @Test
     public void testSendMessage() {
         User sender = new User();
-        sender.setId(TEST_USER1_ID);
+        sender.setId(TestConstants.USER_ONE_ID);
 
         User receiver = new User();
-        receiver.setId(TEST_USER2_ID);
+        receiver.setId(TestConstants.USER_TWO_ID);
 
         ChatMessageRequest request = new ChatMessageRequest();
-        request.setSenderId(TEST_USER1_ID);
-        request.setReceiverId(TEST_USER2_ID);
+        request.setSenderId(TestConstants.USER_ONE_ID);
+        request.setReceiverId(TestConstants.USER_TWO_ID);
         request.setMessage("Hello");
 
         when(userRepository.findById(request.getSenderId())).thenReturn(Optional.of(sender));
@@ -58,8 +57,8 @@ public class ChatControllerTest {
     @Test
     public void testSendMessageWhenNoUser() {
         ChatMessageRequest request = new ChatMessageRequest();
-        request.setSenderId(TEST_USER1_ID);
-        request.setReceiverId(TEST_USER2_ID);
+        request.setSenderId(TestConstants.USER_ONE_ID);
+        request.setReceiverId(TestConstants.USER_TWO_ID);
         request.setMessage("Hello");
 
         ResponseEntity<?> responseEntity = chatController.sendMessage(request);
@@ -70,7 +69,7 @@ public class ChatControllerTest {
     @Test
     public void testGetChatUsers() {
         User user = new User();
-        user.setId(TEST_USER1_ID);
+        user.setId(TestConstants.USER_ONE_ID);
 
         List<Integer> userIds = Arrays.asList(2, 3, 4);
 
@@ -88,7 +87,7 @@ public class ChatControllerTest {
     @Test
     public void testGetChatUsersWhenNoUser() {
         User user = new User();
-        user.setId(TEST_USER1_ID);
+        user.setId(TestConstants.USER_ONE_ID);
 
         assertThrows(RuntimeException.class, () -> chatController.getChatUsers(user.getUser_id()));
     }
@@ -113,7 +112,7 @@ public class ChatControllerTest {
 
         // create userTwo
         User userTwo = new User();
-        userTwo.setId(TEST_USER2_ID);
+        userTwo.setId(TestConstants.USER_TWO_ID);
         userRepository.save(userTwo);
         when(userRepository.findById(userTwo.getUser_id())).thenReturn(Optional.of(userTwo));
 
@@ -147,7 +146,7 @@ public class ChatControllerTest {
         List<Message> messages = chatController.getChatHistory(userOne.getUser_id(), userTwo.getUser_id());
 
         // check if messages are correct
-        assertEquals(TEST_USER2_ID, messages.size());
+        assertEquals(2, messages.size());
         assertEquals(message1.getMessage(), messages.get(0).getMessage());
         assertEquals(message2.getMessage(), messages.get(1).getMessage());
     }
@@ -158,11 +157,11 @@ public class ChatControllerTest {
 
         // create userOne
         User userOne = new User();
-        userOne.setId(TEST_USER1_ID);
+        userOne.setId(TestConstants.USER_ONE_ID);
 
         // create userTwo
         User userTwo = new User();
-        userTwo.setId(TEST_USER2_ID);
+        userTwo.setId(TestConstants.USER_TWO_ID);
 
         assertThrows(RuntimeException.class, () -> chatController.getChatHistory(userOne.getUser_id(), userTwo.getUser_id()));
     }
@@ -171,13 +170,13 @@ public class ChatControllerTest {
     void testRemoveAllMessages() {
         // create userOne
         User userOne = new User();
-        userOne.setId(TEST_USER1_ID);
+        userOne.setId(TestConstants.USER_ONE_ID);
         userRepository.save(userOne);
         when(userRepository.findById(userOne.getUser_id())).thenReturn(Optional.of(userOne));
 
         // create userTwo
         User userTwo = new User();
-        userTwo.setId(TEST_USER2_ID);
+        userTwo.setId(TestConstants.USER_TWO_ID);
         userRepository.save(userTwo);
         when(userRepository.findById(userTwo.getUser_id())).thenReturn(Optional.of(userTwo));
 
@@ -231,11 +230,11 @@ public class ChatControllerTest {
     void testRemoveAllMessagesWhenNoUsers() {
         // create userOne
         User userOne = new User();
-        userOne.setId(TEST_USER1_ID);
+        userOne.setId(TestConstants.USER_ONE_ID);
 
         // create userTwo
         User userTwo = new User();
-        userTwo.setId(TEST_USER2_ID);
+        userTwo.setId(TestConstants.USER_TWO_ID);
 
         assertThrows(RuntimeException.class, () -> chatController.removeAllMessages(userOne.getUser_id(), userTwo.getUser_id()));
     }

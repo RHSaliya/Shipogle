@@ -40,9 +40,6 @@ public class PaymentControllerTest {
         // Verify
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertEquals(paymentResponse, responseEntity.getBody());
-
-//        verify(paymentServiceMock, times(1)).chargeCreditCard(paymentRequest);
-//        verify(obj ectMapperMock, times(1)).readValue(jsonString, PaymentGatewayRequest.class);
     }
 
     @Test

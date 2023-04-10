@@ -26,6 +26,13 @@ public class ChatController {
     @Autowired
     private MessageRepository messageRepository;
 
+    /**
+     * Send message
+     *
+     * @author Rahul Saliya
+     * @param request request.
+     * @return ResponseEntity.
+     */
     @PostMapping
     @MessageMapping("/chat")
     @SendTo("/topic/messages")
@@ -50,6 +57,14 @@ public class ChatController {
         return ResponseEntity.ok().build();
     }
 
+    /**
+     * Get chat history
+     *
+     * @author Rahul Saliya
+     * @param senderId   sender id.
+     * @param receiverId receiver id.
+     * @return List of messages.
+     */
     @GetMapping("/{senderId}/{receiverId}")
     public List<Message> getChatHistory(@PathVariable int senderId, @PathVariable int receiverId) {
         Optional<User> senderOptional = userRepository.findById(senderId);
@@ -69,6 +84,13 @@ public class ChatController {
         return messages;
     }
 
+    /**
+     * Get chat users
+     *
+     * @author Rahul Saliya
+     * @param userId user id.
+     * @return List of users.
+     */
     @GetMapping("/{userId}")
     public List<User> getChatUsers(@PathVariable int userId) {
         Optional<User> receiverOptional = userRepository.findById(userId);
@@ -84,12 +106,27 @@ public class ChatController {
         return userRepository.getUserByIds(userIds);
     }
 
+    /**
+     * Remove message
+     *
+     * @author Rahul Saliya
+     * @param messageId message id.
+     * @return ResponseEntity.
+     */
     @DeleteMapping("/{messageId}")
     public ResponseEntity<?> removeMessage(@PathVariable long messageId) {
         messageRepository.deleteById(messageId);
         return ResponseEntity.ok("Message deleted successfully");
     }
 
+    /**
+     * Remove all messages
+     *
+     * @author Rahul Saliya
+     * @param receiverId receiver id.
+     * @param senderId   sender id.
+     * @return ResponseEntity.
+     */
     @DeleteMapping("/all/{receiverId}/{senderId}")
     public ResponseEntity<?> removeAllMessages(@PathVariable int receiverId, @PathVariable int senderId) {
         Optional<User> senderOptional = userRepository.findById(senderId);

@@ -4,6 +4,11 @@ import java.util.Date;
 import java.util.List;
 import javax.persistence.*;
 
+/**
+ * Driver route model.
+ *
+ * @author Shivam Lakhanpal
+ */
 @Entity
 @Table(name = "driver_routes")
 public class DriverRoute {

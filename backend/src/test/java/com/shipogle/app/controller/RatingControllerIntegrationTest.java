@@ -1,9 +1,6 @@
 package com.shipogle.app.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-//import com.shipogle.app.Application;
 import com.shipogle.app.TestConstants;
-import com.shipogle.app.service.RatingService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -23,55 +20,48 @@ public class RatingControllerIntegrationTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @Autowired
-    private RatingService ratingService;
+    @Test
+    public void postRatingTest() throws Exception {
+        String endpoint = "/rating/post";
+        String req = "{\"driver_route_id\": 25,\"star\": 4.5,\"review\": \"Test review of driver\"}";
 
-    private ObjectMapper objectMapper;
-    String token = "";
 
-//    @Test
-//    public void postRatingTest() throws Exception {
-//        String endpoint = "/rating/post";
-//        String req = "{\"driver_route_id\": 25,\"star\": 4.5,\"review\": \"Test review of driver\"}";
-//
-//
-//        mockMvc.perform(MockMvcRequestBuilders.post(endpoint)
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .header("Authorization", TestConstants.TEST_TOKEN)
-//                        .content(req))
-//                .andExpect(MockMvcResultMatchers.status().isOk());
-//    }
+        mockMvc.perform(MockMvcRequestBuilders.post(endpoint)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .header("Authorization", TestConstants.TEST_TOKEN)
+                        .content(req))
+                .andExpect(MockMvcResultMatchers.status().isOk());
+    }
 
-//    @Test
-//    public void getDelivererRatingTest() throws Exception {
-//        String endpoint = "/rating/deliverer/getall";
-//
-//
-//        mockMvc.perform(MockMvcRequestBuilders.get(endpoint)
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .header("Authorization", TestConstants.TEST_TOKEN))
-//                .andExpect(MockMvcResultMatchers.status().isOk());
-//    }
+    @Test
+    public void getDelivererRatingTest() throws Exception {
+        String endpoint = "/rating/deliverer/getall";
 
-//    @Test
-//    public void getSenderPostedRatingTest() throws Exception {
-//        String endpoint = "/rating/posted/getall";
-//
-//
-//        mockMvc.perform(MockMvcRequestBuilders.get(endpoint)
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .header("Authorization", TestConstants.TEST_TOKEN))
-//                .andExpect(MockMvcResultMatchers.status().isOk());
-//    }
 
-//    @Test
-//    public void getDelivererRatingByIDTest() throws Exception {
-//        String endpoint = "/rating/deliverer?driver_id=40";
-//
-//
-//        mockMvc.perform(MockMvcRequestBuilders.get(endpoint)
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .header("Authorization", TestConstants.TEST_TOKEN))
-//                .andExpect(MockMvcResultMatchers.status().isOk());
-//    }
+        mockMvc.perform(MockMvcRequestBuilders.get(endpoint)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .header("Authorization", TestConstants.TEST_TOKEN))
+                .andExpect(MockMvcResultMatchers.status().isOk());
+    }
+
+    @Test
+    public void getSenderPostedRatingTest() throws Exception {
+        String endpoint = "/rating/posted/getall";
+
+
+        mockMvc.perform(MockMvcRequestBuilders.get(endpoint)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .header("Authorization", TestConstants.TEST_TOKEN))
+                .andExpect(MockMvcResultMatchers.status().isOk());
+    }
+
+    @Test
+    public void getDelivererRatingByIDTest() throws Exception {
+        String endpoint = "/rating/deliverer?driver_id=40";
+
+        mockMvc.perform(MockMvcRequestBuilders.get(endpoint)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .header("Authorization", TestConstants.TEST_TOKEN))
+                .andExpect(MockMvcResultMatchers.status().isOk());
+    }
 }

@@ -15,6 +15,12 @@ public class NotificationSocketHandler extends TextWebSocketHandler {
 
     private static NotificationSocketHandler instance;
 
+    /**
+     * Singleton instance
+     *
+     * @author Rahul Saliya
+     * @return instance of this class
+     */
     public static NotificationSocketHandler getInstance() {
         if (instance == null)
             instance = new NotificationSocketHandler();
@@ -23,6 +29,13 @@ public class NotificationSocketHandler extends TextWebSocketHandler {
 
     private static final HashMap<String, WebSocketSession> sessions = new HashMap<>();
 
+    /**
+     * Send notification to user
+     *
+     * @author Rahul Saliya
+     * @param userId user id
+     * @param notification notification
+     */
     public void sendNotification(int userId, Notification notification) {
         WebSocketSession receiverSession = sessions.get(String.valueOf(userId));
         try {
@@ -33,6 +46,14 @@ public class NotificationSocketHandler extends TextWebSocketHandler {
         }
     }
 
+    /**
+     * Handle text message from client
+     *
+     * @author Rahul Saliya
+     * @param session current session
+     * @param message message from client
+     * @throws IOException exception
+     */
     @Override
     public void handleTextMessage(WebSocketSession session, TextMessage message) throws IOException {
         String payload = message.getPayload();
@@ -42,11 +63,25 @@ public class NotificationSocketHandler extends TextWebSocketHandler {
             receiverSession.sendMessage(new TextMessage(payload));
     }
 
+    /**
+     * Store session in map
+     *
+     * @author Rahul Saliya
+     * @param session connected session
+     */
     @Override
     public void afterConnectionEstablished(WebSocketSession session) {
         sessions.put(MyUtils.getUniqueIdForSession(session), session);
     }
 
+    /**
+     * Remove session from map
+     *
+     * @author Rahul Saliya
+     * @param session closed session
+     * @param status close status
+     * @throws Exception exception
+     */
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
         WebSocketSession sessionOld = sessions.remove(MyUtils.getUniqueIdForSession(session));
@@ -55,6 +90,12 @@ public class NotificationSocketHandler extends TextWebSocketHandler {
         super.afterConnectionClosed(session, status);
     }
 
+    /**
+     * Get sessions
+     *
+     * @author Rahul Saliya
+     * @return sessions
+     */
     public HashMap<String, WebSocketSession> getSessions() {
         return sessions;
     }

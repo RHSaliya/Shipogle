@@ -1,5 +1,10 @@
 package com.shipogle.app.model;
 
+/**
+ * PaymentGatewayRequest model.
+ *
+ * @author Shivam Lakhanpal
+ */
 public class PaymentResponse {
 
     private String status;

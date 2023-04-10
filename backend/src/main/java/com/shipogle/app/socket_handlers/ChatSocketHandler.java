@@ -13,6 +13,13 @@ import java.util.Objects;
 
 public class ChatSocketHandler extends TextWebSocketHandler {
     private static ChatSocketHandler instance;
+
+    /**
+     * Singleton instance
+     *
+     * @author Rahul Saliya
+     * @return instance of this class
+     */
     public static ChatSocketHandler getInstance() {
         if (instance == null)
             instance = new ChatSocketHandler();
@@ -22,6 +29,14 @@ public class ChatSocketHandler extends TextWebSocketHandler {
     private static final HashMap<String, WebSocketSession> sessions = new HashMap<>();
     public static final String ID_SPLITTER = "!";
 
+    /**
+     * Handle text message from client
+     *
+     * @author Rahul Saliya
+     * @param session current session
+     * @param message message from client
+     * @throws IOException exception
+     */
     @Override
     public void handleTextMessage(WebSocketSession session, TextMessage message) throws IOException {
         String payload = message.getPayload();
@@ -34,11 +49,24 @@ public class ChatSocketHandler extends TextWebSocketHandler {
             receiverSession.sendMessage(new TextMessage(payload));
     }
 
+    /**
+     * Store session in map
+     *
+     * @author Rahul Saliya
+     * @param session connected session
+     */
     @Override
     public void afterConnectionEstablished(WebSocketSession session) {
         sessions.put(MyUtils.getUniqueIdForSession(session), session);
     }
 
+    /**
+     * Remove session from map
+     *
+     * @author Rahul Saliya
+     * @param session disconnected session
+     * @param status status of session
+     */
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
         WebSocketSession sessionOld = sessions.remove(MyUtils.getUniqueIdForSession(session));
@@ -47,6 +75,13 @@ public class ChatSocketHandler extends TextWebSocketHandler {
         super.afterConnectionClosed(session, status);
     }
 
+    /**
+     * Get unique id of receiver
+     *
+     * @author Rahul Saliya
+     * @param session current session
+     * @return unique id of receiver
+     */
     String getSendingUniqueID(WebSocketSession session) {
         String url = Objects.requireNonNull(session.getUri()).toString();
         String userId = url.substring(url.lastIndexOf("/") + 1);
@@ -54,6 +89,12 @@ public class ChatSocketHandler extends TextWebSocketHandler {
         return ids[1] + ID_SPLITTER + ids[0];
     }
 
+    /**
+     * Get all sessions
+     *
+     * @author Rahul Saliya
+     * @return all sessions
+     */
     public HashMap<String, WebSocketSession> getSessions() {
         return sessions;
     }

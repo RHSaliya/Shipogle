@@ -1,12 +1,16 @@
 package com.shipogle.app.model;
 
-import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+/**
+ * Package model.
+ *
+ * @author Nandkumar Kadivar
+ */
 @Entity
 @Table(name="package")
 public class Package {

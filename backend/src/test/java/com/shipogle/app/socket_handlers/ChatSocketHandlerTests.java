@@ -1,5 +1,6 @@
 package com.shipogle.app.socket_handlers;
 
+import com.shipogle.app.TestConstants;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -17,8 +18,6 @@ public class ChatSocketHandlerTests {
 
     private ChatSocketHandler chatSocketHandler;
     private WebSocketSession session;
-    private final int userOneId = 1234;
-    private final int userTwoId = 5678;
     private final int port=8080;
     private final int CLOSE_STATUS = 1000;
 
@@ -37,7 +36,7 @@ public class ChatSocketHandlerTests {
     public void testHandleTextMessage() throws Exception {
         WebSocketSession chatSession = Mockito.mock(WebSocketSession.class);
 
-        Mockito.when(chatSession.getUri()).thenReturn(URI.create("ws://localhost:8080/chat/"+ userTwoId + ChatSocketHandler.ID_SPLITTER + userOneId));
+        Mockito.when(chatSession.getUri()).thenReturn(URI.create("ws://localhost:8080/chat/"+ TestConstants.USER_ONE_ID + ChatSocketHandler.ID_SPLITTER + TestConstants.USER_TWO_ID));
 
         String messagePayload = "Hello, world!";
         TextMessage message = new TextMessage(messagePayload);
@@ -47,8 +46,8 @@ public class ChatSocketHandlerTests {
 
         chatSocketHandler.handleTextMessage(chatSession, message);
 
-        chatSocketHandler.afterConnectionClosed(chatSession, new CloseStatus(CLOSE_STATUS, "closed"));
-        chatSocketHandler.afterConnectionClosed(session, new CloseStatus(CLOSE_STATUS, "closed"));
+        chatSocketHandler.afterConnectionClosed(chatSession, CloseStatus.NORMAL);
+        chatSocketHandler.afterConnectionClosed(session, CloseStatus.NORMAL);
 
         Mockito.verify(chatSession).sendMessage(message);
     }
@@ -59,21 +58,20 @@ public class ChatSocketHandlerTests {
 
         Mockito.when(sessionToRemove.getUri()).thenReturn(URI.create("/chatSocket/" + mockUniqueId()));
 
-        CloseStatus closeStatus = new CloseStatus(1000, "closed");
         chatSocketHandler.afterConnectionEstablished(sessionToRemove);
-        chatSocketHandler.afterConnectionClosed(sessionToRemove, closeStatus);
+        chatSocketHandler.afterConnectionClosed(sessionToRemove, CloseStatus.NORMAL);
         Mockito.verify(sessionToRemove).close();
         assertNull(chatSocketHandler.getSessions().get(mockUniqueId()));
     }
 
     @Test
     public void testGetSendingUniqueID() {
-        String expected = userTwoId + ChatSocketHandler.ID_SPLITTER + userOneId;
+        String expected = TestConstants.USER_ONE_ID + ChatSocketHandler.ID_SPLITTER + TestConstants.USER_TWO_ID;
         String actual = chatSocketHandler.getSendingUniqueID(session);
         assertEquals(expected, actual);
     }
     
     private String mockUniqueId() {
-        return userOneId + ChatSocketHandler.ID_SPLITTER + userTwoId;
+        return TestConstants.USER_TWO_ID + ChatSocketHandler.ID_SPLITTER + TestConstants.USER_ONE_ID;
     }
 }

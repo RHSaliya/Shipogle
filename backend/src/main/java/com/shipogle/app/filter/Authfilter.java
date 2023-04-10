@@ -1,6 +1,7 @@
 package com.shipogle.app.filter;
 
 import com.shipogle.app.repository.UserRepository;
+import com.shipogle.app.utility.Const;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -31,53 +32,55 @@ public class Authfilter implements Filter {
     UserRepository userRepo;
 
     UserDetailsService userDetailsService = new UserDetailsService() {
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepo.findByEmail(username);
-    }
-};
+        @Override
+        public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+            return userRepo.findByEmail(username);
+        }
+    };
 
 
-    private String secretKey = "2A462D4A614E645267556B58703273357638792F423F4528472B4B6250655368";
-
+    /**
+     * doFilter method is used to filter the request and response
+     *
+     * @author Nandkumar Kadivar
+     * @param servletRequest servlet request
+     * @param servletResponse servlet response
+     * @param filterChain filter chain
+     * @throws IOException throws IOException
+     * @throws ServletException throws ServletException
+     */
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
 
-        if(request.getHeader("Authorization") == null){
-           filterChain.doFilter(servletRequest,servletResponse);
+        if (request.getHeader("Authorization") == null) {
+            filterChain.doFilter(servletRequest, servletResponse);
 
-           return;
-        }else {
+            return;
+        } else {
             String auth_details[] = request.getHeader("Authorization").split(" ");
             String token_type = auth_details[0];
             String jwt_token = auth_details[1];
 
-            if(token_type.equals("Bearer")){
+            if (token_type.equals("Bearer")) {
 
-                try{
-                    Claims claim = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(jwt_token).getBody();
+                try {
+                    Claims claim = Jwts.parser().setSigningKey(Const.SECRET_KEY).parseClaimsJws(jwt_token).getBody();
                     String email = (String) claim.get("email");
 
-                    if(jwtTokenService.isJwtActive(jwt_token)){
+                    if (jwtTokenService.isJwtActive(jwt_token)) {
                         UserDetails user = userDetailsService.loadUserByUsername(email);
-                        UsernamePasswordAuthenticationToken auth_token = new UsernamePasswordAuthenticationToken(email,null,user.getAuthorities());
+                        UsernamePasswordAuthenticationToken auth_token = new UsernamePasswordAuthenticationToken(email, null, user.getAuthorities());
                         SecurityContextHolder.getContext().setAuthentication(auth_token);
-                        filterChain.doFilter(request,response);
-                    }else {
-                        response.sendError(UNAUTHORIZED_ERROR_CODE,"Unauthorized");
-                        return;
+                        filterChain.doFilter(request, response);
+                    } else {
+                        response.sendError(UNAUTHORIZED_ERROR_CODE, "Unauthorized");
                     }
 
-                }catch (ExpiredJwtException e){
-                    response.sendError(UNAUTHORIZED_ERROR_CODE,"Unauthorized");
-//                    response.getWriter().print(e.getMessage());
-//                    throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
+                } catch (ExpiredJwtException e) {
+                    response.sendError(UNAUTHORIZED_ERROR_CODE, "Unauthorized");
                 }
-            }
-            else {
-                return;
             }
         }
 

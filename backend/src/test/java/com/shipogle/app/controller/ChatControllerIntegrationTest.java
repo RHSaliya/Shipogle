@@ -1,6 +1,5 @@
 package com.shipogle.app.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.shipogle.app.TestConstants;
 import com.shipogle.app.model.ChatMessageRequest;
@@ -15,8 +14,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -29,25 +26,20 @@ public class ChatControllerIntegrationTest {
 
 
     ObjectMapper objectMapper = new ObjectMapper();
-    private final int TEST_SENDER_ID = 1138;
-    private final int TEST_RECEIVER_ID = 1140;
 
-    public ChatControllerIntegrationTest() throws JsonProcessingException {
+    @Test
+    public void testSendMessageIntegration() throws Exception {
+        ChatMessageRequest request = new ChatMessageRequest();
+        String endpoint = "/chat/";
+
+        request.setSenderId(TestConstants.USER_ONE_ID);
+        request.setReceiverId(TestConstants.USER_TWO_ID);
+        request.setMessage("Hello");
+
+        mockMvc.perform(MockMvcRequestBuilders.post(endpoint)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .header("Authorization", TestConstants.TEST_TOKEN)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(MockMvcResultMatchers.status().isOk());
     }
-
-//    @Test
-//    public void testSendMessageIntegration() throws Exception {
-//        ChatMessageRequest request = new ChatMessageRequest();
-//        String endpoint = "/chat/";
-//
-//        request.setSenderId(TEST_SENDER_ID);
-//        request.setReceiverId(TEST_RECEIVER_ID);
-//        request.setMessage("Hello");
-//
-//        mockMvc.perform(MockMvcRequestBuilders.post(endpoint)
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .header("Authorization", TestConstants.TEST_TOKEN)
-//                        .content(objectMapper.writeValueAsString(request)))
-//                .andExpect(MockMvcResultMatchers.status().isOk());
-//    }
 }

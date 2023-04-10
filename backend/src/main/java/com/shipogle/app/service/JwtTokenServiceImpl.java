@@ -20,6 +20,10 @@ import java.util.List;
 import static com.shipogle.app.utility.Const.SECRET_KEY;
 import static com.shipogle.app.utility.Const.TOKEN_EXPIRATION_TIME;
 
+/*
+* Reference:https://www.viralpatel.net/java-create-validate-jwt-token/
+* Reference: https://jwt.io/introduction
+*/
 @Service
 public class JwtTokenServiceImpl implements JwtTokenService{
 
@@ -27,8 +31,9 @@ public class JwtTokenServiceImpl implements JwtTokenService{
     JwtTokenRepository jwtTokenRepo;
 
     /**
-     * @author Nandkumar Kadivar
      * Create jwt token for user and set status of token
+     *
+     * @author Nandkumar Kadivar
      * @param user user.
      * @return String jwt token for that user.
      */
@@ -49,8 +54,9 @@ public class JwtTokenServiceImpl implements JwtTokenService{
     }
 
     /**
-     * @author Nandkumar Kadivar
      * Generate key for token
+     *
+     * @author Nandkumar Kadivar
      * @return String secret key.
      */
     public Key generateKey() {
@@ -58,8 +64,9 @@ public class JwtTokenServiceImpl implements JwtTokenService{
     }
 
     /**
-     * @author Nandkumar Kadivar
      * Generate key for token
+     *
+     * @author Nandkumar Kadivar
      * @return String secret key.
      */
     public void deactiveUserTokens(User user) {
@@ -71,8 +78,9 @@ public class JwtTokenServiceImpl implements JwtTokenService{
     }
 
     /**
-     * @author Nandkumar Kadivar
      * Resturn activation status of jwt
+     *
+     * @author Nandkumar Kadivar
      * @return boolean status.
      */
     public boolean isJwtActive(String token) {
