@@ -9,14 +9,14 @@ export function AuthProvider({ children }) {
     setIsAuthenticated(true);
   };
 
-  useEffect(() => {
-    const user_id = window.localStorage.getItem("user_id");
-    const user_name = window.localStorage.getItem("user_name");
-    const authToken = window.localStorage.getItem("authToken");
+  // useEffect(() => {
+  //   const user_id = window.localStorage.getItem("user_id");
+  //   const user_name = window.localStorage.getItem("user_name");
+  //   const authToken = window.localStorage.getItem("authToken");
 
-    if (user_id && user_name && authToken)
-      setIsAuthenticated(true);
-  }, []);
+  //   if (user_id && user_name && authToken)
+  //     setIsAuthenticated(true);
+  // }, []);
 
   const logout = () => {
     window.localStorage.removeItem("user_id");

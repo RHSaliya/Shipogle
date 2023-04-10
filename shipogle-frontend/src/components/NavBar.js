@@ -58,19 +58,19 @@ export default function NavBar({ authStatus, authStatusUpdater }) {
     );
   };
 
-  // useEffect(() => {
-  //   if (authStatus && isAuthenticated) {
-  //     login();
-  //   } else if (!authStatus && isAuthenticated) {
-  //     login();
-  //   } else if (authStatus && !isAuthenticated) {
-  //     login();
-  //   } else if (!authStatus && !isAuthenticated) {
-  //     logout();
-  //   } else {
-  //     logout();
-  //   }
-  // }, [authStatus, login, logout, isAuthenticated]);
+  useEffect(() => {
+    if (authStatus && isAuthenticated) {
+      login();
+    } else if (!authStatus && isAuthenticated) {
+      login();
+    } else if (authStatus && !isAuthenticated) {
+      login();
+    } else if (!authStatus && !isAuthenticated) {
+      logout();
+    } else {
+      logout();
+    }
+  }, [authStatus, login, logout, isAuthenticated]);
 
   const handleClickOnExpand = (event) => {
     setAnchorEl(event.currentTarget);
